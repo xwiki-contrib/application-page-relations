@@ -11,4 +11,4 @@ This application makes it possible to create and display relations between pages
 * License: LGPL 2.1
 * Translations: to be specified
 * Sonar Dashboard: N/A
-* Continuous Integration Status: to be specified
+* Continuous Integration Status: [![Build Status](http://ci.xwiki.org/job/XWiki%20Contrib/job/application-page-relations/job/master/badge/icon)](http://ci.xwiki.org/job/XWiki%20Contrib/job/application-page-relations/job/master/)
