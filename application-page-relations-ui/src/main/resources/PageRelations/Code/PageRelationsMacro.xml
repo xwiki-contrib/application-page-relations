@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.3" reference="PageRelations.Code.PageRelationsMacro" locale="">
+  <web>PageRelations.Code</web>
+  <name>PageRelationsMacro</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1525857341000</creationDate>
+  <parent>dev:PageRelations.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1525863815000</date>
+  <contentUpdateDate>1525857947000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Page Relations Macro</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>{{pagerelations /}}</content>
+  <object>
+    <name>PageRelations.Code.PageRelationsMacro</name>
+    <number>0</number>
+    <className>XWiki.WikiMacroClass</className>
+    <guid>4071bad7-aed5-425e-b867-f00ab34bfb5f</guid>
+    <class>
+      <name>XWiki.WikiMacroClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <code>
+        <disabled>0</disabled>
+        <editor>Text</editor>
+        <name>code</name>
+        <number>9</number>
+        <prettyName>Macro code</prettyName>
+        <rows>20</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <contentDescription>
+        <contenttype>PureText</contenttype>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>contentDescription</name>
+        <number>8</number>
+        <prettyName>Content description (Not applicable for "No content" type)</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </contentDescription>
+      <contentType>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>contentType</name>
+        <number>7</number>
+        <prettyName>Macro content type</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator>|</separator>
+        <separators>|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>Optional|Mandatory|No content</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </contentType>
+      <defaultCategory>
+        <disabled>0</disabled>
+        <name>defaultCategory</name>
+        <number>4</number>
+        <prettyName>Default category</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultCategory>
+      <description>
+        <contenttype>PureText</contenttype>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>description</name>
+        <number>3</number>
+        <prettyName>Macro description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <id>
+        <disabled>0</disabled>
+        <name>id</name>
+        <number>1</number>
+        <prettyName>Macro id</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </id>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>2</number>
+        <prettyName>Macro name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <supportsInlineMode>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>supportsInlineMode</name>
+        <number>5</number>
+        <prettyName>Supports inline mode</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </supportsInlineMode>
+      <visibility>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>visibility</name>
+        <number>6</number>
+        <prettyName>Macro visibility</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator>|</separator>
+        <separators>|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>Current User|Current Wiki|Global</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </visibility>
+    </class>
+    <property>
+      <code>{{velocity}}
+#set ($minFacet = 4)
+#set($relationsId = 'xPageRelations')
+#set($tagErrorMessage = '')
+#set($xredirect = $escapetool.url($doc.getURL('view', "#${relationsId}")))
+#macro(displayRelation $relation $direct $hideRemoveLink)
+ #set($relationsUiDoc = $xwiki.getDocument("PageRelations.Code.UI"))
+ &lt;span class="page-relation-wrapper"&gt;&lt;span class="page-relation"&gt;#displayLink($relation)&lt;/span&gt;#if($hasedit &amp;&amp; !$hideRemoveLink)&lt;span class="separator"&gt;[&lt;/span&gt;&lt;a href="$relationsUiDoc.getURL('view', "xaction=delete&amp;amp;page=$doc.fullName&amp;amp;page-relation=$!{escapetool.url($relation)}&amp;amp;direct=$direct&amp;amp;xredirect=${xredirect}")" class="page-relation-tool page-relation-delete" title="Delete this relation from the page"&gt;X&lt;/a&gt;&lt;span class="separator"&gt;]&lt;/span&gt;#end&lt;/span&gt;
+#end
+#macro(displayLink $docFullName)
+  #set ($adoc = $xwiki.getDocument($docFullName))
+  #set ($title = $adoc.displayTitle)
+  #if ($title.length()&gt;180)
+  #set ($shortTitle = $title.substring(0,180)+"...")
+  #else
+  #set ($shortTitle = $title)
+  #end
+  #set ($docName = $adoc.name)
+  #set ($docTitle = $adoc.title)
+  #set ($docUrl = $adoc.getURL())
+  &lt;a href="$docUrl" id="$docFullName"&gt;$shortTitle&lt;/a&gt;
+#end
+#macro(displayAddForm)
+  #set($page = $request.page)
+  &lt;form action="$doc.getURL('view', "&amp;amp;xpage=plain&amp;amp;page=$page&amp;amp;xaction=add&amp;amp;xredirect=${xredirect}")" method="post" class="page-relation-add-form"&gt;
+    &lt;div&gt;
+      ## CSRF prevention
+      &lt;div class="hidden"&gt;&lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}" /&gt;&lt;/div&gt;
+      &lt;label for="tag"&gt;Related page:&lt;br/&gt;
+      &lt;input class="input-page-relation" type="text" id="page-relation" name="page-relation" autocomplete="off"/&gt;&lt;/label&gt;&lt;br/&gt;
+      &lt;span class="buttonwrapper"&gt;&lt;input class="button button-add-page-relation" type="submit" value="$services.localization.render('core.tags.add.submit')"/&gt;&lt;/span&gt;
+      &lt;span class="buttonwrapper"&gt;&lt;a class="button button-add-page-relation-cancel" href="$doc.getURL('view',"#${relationsId}")"&gt;$services.localization.render('core.tags.add.cancel')&lt;/a&gt;&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+#end
+#macro(addRelation $page $relation)
+    #set($result = 'OK')
+    #if($result == 'OK' &amp;&amp; "$!{request.ajax}" != '')
+      #set($adoc = $xwiki.getDocument($page))
+      #set ($idx = $adoc.createNewObject("PageRelations.Code.PageRelationClass"))
+      #set ($newRel = $adoc.getObject("PageRelations.Code.PageRelationClass",$idx))
+      $newRel.set("page", $relation)
+      $adoc.save("The relation '$relation' was added.", true)
+      &lt;li&gt;#displayRelation($relation, true)&lt;/li&gt;
+    #elseif($result == 'NO_EFFECT')
+      $response.setStatus(409)
+      #set($tagErrorMessage = $services.localization.render('core.tags.add.error.alreadySet', [$relation]))
+    #elseif($result == 'NOT_ALLOWED')
+      $response.setStatus(403)
+      #set($tagErrorMessage = $services.localization.render('core.tags.add.error.notAllowed', [$relation]))
+    #elseif($result == 'FAILED')
+      $response.setStatus(500)
+      #set($tagErrorMessage = $services.localization.render('core.tags.add.error.failed', [$relation]))
+    #end
+    #if("$!{request.ajax}" != '')
+      $tagErrorMessage
+    #elseif("$!{request.xredirect}" != '')
+      $response.sendRedirect($request.xredirect)
+    #end
+#end
+#macro(removeRelation $page $relation $direct)
+    #if($direct == "false")
+      #set($save = $page)
+      #set($page = $relation)
+      #set($relation = $save)
+    #end
+    #set($adoc = $xwiki.getDocument($page))
+    #set ($relationObject = $adoc.getObject("PageRelations.Code.PageRelationClass", "page", $relation))
+    #set ($result = $adoc.removeObject($relationObject))
+    $adoc.save("The relation '$relation' was removed.", true)
+    #if($result == 'OK' &amp;&amp; "$!{request.ajax}" != '')
+      $response.setStatus(200)
+      #set($responseMessage = 'OK')
+    #elseif($result == 'NO_EFFECT')
+      $response.setStatus(409)
+      #set($responseMessage = $services.localization.render('core.tags.remove.error.notFound', [$relation]))
+    #elseif($result == 'NOT_ALLOWED')
+      $response.setStatus(403)
+      #set($responseMessage = $services.localization.render('core.tags.remove.error.notAllowed', [$relation]))
+    #elseif($result == 'FAILED')
+      $response.setStatus(500)
+      #set($responseMessage = $services.localization.render('core.tags.remove.error.failed', [$relation]))
+    #end
+    #if("$!{request.ajax}" != '')
+      $!responseMessage
+    #elseif("$!{request.xredirect}" != '')
+      $response.sendRedirect($request.xredirect)
+    #end
+#end
+#macro(executeHql $hql $htable)
+  ##HQL: $hql
+  #set ($result = $services.query.hql($hql).execute())
+  ##$result&lt;br/&gt;&lt;hr/&gt;
+  #foreach ($elt in $result)
+    #set ($count = $elt.get(1))
+    #set ($name = $elt.get(0))
+    #if ($htable[$name])
+      #set ($newCount = $htable[$name] + $count)
+      #set ($htable[$name] = $mathtool.toInteger($newCount))
+    #else
+      #set ($htable[$name] = $mathtool.toInteger($count))
+    #end
+  #end
+#end
+{{html}}
+#set($xaction = "$!{request.xaction}")
+#if("$!{request.showRelationAddForm}" == 'true' &amp;&amp; "$!{request.ajax}" == '1')
+  #displayAddForm()
+#elseif($xaction == 'delete')
+  #removeRelation($request.page, $request.get("page-relation"), $request.direct)
+#elseif($xaction == 'add')
+  #addRelation($request.page, $request.get("page-relation"))
+#else ## display
+#if($xcontext.macro.params.showBorder == "true")
+&lt;div class="panel panel-default"&gt;
+  &lt;div class="panel-body"&gt;
+#end
+
+  #set ($discard = $xwiki.ssx.use('PageRelations.Code.SSX'))
+  #set ($discard = $xwiki.jsx.use('PageRelations.Code.JSX'))
+  #set ($directRelationObjects = $doc.getObjects("PageRelations.Code.PageRelationClass"))
+  #set ($directRelations = [])
+  #set ($relations = [])
+  #foreach ($relation in $directRelationObjects)
+    #set ($op = $relations.add($relation.page))
+    #set ($op = $directRelations.add($relation.page))
+  #end
+  #if ($xcontext.macro.params.showFacets == "true" &amp;&amp; $request.facet)
+    #set ($facet = $request.facet)
+    #set ($ccdoc = $doc.fullName)
+    ##we reset relations
+    #set ($relations = [])
+    ##we show all relations once a facet is set
+    #set ($showAllRelations = true)
+    #set ($hql = "select obj1.name as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.name='page' and prop1.value ='$facet' and obj1.name in ( select obj.name from BaseObject as obj, StringProperty as prop where obj.className='PageRelations.Code.PageRelationClass' and obj.id=prop.id.id and prop.name='page' and prop.value='$ccdoc') order by C")
+    #set ($entries = $services.query.hql($hql).execute())
+    #set ($op = $relations.addAll($entries))
+    #set ($hql = "select obj1.name as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.name='page' and prop1.value='$facet' and obj1.name in ( select prop.value from BaseObject as obj, StringProperty as prop where obj.className='PageRelations.Code.PageRelationClass' and obj.id=prop.id.id and prop.name='page' and obj.name='$ccdoc') order by C")
+    #set ($entries = $services.query.hql($hql).execute())
+    #set ($op = $relations.addAll($entries))
+    #set ($hql = "select prop1.value as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and obj1.name='$facet' and prop1.value in ( select prop.value from BaseObject as obj, StringProperty as prop where obj.id=prop.id.id and obj.name='$ccdoc') order by C")
+    #set ($entries = $services.query.hql($hql).execute())
+    #set ($op = $relations.addAll($entries))
+    #set ($hql = "select prop1.value as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and obj1.name='$facet' and prop1.value in ( select obj.name from BaseObject as obj, StringProperty as prop where obj.id=prop.id.id and prop.value='$ccdoc') order by C")
+    #set ($entries = $services.query.hql($hql).execute())
+    #set ($op = $relations.addAll($entries))
+  #else
+    ##TODO: set ($query = "from doc.object(PageRelations.Code.PageRelationClass) as relation where relation.page='$fullName' order by relation.name")
+    ##TODO: add order by obj.page
+    #set($query = "select distinct doc.fullName from Document doc, doc.object(PageRelations.Code.PageRelationClass) as obj where obj.page='$doc.fullName'")
+    #set ($inverseRelations = $xwiki.queryManager.xwql($query).execute())
+    #set ($op = $relations.addAll($inverseRelations))
+  #end
+  #set ($docRelations = [])
+  #foreach ($relation in $relations)
+    #set ($docRelation = $xwiki.getDocument($relation))
+    #set ($op = $docRelations.add($docRelation))
+  #end
+  #set ($facetFlag = ("$!{request.showRelationAddForm}" == ''))
+  #if ($xcontext.macro.params.showFacets == "true" &amp;&amp; $facetFlag == "true")
+    #set ($htable = {})
+    #set ($hql = "select prop1.value, count(prop1.value) as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.name='page' and obj1.name in ( select obj.name from BaseObject as obj, StringProperty as prop where obj.className='PageRelations.Code.PageRelationClass' and obj.id=prop.id.id and prop.name='page' and prop.value='$doc.fullName') group by prop1.value order by C desc, prop1.value")
+    #executeHql($hql $htable)
+    #set ($hql = "select prop1.value, count(prop1.value) as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.name='page' and obj1.name in ( select prop.value from BaseObject as obj, StringProperty as prop where obj.className='PageRelations.Code.PageRelationClass' and obj.id=prop.id.id and prop.name='page' and obj.name='$doc.fullName') group by prop1.value order by C desc, prop1.value")
+    #executeHql($hql $htable)
+    #set ($hql = "select obj1.name, count(obj1.name) as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.value in ( select prop.value from BaseObject as obj, StringProperty as prop where obj.id=prop.id.id and obj.name='$doc.fullName') group by obj1.name order by C desc, obj1.name")
+    ##TODO
+    ##executeHql($hql $htable)
+    ##NB: create an index on xwikiobjects: XWO_ID, XWO_NAME
+    #set ($hql = "select obj1.name, count(obj1.name) as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.value in ( select obj.name from BaseObject as obj,StringProperty as prop where obj.id=prop.id.id and prop.value='$doc.fullName') group by obj1.name order by C desc, obj1.name")
+    ##executeHql($hql $htable)
+    #set ($htable[$doc.fullName] = 0)
+    #set ($ihtable = {})
+    #foreach ($elt in $htable.keySet())
+      #set ($value = $htable[$elt])
+      #if ($ihtable[$value])
+        #set ($elts = $ihtable[$value])
+        #set ($result = $elts.add($elt))
+      #else
+        #set ($ihtable[$value] = [$elt])
+      #end
+    #end
+    #set ($sortedList = $sorttool.sort($htable.keySet()))
+    #set ($length = $sortedList.size())
+    #set ($length =  $length - 1 )
+    #set ($flag = true)
+    #foreach ($idx in [0..$length])
+      #set ($elt = $sortedList[$idx])
+      #if ($htable[$elt] &gt;= $minFacet)
+        #if ($flag)
+          &lt;div class="facets" style='width:100%; text-align: left; margin-bottom:1em;'&gt;
+          #if ($xcontext.macro.params.showTitles=="true")$services.localization.render('pagerelations.facets'):#end
+          &lt;ul&gt;
+          #set ($flag = false)
+        #end
+        #set ($entryDoc = $xwiki.getDocument($elt))
+        #if ($request.facet &amp;&amp; $request.facet == $entryDoc.fullName)
+          &lt;li&gt;&lt;b&gt;#displayRelation($entryDoc.fullName, true, true) (&lt;a href='$doc.getURL("view")'&gt;$htable[$elt]&lt;/a&gt;)&lt;/b&gt;&lt;/li&gt;
+        #else
+          &lt;li&gt;#displayRelation($entryDoc.fullName, true, true) (&lt;a href='$doc.getURL("view")?facet=$elt'&gt;$htable[$elt]&lt;/a&gt;)&lt;/li&gt;
+        #end
+      #end
+    #end
+    #if (!$flag)
+      &lt;/ul&gt;
+      &lt;/div&gt;
+    #end
+  #end
+  &lt;div class="page-relations" style='width:100%; text-align: left;' id="$relationsId"&gt;
+  ##TODO:turn this into a macro: addOrReplaceParameterInUrl(paramName,paramValue)
+  #set ($docUrl = $xwiki.getURL($doc.fullName))
+  #set ($docUrl = $docUrl+"?")
+  #set ($facet = $request.facet)
+  #if ($facet)
+    #set ($docUrl = $docUrl+"&amp;facet=$facet")
+  #end
+  #set($showAllRelations = $request.showAllRelations)
+  #if ($showAllRelations)
+    #set ($docUrl = $docUrl+"&amp;showAllRelations=$showAllRelations")
+  #end
+  #if ($xcontext.macro.params.showTitles=="true")$services.localization.render('pagerelations.title'):#end
+       &lt;ul&gt;
+       #foreach ($docRelation in $docRelations)
+         #if ($xwiki.hasAccessLevel("view",$docRelation.fullName))
+           #if ($directRelations.indexOf($docRelation.fullName)&gt;=0)
+             &lt;li&gt;#displayRelation($docRelation.fullName, true, false)&lt;/li&gt;
+           #else
+             &lt;li&gt;#displayRelation($docRelation.fullName, false, false)&lt;/li&gt;
+           #end
+         #end
+       #end
+       #if($hasedit)
+       #set($relationsUiDoc = $xwiki.getDocument("PageRelations.Code.UI"))
+      &lt;li class="page-relation-tool page-relation-add"&gt;#if("$!{request.showRelationAddForm}" == '')&lt;a href="$relationsUiDoc.getURL('view', "showRelationAddForm=true&amp;amp;page=$doc.fullName&amp;amp;$!{escapetool.url(${request.queryString})}#${relationsId}")" title="Add relation"&gt;[+]&lt;/a&gt;#else #displayAddForm()#end&lt;/div&gt;&lt;/li&gt;
+       #end
+       &lt;/ul&gt;
+     &lt;/div&gt;
+#end
+#if($xcontext.macro.params.showBorder == "true")
+&lt;/div&gt;
+&lt;/div&gt;
+#end
+{{/html}}
+{{/velocity}}</code>
+    </property>
+    <property>
+      <contentDescription/>
+    </property>
+    <property>
+      <contentType>No content</contentType>
+    </property>
+    <property>
+      <defaultCategory>Content</defaultCategory>
+    </property>
+    <property>
+      <description>Displays a list of a page relations (both direct and inverse) as an HTML list.</description>
+    </property>
+    <property>
+      <id>pagerelations</id>
+    </property>
+    <property>
+      <name>Page relations</name>
+    </property>
+    <property>
+      <supportsInlineMode>1</supportsInlineMode>
+    </property>
+    <property>
+      <visibility>Current Wiki</visibility>
+    </property>
+  </object>
+  <object>
+    <name>PageRelations.Code.PageRelationsMacro</name>
+    <number>0</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>a3902c3c-90d5-4f8e-bbdf-e80b8a471710</guid>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <property>
+      <defaultValue>true</defaultValue>
+    </property>
+    <property>
+      <description>Whether to show the facets / relations titles or not.</description>
+    </property>
+    <property>
+      <mandatory>0</mandatory>
+    </property>
+    <property>
+      <name>showTitles</name>
+    </property>
+  </object>
+  <object>
+    <name>PageRelations.Code.PageRelationsMacro</name>
+    <number>1</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>df6effbd-5542-42d0-8513-d506ab9a9c19</guid>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <property>
+      <defaultValue>false</defaultValue>
+    </property>
+    <property>
+      <description>Whether to display the second degree relations with high connections with the first degree relations or not.</description>
+    </property>
+    <property>
+      <mandatory>0</mandatory>
+    </property>
+    <property>
+      <name>showFacets</name>
+    </property>
+  </object>
+</xwikidoc>

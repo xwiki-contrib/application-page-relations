@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.3" reference="PageRelations.Code.SSX" locale="">
+  <web>PageRelations.Code</web>
+  <name>SSX</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1525856796000</creationDate>
+  <parent>dev:PageRelations.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1525863252000</date>
+  <contentUpdateDate>1525856796000</contentUpdateDate>
+  <version>1.1</version>
+  <title>SSX</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content/>
+  <object>
+    <name>PageRelations.Code.SSX</name>
+    <number>0</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>0ee94f0a-e0a2-42bf-9bc0-e1c981b9c37a</guid>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <contenttype>PureText</contenttype>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <contentType>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>contentType</name>
+        <number>6</number>
+        <prettyName>Content Type</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>CSS|LESS</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </contentType>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage|onDemand|always</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>.facets ul {
+  display: inline;
+  padding-left: 0px;
+}
+
+.facets ul li {
+  display: inline;
+}
+.facets ul li a {
+  display: inline;
+  text-decoration: none;
+}
+
+.page-relations {
+  margin-bottom: 1em;
+}
+
+.page-relations ul {
+  display: inline;
+  list-style-type: none;
+  margin: 0 0 0 0.1em;
+  padding-left: 0px;
+}
+
+.page-relations ul li {
+  display: inline;
+}
+
+.page-relations ul li a {
+  display: inline;
+  text-decoration: none;
+}
+
+.page-relation {
+  background-color: #D0DFEE;
+  -moz-transition: all .1s linear 0s;
+  border: 1px solid transparent;
+  border-radius: 5px 5px 5px 5px;
+  display: inline-block;
+  padding: 1px 4px 2px;
+  position: relative;
+  margin-top: 4px;
+  font-size: 1em;
+}
+
+.page-relation-wrapper {
+  white-space:nowrap;
+}
+
+.page-relation-wrapper .separator {
+    display: none;
+}
+
+a.page-relation-delete, a.page-relation-delete:visited {
+  color: #FFFFFF;
+  font-size: 70%;
+  font-weight: bold;
+  text-decoration: none!important;
+  vertical-align: super;
+  margin-left: 1px;
+}
+
+.page-relation-wrapper:hover a.page-relation-delete {
+  color: #656565;
+}
+
+.page-relation-wrapper a.page-relation-delete:hover {
+  color: #e51c23;
+}
+
+.page-relation-add {
+  display: inline;
+}
+
+.page-relation-add a, .page-relation-add a:visited {
+    color: #656565;
+    font-size: 80%;
+    text-decoration: none;
+}
+
+.page-relation-add-form {
+  border: 1px outset #E8E8E8;
+  position: absolute;
+  vertical-align: top!important;
+  z-index: 1000;
+  margin-top: 0.5em;
+}
+
+.page-relation-add-form div {
+  background: #F3F3F3;
+  overflow: hidden;
+  padding: 4px 8px;
+}
+
+.page-relation-add-form label {
+  color: #656565;
+  font-size: 80%;
+  margin: 2px 0;
+}
+
+.page-relation-add-form .button {
+  font-size: 80%;
+  padding: 3px 5px!important;
+  cursor: pointer;
+  display: inline-block;
+  min-height: 0!important;
+}</code>
+    </property>
+    <property>
+      <contentType>CSS</contentType>
+    </property>
+    <property>
+      <name>Relations CSS</name>
+    </property>
+    <property>
+      <parse/>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+</xwikidoc>
