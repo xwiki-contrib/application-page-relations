@@ -27,12 +27,12 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1525856730000</creationDate>
+  <creationDate>1526122868000</creationDate>
   <parent>dev:PageRelations.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1525863682000</date>
-  <contentUpdateDate>1525856730000</contentUpdateDate>
+  <date>1526308917000</date>
+  <contentUpdateDate>1526122869000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <comment/>
@@ -273,12 +273,39 @@ viewers.PageRelations = Class.create({
     var cancel = new Element("input", {type: "reset", value : form.down('.button-add-page-relation-cancel').innerHTML, "class" : "button secondary"});
     form.down('.button-add-page-relation-cancel').replace(cancel);
 
-    new XWiki.widgets.Suggest(form.down('input[type=text]'), {
+    var relSuggest = new XWiki.widgets.Suggest(form.down('input[type=text]'), {
       script: "${xwiki.getURL('PageRelations.Code.Suggest', 'view', 'xpage=plain&amp;outputSyntax=plain')}&amp;",
       varname: 'input',
       shownoresults : false,
-      icon: "${xwiki.getSkinFile('icons/silk/page_white_text.png')}"
+      icon: "${xwiki.getSkinFile('icons/silk/page_white_text.png')}",
+      json: true,
+      displayValue : true
     });
+    /* Overwrite createItemDisplay to manage the display of the suggestion */
+    relSuggest.createItemDisplay = function(data, source) {
+      var escapedInput = this.sInput ? this.sInput.escapeHTML() : this.sInput;
+      var escapedInfo = ((data.info || '') + '').escapeHTML();
+      // Output is either emphasized or raw value depending on source option.
+      var output = source.highlight ? this.emphasizeMatches(escapedInput, escapedInfo) : escapedInfo;
+      output = "&lt;span class='info'&gt;" + output + "&lt;/span&gt;";
+      if (data.hint) {
+        var escapedHint = (data.hint + '').escapeHTML();
+        output += "&lt;span class='hint'&gt;" + escapedHint + "&lt;/span&gt;";
+      }
+      var displayNode = new Element('div', {'class' : 'page-relation-suggestitem'}).update(output);
+      // If the search result contains an icon information, we insert this icon in the result entry.
+      if (data.icon) {
+        if (data.icon.indexOf('.') &gt;= 0 || data.icon.indexOf('/') &gt;= 0) {
+          // The icon is specified as a file path.
+          var iconElement = new Element('img', {'src': data.icon, 'class': 'icon'});
+        } else {
+          // The icon is specified as a CSS class name.
+          var iconElement = new Element('i', {'class': 'icon ' + data.icon});
+        }
+        displayNode.insert({top: iconElement});
+      }
+      return displayNode;
+    }
   }
 });
 

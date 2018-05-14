@@ -27,34 +27,43 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1525856803000</creationDate>
+  <creationDate>1526122869000</creationDate>
   <parent>dev:PageRelations.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1525856811000</date>
-  <contentUpdateDate>1525856803000</contentUpdateDate>
+  <date>1526311629000</date>
+  <contentUpdateDate>1526311629000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
-  <content>{{velocity}}
+  <content>{{velocity wiki="false"}}
+#template('hierarchy_macros.vm')
 #if($request.outputSyntax == "plain")
-#set($discard = $response.setContentType("text/xml"))
-#set($input = "$!{request.get('input')}")
-#set($input = $input.replaceAll('[\[_%!]', '!$0'))
-#set($query = " where lower(doc.fullName) like lower(?) order by doc.name")
-#set($queryResult = $services.query.hql($query).setLimit(30).bindValues(["%${input}%"]).execute())
-#set($results = $queryResult.toArray())
-{{{
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;results type="8"&gt;
+  #set($discard = $response.setContentType("text/xml"))
+  #set($input = "$!{request.get('input')}")
+  #set($input = $input.replaceAll('[\[_%!]', '!$0'))
+  #set($query = " where lower(doc.fullName) like lower(?) or lower(doc.title) like lower(?) order by doc.title")
+  #set($queryResult = $services.query.hql($query).bindValues(["%${input}%", "%${input}%"]).addFilter('currentlanguage').addFilter('hidden').execute())
+  #set($results = $queryResult.toArray())
+  #set($resultsJSON = [])
+  #set($totalResults = 0)
   #foreach($res in $results)
-    &lt;rs id="$velocityCount" info=""&gt;$!{escapetool.xml($res)}&lt;/rs&gt;
+    #set($rDoc = $xwiki.getDocument($res))
+    ## if we don't have an $rDoc is because current user doesn't have the right to see it
+    #if ($rDoc != $NULL)
+      #set($docHint = "#hierarchy($rDoc.documentReference, {'limit': 5, 'plain': true, 'local': true, 'displayTitle': true})")
+      #set($discard = $resultsJSON.add({'value' : $res, 'info' : $rDoc.displayTitle, 'id' : $velocityCount, 'hint' : $docHint.trim()}))
+      #set($totalResults = $totalResults + 1)
+    #end
+    #if($totalResults &gt;= 30)
+      #break
+    #end
   #end
-&lt;/results&gt;
-}}}
+  #set($discard = $response.setContentType('application/json'))
+  $jsontool.serialize($resultsJSON)
 #end
 {{/velocity}}
 </content>

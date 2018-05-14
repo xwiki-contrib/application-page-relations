@@ -27,12 +27,12 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1525857341000</creationDate>
+  <creationDate>1526122869000</creationDate>
   <parent>dev:PageRelations.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1525863815000</date>
-  <contentUpdateDate>1525857947000</contentUpdateDate>
+  <date>1526311223000</date>
+  <contentUpdateDate>1526122869000</contentUpdateDate>
   <version>1.1</version>
   <title>Page Relations Macro</title>
   <comment/>
@@ -383,7 +383,8 @@
   #if ($xcontext.macro.params.showTitles=="true")$services.localization.render('pagerelations.title'):#end
        &lt;ul&gt;
        #foreach ($docRelation in $docRelations)
-         #if ($xwiki.hasAccessLevel("view",$docRelation.fullName))
+         ## the only case when a document is null is when current user does not have view right on it
+         #if ($docRelation != $NULL)
            #if ($directRelations.indexOf($docRelation.fullName)&gt;=0)
              &lt;li&gt;#displayRelation($docRelation.fullName, true, false)&lt;/li&gt;
            #else
