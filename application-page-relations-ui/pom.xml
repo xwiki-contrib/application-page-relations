@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.contrib</groupId>
     <artifactId>application-page-relations</artifactId>
-    <version>1.1</version>
+    <version>1.2-SNAPSHOT</version>
   </parent>
   <artifactId>application-page-relations-ui</artifactId>
   <name>Page Relations Application - UI</name>
@@ -33,6 +33,6 @@
   <description>Makes it possible to create and display relations between pages as XWiki objects.</description>
 
   <scm>
-    <tag>application-page-relations-1.1</tag>
+    <tag>application-page-relations-ui-1.0</tag>
   </scm>
 </project>
