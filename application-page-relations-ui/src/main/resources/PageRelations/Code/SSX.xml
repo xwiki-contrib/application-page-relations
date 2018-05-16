@@ -27,12 +27,12 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1526122869000</creationDate>
+  <creationDate>1525856796000</creationDate>
   <parent>dev:PageRelations.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1526308998000</date>
-  <contentUpdateDate>1526122869000</contentUpdateDate>
+  <date>1526394881000</date>
+  <contentUpdateDate>1525856796000</contentUpdateDate>
   <version>1.1</version>
   <title>SSX</title>
   <comment/>
@@ -163,7 +163,7 @@
 }
 
 .page-relations ul li {
-  display: inline;
+  display: inline-block;
 }
 
 .page-relations ul li a {
@@ -184,7 +184,7 @@
 }
 
 .page-relation-wrapper {
-  white-space:nowrap;
+  white-space: pre;
 }
 
 .page-relation-wrapper .separator {
@@ -208,20 +208,15 @@ a.page-relation-delete, a.page-relation-delete:visited {
   color: #e51c23;
 }
 
-.page-relation-add {
-  display: inline;
-}
-
 .page-relation-add a, .page-relation-add a:visited {
-    color: #656565;
-    font-size: 80%;
-    text-decoration: none;
+  color: #656565;
+  font-size: 80%;
+  text-decoration: none;
 }
 
 .page-relation-add-form {
   border: 1px outset #E8E8E8;
   position: absolute;
-  vertical-align: top!important;
   z-index: 1000;
   margin-top: 0.5em;
 }

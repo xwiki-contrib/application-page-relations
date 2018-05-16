@@ -27,19 +27,19 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1526122869000</creationDate>
+  <creationDate>1525857341000</creationDate>
   <parent>dev:PageRelations.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1526311223000</date>
-  <contentUpdateDate>1526122869000</contentUpdateDate>
+  <date>1526480148000</date>
+  <contentUpdateDate>1526400093000</contentUpdateDate>
   <version>1.1</version>
   <title>Page Relations Macro</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
-  <content>{{pagerelations /}}</content>
+  <content>{{pageRelations /}}</content>
   <object>
     <name>PageRelations.Code.PageRelationsMacro</name>
     <number>0</number>
@@ -162,92 +162,90 @@
     <property>
       <code>{{velocity}}
 #set ($minFacet = 4)
-#set($relationsId = 'xPageRelations')
-#set($tagErrorMessage = '')
-#set($xredirect = $escapetool.url($doc.getURL('view', "#${relationsId}")))
+#set ($relationsId = 'xPageRelations')
+#set ($tagErrorMessage = '')
+#set ($xredirect = $escapetool.url($doc.getURL('view', "#${relationsId}")))
 #macro(displayRelation $relation $direct $hideRemoveLink)
- #set($relationsUiDoc = $xwiki.getDocument("PageRelations.Code.UI"))
- &lt;span class="page-relation-wrapper"&gt;&lt;span class="page-relation"&gt;#displayLink($relation)&lt;/span&gt;#if($hasedit &amp;&amp; !$hideRemoveLink)&lt;span class="separator"&gt;[&lt;/span&gt;&lt;a href="$relationsUiDoc.getURL('view', "xaction=delete&amp;amp;page=$doc.fullName&amp;amp;page-relation=$!{escapetool.url($relation)}&amp;amp;direct=$direct&amp;amp;xredirect=${xredirect}")" class="page-relation-tool page-relation-delete" title="Delete this relation from the page"&gt;X&lt;/a&gt;&lt;span class="separator"&gt;]&lt;/span&gt;#end&lt;/span&gt;
+ #set($relationsUiDoc = $xwiki.getDocument('PageRelations.Code.UIX'))
+ &lt;span class="page-relation-wrapper"&gt;&lt;span class="page-relation"&gt;#displayLink($relation)&lt;/span&gt;#if($hasedit &amp;&amp; !$hideRemoveLink)&lt;span class="separator"&gt;[&lt;/span&gt;&lt;a href="$relationsUiDoc.getURL('view', "xaction=delete&amp;amp;page=$escapetool.url($doc.fullName)&amp;amp;page-relation=$!{escapetool.url($relation)}&amp;amp;direct=$direct&amp;amp;xredirect=${xredirect}")" class="page-relation-tool page-relation-delete" title="$services.localization.render('pageRelations.remove.hint')"&gt;X&lt;/a&gt;&lt;span class="separator"&gt;]&lt;/span&gt;#end&lt;/span&gt;
 #end
 #macro(displayLink $docFullName)
   #set ($adoc = $xwiki.getDocument($docFullName))
   #set ($title = $adoc.displayTitle)
   #if ($title.length()&gt;180)
-  #set ($shortTitle = $title.substring(0,180)+"...")
+    #set ($shortTitle = $title.substring(0,180)+"...")
   #else
-  #set ($shortTitle = $title)
+    #set ($shortTitle = $title)
   #end
-  #set ($docName = $adoc.name)
-  #set ($docTitle = $adoc.title)
-  #set ($docUrl = $adoc.getURL())
+  #set ($docUrl = $adoc.getURL('view'))
   &lt;a href="$docUrl" id="$docFullName"&gt;$shortTitle&lt;/a&gt;
 #end
 #macro(displayAddForm)
   #set($page = $request.page)
-  &lt;form action="$doc.getURL('view', "&amp;amp;xpage=plain&amp;amp;page=$page&amp;amp;xaction=add&amp;amp;xredirect=${xredirect}")" method="post" class="page-relation-add-form"&gt;
+  &lt;form action="$doc.getURL('view', "&amp;amp;xpage=plain&amp;amp;page=$escapetool.url($page)&amp;amp;xaction=add&amp;amp;xredirect=${xredirect}")" method="post" class="page-relation-add-form"&gt;
     &lt;div&gt;
       ## CSRF prevention
       &lt;div class="hidden"&gt;&lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}" /&gt;&lt;/div&gt;
-      &lt;label for="tag"&gt;Related page:&lt;br/&gt;
+      &lt;label for="tag"&gt;$services.localization.render('pageRelations.add.relatedPage')&lt;br/&gt;
       &lt;input class="input-page-relation" type="text" id="page-relation" name="page-relation" autocomplete="off"/&gt;&lt;/label&gt;&lt;br/&gt;
-      &lt;span class="buttonwrapper"&gt;&lt;input class="button button-add-page-relation" type="submit" value="$services.localization.render('core.tags.add.submit')"/&gt;&lt;/span&gt;
-      &lt;span class="buttonwrapper"&gt;&lt;a class="button button-add-page-relation-cancel" href="$doc.getURL('view',"#${relationsId}")"&gt;$services.localization.render('core.tags.add.cancel')&lt;/a&gt;&lt;/span&gt;
+      &lt;span class="buttonwrapper"&gt;&lt;input class="button button-add-page-relation" type="submit" value="$services.localization.render('pageRelations.add.submit')"/&gt;&lt;/span&gt;
+      &lt;span class="buttonwrapper"&gt;&lt;a class="button button-add-page-relation-cancel" href="$doc.getURL('view',"#${relationsId}")"&gt;$services.localization.render('pageRelations.add.cancel')&lt;/a&gt;&lt;/span&gt;
     &lt;/div&gt;
   &lt;/form&gt;
 #end
 #macro(addRelation $page $relation)
-    #set($result = 'OK')
-    #if($result == 'OK' &amp;&amp; "$!{request.ajax}" != '')
-      #set($adoc = $xwiki.getDocument($page))
-      #set ($idx = $adoc.createNewObject("PageRelations.Code.PageRelationClass"))
-      #set ($newRel = $adoc.getObject("PageRelations.Code.PageRelationClass",$idx))
-      $newRel.set("page", $relation)
-      $adoc.save("The relation '$relation' was added.", true)
-      &lt;li&gt;#displayRelation($relation, true)&lt;/li&gt;
-    #elseif($result == 'NO_EFFECT')
-      $response.setStatus(409)
-      #set($tagErrorMessage = $services.localization.render('core.tags.add.error.alreadySet', [$relation]))
-    #elseif($result == 'NOT_ALLOWED')
-      $response.setStatus(403)
-      #set($tagErrorMessage = $services.localization.render('core.tags.add.error.notAllowed', [$relation]))
-    #elseif($result == 'FAILED')
-      $response.setStatus(500)
-      #set($tagErrorMessage = $services.localization.render('core.tags.add.error.failed', [$relation]))
-    #end
-    #if("$!{request.ajax}" != '')
-      $tagErrorMessage
-    #elseif("$!{request.xredirect}" != '')
-      $response.sendRedirect($request.xredirect)
-    #end
+  #set ($result = 'OK')
+  #if ($result == 'OK' &amp;&amp; "$!{request.ajax}" != '')
+    #set ($adoc = $xwiki.getDocument($page))
+    #set ($idx = $adoc.createNewObject('PageRelations.Code.PageRelationClass'))
+    #set ($newRel = $adoc.getObject('PageRelations.Code.PageRelationClass',$idx))
+    $newRel.set('page', $relation)
+    $adoc.save($services.localization.render('pageRelations.add.history.message', $relation), true)
+    &lt;li&gt;#displayRelation($relation, true)&lt;/li&gt;
+  #elseif ($result == 'NO_EFFECT')
+    $response.setStatus(409)
+    #set($tagErrorMessage = $services.localization.render('pageRelations.add.error.alreadySet', [$relation]))
+  #elseif ($result == 'NOT_ALLOWED')
+    $response.setStatus(403)
+    #set($tagErrorMessage = $services.localization.render('pageRelations.add.error.notAllowed', [$relation]))
+  #elseif ($result == 'FAILED')
+    $response.setStatus(500)
+    #set($tagErrorMessage = $services.localization.render('pageRelations.add.error.failed', [$relation]))
+  #end
+  #if ("$!{request.ajax}" != '')
+    $tagErrorMessage
+  #elseif ("$!{request.xredirect}" != '')
+    $response.sendRedirect($request.xredirect)
+  #end
 #end
 #macro(removeRelation $page $relation $direct)
-    #if($direct == "false")
-      #set($save = $page)
-      #set($page = $relation)
-      #set($relation = $save)
-    #end
-    #set($adoc = $xwiki.getDocument($page))
-    #set ($relationObject = $adoc.getObject("PageRelations.Code.PageRelationClass", "page", $relation))
-    #set ($result = $adoc.removeObject($relationObject))
-    $adoc.save("The relation '$relation' was removed.", true)
-    #if($result == 'OK' &amp;&amp; "$!{request.ajax}" != '')
-      $response.setStatus(200)
-      #set($responseMessage = 'OK')
-    #elseif($result == 'NO_EFFECT')
-      $response.setStatus(409)
-      #set($responseMessage = $services.localization.render('core.tags.remove.error.notFound', [$relation]))
-    #elseif($result == 'NOT_ALLOWED')
-      $response.setStatus(403)
-      #set($responseMessage = $services.localization.render('core.tags.remove.error.notAllowed', [$relation]))
-    #elseif($result == 'FAILED')
-      $response.setStatus(500)
-      #set($responseMessage = $services.localization.render('core.tags.remove.error.failed', [$relation]))
-    #end
-    #if("$!{request.ajax}" != '')
-      $!responseMessage
-    #elseif("$!{request.xredirect}" != '')
-      $response.sendRedirect($request.xredirect)
-    #end
+  #if ($direct == "false")
+    #set ($save = $page)
+    #set ($page = $relation)
+    #set ($relation = $save)
+  #end
+  #set ($adoc = $xwiki.getDocument($page))
+  #set ($relationObject = $adoc.getObject('PageRelations.Code.PageRelationClass', 'page', $relation))
+  #set ($result = $adoc.removeObject($relationObject))
+  $adoc.save($services.localization.render('pageRelations.remove.history.message', $relation), true)
+  #if ($result == 'OK' &amp;&amp; "$!{request.ajax}" != '')
+    $response.setStatus(200)
+    #set ($responseMessage = 'OK')
+  #elseif ($result == 'NO_EFFECT')
+    $response.setStatus(409)
+    #set ($responseMessage = $services.localization.render('pageRelations.remove.error.notFound', [$relation]))
+  #elseif ($result == 'NOT_ALLOWED')
+    $response.setStatus(403)
+    #set ($responseMessage = $services.localization.render('pageRelations.remove.error.notAllowed', [$relation]))
+  #elseif ($result == 'FAILED')
+    $response.setStatus(500)
+    #set ($responseMessage = $services.localization.render('pageRelations.remove.error.failed', [$relation]))
+  #end
+  #if("$!{request.ajax}" != '')
+    $!responseMessage
+  #elseif ("$!{request.xredirect}" != '')
+    $response.sendRedirect($request.xredirect)
+  #end
 #end
 #macro(executeHql $hql $htable)
   ##HQL: $hql
@@ -266,28 +264,27 @@
 #end
 {{html}}
 #set($xaction = "$!{request.xaction}")
-#if("$!{request.showRelationAddForm}" == 'true' &amp;&amp; "$!{request.ajax}" == '1')
+#if ("$!{request.showRelationAddForm}" == 'true' &amp;&amp; "$!{request.ajax}" == '1')
   #displayAddForm()
-#elseif($xaction == 'delete')
-  #removeRelation($request.page, $request.get("page-relation"), $request.direct)
-#elseif($xaction == 'add')
-  #addRelation($request.page, $request.get("page-relation"))
+#elseif ($xaction == 'delete')
+  #removeRelation($request.page, $request.get('page-relation'), $request.direct)
+#elseif ($xaction == 'add')
+  #addRelation($request.page, $request.get('page-relation'))
 #else ## display
-#if($xcontext.macro.params.showBorder == "true")
-&lt;div class="panel panel-default"&gt;
-  &lt;div class="panel-body"&gt;
-#end
-
+  #if ($xcontext.macro.params.showBorder == 'true')
+  &lt;div class="panel panel-default"&gt;
+    &lt;div class="panel-body"&gt;
+  #end
   #set ($discard = $xwiki.ssx.use('PageRelations.Code.SSX'))
   #set ($discard = $xwiki.jsx.use('PageRelations.Code.JSX'))
-  #set ($directRelationObjects = $doc.getObjects("PageRelations.Code.PageRelationClass"))
+  #set ($directRelationObjects = $doc.getObjects('PageRelations.Code.PageRelationClass'))
   #set ($directRelations = [])
   #set ($relations = [])
   #foreach ($relation in $directRelationObjects)
-    #set ($op = $relations.add($relation.page))
-    #set ($op = $directRelations.add($relation.page))
+    #set ($op = $relations.add($relation.getValue('page')))
+    #set ($op = $directRelations.add($relation.getValue('page')))
   #end
-  #if ($xcontext.macro.params.showFacets == "true" &amp;&amp; $request.facet)
+  #if ($xcontext.macro.params.showFacets == 'true' &amp;&amp; $request.facet)
     #set ($facet = $request.facet)
     #set ($ccdoc = $doc.fullName)
     ##we reset relations
@@ -319,7 +316,7 @@
     #set ($op = $docRelations.add($docRelation))
   #end
   #set ($facetFlag = ("$!{request.showRelationAddForm}" == ''))
-  #if ($xcontext.macro.params.showFacets == "true" &amp;&amp; $facetFlag == "true")
+  #if ($xcontext.macro.params.showFacets == 'true' &amp;&amp; $facetFlag == 'true')
     #set ($htable = {})
     #set ($hql = "select prop1.value, count(prop1.value) as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.name='page' and obj1.name in ( select obj.name from BaseObject as obj, StringProperty as prop where obj.className='PageRelations.Code.PageRelationClass' and obj.id=prop.id.id and prop.name='page' and prop.value='$doc.fullName') group by prop1.value order by C desc, prop1.value")
     #executeHql($hql $htable)
@@ -351,15 +348,15 @@
       #if ($htable[$elt] &gt;= $minFacet)
         #if ($flag)
           &lt;div class="facets" style='width:100%; text-align: left; margin-bottom:1em;'&gt;
-          #if ($xcontext.macro.params.showTitles=="true")$services.localization.render('pagerelations.facets'):#end
+          #if ($xcontext.macro.params.showTitles == 'true')$services.localization.render('pageRelations.facets')#end
           &lt;ul&gt;
           #set ($flag = false)
         #end
         #set ($entryDoc = $xwiki.getDocument($elt))
         #if ($request.facet &amp;&amp; $request.facet == $entryDoc.fullName)
-          &lt;li&gt;&lt;b&gt;#displayRelation($entryDoc.fullName, true, true) (&lt;a href='$doc.getURL("view")'&gt;$htable[$elt]&lt;/a&gt;)&lt;/b&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;b&gt;#displayRelation($entryDoc.fullName, true, true) (&lt;a href='$doc.getURL('view')'&gt;$htable[$elt]&lt;/a&gt;)&lt;/b&gt;&lt;/li&gt;
         #else
-          &lt;li&gt;#displayRelation($entryDoc.fullName, true, true) (&lt;a href='$doc.getURL("view")?facet=$elt'&gt;$htable[$elt]&lt;/a&gt;)&lt;/li&gt;
+          &lt;li&gt;#displayRelation($entryDoc.fullName, true, true) (&lt;a href='$doc.getURL('view')?facet=$elt'&gt;$htable[$elt]&lt;/a&gt;)&lt;/li&gt;
         #end
       #end
     #end
@@ -370,7 +367,7 @@
   #end
   &lt;div class="page-relations" style='width:100%; text-align: left;' id="$relationsId"&gt;
   ##TODO:turn this into a macro: addOrReplaceParameterInUrl(paramName,paramValue)
-  #set ($docUrl = $xwiki.getURL($doc.fullName))
+  #set ($docUrl = $xwiki.getURL($doc.fullName, 'view'))
   #set ($docUrl = $docUrl+"?")
   #set ($facet = $request.facet)
   #if ($facet)
@@ -380,7 +377,7 @@
   #if ($showAllRelations)
     #set ($docUrl = $docUrl+"&amp;showAllRelations=$showAllRelations")
   #end
-  #if ($xcontext.macro.params.showTitles=="true")$services.localization.render('pagerelations.title'):#end
+  #if ($xcontext.macro.params.showTitles == 'true')$services.localization.render('pageRelations.title')#end
        &lt;ul&gt;
        #foreach ($docRelation in $docRelations)
          ## the only case when a document is null is when current user does not have view right on it
@@ -392,19 +389,20 @@
            #end
          #end
        #end
-       #if($hasedit)
-       #set($relationsUiDoc = $xwiki.getDocument("PageRelations.Code.UI"))
-      &lt;li class="page-relation-tool page-relation-add"&gt;#if("$!{request.showRelationAddForm}" == '')&lt;a href="$relationsUiDoc.getURL('view', "showRelationAddForm=true&amp;amp;page=$doc.fullName&amp;amp;$!{escapetool.url(${request.queryString})}#${relationsId}")" title="Add relation"&gt;[+]&lt;/a&gt;#else #displayAddForm()#end&lt;/div&gt;&lt;/li&gt;
+       #if ($hasedit)
+         #set ($relationsUiDoc = $xwiki.getDocument('PageRelations.Code.UIX'))
+         &lt;li class="page-relation-tool page-relation-add"&gt;#if("$!{request.showRelationAddForm}" == '')&lt;a href="$relationsUiDoc.getURL('view', "showRelationAddForm=true&amp;amp;page=$escapetool.url($doc.fullName)&amp;amp;$!{escapetool.url(${request.queryString})}#${relationsId}")" title="$services.localization.render('pageRelations.add.hint')"&gt;[+]&lt;/a&gt;#else #displayAddForm()#end&lt;/div&gt;&lt;/li&gt;
        #end
        &lt;/ul&gt;
      &lt;/div&gt;
 #end
-#if($xcontext.macro.params.showBorder == "true")
-&lt;/div&gt;
-&lt;/div&gt;
+#if ($xcontext.macro.params.showBorder == 'true')
+  &lt;/div&gt;
+  &lt;/div&gt;
 #end
 {{/html}}
-{{/velocity}}</code>
+{{/velocity}}
+</code>
     </property>
     <property>
       <contentDescription/>
@@ -419,7 +417,7 @@
       <description>Displays a list of a page relations (both direct and inverse) as an HTML list.</description>
     </property>
     <property>
-      <id>pagerelations</id>
+      <id>pageRelations</id>
     </property>
     <property>
       <name>Page relations</name>
@@ -561,6 +559,72 @@
     </property>
     <property>
       <name>showFacets</name>
+    </property>
+  </object>
+  <object>
+    <name>PageRelations.Code.PageRelationsMacro</name>
+    <number>2</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>606da44b-fbe6-4292-a4c4-4d69c8887dab</guid>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <property>
+      <defaultValue>false</defaultValue>
+    </property>
+    <property>
+      <description>Display a border around the relations and clusters or not</description>
+    </property>
+    <property>
+      <mandatory>0</mandatory>
+    </property>
+    <property>
+      <name>showBorder</name>
     </property>
   </object>
 </xwikidoc>

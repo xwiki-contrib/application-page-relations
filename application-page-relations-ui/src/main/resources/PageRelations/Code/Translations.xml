@@ -31,8 +31,8 @@
   <parent>dev:PageRelations.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1525865946000</date>
-  <contentUpdateDate>1525865946000</contentUpdateDate>
+  <date>1526454994000</date>
+  <contentUpdateDate>1526454994000</contentUpdateDate>
   <version>1.1</version>
   <title>Translations</title>
   <comment/>
@@ -43,33 +43,47 @@
 PageRelations.Code.PageRelationClass_page=Page
 
 # Live table generic keys
-pagerelations.livetable.doc.title=Page Title
-pagerelations.livetable.doc.name=Page Name
-pagerelations.livetable.doc.space=Space
-pagerelations.livetable.doc.fullname=Page full name
-pagerelations.livetable.doc.location=Location
-pagerelations.livetable.doc.author=Last Author
-pagerelations.livetable.doc.creator=Creator
-pagerelations.livetable.doc.date=Date
-pagerelations.livetable.doc.creationDate=Creation Date
-pagerelations.livetable._avatar=Avatar
-pagerelations.livetable._images=Images
-pagerelations.livetable._attachments=Attachments
-pagerelations.livetable._actions=Actions
-pagerelations.livetable._actions.edit=Edit
-pagerelations.livetable._actions.delete=Delete
-pagerelations.livetable.emptyvalue=-
+pageRelations.livetable.doc.title=Page Title
+pageRelations.livetable.doc.name=Page Name
+pageRelations.livetable.doc.space=Space
+pageRelations.livetable.doc.fullname=Page full name
+pageRelations.livetable.doc.location=Location
+pageRelations.livetable.doc.author=Last Author
+pageRelations.livetable.doc.creator=Creator
+pageRelations.livetable.doc.date=Date
+pageRelations.livetable.doc.creationDate=Creation Date
+pageRelations.livetable._avatar=Avatar
+pageRelations.livetable._images=Images
+pageRelations.livetable._attachments=Attachments
+pageRelations.livetable._actions=Actions
+pageRelations.livetable._actions.edit=Edit
+pageRelations.livetable._actions.delete=Delete
+pageRelations.livetable.emptyvalue=-
 
 # Live table specific keys
-pagerelations.livetable.page=Page
+pageRelations.livetable.page=Page
 
-# Other keys
-pagerelations.entry.name=Relations
-pagerelations.title=Relations
-pagerelations.facets=Facets
+# PageRelationsMacro
+pageRelations.entry.name=Relations
+pageRelations.title=Relations:
+pageRelations.facets=Facets:
+pageRelations.add.relatedPage=Related page:
+pageRelations.add.hint=Add a relation
+pageRelations.add.submit=Add
+pageRelations.add.cancel=Cancel
+pageRelations.add.error.alreadySet=This relations was already set.
+pageRelations.add.error.notAllowed=You are not authorized to perform this action.
+pageRelations.add.error.failed=An error occurred.
+pageRelations.add.history.message=Addition of a relation to "{0}"
+pageRelations.remove.hint=Remove relation
+pageRelations.remove.error.notFound=The target page was not found.
+pageRelations.remove.error.notAllowed=You are not authorized to perform this action.
+pageRelations.remove.error.failed=An error occurred.
+pageRelations.remove.history.message=Removal of a relation with "{0}"
+pageRelations.panel.title=Relations
 
 # Deprecated keys
-pagerelations.dataSpace.title=Data</content>
+pageRelations.dataSpace.title=Data</content>
   <object>
     <name>PageRelations.Code.Translations</name>
     <number>0</number>

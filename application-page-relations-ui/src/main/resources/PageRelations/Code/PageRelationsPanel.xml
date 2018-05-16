@@ -31,7 +31,7 @@
   <parent>dev:PageRelations.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1525859595000</date>
+  <date>1526398113000</date>
   <contentUpdateDate>1525859565000</contentUpdateDate>
   <version>1.1</version>
   <title>Page Relations Panel</title>
@@ -123,8 +123,8 @@
     </property>
     <property>
       <content>{{velocity}}
-#panelheader($services.localization.render('pagerelations.title'))
-{{pagerelations showTitles="false" showFacets="false"/}}
+#panelheader($services.localization.render('pageRelations.panel.title'))
+{{pageRelations showTitles="false" showFacets="false"/}}
 #panelfooter()
 {{/velocity}}</content>
     </property>

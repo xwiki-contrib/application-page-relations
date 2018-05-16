@@ -20,21 +20,21 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.3" reference="PageRelations.Code.UI" locale="">
+<xwikidoc version="1.3" reference="PageRelations.Code.UIX" locale="">
   <web>PageRelations.Code</web>
-  <name>UI</name>
+  <name>UIX</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1525856819000</creationDate>
+  <creationDate>1526395258000</creationDate>
   <parent>dev:PageRelations.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1525858261000</date>
-  <contentUpdateDate>1525856819000</contentUpdateDate>
+  <date>1526409782000</date>
+  <contentUpdateDate>1526395258000</contentUpdateDate>
   <version>1.1</version>
-  <title>UI</title>
+  <title>UIX</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
@@ -44,10 +44,10 @@
 $object.content
 {{/velocity}}</content>
   <object>
-    <name>PageRelations.Code.UI</name>
+    <name>PageRelations.Code.UIX</name>
     <number>0</number>
     <className>XWiki.UIExtensionClass</className>
-    <guid>2f0550d9-a5f5-4d5e-8fe1-87dc9c945a6f</guid>
+    <guid>280ff0e2-8c37-4285-9e81-9d780090a8e7</guid>
     <class>
       <name>XWiki.UIExtensionClass</name>
       <customClass/>
@@ -116,10 +116,10 @@ $object.content
       </scope>
     </class>
     <property>
-      <content>{{pagerelations showFacets="true" showBorder="true"/}}</content>
+      <content>{{pageRelations showFacets="true" showBorder="true"/}}</content>
     </property>
     <property>
-      <extensionPointId>org.xwiki.platform.template.content.before</extensionPointId>
+      <extensionPointId>org.xwiki.platform.template.content.header.after</extensionPointId>
     </property>
     <property>
       <name>xwiki:XWiki.PageRelations</name>
