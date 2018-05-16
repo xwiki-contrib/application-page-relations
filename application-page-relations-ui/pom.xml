@@ -30,7 +30,7 @@
   <artifactId>application-page-relations-ui</artifactId>
   <name>Page Relations Application - UI</name>
   <packaging>xar</packaging>
-  <description>Set of wiki pages for the page relations application.</description>
+  <description>Makes it possible to create and display relations between pages as XWiki objects.</description>
 
   <scm>
     <tag>application-page-relations-ui-1.0</tag>
