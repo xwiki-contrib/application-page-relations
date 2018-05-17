@@ -62,5 +62,21 @@ pageRelations.livetable.emptyvalue=-
 pageRelations.livetable.page=Page
 # PageRelationsMacro
 pageRelations.entry.name=Relations
-pageRelations.title=Relations:</content>
+pageRelations.title=Relations :
+pageRelations.add.relatedPage=Pages similaires :
+pageRelations.add.hint=Ajouter une relation
+pageRelations.add.submit=Ajouter
+pageRelations.add.cancel=Annuler
+pageRelations.add.error.alreadySet=Cette relation a déjà été faite.
+pageRelations.add.error.notAllowed=Vous n'êtes pas autorisé à effectuer cette action.
+pageRelations.add.error.failed=Une erreur est survenue.
+pageRelations.add.history.message=Ajout d''une relation à "{0}"
+pageRelations.remove.hint=Supprimer la relation
+pageRelations.remove.error.notFound=La page cible n'a pas été trouvée.
+pageRelations.remove.error.notAllowed=Vous n'êtes pas autorisé à effectuer cette action.
+pageRelations.remove.error.failed=Une erreur est survenue.
+pageRelations.remove.history.message=Suppression de la relation avec "{0}"
+pageRelations.panel.title=Relations
+# Deprecated keys
+pageRelations.dataSpace.title=Données</content>
 </xwikidoc>
