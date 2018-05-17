@@ -39,5 +39,28 @@
   <minorEdit>false</minorEdit>
   <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
-  <content></content>
+  <content># Class fields
+PageRelations.Code.PageRelationClass_page=Page
+# Live table generic keys
+pageRelations.livetable.doc.title=Titre de la page
+pageRelations.livetable.doc.name=Nom de la page
+pageRelations.livetable.doc.space=Espace
+pageRelations.livetable.doc.fullname=Nom complet de la page
+pageRelations.livetable.doc.location=Position
+pageRelations.livetable.doc.author=Dernier auteur
+pageRelations.livetable.doc.creator=Créateur
+pageRelations.livetable.doc.date=Date
+pageRelations.livetable.doc.creationDate=Date de création
+pageRelations.livetable._avatar=Avatar
+pageRelations.livetable._images=Images
+pageRelations.livetable._attachments=Pièces jointes
+pageRelations.livetable._actions=Actions
+pageRelations.livetable._actions.edit=Éditer
+pageRelations.livetable._actions.delete=Supprimer
+pageRelations.livetable.emptyvalue=-
+# Live table specific keys
+pageRelations.livetable.page=Page
+# PageRelationsMacro
+pageRelations.entry.name=Relations
+pageRelations.title=Relations:</content>
 </xwikidoc>
