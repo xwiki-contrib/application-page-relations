@@ -41,6 +41,7 @@
   <hidden>true</hidden>
   <content># Class fields
 PageRelations.Code.PageRelationClass_page=Page
+
 # Live table generic keys
 pageRelations.livetable.doc.title=Titre de la page
 pageRelations.livetable.doc.name=Nom de la page
@@ -58,11 +59,14 @@ pageRelations.livetable._actions=Actions
 pageRelations.livetable._actions.edit=Éditer
 pageRelations.livetable._actions.delete=Supprimer
 pageRelations.livetable.emptyvalue=-
+
 # Live table specific keys
 pageRelations.livetable.page=Page
+
 # PageRelationsMacro
 pageRelations.entry.name=Relations
 pageRelations.title=Relations :
+### Missing: pageRelations.facets=Facets:
 pageRelations.add.relatedPage=Pages similaires :
 pageRelations.add.hint=Ajouter une relation
 pageRelations.add.submit=Ajouter
@@ -77,6 +81,7 @@ pageRelations.remove.error.notAllowed=Vous n'êtes pas autorisé à effectuer ce
 pageRelations.remove.error.failed=Une erreur est survenue.
 pageRelations.remove.history.message=Suppression de la relation avec "{0}"
 pageRelations.panel.title=Relations
+
 # Deprecated keys
 pageRelations.dataSpace.title=Données</content>
 </xwikidoc>
