@@ -31,7 +31,7 @@
   <parent>dev:PageRelations.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1526480148000</date>
+  <date>1527751784000</date>
   <contentUpdateDate>1526400093000</contentUpdateDate>
   <version>1.1</version>
   <title>Page Relations Macro</title>
@@ -248,9 +248,7 @@
   #end
 #end
 #macro(executeHql $hql $htable)
-  ##HQL: $hql
-  #set ($result = $services.query.hql($hql).execute())
-  ##$result&lt;br/&gt;&lt;hr/&gt;
+  #set ($result = $hql.execute())
   #foreach ($elt in $result)
     #set ($count = $elt.get(1))
     #set ($name = $elt.get(0))
@@ -286,28 +284,28 @@
   #end
   #if ($xcontext.macro.params.showFacets == 'true' &amp;&amp; $request.facet)
     #set ($facet = $request.facet)
-    #set ($ccdoc = $doc.fullName)
+    #set ($page = $doc.fullName)
     ##we reset relations
     #set ($relations = [])
     ##we show all relations once a facet is set
     #set ($showAllRelations = true)
-    #set ($hql = "select obj1.name as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.name='page' and prop1.value ='$facet' and obj1.name in ( select obj.name from BaseObject as obj, StringProperty as prop where obj.className='PageRelations.Code.PageRelationClass' and obj.id=prop.id.id and prop.name='page' and prop.value='$ccdoc') order by C")
-    #set ($entries = $services.query.hql($hql).execute())
+    #set ($hql = "select obj1.name as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.name='page' and prop1.value =:facet and obj1.name in ( select obj.name from BaseObject as obj, StringProperty as prop where obj.className='PageRelations.Code.PageRelationClass' and obj.id=prop.id.id and prop.name='page' and prop.value=:page) order by C")
+    #set ($entries = $services.query.hql($hql).bindValue('facet', $facet).bindValue('page', $page).execute())
     #set ($op = $relations.addAll($entries))
-    #set ($hql = "select obj1.name as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.name='page' and prop1.value='$facet' and obj1.name in ( select prop.value from BaseObject as obj, StringProperty as prop where obj.className='PageRelations.Code.PageRelationClass' and obj.id=prop.id.id and prop.name='page' and obj.name='$ccdoc') order by C")
-    #set ($entries = $services.query.hql($hql).execute())
+    #set ($hql = "select obj1.name as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.name='page' and prop1.value=:facet and obj1.name in ( select prop.value from BaseObject as obj, StringProperty as prop where obj.className='PageRelations.Code.PageRelationClass' and obj.id=prop.id.id and prop.name='page' and obj.name=:page) order by C")
+    #set ($entries = $services.query.hql($hql).bindValue('facet', $facet).bindValue('page', $page).execute())
     #set ($op = $relations.addAll($entries))
-    #set ($hql = "select prop1.value as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and obj1.name='$facet' and prop1.value in ( select prop.value from BaseObject as obj, StringProperty as prop where obj.id=prop.id.id and obj.name='$ccdoc') order by C")
-    #set ($entries = $services.query.hql($hql).execute())
+    #set ($hql = "select prop1.value as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and obj1.name=:facet and prop1.value in ( select prop.value from BaseObject as obj, StringProperty as prop where obj.id=prop.id.id and obj.name=:page) order by C")
+    #set ($entries = $services.query.hql($hql).bindValue('facet', $facet).bindValue('page', $page).execute())
     #set ($op = $relations.addAll($entries))
-    #set ($hql = "select prop1.value as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and obj1.name='$facet' and prop1.value in ( select obj.name from BaseObject as obj, StringProperty as prop where obj.id=prop.id.id and prop.value='$ccdoc') order by C")
-    #set ($entries = $services.query.hql($hql).execute())
+    #set ($hql = "select prop1.value as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and obj1.name=:facet and prop1.value in ( select obj.name from BaseObject as obj, StringProperty as prop where obj.id=prop.id.id and prop.value=:page) order by C")
+    #set ($entries = $services.query.hql($hql).bindValue('facet', $facet).bindValue('page', $page).execute())
     #set ($op = $relations.addAll($entries))
   #else
     ##TODO: set ($query = "from doc.object(PageRelations.Code.PageRelationClass) as relation where relation.page='$fullName' order by relation.name")
     ##TODO: add order by obj.page
-    #set($query = "select distinct doc.fullName from Document doc, doc.object(PageRelations.Code.PageRelationClass) as obj where obj.page='$doc.fullName'")
-    #set ($inverseRelations = $xwiki.queryManager.xwql($query).execute())
+    #set($query = "select distinct doc.fullName from Document doc, doc.object(PageRelations.Code.PageRelationClass) as obj where obj.page=:page")
+    #set ($inverseRelations = $services.query.xwql($query).bindValue('page', $doc.fullName).execute())
     #set ($op = $relations.addAll($inverseRelations))
   #end
   #set ($docRelations = [])
@@ -318,15 +316,20 @@
   #set ($facetFlag = ("$!{request.showRelationAddForm}" == ''))
   #if ($xcontext.macro.params.showFacets == 'true' &amp;&amp; $facetFlag == 'true')
     #set ($htable = {})
-    #set ($hql = "select prop1.value, count(prop1.value) as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.name='page' and obj1.name in ( select obj.name from BaseObject as obj, StringProperty as prop where obj.className='PageRelations.Code.PageRelationClass' and obj.id=prop.id.id and prop.name='page' and prop.value='$doc.fullName') group by prop1.value order by C desc, prop1.value")
+    #set ($page = $doc.fullName)
+    #set ($hql = "select prop1.value, count(prop1.value) as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.name='page' and obj1.name in ( select obj.name from BaseObject as obj, StringProperty as prop where obj.className='PageRelations.Code.PageRelationClass' and obj.id=prop.id.id and prop.name='page' and prop.value=:page) group by prop1.value order by C desc, prop1.value")
+    #set ($hql = $services.query.hql($hql).bindValue('page', $page))
     #executeHql($hql $htable)
-    #set ($hql = "select prop1.value, count(prop1.value) as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.name='page' and obj1.name in ( select prop.value from BaseObject as obj, StringProperty as prop where obj.className='PageRelations.Code.PageRelationClass' and obj.id=prop.id.id and prop.name='page' and obj.name='$doc.fullName') group by prop1.value order by C desc, prop1.value")
+    #set ($hql = "select prop1.value, count(prop1.value) as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.name='page' and obj1.name in ( select prop.value from BaseObject as obj, StringProperty as prop where obj.className='PageRelations.Code.PageRelationClass' and obj.id=prop.id.id and prop.name='page' and obj.name=:page) group by prop1.value order by C desc, prop1.value")
+    #set ($hql = $services.query.hql($hql).bindValue('page', $page))
     #executeHql($hql $htable)
-    #set ($hql = "select obj1.name, count(obj1.name) as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.value in ( select prop.value from BaseObject as obj, StringProperty as prop where obj.id=prop.id.id and obj.name='$doc.fullName') group by obj1.name order by C desc, obj1.name")
+    #set ($hql = "select obj1.name, count(obj1.name) as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.value in ( select prop.value from BaseObject as obj, StringProperty as prop where obj.id=prop.id.id and obj.name=:page) group by obj1.name order by C desc, obj1.name")
     ##TODO
+    ##set ($hql = $services.query.hql($hql).bindValue('page', $page))
     ##executeHql($hql $htable)
     ##NB: create an index on xwikiobjects: XWO_ID, XWO_NAME
-    #set ($hql = "select obj1.name, count(obj1.name) as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.value in ( select obj.name from BaseObject as obj,StringProperty as prop where obj.id=prop.id.id and prop.value='$doc.fullName') group by obj1.name order by C desc, obj1.name")
+    #set ($hql = "select obj1.name, count(obj1.name) as C from StringProperty prop1, BaseObject obj1 where obj1.id=prop1.id.id and prop1.value in ( select obj.name from BaseObject as obj,StringProperty as prop where obj.id=prop.id.id and prop.value=:page) group by obj1.name order by C desc, obj1.name")
+    ##set ($hql = $services.query.hql($hql).bindValue('page', $page))
     ##executeHql($hql $htable)
     #set ($htable[$doc.fullName] = 0)
     #set ($ihtable = {})
@@ -354,9 +357,9 @@
         #end
         #set ($entryDoc = $xwiki.getDocument($elt))
         #if ($request.facet &amp;&amp; $request.facet == $entryDoc.fullName)
-          &lt;li&gt;&lt;b&gt;#displayRelation($entryDoc.fullName, true, true) (&lt;a href='$doc.getURL('view')'&gt;$htable[$elt]&lt;/a&gt;)&lt;/b&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;b&gt;#displayRelation($entryDoc.fullName, true, true) (&lt;a href="$doc.getURL('view')"&gt;$htable[$elt]&lt;/a&gt;)&lt;/b&gt;&lt;/li&gt;
         #else
-          &lt;li&gt;#displayRelation($entryDoc.fullName, true, true) (&lt;a href='$doc.getURL('view')?facet=$elt'&gt;$htable[$elt]&lt;/a&gt;)&lt;/li&gt;
+          &lt;li&gt;#displayRelation($entryDoc.fullName, true, true) (&lt;a href="$doc.getURL('view')?facet=$escapetool.url($elt)"&gt;$htable[$elt]&lt;/a&gt;)&lt;/li&gt;
         #end
       #end
     #end
