@@ -51,6 +51,7 @@
     <xwiki.issueManagement.url>https://jira.xwiki.org/projects/PAGEREL/</xwiki.issueManagement.url>
   </properties>
   <modules>
+    <module>application-page-relations-api</module>
     <module>application-page-relations-ui</module>
   </modules>
 </project>

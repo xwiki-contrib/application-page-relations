@@ -1,0 +1,3 @@
+org.xwiki.contrib.pagerelations.internal.DefaultPageRelationsService
+org.xwiki.contrib.pagerelations.script.PageRelationsScriptService
+org.xwiki.contrib.pagerelations.internal.PageRelationsRenameEventListener
