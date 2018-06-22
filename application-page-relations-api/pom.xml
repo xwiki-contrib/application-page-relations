@@ -31,6 +31,10 @@
   <name>Page Relations API</name>
   <description>API for dealing with Page Relations</description>
   <packaging>jar</packaging>
+  <properties>
+    <xwiki.extension.name>Page Relations API</xwiki.extension.name>
+    <xwiki.extension.category>api</xwiki.extension.category>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.commons</groupId>
