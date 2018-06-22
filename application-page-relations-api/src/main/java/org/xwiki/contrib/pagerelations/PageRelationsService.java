@@ -22,16 +22,15 @@ package org.xwiki.contrib.pagerelations;
 import org.xwiki.component.annotation.Role;
 
 /**
- * Interface (aka Role) of the Component
+ * Interface (aka Role) of the PageRelationsService.
+ * 
+ * @version $Id$
  */
 @Role
 public interface PageRelationsService
 {
     /**
-     * Says hello by returning a greeting to the caller.
-     *
-     * @return a greeting
+     * @return
      */
     String sayHello();
 }
-
