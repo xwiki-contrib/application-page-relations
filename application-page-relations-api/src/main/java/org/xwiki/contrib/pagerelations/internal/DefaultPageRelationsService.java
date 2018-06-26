@@ -19,13 +19,15 @@
  */
 package org.xwiki.contrib.pagerelations.internal;
 
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.pagerelations.PageRelationsService;
 
-import javax.inject.Singleton;
-
 /**
- * Implementation of a <tt>HelloWorld</tt> component.
+ * Implementation of a <tt>PageRelationsService</tt> component.
+ * 
+ * @version $Id$
  */
 @Component
 @Singleton
@@ -37,4 +39,3 @@ public class DefaultPageRelationsService implements PageRelationsService
         return "Hello";
     }
 }
-

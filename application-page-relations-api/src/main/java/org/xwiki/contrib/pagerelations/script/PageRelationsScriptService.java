@@ -19,16 +19,18 @@
  */
 package org.xwiki.contrib.pagerelations.script;
 
-import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.pagerelations.PageRelationsService;
-import org.xwiki.script.service.ScriptService;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.xwiki.component.annotation.Component;
+import org.xwiki.contrib.pagerelations.PageRelationsService;
+import org.xwiki.script.service.ScriptService;
+
 /**
- * Make the HelloWorld API available to scripting.
+ * Make the PageRelationsService API available to scripting.
+ * 
+ * @version $Id$
  */
 @Component
 @Named("pageRelations")
@@ -38,6 +40,9 @@ public class PageRelationsScriptService implements ScriptService
     @Inject
     private PageRelationsService service;
 
+    /**
+     * @return String
+     */
     public String greet()
     {
         return this.service.sayHello();

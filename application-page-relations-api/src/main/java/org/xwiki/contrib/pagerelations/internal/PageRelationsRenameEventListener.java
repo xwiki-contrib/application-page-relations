@@ -1,3 +1,22 @@
+/*
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
 package org.xwiki.contrib.pagerelations.internal;
 
 import java.util.ArrayList;
@@ -29,14 +48,16 @@ import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.doc.XWikiDocument;
 import com.xpn.xwiki.objects.BaseObject;
 
+/**
+ * Listener updating inverse page relations when a page gets renamed.
+ * 
+ * @version $Id$
+ */
 @Component
 @Named("PageRelationsRenameEventListener")
 @Singleton
 public class PageRelationsRenameEventListener implements EventListener
 {
-
-    public static final DocumentReference RESOURCE_CLASS =
-        new DocumentReference("ressources", "USHCode", "ResourceClass");
 
     @Inject
     private Logger logger;
@@ -50,15 +71,15 @@ public class PageRelationsRenameEventListener implements EventListener
     @Inject
     private QueryManager queryManager;
 
+    @Inject
+    @Named("compactwiki")
+    private EntityReferenceSerializer<String> compactWikiSerializer;
+
     @Override
     public String getName()
     {
         return "PageRelationsRenameEventListener";
     }
-
-    @Inject
-    @Named("compactwiki")
-    private EntityReferenceSerializer<String> compactWikiSerializer;
 
     @Override
     public List<Event> getEvents()
@@ -80,6 +101,8 @@ public class PageRelationsRenameEventListener implements EventListener
 
         Job job = jobContext.getCurrentJob();
 
+        String pageField = "page";
+
         if (isRenameJob) {
 
             List<DocumentReference> references = job.getRequest().getProperty("entityReferences");
@@ -91,22 +114,23 @@ public class PageRelationsRenameEventListener implements EventListener
                     // TODO: make the update generic: update all page fields to the new document
                     // name
                     Query query = this.queryManager.createQuery(
-                        "select distinct doc.fullName from Document doc, doc.object(PageRelations.Code.PageRelationClass) as obj where obj.page=:page",
+                        "select distinct doc.fullName from Document doc, "
+                            + "doc.object(PageRelations.Code.PageRelationClass) as obj where obj.page=:page",
                         Query.XWQL);
                     String name = reference.toString();
                     int idx = name.indexOf(":");
                     if (idx > 0) {
                         name = name.substring(idx + 1);
                     }
-                    query = query.bindValue("page", name);
+                    query = query.bindValue(pageField, name);
                     List entries = query.execute();
                     for (Object entry : entries) {
                         String inverseRelation = entry.toString();
                         XWikiDocument inverseRelationDocument = wiki.getDocument(inverseRelation, context);
                         DocumentReference classReference = getPageRelationClassReference();
-                        BaseObject object = inverseRelationDocument.getXObject(classReference, "page", name);
+                        BaseObject object = inverseRelationDocument.getXObject(classReference, pageField, name);
                         if (object != null) {
-                            object.setStringValue("page", currentDocument.getFullName());
+                            object.setStringValue(pageField, currentDocument.getFullName());
                             wiki.saveDocument(inverseRelationDocument,
                                 "Update of relation to \"" + currentDocument.getFullName() + "\"", context);
                         }
