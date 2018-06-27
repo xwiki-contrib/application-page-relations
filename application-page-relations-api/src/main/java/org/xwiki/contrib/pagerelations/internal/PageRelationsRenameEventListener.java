@@ -91,7 +91,7 @@ public class PageRelationsRenameEventListener implements EventListener
     public void onEvent(Event event, Object source, Object data)
     {
 
-        System.out.println("PageRelationRenameListener - Event:" + event + " - Source: " + source + " - Data: " + data);
+        logger.debug("PageRelationRenameListener - Event:" + event + " - Source: " + source + " - Data: " + data);
         XWikiDocument currentDocument = (XWikiDocument) source;
 
         boolean isRenameJob = observationContext.isIn(new JobStartedEvent("refactoring/rename"));
