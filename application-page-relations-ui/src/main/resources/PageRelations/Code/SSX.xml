@@ -158,7 +158,7 @@
 .page-relations ul {
   display: inline;
   list-style-type: none;
-  margin: 0 0 0 0.1em;
+  margin-left: 0;
   padding-left: 0px;
 }
 
@@ -176,7 +176,7 @@
   -moz-transition: all .1s linear 0s;
   border: 1px solid transparent;
   border-radius: 5px 5px 5px 5px;
-  display: inline-block;
+  display: inline;
   padding: 1px 4px 2px;
   position: relative;
   margin-top: 4px;
@@ -184,7 +184,8 @@
 }
 
 .page-relation-wrapper {
-  white-space: pre;
+  /*white-space: pre;*/
+  line-height: 1.8em;
 }
 
 .page-relation-wrapper .separator {
