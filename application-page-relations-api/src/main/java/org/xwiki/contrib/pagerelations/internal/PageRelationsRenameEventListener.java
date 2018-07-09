@@ -19,7 +19,6 @@
  */
 package org.xwiki.contrib.pagerelations.internal;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,8 +33,11 @@ import org.xwiki.job.Job;
 import org.xwiki.job.JobContext;
 import org.xwiki.job.event.JobStartedEvent;
 import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.DocumentReferenceResolver;
+import org.xwiki.model.reference.EntityReference;
 import org.xwiki.model.reference.EntityReferenceSerializer;
-import org.xwiki.observation.EventListener;
+import org.xwiki.model.reference.LocalDocumentReference;
+import org.xwiki.observation.AbstractEventListener;
 import org.xwiki.observation.ObservationContext;
 import org.xwiki.observation.event.Event;
 import org.xwiki.query.Query;
@@ -54,10 +56,17 @@ import com.xpn.xwiki.objects.BaseObject;
  * @version $Id$
  */
 @Component
-@Named("PageRelationsRenameEventListener")
+@Named(PageRelationsRenameEventListener.LISTENER_NAME)
 @Singleton
-public class PageRelationsRenameEventListener implements EventListener
+public class PageRelationsRenameEventListener extends AbstractEventListener
 {
+    /**
+     * The name of the event listener.
+     */
+    public static final String LISTENER_NAME = "PageRelationsRenameEventListener";
+
+    private static final EntityReference PAGE_RELATION_CLASS_REFERENCE =
+            new LocalDocumentReference(Arrays.asList("PageRelations", "Code"), "PageRelationClass");
 
     @Inject
     private Logger logger;
@@ -75,40 +84,38 @@ public class PageRelationsRenameEventListener implements EventListener
     @Named("compactwiki")
     private EntityReferenceSerializer<String> compactWikiSerializer;
 
-    @Override
-    public String getName()
-    {
-        return "PageRelationsRenameEventListener";
-    }
+    @Inject
+    @Named("local")
+    private EntityReferenceSerializer<String> localEntityReferenceSerializer;
 
-    @Override
-    public List<Event> getEvents()
+    @Inject
+    private DocumentReferenceResolver<String> documentReferenceResolver;
+
+    /**
+     * This is the default constructor.
+     */
+    public PageRelationsRenameEventListener()
     {
-        return Arrays.<Event>asList(new DocumentCreatedEvent());
+        super(LISTENER_NAME, new DocumentCreatedEvent());
     }
 
     @Override
     public void onEvent(Event event, Object source, Object data)
     {
+        logger.debug("PageRelationRenameListener - Event: [%s] - Source: [%s] - Data: [%s]", event, source, data);
 
-        logger.debug("PageRelationRenameListener - Event:" + event + " - Source: " + source + " - Data: " + data);
-        XWikiDocument currentDocument = (XWikiDocument) source;
-
-        boolean isRenameJob = observationContext.isIn(new JobStartedEvent("refactoring/rename"));
-
-        XWikiContext context = (XWikiContext) data;
-
-        XWiki wiki = context.getWiki();
-
-        Job job = jobContext.getCurrentJob();
-
-        String pageField = "page";
-
-        if (isRenameJob) {
-
+        if (observationContext.isIn(new JobStartedEvent("refactoring/rename"))) {
+            Job job = jobContext.getCurrentJob();
             List<DocumentReference> references = job.getRequest().getProperty("entityReferences");
 
             if (references != null && references.size() > 0) {
+                XWikiDocument currentDocument = (XWikiDocument) source;
+                XWikiContext context = (XWikiContext) data;
+                XWiki wiki = context.getWiki();
+
+                String pageField = "page";
+
+                // We admit that we have only one document refactored at the time.
                 DocumentReference reference = references.get(0);
                 try {
 
@@ -118,41 +125,35 @@ public class PageRelationsRenameEventListener implements EventListener
                         "select distinct doc.fullName from Document doc, "
                             + "doc.object(PageRelations.Code.PageRelationClass) as obj where obj.page=:page",
                         Query.XWQL);
-                    String name = reference.toString();
-                    int idx = name.indexOf(":");
-                    if (idx > 0) {
-                        name = name.substring(idx + 1);
-                    }
+                    String name = localEntityReferenceSerializer.serialize(reference);
                     query = query.bindValue(pageField, name);
-                    List entries = query.execute();
-                    for (Object entry : entries) {
-                        String inverseRelation = entry.toString();
-                        XWikiDocument inverseRelationDocument = wiki.getDocument(inverseRelation, context);
-                        DocumentReference classReference = getPageRelationClassReference();
-                        BaseObject object = inverseRelationDocument.getXObject(classReference, pageField, name);
+
+                    List<String> entries = query.execute();
+                    for (String inverseRelation : entries) {
+                        DocumentReference inverseRelationReference = documentReferenceResolver.resolve(inverseRelation);
+                        XWikiDocument inverseRelationDocument = wiki.getDocument(inverseRelationReference, context);
+
+                        BaseObject object = inverseRelationDocument.getXObject(PAGE_RELATION_CLASS_REFERENCE, pageField,
+                                name, false);
+
                         if (object != null) {
-                            object.setStringValue(pageField, currentDocument.getFullName());
+                            // Note: we should think about serializing the document reference using a more absolute
+                            // serializer if we start working with inter-wiki page references.
+                            String currentDocumentName =
+                                    localEntityReferenceSerializer.serialize(currentDocument.getDocumentReference());
+
+                            object.setStringValue(pageField, currentDocumentName);
+
                             wiki.saveDocument(inverseRelationDocument,
-                                "Update of relation to \"" + currentDocument.getFullName() + "\"", context);
+                                String.format("Update of relation to \"%s\"", currentDocumentName), context);
                         }
                     }
                 } catch (XWikiException | QueryException e) {
-
-                    logger.error("Error while updating inverse relations of document "
-                        + compactWikiSerializer.serialize(reference), e);
+                    logger.error("Error while updating inverse relations of document [%s].",
+                            compactWikiSerializer.serialize(reference), e);
                 }
             }
         }
 
-    }
-
-    // TODO: how to define the reference properly
-    protected DocumentReference getPageRelationClassReference()
-    {
-        ArrayList<String> spaces = new ArrayList<String>();
-        spaces.add("PageRelations");
-        spaces.add("Code");
-        DocumentReference classReference = new DocumentReference("xwiki", spaces, "PageRelationClass");
-        return classReference;
     }
 }
