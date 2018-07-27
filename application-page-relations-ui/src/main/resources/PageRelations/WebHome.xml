@@ -59,5 +59,8 @@
 })
 #set ($columns = ['doc.title', 'page', 'doc.location', 'doc.date', 'doc.author', '_actions'])
 #livetable('relations' $columns $columnsProperties $options)
-{{/velocity}}</content>
+#set($docextras = [])
+{{/velocity}}
+
+</content>
 </xwikidoc>
