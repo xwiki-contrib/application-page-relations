@@ -119,22 +119,23 @@ public class PageRelationsRenameEventListener extends AbstractEventListener
                 DocumentReference reference = references.get(0);
                 try {
 
-                    // TODO: make the update generic: update all page fields to the new document
-                    // name
                     Query query = this.queryManager.createQuery(
                         "select distinct doc.fullName from Document doc, "
                             + "doc.object(PageRelations.Code.PageRelationClass) as obj where obj.page=:page",
                         Query.XWQL);
-                    String name = localEntityReferenceSerializer.serialize(reference);
-                    query = query.bindValue(pageField, name);
+                    String pageName = localEntityReferenceSerializer.serialize(reference);
+                    query = query.bindValue(pageField, pageName);
+                    String wikiName = currentDocument.getDocumentReference().getWikiReference().getName();
+                    query.setWiki(wikiName);
 
                     List<String> entries = query.execute();
                     for (String inverseRelation : entries) {
-                        DocumentReference inverseRelationReference = documentReferenceResolver.resolve(inverseRelation);
+                        String fullName = reference.getWikiReference().getName() + ":" + inverseRelation;
+                        DocumentReference inverseRelationReference = documentReferenceResolver.resolve(fullName);
                         XWikiDocument inverseRelationDocument = wiki.getDocument(inverseRelationReference, context);
 
                         BaseObject object = inverseRelationDocument.getXObject(PAGE_RELATION_CLASS_REFERENCE, pageField,
-                                name, false);
+                                pageName, false);
 
                         if (object != null) {
                             // Note: we should think about serializing the document reference using a more absolute
