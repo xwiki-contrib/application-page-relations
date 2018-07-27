@@ -28,7 +28,7 @@
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1525857341000</creationDate>
-  <parent>dev:PageRelations.Code.WebHome</parent>
+  <parent>PageRelations.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <date>1527751784000</date>
