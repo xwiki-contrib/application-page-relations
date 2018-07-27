@@ -80,6 +80,7 @@ pageRelations.remove.error.notFound=The target page was not found.
 pageRelations.remove.error.notAllowed=You are not authorized to perform this action.
 pageRelations.remove.error.failed=An error occurred.
 pageRelations.remove.history.message=Removal of a relation with "{0}"
+pageRelations.update.page=Update relation to "{0}"
 pageRelations.panel.title=Relations
 
 # Deprecated keys

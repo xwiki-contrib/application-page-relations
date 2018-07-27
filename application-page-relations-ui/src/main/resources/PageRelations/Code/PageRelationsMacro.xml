@@ -200,7 +200,7 @@
     #set ($idx = $adoc.createNewObject('PageRelations.Code.PageRelationClass'))
     #set ($newRel = $adoc.getObject('PageRelations.Code.PageRelationClass',$idx))
     $newRel.set('page', $relation)
-    $adoc.save($services.localization.render('pageRelations.add.history.message', $relation), true)
+    $adoc.save($services.localization.render('pageRelations.add.history.message', [$relation]), true)
     &lt;li&gt;#displayRelation($relation, true)&lt;/li&gt;
   #elseif ($result == 'NO_EFFECT')
     $response.setStatus(409)
@@ -227,7 +227,7 @@
   #set ($adoc = $xwiki.getDocument($page))
   #set ($relationObject = $adoc.getObject('PageRelations.Code.PageRelationClass', 'page', $relation))
   #set ($result = $adoc.removeObject($relationObject))
-  $adoc.save($services.localization.render('pageRelations.remove.history.message', $relation), true)
+  $adoc.save($services.localization.render('pageRelations.remove.history.message', [$relation]), true)
   #if ($result == 'OK' &amp;&amp; "$!{request.ajax}" != '')
     $response.setStatus(200)
     #set ($responseMessage = 'OK')

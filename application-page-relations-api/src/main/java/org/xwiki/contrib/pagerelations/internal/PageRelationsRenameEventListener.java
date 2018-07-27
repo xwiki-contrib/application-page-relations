@@ -32,6 +32,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.job.Job;
 import org.xwiki.job.JobContext;
 import org.xwiki.job.event.JobStartedEvent;
+import org.xwiki.localization.ContextualLocalizationManager;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
 import org.xwiki.model.reference.EntityReference;
@@ -91,6 +92,9 @@ public class PageRelationsRenameEventListener extends AbstractEventListener
     @Inject
     private DocumentReferenceResolver<String> documentReferenceResolver;
 
+    @Inject
+    private ContextualLocalizationManager contextLocalization;
+
     /**
      * This is the default constructor.
      */
@@ -142,11 +146,11 @@ public class PageRelationsRenameEventListener extends AbstractEventListener
                             // serializer if we start working with inter-wiki page references.
                             String currentDocumentName =
                                     localEntityReferenceSerializer.serialize(currentDocument.getDocumentReference());
-
                             object.setStringValue(pageField, currentDocumentName);
 
-                            wiki.saveDocument(inverseRelationDocument,
-                                String.format("Update of relation to \"%s\"", currentDocumentName), context);
+                            String key = "pageRelations.update.page";
+                            String message = contextLocalization.getTranslationPlain(key, currentDocumentName);
+                            wiki.saveDocument(inverseRelationDocument, message, context);
                         }
                     }
                 } catch (XWikiException | QueryException e) {

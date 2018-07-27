@@ -74,12 +74,13 @@ pageRelations.add.cancel=Annuler
 pageRelations.add.error.alreadySet=Cette relation a déjà été faite.
 pageRelations.add.error.notAllowed=Vous n'êtes pas autorisé à effectuer cette action.
 pageRelations.add.error.failed=Une erreur est survenue.
-pageRelations.add.history.message=Ajout d''une relation à "{0}"
+pageRelations.add.history.message=Ajout d''une relation à « {0} »
 pageRelations.remove.hint=Supprimer la relation
 pageRelations.remove.error.notFound=La page cible n'a pas été trouvée.
 pageRelations.remove.error.notAllowed=Vous n'êtes pas autorisé à effectuer cette action.
 pageRelations.remove.error.failed=Une erreur est survenue.
-pageRelations.remove.history.message=Suppression de la relation avec "{0}"
+pageRelations.remove.history.message=Suppression de la relation avec « {0} »
+pageRelations.update.page=Mise à jour de la relation à « {0} »
 pageRelations.panel.title=Relations
 
 # Deprecated keys

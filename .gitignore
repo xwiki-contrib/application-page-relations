@@ -33,3 +33,4 @@ nbproject
 .sonar-ide.properties
 .clover
 *~
+*.sh
