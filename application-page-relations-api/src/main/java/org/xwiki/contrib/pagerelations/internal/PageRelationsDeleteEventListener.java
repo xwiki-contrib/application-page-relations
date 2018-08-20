@@ -24,11 +24,12 @@ import java.util.List;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.xwiki.bridge.event.DocumentCreatedEvent;
+import org.xwiki.bridge.event.DocumentDeletedEvent;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.job.Job;
 import org.xwiki.job.event.JobStartedEvent;
 import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.EntityReference;
 import org.xwiki.observation.event.Event;
 import org.xwiki.query.QueryException;
 
@@ -39,26 +40,26 @@ import com.xpn.xwiki.doc.XWikiDocument;
 import com.xpn.xwiki.objects.BaseObject;
 
 /**
- * Listener updating inverse page relations when a page gets renamed.
+ * Listener removing inverse page relations when a page gets deleted.
  *
  * @version $Id$
  */
 @Component
-@Named(PageRelationsRenameEventListener.LISTENER_NAME)
+@Named(PageRelationsDeleteEventListener.LISTENER_NAME)
 @Singleton
-public class PageRelationsRenameEventListener extends AbstractPageRelationsEventListener
+public class PageRelationsDeleteEventListener extends AbstractPageRelationsEventListener
 {
     /**
      * The name of the event listener.
      */
-    public static final String LISTENER_NAME = "pageRelations.listeners.rename";
+    public static final String LISTENER_NAME = "pageRelations.listeners.delete";
 
     /**
      * This is the default constructor.
      */
-    public PageRelationsRenameEventListener()
+    public PageRelationsDeleteEventListener()
     {
-        super(LISTENER_NAME, new DocumentCreatedEvent());
+        super(LISTENER_NAME, new DocumentDeletedEvent());
     }
 
     @Override
@@ -66,9 +67,10 @@ public class PageRelationsRenameEventListener extends AbstractPageRelationsEvent
     {
         logger.debug("[%s] - Event: [%s] - Source: [%s] - Data: [%s]", LISTENER_NAME, event, source, data);
 
-        if (observationContext.isIn(new JobStartedEvent("refactoring/rename"))) {
+        if (observationContext.isIn(new JobStartedEvent("refactoring/delete"))) {
             Job job = jobContext.getCurrentJob();
-            List<DocumentReference> references = job.getRequest().getProperty("entityReferences");
+            List<EntityReference> references = job.getRequest().getProperty("entityReferences");
+            //DocumentDeletedEvent deletedEvent = (DocumentDeletedEvent)event;
 
             if (references != null && references.size() > 0) {
                 XWikiDocument currentDocument = (XWikiDocument) source;
@@ -76,7 +78,7 @@ public class PageRelationsRenameEventListener extends AbstractPageRelationsEvent
                 XWiki wiki = context.getWiki();
 
                 // We admit that we have only one document refactored at the time.
-                DocumentReference reference = references.get(0);
+                EntityReference reference = references.get(0);
                 try {
 
                     String pageName = localEntityReferenceSerializer.serialize(reference);
@@ -93,19 +95,16 @@ public class PageRelationsRenameEventListener extends AbstractPageRelationsEvent
                                         pageName, false);
 
                         if (object != null) {
-                            // Note: we should think about serializing the document reference using a more absolute
-                            // serializer if we start working with inter-wiki page references.
+                            inverseRelationDocument.removeXObject(object);
+                            String key = "pageRelations.remove.history.message";
                             String currentDocumentName =
                                     localEntityReferenceSerializer.serialize(currentDocument.getDocumentReference());
-                            object.setStringValue(PAGE_FIELD, currentDocumentName);
-
-                            String key = "pageRelations.update.page";
                             String message = contextLocalization.getTranslationPlain(key, currentDocumentName);
                             wiki.saveDocument(inverseRelationDocument, message, context);
                         }
                     }
                 } catch (XWikiException | QueryException e) {
-                    logger.error("Error while updating inverse relations of document [%s].",
+                    logger.error("Error while deleting inverse relations of document [%s].",
                             compactWikiSerializer.serialize(reference), e);
                 }
             }
