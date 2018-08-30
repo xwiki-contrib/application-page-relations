@@ -69,26 +69,23 @@ public class PageRelationsDeleteEventListener extends AbstractPageRelationsEvent
 
         if (observationContext.isIn(new JobStartedEvent("refactoring/delete"))) {
             Job job = jobContext.getCurrentJob();
-            List<EntityReference> references = job.getRequest().getProperty("entityReferences");
-            //DocumentDeletedEvent deletedEvent = (DocumentDeletedEvent)event;
 
-            if (references != null && references.size() > 0) {
+            if (source != null) {
                 XWikiDocument currentDocument = (XWikiDocument) source;
                 XWikiContext context = (XWikiContext) data;
                 XWiki wiki = context.getWiki();
+                DocumentReference reference = currentDocument.getDocumentReference();
 
-                // We admit that we have only one document refactored at the time.
-                EntityReference reference = references.get(0);
                 try {
 
                     String pageName = localEntityReferenceSerializer.serialize(reference);
-                    String wikiName = currentDocument.getDocumentReference().getWikiReference().getName();
+                    String wikiName = reference.getWikiReference().getName();
                     List<String> entries = fetchInverseRelations(pageName, wikiName);
 
                     for (String inverseRelation : entries) {
                         String fullName = wikiName + ":" + inverseRelation;
                         DocumentReference inverseRelationReference = documentReferenceResolver.resolve(fullName);
-                        XWikiDocument inverseRelationDocument = wiki.getDocument(inverseRelationReference, context);
+                        XWikiDocument inverseRelationDocument = wiki.getDocument(inverseRelationReference, context).clone();
 
                         BaseObject object =
                                 inverseRelationDocument.getXObject(PAGE_RELATION_CLASS_REFERENCE, PAGE_FIELD,
@@ -104,7 +101,7 @@ public class PageRelationsDeleteEventListener extends AbstractPageRelationsEvent
                         }
                     }
                 } catch (XWikiException | QueryException e) {
-                    logger.error("Error while deleting inverse relations of document [%s].",
+                    logger.error("Error while removing inverse relations of document [%s].",
                             compactWikiSerializer.serialize(reference), e);
                 }
             }
