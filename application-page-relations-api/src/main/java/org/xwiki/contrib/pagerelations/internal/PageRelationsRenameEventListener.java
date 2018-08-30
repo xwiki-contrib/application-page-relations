@@ -68,6 +68,7 @@ public class PageRelationsRenameEventListener extends AbstractPageRelationsEvent
 
         if (observationContext.isIn(new JobStartedEvent("refactoring/rename"))) {
             Job job = jobContext.getCurrentJob();
+            DocumentReference destRef = job.getRequest().getProperty("destination");
             List<DocumentReference> references = job.getRequest().getProperty("entityReferences");
 
             if (references != null && references.size() > 0) {
@@ -75,12 +76,17 @@ public class PageRelationsRenameEventListener extends AbstractPageRelationsEvent
                 XWikiContext context = (XWikiContext) data;
                 XWiki wiki = context.getWiki();
 
-                // We admit that we have only one document refactored at the time.
-                DocumentReference reference = references.get(0);
+                DocumentReference sourceRef = references.get(0);
+                DocumentReference currentDestRef = currentDocument.getDocumentReference();
+                DocumentReference currentSourceRef = getCurrentSourceRef(currentDestRef, sourceRef, destRef);
+
+                // Source and destination for the refactoring of relations under
+                DocumentReference reference = currentSourceRef;
+                DocumentReference destination = currentDestRef;
                 try {
 
                     String pageName = localEntityReferenceSerializer.serialize(reference);
-                    String wikiName = currentDocument.getDocumentReference().getWikiReference().getName();
+                    String wikiName = destination.getWikiReference().getName();
                     List<String> entries = fetchInverseRelations(pageName, wikiName);
 
                     for (String inverseRelation : entries) {
@@ -88,15 +94,13 @@ public class PageRelationsRenameEventListener extends AbstractPageRelationsEvent
                         DocumentReference inverseRelationReference = documentReferenceResolver.resolve(fullName);
                         XWikiDocument inverseRelationDocument = wiki.getDocument(inverseRelationReference, context);
 
-                        BaseObject object =
-                                inverseRelationDocument.getXObject(PAGE_RELATION_CLASS_REFERENCE, PAGE_FIELD,
-                                        pageName, false);
+                        BaseObject object = inverseRelationDocument.getXObject(PAGE_RELATION_CLASS_REFERENCE,
+                            PAGE_FIELD, pageName, false);
 
                         if (object != null) {
                             // Note: we should think about serializing the document reference using a more absolute
                             // serializer if we start working with inter-wiki page references.
-                            String currentDocumentName =
-                                    localEntityReferenceSerializer.serialize(currentDocument.getDocumentReference());
+                            String currentDocumentName = localEntityReferenceSerializer.serialize(destination);
                             object.setStringValue(PAGE_FIELD, currentDocumentName);
 
                             String key = "pageRelations.update.page";
@@ -106,9 +110,27 @@ public class PageRelationsRenameEventListener extends AbstractPageRelationsEvent
                     }
                 } catch (XWikiException | QueryException e) {
                     logger.error("Error while updating inverse relations of document [%s].",
-                            compactWikiSerializer.serialize(reference), e);
+                        compactWikiSerializer.serialize(reference), e);
                 }
             }
+        }
+    }
+
+    private DocumentReference getCurrentSourceRef(DocumentReference currentDestRef, DocumentReference sourceRef,
+        DocumentReference destRef)
+    {
+        // compose source and reference of the currently renamed document from the operation's parameters
+        if (currentDestRef.equals(destRef)) {
+            // the current destination is the exact destination of the global rename operation. current source
+            // is the source of the global rename operation.
+            return sourceRef;
+        } else {
+            // the current destination is not the global rename destination, we're in a child of the rename.
+            // compose the source from the current destination and global rename references
+            // TODO: this code assumes that the sourceRef and destRef are always nested pages (the page is always
+            // WebHome) but I guess that this is always true and even if it isn't, I think the currentDestRef is always
+            // a page in a subspace
+            return currentDestRef.replaceParent(destRef.getParent(), sourceRef.getParent());
         }
     }
 }
