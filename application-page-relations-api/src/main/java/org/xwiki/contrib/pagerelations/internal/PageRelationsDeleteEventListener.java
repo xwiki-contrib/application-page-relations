@@ -29,7 +29,6 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.job.Job;
 import org.xwiki.job.event.JobStartedEvent;
 import org.xwiki.model.reference.DocumentReference;
-import org.xwiki.model.reference.EntityReference;
 import org.xwiki.observation.event.Event;
 import org.xwiki.query.QueryException;
 
@@ -85,7 +84,8 @@ public class PageRelationsDeleteEventListener extends AbstractPageRelationsEvent
                     for (String inverseRelation : entries) {
                         String fullName = wikiName + ":" + inverseRelation;
                         DocumentReference inverseRelationReference = documentReferenceResolver.resolve(fullName);
-                        XWikiDocument inverseRelationDocument = wiki.getDocument(inverseRelationReference, context).clone();
+                        XWikiDocument inverseRelationDocument = wiki.getDocument(inverseRelationReference, context)
+                                .clone();
 
                         BaseObject object =
                                 inverseRelationDocument.getXObject(PAGE_RELATION_CLASS_REFERENCE, PAGE_FIELD,
