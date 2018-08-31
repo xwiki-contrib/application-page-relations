@@ -78,7 +78,7 @@ public class PageRelationsRenameEventListener extends AbstractPageRelationsEvent
 
                 DocumentReference sourceRef = references.get(0);
                 DocumentReference currentDestRef = currentDocument.getDocumentReference();
-                DocumentReference currentSourceRef = getCurrentSourceRef(currentDestRef, sourceRef, destRef);
+                DocumentReference currentSourceRef = getCurrentSourceReference(currentDestRef, sourceRef, destRef);
 
                 // Source and destination for the refactoring of relations under
                 DocumentReference reference = currentSourceRef;
@@ -116,7 +116,7 @@ public class PageRelationsRenameEventListener extends AbstractPageRelationsEvent
         }
     }
 
-    private DocumentReference getCurrentSourceRef(DocumentReference currentDestRef, DocumentReference sourceRef,
+    private DocumentReference getCurrentSourceReference(DocumentReference currentDestRef, DocumentReference sourceRef,
         DocumentReference destRef)
     {
         // compose source and reference of the currently renamed document from the operation's parameters
