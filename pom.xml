@@ -40,6 +40,14 @@
   </scm>
   <developers>
     <developer>
+      <id>lucaa</id>
+      <name>Anca Luca</name>
+    </developer>
+    <developer>
+      <id>caubin</id>
+      <name>Clément Aubin</name>
+    </developer>
+    <developer>
       <id>slauriere</id>
       <name>Stéphane Laurière</name>
     </developer>
