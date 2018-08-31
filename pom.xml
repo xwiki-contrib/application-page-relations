@@ -28,7 +28,7 @@
     <version>9.11-4</version>
   </parent>
   <artifactId>application-page-relations</artifactId>
-  <version>2.2</version>
+  <version>2.3-SNAPSHOT</version>
   <name>Page Relations Application - Parent POM</name>
   <packaging>pom</packaging>
   <description>Makes it possible to create and display relations between pages as XWiki objects.</description>
@@ -36,7 +36,7 @@
     <connection>scm:git:git://github.com/xwiki-contrib/application-page-relations.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki-contrib/application-page-relations.git</developerConnection>
     <url>https://github.com/xwiki-contrib/application-page-relations/tree/master</url>
-    <tag>application-page-relations-2.2</tag>
+    <tag>HEAD</tag>
   </scm>
   <developers>
     <developer>
