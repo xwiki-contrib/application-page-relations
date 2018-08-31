@@ -93,9 +93,11 @@ public abstract class AbstractPageRelationsEventListener extends AbstractEventLi
     protected List<String> fetchInverseRelations(String pageName, String wikiName) throws QueryException
     {
         Query query = this.queryManager.createQuery(
-                "select distinct doc.fullName from Document doc, "
-                        + "doc.object(PageRelations.Code.PageRelationClass) as obj where obj.page=:page",
-                Query.XWQL);
+                "select distinct doc.fullName from XWikiDocument as doc, BaseObject as obj, StringProperty as"
+                        + " prop where doc.fullName = obj.name and obj.className ="
+                        + " 'PageRelations.Code.PageRelationClass' and obj.id=prop.id.id and prop.id.name='page'"
+                        + " and prop.value = :page",
+                Query.HQL);
         query = query.bindValue(PAGE_FIELD, pageName);
         query.setWiki(wikiName);
         List<String> entries = query.execute();
