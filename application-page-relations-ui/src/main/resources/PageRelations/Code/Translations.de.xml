@@ -79,10 +79,10 @@ pageRelations.remove.hint=Beziehung entfernen
 pageRelations.remove.error.notFound=Die Ziel-Seite wurde nicht gefunden.
 pageRelations.remove.error.notAllowed=Sie sind nicht berechtigt, diese Aktion auszuführen.
 pageRelations.remove.error.failed=Es ist ein Fehler aufgetreten.
-pageRelations.remove.history.message=Entfernen einer Beziehung mit "{0}"
-### Missing: pageRelations.update.page=Update relation to "{0}"
-### Missing: pageRelations.panel.title=Relations
+pageRelations.remove.history.message=Entfernen einer Beziehung zu "{0}"
+pageRelations.update.page=Aktualisiere Beziehung zu "{0}"
+pageRelations.panel.title=Beziehungen
 
 # Deprecated keys
-### Missing: pageRelations.dataSpace.title=Data</content>
+pageRelations.dataSpace.title=Daten</content>
 </xwikidoc>
