@@ -43,43 +43,43 @@
 PageRelations.Code.PageRelationClass_page=Seite
 
 # Live table generic keys
-pageRelations.livetable.doc.title=Seiten Titel
-### Missing: pageRelations.livetable.doc.name=Page Name
-### Missing: pageRelations.livetable.doc.space=Space
-### Missing: pageRelations.livetable.doc.fullname=Page full name
-### Missing: pageRelations.livetable.doc.location=Location
-### Missing: pageRelations.livetable.doc.author=Last Author
-### Missing: pageRelations.livetable.doc.creator=Creator
-### Missing: pageRelations.livetable.doc.date=Date
-### Missing: pageRelations.livetable.doc.creationDate=Creation Date
-### Missing: pageRelations.livetable._avatar=Avatar
-### Missing: pageRelations.livetable._images=Images
-### Missing: pageRelations.livetable._attachments=Attachments
-### Missing: pageRelations.livetable._actions=Actions
-### Missing: pageRelations.livetable._actions.edit=Edit
-### Missing: pageRelations.livetable._actions.delete=Delete
-### Missing: pageRelations.livetable.emptyvalue=-
+pageRelations.livetable.doc.title=Seitentitel
+pageRelations.livetable.doc.name=Seitenname
+pageRelations.livetable.doc.space=Bereich
+pageRelations.livetable.doc.fullname=Vollständiger Seitenname
+pageRelations.livetable.doc.location=Speicherort
+pageRelations.livetable.doc.author=Letzter Autor
+pageRelations.livetable.doc.creator=Ersteller
+pageRelations.livetable.doc.date=Datum
+pageRelations.livetable.doc.creationDate=Erstellungsdatum
+pageRelations.livetable._avatar=Profilbild
+pageRelations.livetable._images=Bilder
+pageRelations.livetable._attachments=Anhänge
+pageRelations.livetable._actions=Aktionen
+pageRelations.livetable._actions.edit=Bearbeiten
+pageRelations.livetable._actions.delete=Löschen
+pageRelations.livetable.emptyvalue=-
 
 # Live table specific keys
-### Missing: pageRelations.livetable.page=Page
+pageRelations.livetable.page=Seite
 
 # PageRelationsMacro
-### Missing: pageRelations.entry.name=Relations
-### Missing: pageRelations.title=Relations:
-### Missing: pageRelations.facets=Facets:
-### Missing: pageRelations.add.relatedPage=Related page:
-### Missing: pageRelations.add.hint=Add a relation
-### Missing: pageRelations.add.submit=Add
-### Missing: pageRelations.add.cancel=Cancel
-### Missing: pageRelations.add.error.alreadySet=This relations was already set.
-### Missing: pageRelations.add.error.notAllowed=You are not authorized to perform this action.
-### Missing: pageRelations.add.error.failed=An error occurred.
-### Missing: pageRelations.add.history.message=Addition of a relation to "{0}"
-### Missing: pageRelations.remove.hint=Remove relation
-### Missing: pageRelations.remove.error.notFound=The target page was not found.
-### Missing: pageRelations.remove.error.notAllowed=You are not authorized to perform this action.
-### Missing: pageRelations.remove.error.failed=An error occurred.
-### Missing: pageRelations.remove.history.message=Removal of a relation with "{0}"
+pageRelations.entry.name=Beziehungen
+pageRelations.title=Beziehungen:
+pageRelations.facets=Aspekte:
+pageRelations.add.relatedPage=Verwandte Seite:
+pageRelations.add.hint=Beziehung hinzufügen
+pageRelations.add.submit=Hinzufügen
+pageRelations.add.cancel=Abbrechen
+pageRelations.add.error.alreadySet=Diese Beziehung war bereits festgelegt.
+pageRelations.add.error.notAllowed=Sie sind nicht berechtigt, diese Aktion auszuführen.
+pageRelations.add.error.failed=Es ist ein Fehler aufgetreten.
+pageRelations.add.history.message=Hinzufügen einer Beziehung zu "{0}"
+pageRelations.remove.hint=Beziehung entfernen
+pageRelations.remove.error.notFound=Die Ziel-Seite wurde nicht gefunden.
+pageRelations.remove.error.notAllowed=Sie sind nicht berechtigt, diese Aktion auszuführen.
+pageRelations.remove.error.failed=Es ist ein Fehler aufgetreten.
+pageRelations.remove.history.message=Entfernen einer Beziehung mit "{0}"
 ### Missing: pageRelations.update.page=Update relation to "{0}"
 ### Missing: pageRelations.panel.title=Relations
 
