@@ -40,10 +40,10 @@
   <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
   <content># Class fields
-### Missing: PageRelations.Code.PageRelationClass_page=Page
+PageRelations.Code.PageRelationClass_page=Seite
 
 # Live table generic keys
-### Missing: pageRelations.livetable.doc.title=Page Title
+pageRelations.livetable.doc.title=Seiten Titel
 ### Missing: pageRelations.livetable.doc.name=Page Name
 ### Missing: pageRelations.livetable.doc.space=Space
 ### Missing: pageRelations.livetable.doc.fullname=Page full name
