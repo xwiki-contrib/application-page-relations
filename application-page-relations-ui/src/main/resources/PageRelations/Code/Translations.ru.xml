@@ -39,6 +39,51 @@
   <minorEdit>false</minorEdit>
   <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
-  <content></content>
+  <content># Class fields
+PageRelations.Code.PageRelationClass_page=Страница
+
+# Live table generic keys
+### Missing: pageRelations.livetable.doc.title=Page Title
+### Missing: pageRelations.livetable.doc.name=Page Name
+### Missing: pageRelations.livetable.doc.space=Space
+### Missing: pageRelations.livetable.doc.fullname=Page full name
+### Missing: pageRelations.livetable.doc.location=Location
+### Missing: pageRelations.livetable.doc.author=Last Author
+### Missing: pageRelations.livetable.doc.creator=Creator
+### Missing: pageRelations.livetable.doc.date=Date
+### Missing: pageRelations.livetable.doc.creationDate=Creation Date
+### Missing: pageRelations.livetable._avatar=Avatar
+### Missing: pageRelations.livetable._images=Images
+### Missing: pageRelations.livetable._attachments=Attachments
+### Missing: pageRelations.livetable._actions=Actions
+### Missing: pageRelations.livetable._actions.edit=Edit
+### Missing: pageRelations.livetable._actions.delete=Delete
+### Missing: pageRelations.livetable.emptyvalue=-
+
+# Live table specific keys
+### Missing: pageRelations.livetable.page=Page
+
+# PageRelationsMacro
+### Missing: pageRelations.entry.name=Relations
+### Missing: pageRelations.title=Relations:
+### Missing: pageRelations.facets=Facets:
+### Missing: pageRelations.add.relatedPage=Related page:
+### Missing: pageRelations.add.hint=Add a relation
+### Missing: pageRelations.add.submit=Add
+### Missing: pageRelations.add.cancel=Cancel
+### Missing: pageRelations.add.error.alreadySet=This relations was already set.
+### Missing: pageRelations.add.error.notAllowed=You are not authorized to perform this action.
+### Missing: pageRelations.add.error.failed=An error occurred.
+### Missing: pageRelations.add.history.message=Addition of a relation to "{0}"
+### Missing: pageRelations.remove.hint=Remove relation
+### Missing: pageRelations.remove.error.notFound=The target page was not found.
+### Missing: pageRelations.remove.error.notAllowed=You are not authorized to perform this action.
+### Missing: pageRelations.remove.error.failed=An error occurred.
+### Missing: pageRelations.remove.history.message=Removal of a relation with "{0}"
+### Missing: pageRelations.update.page=Update relation to "{0}"
+### Missing: pageRelations.panel.title=Relations
+
+# Deprecated keys
+### Missing: pageRelations.dataSpace.title=Data</content>
   
 </xwikidoc>
