@@ -1,109 +1,86 @@
 /*
- * See the NOTICE file distributed with this work for additional
- * information regarding copyright ownership.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
-package org.xwiki.contrib.pagerelations.internal;
-
-import java.util.List;
+package org.xwiki.contrib.graph.internal.listeners;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.xwiki.bridge.event.DocumentDeletedEvent;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.job.Job;
-import org.xwiki.job.event.JobStartedEvent;
-import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.contrib.graph.XWikiEdge;
+import org.xwiki.contrib.graph.internal.model.DefaultXWikiEdge;
+import org.xwiki.model.reference.ObjectReference;
 import org.xwiki.observation.event.Event;
-import org.xwiki.query.QueryException;
 
-import com.xpn.xwiki.XWiki;
-import com.xpn.xwiki.XWikiContext;
-import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.doc.XWikiDocument;
-import com.xpn.xwiki.objects.BaseObject;
+import com.xpn.xwiki.internal.event.XObjectAddedEvent;
+import com.xpn.xwiki.internal.event.XObjectDeletedEvent;
+import com.xpn.xwiki.internal.event.XObjectEvent;
+import com.xpn.xwiki.internal.event.XObjectUpdatedEvent;
 
 /**
- * Listener removing inverse page relations when a page gets deleted.
+ * Listener updating inward page edges when a page gets renamed.
  *
  * @version $Id$
  */
 @Component
-@Named(PageRelationsDeleteEventListener.LISTENER_NAME)
 @Singleton
-public class PageRelationsDeleteEventListener extends AbstractPageRelationsEventListener
+@Named(XWikiEdgeEventListener.NAME)
+public class XWikiEdgeEventListener extends XWikiGraphEventListener
 {
-    /**
-     * The name of the event listener.
-     */
-    public static final String LISTENER_NAME = "pageRelations.listeners.delete";
+    public static final String NAME = "graph.edges";
 
-    /**
-     * This is the default constructor.
-     */
-    public PageRelationsDeleteEventListener()
+    public XWikiEdgeEventListener()
     {
-        super(LISTENER_NAME, new DocumentDeletedEvent());
+        super(NAME, new XObjectAddedEvent(DefaultXWikiEdge.EDGE_OBJECT_REFERENCE),
+                new XObjectUpdatedEvent(DefaultXWikiEdge.EDGE_OBJECT_REFERENCE),
+                new XObjectDeletedEvent(DefaultXWikiEdge.EDGE_OBJECT_REFERENCE));
     }
 
-    @Override
     public void onEvent(Event event, Object source, Object data)
     {
-        logger.debug("[%s] - Event: [%s] - Source: [%s] - Data: [%s]", LISTENER_NAME, event, source, data);
 
-        if (observationContext.isIn(new JobStartedEvent("refactoring/delete"))) {
-            Job job = jobContext.getCurrentJob();
+        // don't log the context, this can result in endless status.xml
+        // TODO: check why when deleting a document entirely, the log is not printed out, while it is on individual
+        // object deletion
 
-            if (source != null) {
-                XWikiDocument currentDocument = (XWikiDocument) source;
-                XWikiContext context = (XWikiContext) data;
-                XWiki wiki = context.getWiki();
-                DocumentReference reference = currentDocument.getDocumentReference();
-
-                try {
-
-                    String pageName = localEntityReferenceSerializer.serialize(reference);
-                    String wikiName = reference.getWikiReference().getName();
-                    List<String> entries = fetchInverseRelations(pageName, wikiName);
-
-                    for (String inverseRelation : entries) {
-                        String fullName = wikiName + ":" + inverseRelation;
-                        DocumentReference inverseRelationReference = documentReferenceResolver.resolve(fullName);
-                        XWikiDocument inverseRelationDocument = wiki.getDocument(inverseRelationReference, context)
-                                .clone();
-
-                        BaseObject object =
-                                inverseRelationDocument.getXObject(PAGE_RELATION_CLASS_REFERENCE, PAGE_FIELD,
-                                        pageName, false);
-
-                        if (object != null) {
-                            inverseRelationDocument.removeXObject(object);
-                            String key = "pageRelations.remove.history.message";
-                            String currentDocumentName =
-                                    localEntityReferenceSerializer.serialize(currentDocument.getDocumentReference());
-                            String message = contextLocalization.getTranslationPlain(key, currentDocumentName);
-                            wiki.saveDocument(inverseRelationDocument, message, context);
-                        }
-                    }
-                } catch (XWikiException | QueryException e) {
-                    logger.error("Error while removing inverse relations of document [%s].",
-                            compactWikiSerializer.serialize(reference), e);
+        if (source != null) {
+            XWikiDocument document = (XWikiDocument) source;
+            XWikiDocument originalDocument = ((XWikiDocument) source).getOriginalDocument();
+            ObjectReference edgeReference = (ObjectReference) ((XObjectEvent) event).getReference();
+            try {
+                if (event instanceof XObjectAddedEvent) {
+                    XWikiEdge edge = graph.getEdge(document, edgeReference);
+                    logger.debug("Edge was added: {}", edge);
+                    indexer.index(edge);
+                } else if (event instanceof XObjectUpdatedEvent) {
+                    XWikiEdge edge = graph.getEdge(document, edgeReference);
+                    XWikiEdge originalEdge = graph.getEdge(originalDocument, edgeReference);
+                    logger.debug("Edge was updated: {}", edge);
+                    indexer.unindex(originalEdge);
+                    indexer.index(edge);
+                } else if (event instanceof XObjectDeletedEvent) {
+                    XWikiEdge originalEdge = graph.getEdge(originalDocument, edgeReference);
+                    logger.debug("Edge was deleted: {}", originalEdge);
+                    indexer.unindex(originalEdge);
                 }
+            } catch (Exception e) {
+                logger.error("onEvent", e);
             }
         }
     }
