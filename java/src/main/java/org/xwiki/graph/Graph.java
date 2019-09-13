@@ -39,7 +39,7 @@ public interface Graph<I>
 
     Relation<I> getRelation(I identifier) throws GraphException;
 
-    List<? extends Relation> getRelations() throws GraphException;
+    List<? extends Relation<I>> getRelations() throws GraphException;
 
     Vertex<I> getVertex(I identifier) throws GraphException;
 

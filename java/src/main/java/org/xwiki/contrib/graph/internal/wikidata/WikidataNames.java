@@ -23,7 +23,7 @@ import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
 
-public interface Names
+public interface WikidataNames
 {
     String PERSON_TYPE_NAME = "person";
     String COUNTRY_TYPE_NAME = "country";

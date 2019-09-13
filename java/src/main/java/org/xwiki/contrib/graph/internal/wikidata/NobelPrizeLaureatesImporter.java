@@ -84,7 +84,7 @@ public class NobelPrizeLaureatesImporter implements WikidataImporter
     @Inject
     protected Environment environment;
 
-    public HashMap<String, List<String>> getVerticesMetadataByKey(String pairs)
+    public HashMap<String, List<String>> getVerticesMetadataByKey(String pairs, String targetSpaceName)
     {
 
         HashMap<String, List<String>> mapping = new HashMap<>();
@@ -95,7 +95,7 @@ public class NobelPrizeLaureatesImporter implements WikidataImporter
             String[] vertexMetadataString = entry.split("\\s");
             int idx = vertexMetadataString[0].indexOf(":");
             String name = vertexMetadataString[0].substring(0, idx);
-            String identifier = vertexMetadataString[0].substring(idx + 1).trim();
+            String identifier = targetSpaceName + "." + vertexMetadataString[0].substring(idx + 1).trim();
             vertexMetadata.add(identifier);
             if (vertexMetadataString.length > 1) {
                 vertexMetadata.add(vertexMetadataString[1].trim());
@@ -141,11 +141,11 @@ public class NobelPrizeLaureatesImporter implements WikidataImporter
     {
         XWikiContext context = contextualizer.get();
         XWiki xwiki = context.getWiki();
-        HashMap<String, List<String>> verticesByKey = getVerticesMetadataByKey(mapping);
+        HashMap<String, List<String>> verticesByKey = getVerticesMetadataByKey(mapping, targetSpaceName);
 
         for (Map.Entry<String, List<String>> entry : verticesByKey.entrySet()) {
             String title = StringUtils.capitalize(entry.getKey().replaceAll("-", " "));
-            DocumentReference reference = resolver.resolve(targetSpaceName + "." + entry.getValue().get(0));
+            DocumentReference reference = resolver.resolve(entry.getValue().get(0));
             // Don't create vertex if it exists already
             if (!xwiki.exists(reference, context)) {
                 if (entry.getKey().startsWith("has")) {
@@ -181,10 +181,10 @@ public class NobelPrizeLaureatesImporter implements WikidataImporter
             if (entity instanceof Laureate) {
                 Laureate laureate = (Laureate) entity;
                 List<String> vertexMetadata = verticesMetadataByKey.get(
-                        org.xwiki.contrib.graph.internal.wikidata.Names.PERSON_TYPE_NAME);
+                        WikidataNames.PERSON_TYPE_NAME);
                 if (StringUtils.isNotEmpty(laureate.getTypeLabel()) && !laureate.getTypeLabel().equals("human")) {
                     vertexMetadata = verticesMetadataByKey.get(
-                            org.xwiki.contrib.graph.internal.wikidata.Names.ORGANIZATION_TYPE_NAME);
+                            WikidataNames.ORGANIZATION_TYPE_NAME);
                 }
                 graph.addVertex(vertex, label, resolver.resolve(vertexMetadata.get(0)));
             }
@@ -196,7 +196,7 @@ public class NobelPrizeLaureatesImporter implements WikidataImporter
             // Make sure to save the page before creating edges originating from it
             xwiki.saveDocument(page, "", false, context);
             graph.addEdgeOnce(vertex, resolver.resolve(verticesMetadataByKey.get(
-                    org.xwiki.contrib.graph.internal.wikidata.Names.HAS_WIKIDATA_ID).get(0)),
+                    WikidataNames.HAS_WIKIDATA_ID).get(0)),
                     entity.getWikidataId());
 
             if (entity instanceof Laureate) {
@@ -219,10 +219,10 @@ public class NobelPrizeLaureatesImporter implements WikidataImporter
                 if (!xwiki.exists(country, context)) {
                     graph.addVertex(country, laureate.getCountryLabel(),
                             resolver.resolve(verticesMetadataByKey.get(
-                                    org.xwiki.contrib.graph.internal.wikidata.Names.COUNTRY_TYPE_NAME).get(0)));
+                                    WikidataNames.COUNTRY_TYPE_NAME).get(0)));
                 }
                 graph.addEdgeOnce(vertex, resolver.resolve(verticesMetadataByKey.get(
-                        org.xwiki.contrib.graph.internal.wikidata.Names.HAS_COUNTRY).get(0)),
+                        WikidataNames.HAS_COUNTRY).get(0)),
                         country);
             }
             DocumentReference nobelPrize = toDocumentReference(laureate.getPrizeLabel(), spaceReference);
@@ -230,11 +230,11 @@ public class NobelPrizeLaureatesImporter implements WikidataImporter
                 if (!xwiki.exists(nobelPrize, context)) {
                     graph.addVertex(nobelPrize, laureate.getPrizeLabel(),
                             resolver.resolve(verticesMetadataByKey.get(
-                                    org.xwiki.contrib.graph.internal.wikidata.Names.AWARD_TYPE_NAME).get(0)));
+                                    WikidataNames.AWARD_TYPE_NAME).get(0)));
                 }
 
                 graph.addEdgeOnce(vertex, resolver.resolve(verticesMetadataByKey.get(
-                        org.xwiki.contrib.graph.internal.wikidata.Names.HAS_AWARD).get(0)),
+                        WikidataNames.HAS_AWARD).get(0)),
                         nobelPrize);
             }
         }
@@ -264,7 +264,7 @@ public class NobelPrizeLaureatesImporter implements WikidataImporter
         Gson gson = new Gson();
         JsonReader jsonReader = new JsonReader(new StringReader(json));
         List<Laureate> data = gson.fromJson(jsonReader,
-                org.xwiki.contrib.graph.internal.wikidata.Names.LAUREATE); // contains the whole reviews list
+                WikidataNames.LAUREATE); // contains the whole reviews list
         jsonReader.close();
         return data;
     }

@@ -29,6 +29,7 @@ import javax.inject.Named;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.slf4j.Logger;
@@ -57,8 +58,6 @@ import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.doc.XWikiDocument;
 import com.xpn.xwiki.objects.BaseObject;
-
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @Component
 @Singleton
@@ -140,7 +139,7 @@ public class DefaultGraphFactory implements XWikiGraphFactory
         if (destination instanceof DocumentReference) {
             return new DefaultXWikiEdge(origin, relation, (DocumentReference) destination, serializer, resolver);
         } else {
-            throw new NotImplementedException();
+            throw new NotImplementedException("createEdge for " + destination);
         }
     }
 

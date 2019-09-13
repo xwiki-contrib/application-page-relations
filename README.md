@@ -1,8 +1,8 @@
-# Page Relations Application
+# XWiki Graph Application
 
-This application makes it possible to create and display relations between pages. Relations are stored as XWiki objects.
+This application makes it possible to create and display relations between pages and to organize the pages as a graph.
 
-* Project Lead: [Stéphane Laurière](http://www.xwiki.org/xwiki/bin/view/XWiki/slauriere)
+* Project Lead: [slauriere](http://www.xwiki.org/xwiki/bin/view/XWiki/slauriere)
 * [Documentation & Download](http://extensions.xwiki.org/xwiki/bin/view/Extension/Page%20Relations%20Application/)
 * [Issue Tracker](https://jira.xwiki.org/projects/PAGEREL/summary)
 * Communication: [user forum or development mailing list](http://dev.xwiki.org/xwiki/bin/view/Community/Discuss), [chat](http://dev.xwiki.org/xwiki/bin/view/Community/Chat)
