@@ -20,6 +20,11 @@ package org.xwiki.graph;
 
 import org.xwiki.stability.Unstable;
 
+/**
+ * Graph indexing service that maintains an index of edges, vertices and relations for easing graph traversal.
+ *
+ * @param <I> vertex identifier class
+ */
 @Unstable
 public interface GraphIndexer<I>
 {

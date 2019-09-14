@@ -20,6 +20,11 @@ package org.xwiki.graph;
 
 import org.xwiki.stability.Unstable;
 
+/**
+ * Represents a vertex.
+ *
+ * @param <I> vertex identifier class
+ */
 @Unstable
 public interface Vertex<I>
 {

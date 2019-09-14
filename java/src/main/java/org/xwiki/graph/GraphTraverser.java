@@ -22,6 +22,11 @@ import java.util.List;
 
 import org.xwiki.stability.Unstable;
 
+/**
+ * A service used to traverse a graph.
+ *
+ * @param <I> vertex identifier class
+ */
 @Unstable
 public interface GraphTraverser<I>
 {
@@ -48,8 +53,8 @@ public interface GraphTraverser<I>
     Edge<I> getFirstEdgeFrom(I origin, I relation) throws GraphException;
 
     /**
-     * @return the list of relations whose domain is compatible with the given vertex TODO: rename to something mentioning
-     * "domain": filterRelationsDomain? searchInRelationsDomain
+     * @return the list of relations whose domain is compatible with the given vertex TODO: rename to something
+     * mentioning "domain": filterRelationsDomain? searchInRelationsDomain
      */
     List<? extends Relation<I>> getRelations(I Vertex, List<? extends Relation<I>> relations) throws GraphException;
 

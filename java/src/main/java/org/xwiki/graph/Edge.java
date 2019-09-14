@@ -21,30 +21,82 @@ package org.xwiki.graph;
 import org.xwiki.stability.Unstable;
 
 /**
- * An edge is a also a vertex so that it is possible to interlink an edge with other vertices. An edge has an origin
- * vertex, a relation and a target. The target can either be a vertex – the edge destination, or a scalar – the edge
- * value.
+ * An Edge is an ordered triple consisting of an origin vertex, a relation and a destination vertex or a scalar value.
+ * An Edge is a also a Vertex so that it is possible to interlink an edge with other vertices.
+ *
+ * @param <I> edge and vertex identifier class
  */
 @Unstable
 public interface Edge<I> extends Vertex<I>
 {
+    /**
+     * Returns the edge destination identifier, if any. See also {@link #getValue()}.
+     *
+     * @return edge destination identifier
+     */
     I getDestination();
 
+    /**
+     * Returns the edge origin identifier.
+     *
+     * @return edge origin identifier
+     */
     I getOrigin();
 
+    /**
+     * Returns the edge relation identifier.
+     *
+     * @return edge relation identifier
+     */
     I getRelation();
 
+    /**
+     * Returns the edge's value, if any.
+     *
+     * @return edge value
+     */
     Object getValue();
 
+    /**
+     * Returns true if the edge destination identifier is not null, false otherwise. See also {@link #hasValue()}. An
+     * edge is meant to have either a destination identifier or an object value, not both.
+     *
+     * @return true if edge has a non-null destination identifier
+     */
     boolean hasDestination();
 
+    /**
+     * Returns true if the edge relation identifier is not null, false otherwise.
+     *
+     * @return true if edge has a non-null relation identifier
+     */
     boolean hasRelation();
 
+    /**
+     * Returns true if the edge value is not null, false otherwise. See also {@link #hasDestination()}.
+     *
+     * @return true if the edge value is not null, false otherwise.
+     */
     boolean hasValue();
 
+    /**
+     * Sets this edge destination identifier.
+     *
+     * @param destination vertex identifier
+     */
     void setDestination(I destination);
 
+    /**
+     * Sets this edge relation identifier.
+     *
+     * @param relation relation identifier
+     */
     void setRelation(I relation);
 
+    /**
+     * Sets this edge value.
+     *
+     * @param value edge value
+     */
     void setValue(Object value);
 }

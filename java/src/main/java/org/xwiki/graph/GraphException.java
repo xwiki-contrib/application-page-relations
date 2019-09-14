@@ -18,6 +18,9 @@
  */
 package org.xwiki.graph;
 
+/**
+ * Exception that can be thrown during executing graph operations.
+ */
 public class GraphException extends Exception
 {
     Throwable throwable;
