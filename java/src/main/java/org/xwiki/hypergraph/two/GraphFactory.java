@@ -16,38 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.graph;
+package org.xwiki.hypergraph.two;
 
-/**
- * Exception that can be thrown during executing graph operations.
- */
-public class GraphException extends Exception
+import org.xwiki.hypergraph.GraphException;
+import org.xwiki.hypergraph.Vertex;
+
+public interface GraphFactory<I>
 {
-    Throwable throwable;
+    Vertex<I> createVertex(I identifier) throws GraphException;
 
-    String message;
-
-    public GraphException(Throwable e)
-    {
-        this.throwable = e;
-    }
-
-    public GraphException(String message) {
-        this.message = message;
-    }
-
-    public GraphException(String message, Throwable e)
-    {
-        this(e);
-        this.message = message;
-    }
-
-    public Throwable get()
-    {
-        return throwable;
-    }
-
-    public String getMessage() {
-        return message;
-    }
+    Edge<I> createEdge(I vertex1, I vertex2) throws GraphException;
 }

@@ -16,34 +16,34 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.graph.relational;
+package org.xwiki.hypergraph.three;
 
-import org.xwiki.graph.Edge;
-import org.xwiki.graph.Vertex;
+import org.xwiki.hypergraph.two.Edge;
+import org.xwiki.hypergraph.Vertex;
 import org.xwiki.stability.Unstable;
 
 /**
- * An RelationalEdge is an ordered triple consisting of an origin vertex, a relation and a destination vertex or a
- * scalar value. An RelationalEdge is a also a Vertex so that it is possible to interlink an edge with other vertices.
+ * An Hyperedge is an ordered triple consisting of an origin vertex, a relation and a destination vertex or a
+ * scalar value. An Hyperedge is a also a Vertex so that it is possible to interlink an edge with other vertices.
  *
  * @param <I> edge and vertex identifier class
  */
 @Unstable
-public interface RelationalEdge<I> extends Edge<I>, Vertex<I>
+public interface Hyperedge<I> extends Edge<I>, Vertex<I>
 {
     /**
      * Returns the edge destination identifier, if any. See also {@link #getValue()}.
      *
      * @return edge destination identifier
      */
-    I getDestination();
+    I getObject();
 
     /**
      * Returns the edge origin identifier.
      *
      * @return edge origin identifier
      */
-    I getOrigin();
+    I getSubject();
 
     /**
      * Returns the edge relation identifier.
@@ -65,7 +65,7 @@ public interface RelationalEdge<I> extends Edge<I>, Vertex<I>
      *
      * @return true if edge has a non-null destination identifier
      */
-    boolean hasDestination();
+    boolean hasObject();
 
     /**
      * Returns true if the edge relation identifier is not null, false otherwise.
@@ -75,7 +75,7 @@ public interface RelationalEdge<I> extends Edge<I>, Vertex<I>
     boolean hasRelation();
 
     /**
-     * Returns true if the edge value is not null, false otherwise. See also {@link #hasDestination()}.
+     * Returns true if the edge value is not null, false otherwise. See also {@link #hasObject()}.
      *
      * @return true if the edge value is not null, false otherwise.
      */
@@ -86,7 +86,7 @@ public interface RelationalEdge<I> extends Edge<I>, Vertex<I>
      *
      * @param destination vertex identifier
      */
-    void setDestination(I destination);
+    void setObject(I destination);
 
     /**
      * Sets this edge relation identifier.

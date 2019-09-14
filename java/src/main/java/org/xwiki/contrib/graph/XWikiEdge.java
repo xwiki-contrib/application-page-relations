@@ -18,26 +18,26 @@
  */
 package org.xwiki.contrib.graph;
 
-import org.xwiki.graph.relational.RelationalEdge;
+import org.xwiki.hypergraph.three.Hyperedge;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.stability.Unstable;
 
 import com.xpn.xwiki.objects.BaseObject;
 
 @Unstable
-public interface XWikiEdge extends XWikiVertex, RelationalEdge<DocumentReference>
+public interface XWikiEdge extends XWikiVertex, Hyperedge<DocumentReference>
 {
     BaseObject getBaseObject();
 
-    DocumentReference getDestination();
+    DocumentReference getObject();
 
-    DocumentReference getOrigin();
+    DocumentReference getSubject();
 
     DocumentReference getRelation();
 
     Object getValue();
 
-    void setDestination(DocumentReference destination);
+    void setObject(DocumentReference destination);
 
     void setRelation(DocumentReference relation);
 

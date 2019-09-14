@@ -38,7 +38,7 @@ import org.xwiki.contrib.graph.XWikiVertex;
 import org.xwiki.contrib.graph.internal.model.BooleanXWikiEdge;
 import org.xwiki.contrib.graph.internal.model.DefaultXWikiEdge;
 import org.xwiki.contrib.graph.internal.model.Names;
-import org.xwiki.graph.GraphException;
+import org.xwiki.hypergraph.GraphException;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
 import org.xwiki.model.reference.EntityReferenceSerializer;
@@ -118,15 +118,15 @@ public class DefaultXWikiGraph implements XWikiGraph
         }
     }
 
-    public void addEdge(DocumentReference origin, DocumentReference relation, Object destinationOrValue)
+    public void addEdge(DocumentReference subject, DocumentReference relation, Object object)
             throws GraphException
     {
-        if (destinationOrValue instanceof DocumentReference) {
-            DocumentReference destination = (DocumentReference) destinationOrValue;
-            addEdge(origin, relation, destination, (XWikiEdge edge, Object target) -> edge
-                    .setDestination((DocumentReference) target));
+        if (object instanceof DocumentReference) {
+            DocumentReference destination = (DocumentReference) object;
+            addEdge(subject, relation, destination, (XWikiEdge edge, Object target) -> edge
+                    .setObject((DocumentReference) target));
         } else {
-            addEdge(origin, relation, destinationOrValue, (XWikiEdge edge, Object target) -> edge
+            addEdge(subject, relation, object, (XWikiEdge edge, Object target) -> edge
                     .setValue(target));
         }
     }
@@ -136,24 +136,24 @@ public class DefaultXWikiGraph implements XWikiGraph
         addEdge(origin, factory.getIdentifier(Names.IS_CONNECTED_TO_RELATION_NAME), destination);
     }
 
-    public void addEdgeOnce(DocumentReference origin, DocumentReference relation, Object target)
+    public void addEdgeOnce(DocumentReference subject, DocumentReference relation, Object object)
             throws GraphException
     {
         // TODO: add synchronization mechanism to make sure that there is no equivalent edge
         //  being created while the check if getting performed.
-        List<XWikiEdge> edges = traverser.getEdgesFrom(origin, relation);
+        List<XWikiEdge> edges = traverser.getEdgesFrom(subject, relation);
         for (XWikiEdge edge : edges) {
-            if (target instanceof DocumentReference) {
-                if (edge.hasDestination() && edge.getDestination().equals(target)) {
+            if (object instanceof DocumentReference) {
+                if (edge.hasObject() && edge.getObject().equals(object)) {
                     return;
                 }
             } else {
-                if (edge.hasValue() && edge.getValue().equals(target)) {
+                if (edge.hasValue() && edge.getValue().equals(object)) {
                     return;
                 }
             }
         }
-        addEdge(origin, relation, target);
+        addEdge(subject, relation, object);
     }
 
     public void addRelation(DocumentReference identifier, String name, String domain, String image)
@@ -202,7 +202,7 @@ public class DefaultXWikiGraph implements XWikiGraph
                 // Save document as is, in case no type is passed
                 xwiki.saveDocument(page, "graph.index-vertex", true, context);
                 if (type != null) {
-                    // In case a type is passed, add an RelationalEdge pointing at that type (the document will get saved again)
+                    // In case a type is passed, add an Hyperedge pointing at that type (the document will get saved again)
                     addEdge(identifier, factory.getIdentifier(Names.IS_A_RELATION_NAME), type);
                 }
             } else {
@@ -235,11 +235,11 @@ public class DefaultXWikiGraph implements XWikiGraph
         return factory.createEdge(object);
     }
 
-    public XWikiEdge getEdge(DocumentReference vertex, DocumentReference relation, DocumentReference destination)
+    public XWikiEdge getEdge(DocumentReference subject, DocumentReference relation, DocumentReference object)
             throws GraphException
     {
         // Not optimized implementation but it avoids duplicating code for now
-        List<XWikiEdge> edges = traverser.getEdges(vertex, destination);
+        List<XWikiEdge> edges = traverser.getEdges(subject, object);
         for (XWikiEdge edge : edges) {
             if (relation.equals(edge.getRelation())) {
                 return edge;
@@ -296,19 +296,19 @@ public class DefaultXWikiGraph implements XWikiGraph
         removeEdges(vertex1, vertex2);
     }
 
-    public void removeEdge(DocumentReference origin, DocumentReference relation, Object destinationOrValue)
+    public void removeEdge(DocumentReference subject, DocumentReference relation, Object object)
             throws GraphException
     {
         XWikiContext context = contextualizer.get();
         // TODO: below we consider that edges are necessarily stored directly on the origin, but later on
         //  edges could also have their own page with own access rights.
 
-        if (destinationOrValue instanceof DocumentReference) {
-            XWikiEdge edge = getEdge(origin, relation, (DocumentReference) destinationOrValue);
+        if (object instanceof DocumentReference) {
+            XWikiEdge edge = getEdge(subject, relation, (DocumentReference) object);
             if (edge != null) {
                 try {
-                    authorizer.checkAccess(Right.EDIT, context.getUserReference(), origin);
-                    XWikiDocument clone = factory.getDocument(origin, true);
+                    authorizer.checkAccess(Right.EDIT, context.getUserReference(), subject);
+                    XWikiDocument clone = factory.getDocument(subject, true);
                     clone.removeXObject(edge.getBaseObject());
                     context.getWiki().saveDocument(clone, "graph.edge.history.remove", true, context);
                 } catch (XWikiException | AccessDeniedException e) {
@@ -326,14 +326,14 @@ public class DefaultXWikiGraph implements XWikiGraph
         removeEdgesTo(vertex);
     }
 
-    public void removeEdges(DocumentReference origin, DocumentReference destination) throws GraphException
+    public void removeEdges(DocumentReference subject, DocumentReference object) throws GraphException
     {
         XWikiContext context = contextualizer.get();
-        List<XWikiEdge> edges = traverser.getEdges(origin, destination);
+        List<XWikiEdge> edges = traverser.getEdges(subject, object);
         try {
             if (edges.size() > 0) {
-                authorizer.checkAccess(Right.EDIT, context.getUserReference(), origin);
-                XWikiDocument clone = factory.getDocument(origin, true);
+                authorizer.checkAccess(Right.EDIT, context.getUserReference(), subject);
+                XWikiDocument clone = factory.getDocument(subject, true);
                 for (XWikiEdge edge : edges) {
                     clone.removeXObject(edge.getBaseObject());
                 }
@@ -344,10 +344,10 @@ public class DefaultXWikiGraph implements XWikiGraph
             // TODO: factorize code with above
             // TODO: check it's ok to retrieve BaseObjects from an XWikiDocument, then to remove them from a clone
             //  of the XWikiDocument
-            edges = traverser.getEdges(destination, origin);
+            edges = traverser.getEdges(object, subject);
             if (edges.size() > 0) {
-                authorizer.checkAccess(Right.EDIT, context.getUserReference(), destination);
-                XWikiDocument clone = factory.getDocument(destination, true);
+                authorizer.checkAccess(Right.EDIT, context.getUserReference(), object);
+                XWikiDocument clone = factory.getDocument(object, true);
                 for (XWikiEdge edge : edges) {
                     clone.removeXObject(edge.getBaseObject());
                 }
@@ -359,14 +359,14 @@ public class DefaultXWikiGraph implements XWikiGraph
         }
 
         //if (edge == null) {
-        // If RelationalEdge was not found from origin, look for the ones which start from destination
+        // If Hyperedge was not found from origin, look for the ones which start from destination
         //clone = getDocument(destination, true);
         //edge = clone.getXObject(EDGE_VERTEX_REFERENCE, HAS_DESTINATION, serialize(destination), false);
         //}
 
     }
 
-    public void removeEdgesFrom(DocumentReference origin)
+    public void removeEdgesFrom(DocumentReference subject)
     {
         throw new NotImplementedException();
     }
@@ -375,18 +375,18 @@ public class DefaultXWikiGraph implements XWikiGraph
      * Remove all stored edges having the given reference as destination. TODO: also remove the edges not stored but
      * indexed via transitivity
      */
-    public void removeEdgesTo(DocumentReference destination) throws GraphException
+    public void removeEdgesTo(DocumentReference object) throws GraphException
     {
         XWikiContext context = contextualizer.get();
         XWiki wiki = context.getWiki();
         // TODO: we may use the Solr index instead?
-        List<DocumentReference> predecessors = traverser.getDirectPredecessorsViaHql(destination);
+        List<DocumentReference> predecessors = traverser.getDirectPredecessorsViaHql(object);
         for (DocumentReference predecessor : predecessors) {
             XWikiDocument predecessorDocument = factory.getDocument(predecessor, true);
             List<XWikiEdge> edges = traverser.getEdgesFrom(predecessorDocument);
             List<BaseObject> toBeRemoved = new ArrayList<>();
             for (XWikiEdge edge : edges) {
-                if (destination.equals(edge.getDestination())) {
+                if (object.equals(edge.getObject())) {
                     toBeRemoved.add(edge.getBaseObject());
                 }
             }
@@ -394,9 +394,9 @@ public class DefaultXWikiGraph implements XWikiGraph
                 predecessorDocument.removeXObject(baseObject);
             }
             try {
-                wiki.saveDocument(predecessorDocument, "graph.history.remove-edge " + destination, true, context);
+                wiki.saveDocument(predecessorDocument, "graph.history.remove-edge " + object, true, context);
             } catch (XWikiException e) {
-                logger.error("removeEdgesTo {} from {}", destination, predecessor, e);
+                logger.error("removeEdgesTo {} from {}", object, predecessor, e);
                 throw new GraphException(e);
             }
         }
@@ -405,7 +405,7 @@ public class DefaultXWikiGraph implements XWikiGraph
     public void removeEdgesWith(DocumentReference relation) throws GraphException
     {
         // TODO: use common code with removeEdgesTo, the code only differs by the method to be
-        // called on edge: it's edge.getRelation() and edge.getDestination()
+        // called on edge: it's edge.getRelation() and edge.getObject()
         // TODO: another implementation could consist in using the default relation "IS_CONNECTED_TO" rather
         // than removing the edges completely
 
@@ -462,7 +462,7 @@ public class DefaultXWikiGraph implements XWikiGraph
                     originalReference, newReference);
             XWikiEdge edge = getEdge(page, objectIndex);
             if (edgeProperty.equals(Names.HAS_DESTINATION)) {
-                edge.setDestination(newReference);
+                edge.setObject(newReference);
             } else if (edgeProperty.equals(Names.HAS_RELATION)) {
                 edge.setRelation(newReference);
             } else {
@@ -503,10 +503,10 @@ public class DefaultXWikiGraph implements XWikiGraph
         }
     }
 
-    public void updateEdgesTo(DocumentReference originalDestination, DocumentReference newDestination)
+    public void updateEdgesTo(DocumentReference originalObject, DocumentReference newObject)
             throws GraphException
     {
-        updateEdges(originalDestination, newDestination, Names.HAS_DESTINATION);
+        updateEdges(originalObject, newObject, Names.HAS_DESTINATION);
     }
 
     public void updateEdgesWith(DocumentReference originalRelation, DocumentReference newRelation)

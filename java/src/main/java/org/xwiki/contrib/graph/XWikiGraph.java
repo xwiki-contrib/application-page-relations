@@ -21,8 +21,8 @@ package org.xwiki.contrib.graph;
 import java.util.List;
 
 import org.xwiki.component.annotation.Role;
-import org.xwiki.graph.relational.RelationalGraph;
-import org.xwiki.graph.GraphException;
+import org.xwiki.hypergraph.three.Hypergraph;
+import org.xwiki.hypergraph.GraphException;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.ObjectReference;
 import org.xwiki.stability.Unstable;
@@ -31,17 +31,17 @@ import com.xpn.xwiki.doc.XWikiDocument;
 
 /*
   TODO:
-    - Check access rights, and protection of resources such as RelationalEdge:object, and dangerous RelationalGraph methods
+    - Check access rights, and protection of resources such as Hyperedge:object, and dangerous Hypergraph methods
     - Add events GraphEvent EdgeAddedEvent, VertexAddedEvent, EdgeRemovedEvent, VertexRemovedEvent, ...
       VertexUpdatedEvent, EdgeUpdatedEvent, ...
     - Check and translate the labels cf xar-handler / ApplicationResources
     - Check with multilingual documents
     - Add a cache of relations
-    - The setters of Relation, RelationalEdge should be protected to specific users because it allows direct change, and
+    - The setters of Relation, Hyperedge should be protected to specific users because it allows direct change, and
       such objects are availble from the script service
     - Make it easy to delete Solr index of all pages with an edge and recreate it (simple HQL query)
     - When deleting document from Solr index from the XWiki administration via HQL query, it seems the index
-      refererring to translated documents are not remove, eg "kuava:XWiki.RelationalGraph.Type_en" remains present in the index
+      refererring to translated documents are not remove, eg "kuava:XWiki.Hypergraph.Type_en" remains present in the index
       until we request a deletion from all
     - In the Solr admin console, add ability to enter specify the documents to be removed via a query or a list of
       Solr identifiers
@@ -59,7 +59,7 @@ import com.xpn.xwiki.doc.XWikiDocument;
       can be resolved properly (i.e. from which an EntityReference can be built). If an EntityReference cannot
       get created (which can happen if the index was wrongly created), the wrong index entry will remain.
     - Issue when restoring a deleted vertex: the index is not correctly restored.
-    - the property "property.XWiki.RelationalGraph.IsConnectedTo:[PageA]" should remain present in the index until
+    - the property "property.XWiki.Hypergraph.IsConnectedTo:[PageA]" should remain present in the index until
        there is no edge any more invovling PageA.
     - Imagine how a full implementation based on a graph database will work: Neo4jGraph, DgraphGraph, etc.
     - Create document, delete it, the Solr index still contains an entry about it
@@ -75,19 +75,19 @@ import com.xpn.xwiki.doc.XWikiDocument;
     - Handle other types for edge values: Long, Double, etc.
     - User interface to enter / edit scalar values
 */
-// * Security aspects: RelationalEdge encapsulate a BaseObject which require programming rights. The general idea is to make sure
+// * Security aspects: Hyperedge encapsulate a BaseObject which require programming rights. The general idea is to make sure
 //         * that 1) the access to these restricted objects is restricted by programming right check, 2) the operations offered by
-//         * RelationalEdge on these encapsulated objects either are not dangerous or they check the programming rights.
+//         * Hyperedge on these encapsulated objects either are not dangerous or they check the programming rights.
 
 @Role
 @Unstable
-public interface XWikiGraph extends RelationalGraph<DocumentReference>
+public interface XWikiGraph extends Hypergraph<DocumentReference>
 {
-    void addEdge(DocumentReference origin, DocumentReference relation, Object target) throws GraphException;
+    void addEdge(DocumentReference subject, DocumentReference relation, Object object) throws GraphException;
 
     void addEdge(DocumentReference origin, DocumentReference destination) throws GraphException;
 
-    void addEdgeOnce(DocumentReference origin, DocumentReference relation, Object target) throws GraphException;
+    void addEdgeOnce(DocumentReference subject, DocumentReference relation, Object object) throws GraphException;
 
     void addRelation(DocumentReference identifier, String label, String domain, String image) throws GraphException;
 
@@ -99,7 +99,7 @@ public interface XWikiGraph extends RelationalGraph<DocumentReference>
 
     XWikiEdge getEdge(XWikiDocument origin, ObjectReference reference) throws GraphException;
 
-    XWikiEdge getEdge(DocumentReference origin, DocumentReference relation, DocumentReference destination)
+    XWikiEdge getEdge(DocumentReference subject, DocumentReference relation, DocumentReference object)
             throws GraphException;
 
     XWikiRelation getRelation(DocumentReference identifier) throws GraphException;
@@ -112,16 +112,16 @@ public interface XWikiGraph extends RelationalGraph<DocumentReference>
      * This method uses the Solr index to retrieve all documents having the deleted one as destination because in case
      * of transitive relations, the edges can be present only at the Solr level, not in the SQL database.
      */
-    void removeEdge(DocumentReference origin, DocumentReference relation, Object destination) throws GraphException;
+    void removeEdge(DocumentReference subject, DocumentReference relation, Object object) throws GraphException;
 
     /**
      * Remove all edges between origin and destination or destination and origin, whatever the relation is.
      */
-    void removeEdges(DocumentReference origin, DocumentReference destination) throws GraphException;
+    void removeEdges(DocumentReference subject, DocumentReference object) throws GraphException;
 
-    void removeEdgesFrom(DocumentReference origin) throws GraphException;
+    void removeEdgesFrom(DocumentReference subject) throws GraphException;
 
-    void removeEdgesTo(DocumentReference destination) throws GraphException;
+    void removeEdgesTo(DocumentReference object) throws GraphException;
 
     void removeEdgesWith(DocumentReference relation) throws GraphException;
 
@@ -130,7 +130,7 @@ public interface XWikiGraph extends RelationalGraph<DocumentReference>
     void updateEdge(DocumentReference origin, int objectIndex, DocumentReference originalReference,
             DocumentReference newReference, String edgeProperty) throws GraphException;
 
-    void updateEdgesTo(DocumentReference originalDestination, DocumentReference newDestination) throws GraphException;
+    void updateEdgesTo(DocumentReference originalObject, DocumentReference newObject) throws GraphException;
 
     void updateEdgesWith(DocumentReference originalRelation, DocumentReference newRelation) throws GraphException;
 }

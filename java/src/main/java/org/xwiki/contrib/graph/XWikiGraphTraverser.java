@@ -21,9 +21,9 @@ package org.xwiki.contrib.graph;
 import java.util.List;
 
 import org.xwiki.component.annotation.Role;
-import org.xwiki.graph.GraphException;
-import org.xwiki.graph.relational.RelationalGraphTraverser;
-import org.xwiki.graph.relational.Relation;
+import org.xwiki.hypergraph.GraphException;
+import org.xwiki.hypergraph.three.HypergraphTraverser;
+import org.xwiki.hypergraph.three.Relation;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.query.Query;
 import org.xwiki.query.QueryException;
@@ -32,7 +32,7 @@ import org.xwiki.search.solr.internal.metadata.LengthSolrInputDocument;
 import com.xpn.xwiki.doc.XWikiDocument;
 
 @Role
-public interface XWikiGraphTraverser extends RelationalGraphTraverser<DocumentReference>
+public interface XWikiGraphTraverser extends HypergraphTraverser<DocumentReference>
 {
     List<Object[]> runEdgeHqlQuery(String propertyName, String destinationId, String wikiId)
             throws QueryException;
@@ -74,7 +74,7 @@ public interface XWikiGraphTraverser extends RelationalGraphTraverser<DocumentRe
 
     List<XWikiEdge> getEdgesFrom(XWikiDocument page) throws GraphException;
 
-    List<XWikiEdge> getEdges(DocumentReference origin, DocumentReference destination) throws GraphException;
+    List<XWikiEdge> getEdges(DocumentReference subject, DocumentReference object) throws GraphException;
 
     /**
      * @return list of relations that are compatible with the vertex, i.e. whose domains contain the vertex

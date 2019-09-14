@@ -16,13 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.graph.relational;
+package org.xwiki.hypergraph.three;
 
 import java.util.List;
 
-import org.xwiki.graph.Graph;
-import org.xwiki.graph.GraphException;
-import org.xwiki.graph.Vertex;
+import org.xwiki.hypergraph.two.Graph;
+import org.xwiki.hypergraph.GraphException;
 import org.xwiki.stability.Unstable;
 
 /**
@@ -33,28 +32,28 @@ import org.xwiki.stability.Unstable;
  * @param <I> vertex identifier class
  */
 @Unstable
-public interface RelationalGraph<I> extends Graph<I>
+public interface Hypergraph<I> extends Graph<I>
 {
     /**
      * Adds an edge to the graph from the given origin to the given target using the given relation.
      *
-     * @param origin identifier of the origin vertex
+     * @param subject identifier of the origin vertex
      * @param relation identifier of the edge's relation
-     * @param target identifier or value of the destination
+     * @param object identifier or value of the destination
      * @throws GraphException in case an error occurs
      */
-    void addEdge(I origin, I relation, Object target) throws GraphException;
+    void addEdge(I subject, I relation, Object object) throws GraphException;
 
     /**
      * Same as {@link #addEdge(Object, Object, Object)} except the edge is created only if an equivalent one does not
      * exist already.
      *
-     * @param origin identifier of the origin vertex
+     * @param subject identifier of the origin vertex
      * @param relation identifier of the edge's relation
-     * @param target destination identifier or value of the edge's
+     * @param object destination identifier or value of the edge's
      * @throws GraphException in case an error occurs
      */
-    void addEdgeOnce(I origin, I relation, Object target) throws GraphException;
+    void addEdgeOnce(I subject, I relation, Object object) throws GraphException;
 
     /**
      * Adds a relation to the graph with the given identifier, label, domain and image. See also the definition of a
@@ -85,17 +84,17 @@ public interface RelationalGraph<I> extends Graph<I>
      * @return the edge corresponding to the given identifier
      * @throws GraphException in case an error occurs
      */
-    RelationalEdge<I> getEdge(I identifier) throws GraphException;
+    Hyperedge<I> getEdge(I identifier) throws GraphException;
 
     /**
      * Returns the edge from origin to destination using relation, if it exists in the graph, null otherwise.
      *
-     * @param origin origin vertex
+     * @param subject origin vertex
      * @param relation edge relation
-     * @param destination destination vertex
+     * @param object destination vertex
      * @return found edge, if any
      */
-    RelationalEdge<I> getEdge(I origin, I relation, I destination) throws GraphException;
+    Hyperedge<I> getEdge(I subject, I relation, I object) throws GraphException;
 
     /**
      * Returns the relation with the given identifier, if it exists in the graph, null otherwise.
@@ -115,31 +114,31 @@ public interface RelationalGraph<I> extends Graph<I>
     /**
      * Removes the edge corresponding to the given triple origin / relation / destination or value, if it exists.
      *
-     * @param origin edge origin identifier
+     * @param subject edge origin identifier
      * @param relation edge relation identifier
-     * @param target edge destination identifier or edge value
+     * @param object edge destination identifier or edge value
      */
-    void removeEdge(I origin, I relation, Object target) throws GraphException;
+    void removeEdge(I subject, I relation, Object object) throws GraphException;
 
     /**
      * Removes all edges between origin and destination and between destination and origin.
      *
-     * @param origin edge origin identifier
-     * @param destination edge destination identifier
+     * @param subject edge origin identifier
+     * @param object edge destination identifier
      */
-    void removeEdges(I origin, I destination) throws GraphException;
+    void removeEdges(I subject, I object) throws GraphException;
 
     /**
      * Removes all edges having the given vertex as origin. See also {@link #removeEdgesTo(Object)}
      *
-     * @param origin vertex identifier
+     * @param subject vertex identifier
      */
-    void removeEdgesFrom(I origin) throws GraphException;
+    void removeEdgesFrom(I subject) throws GraphException;
 
     /**
      * Removes all edges having the given vertex as destination.
      */
-    void removeEdgesTo(I destination) throws GraphException;
+    void removeEdgesTo(I object) throws GraphException;
 
     /**
      * Remove all edges involving the given relation.
@@ -151,10 +150,10 @@ public interface RelationalGraph<I> extends Graph<I>
     /**
      * Updates all edges from origin vertex to new origin vertex.
      *
-     * @param originalDestination original vertex identifier
-     * @param newDestination new vertex identifier
+     * @param originalObject original vertex identifier
+     * @param newObject new vertex identifier
      */
-    void updateEdgesTo(I originalDestination, I newDestination) throws GraphException;
+    void updateEdgesTo(I originalObject, I newObject) throws GraphException;
 
     /**
      * Updates all edges involving the given relation to a new relation.

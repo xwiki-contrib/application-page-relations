@@ -40,9 +40,9 @@ import org.xwiki.contrib.graph.XWikiGraphTraverser;
 import org.xwiki.contrib.graph.XWikiRelation;
 import org.xwiki.contrib.graph.internal.model.DefaultXWikiEdge;
 import org.xwiki.contrib.graph.internal.model.Names;
-import org.xwiki.graph.GraphException;
-import org.xwiki.graph.relational.Relation;
-import org.xwiki.graph.relational.Set;
+import org.xwiki.hypergraph.GraphException;
+import org.xwiki.hypergraph.three.Relation;
+import org.xwiki.hypergraph.three.Set;
 import org.xwiki.model.EntityType;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
@@ -160,13 +160,13 @@ public class SolrSqlGraphTraverser implements XWikiGraphTraverser
             // NB: no access right is checked here, because this method is meant to get used internally only.
             Query query = this.querier.createQuery(
                     "select distinct obj.name, obj.number from BaseObject as obj, StringProperty as hasRelation,"
-                            + "StringProperty as hasDestination where obj.className = :className and "
+                            + "StringProperty as hasObject where obj.className = :className and "
                             + "hasRelation.id.id = obj.id and hasRelation.id.name = :hasRelation and "
-                            + "hasDestination.id.id = obj.id and hasDestination.id.name = :hasDestination and "
-                            + "hasRelation.value  = :relation and hasDestination.value = :destination", Query.HQL);
+                            + "hasObject.id.id = obj.id and hasObject.id.name = :hasObject and "
+                            + "hasRelation.value  = :relation and hasObject.value = :destination", Query.HQL);
             query = query.bindValue("className", DefaultXWikiEdge.EDGE_VERTEX_ID)
                     .bindValue("hasRelation", Names.HAS_RELATION)
-                    .bindValue("hasDestination", Names.HAS_DESTINATION)
+                    .bindValue("hasObject", Names.HAS_DESTINATION)
                     .bindValue("relation", serializer.serialize(relation))
                     .bindValue("destination", serializer.serialize(vertex));
             query.setWiki(vertex.getWikiReference().getName());
@@ -192,7 +192,7 @@ public class SolrSqlGraphTraverser implements XWikiGraphTraverser
                 // TODO: check if and why getXObjects can return null elements
                 if (baseObject != null) {
                     XWikiEdge edge = factory.createEdge(baseObject);
-                    if (destination.equals(edge.getDestination()) && relation.equals(edge.getRelation())) {
+                    if (destination.equals(edge.getObject()) && relation.equals(edge.getRelation())) {
                         return edge;
                     }
                 }
@@ -203,17 +203,17 @@ public class SolrSqlGraphTraverser implements XWikiGraphTraverser
 
     // TODO: in theory, this should return all edges from vertex to destination and inversely, to be
     //  in symetry with removeEdges(origin, destination)
-    public List<XWikiEdge> getEdges(DocumentReference origin, DocumentReference destination)
+    public List<XWikiEdge> getEdges(DocumentReference subject, DocumentReference object)
             throws GraphException
     {
         // TODO: use functional interface to share common code with getEdge()
         List<XWikiEdge> edges = new ArrayList<>();
-        XWikiDocument page = factory.getDocument(origin, false);
+        XWikiDocument page = factory.getDocument(subject, false);
         for (Triple<EntityReference, Class, Class> edgeType : factory.getEdgeClasses()) {
             for (BaseObject baseObject : page.getXObjects(edgeType.getLeft())) {
                 if (baseObject != null) {
                     XWikiEdge edge = factory.createEdge(baseObject);
-                    if (destination.equals(edge.getDestination())) {
+                    if (object.equals(edge.getObject())) {
                         edges.add(edge);
                     }
                 }

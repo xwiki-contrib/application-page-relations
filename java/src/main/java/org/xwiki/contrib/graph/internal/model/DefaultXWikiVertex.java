@@ -19,7 +19,7 @@
 package org.xwiki.contrib.graph.internal.model;
 
 import org.xwiki.contrib.graph.XWikiVertex;
-import org.xwiki.graph.Vertex;
+import org.xwiki.hypergraph.Vertex;
 import org.xwiki.model.reference.DocumentReference;
 
 /**

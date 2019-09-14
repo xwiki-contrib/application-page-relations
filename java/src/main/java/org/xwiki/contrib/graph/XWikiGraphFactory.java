@@ -22,8 +22,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Triple;
 import org.xwiki.component.annotation.Role;
-import org.xwiki.graph.GraphException;
-import org.xwiki.graph.relational.RelationalGraphFactory;
+import org.xwiki.hypergraph.GraphException;
+import org.xwiki.hypergraph.three.HypergraphFactory;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.EntityReference;
 
@@ -31,13 +31,13 @@ import com.xpn.xwiki.doc.XWikiDocument;
 import com.xpn.xwiki.objects.BaseObject;
 
 @Role
-public interface XWikiGraphFactory extends RelationalGraphFactory<DocumentReference>
+public interface XWikiGraphFactory extends HypergraphFactory<DocumentReference>
 {
     XWikiVertex createVertex(DocumentReference identifier);
 
     XWikiEdge createEdge(BaseObject object) throws GraphException;
 
-    XWikiEdge createEdge(DocumentReference origin, DocumentReference relation, Object destination)
+    XWikiEdge createEdge(DocumentReference subject, DocumentReference relation, Object object)
             throws GraphException;
 
     XWikiEdge createEdge(XWikiDocument document, Object destinationOrValue) throws GraphException;

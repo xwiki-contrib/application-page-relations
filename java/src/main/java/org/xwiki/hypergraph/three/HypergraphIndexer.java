@@ -16,20 +16,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.graph.relational;
+package org.xwiki.hypergraph.three;
 
-import org.xwiki.graph.GraphException;
+import org.xwiki.hypergraph.GraphException;
 import org.xwiki.stability.Unstable;
 
 /**
- * RelationalGraph indexing service that maintains an index of edges, vertices and relations for easing graph traversal.
+ * Hypergraph indexing service that maintains an index of edges, vertices and relations for easing graph traversal.
  *
  * @param <I> vertex identifier class
  */
 @Unstable
-public interface RelationalGraphIndexer<I>
+public interface HypergraphIndexer<I>
 {
-    void index(RelationalEdge<I> edge) throws GraphException;
+    void index(Hyperedge<I> edge) throws GraphException;
 
-    void unindex(RelationalEdge<I> edge) throws GraphException;
+    void unindex(Hyperedge<I> edge) throws GraphException;
 }

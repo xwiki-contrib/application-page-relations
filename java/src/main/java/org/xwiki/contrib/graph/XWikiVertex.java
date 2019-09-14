@@ -18,16 +18,9 @@
  */
 package org.xwiki.contrib.graph;
 
-import java.util.List;
-
-import org.xwiki.graph.GraphException;
-import org.xwiki.graph.Vertex;
+import org.xwiki.hypergraph.Vertex;
 import org.xwiki.model.reference.DocumentReference;
-import org.xwiki.model.reference.ObjectReference;
-import org.xwiki.query.Query;
 import org.xwiki.stability.Unstable;
-
-import com.xpn.xwiki.doc.XWikiDocument;
 
 @Unstable
 public interface XWikiVertex extends Vertex<DocumentReference>

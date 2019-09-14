@@ -16,11 +16,38 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.graph;
+package org.xwiki.hypergraph;
 
-import org.apache.commons.lang3.tuple.Pair;
-
-public interface Edge<I>
+/**
+ * Exception that can be thrown during executing graph operations.
+ */
+public class GraphException extends Exception
 {
-    Pair<I, I> getVertices();
+    Throwable throwable;
+
+    String message;
+
+    public GraphException(Throwable e)
+    {
+        this.throwable = e;
+    }
+
+    public GraphException(String message) {
+        this.message = message;
+    }
+
+    public GraphException(String message, Throwable e)
+    {
+        this(e);
+        this.message = message;
+    }
+
+    public Throwable get()
+    {
+        return throwable;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }

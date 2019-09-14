@@ -16,11 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.graph.relational;
+package org.xwiki.hypergraph.three;
 
 import java.util.List;
 
-import org.xwiki.graph.GraphException;
+import org.xwiki.hypergraph.GraphException;
 import org.xwiki.stability.Unstable;
 
 /**
@@ -29,29 +29,29 @@ import org.xwiki.stability.Unstable;
  * @param <I> vertex identifier class
  */
 @Unstable
-public interface RelationalGraphTraverser<I>
+public interface HypergraphTraverser<I>
 {
     /**
-     * @return the list of edges from the given origin to the given destination
+     * @return the list of edges from the given subject to the given object
      */
-    List<? extends RelationalEdge<I>> getEdges(I origin, I destination) throws GraphException;
+    List<? extends Hyperedge<I>> getEdges(I subject, I object) throws GraphException;
 
     /**
      * A wildcard is used so that a list of subclass instances can also be returned.
      *
      * @return the list of edges originating from the given vertex
      */
-    List<? extends RelationalEdge<I>> getEdgesFrom(I vertex) throws GraphException;
+    List<? extends Hyperedge<I>> getEdgesFrom(I vertex) throws GraphException;
 
     /**
      * @return the list of edges originating from the given vertex with the given relation
      */
-    List<? extends RelationalEdge<I>> getEdgesFrom(I vertex, I relation) throws GraphException;
+    List<? extends Hyperedge<I>> getEdgesFrom(I vertex, I relation) throws GraphException;
 
     /**
      * @return the first edge originating from the given vertex with the given relation
      */
-    RelationalEdge<I> getFirstEdgeFrom(I origin, I relation) throws GraphException;
+    Hyperedge<I> getFirstEdgeFrom(I origin, I relation) throws GraphException;
 
     /**
      * @return the list of relations whose domain is compatible with the given vertex TODO: rename to something
@@ -62,7 +62,7 @@ public interface RelationalGraphTraverser<I>
     List<I> search(String text) throws GraphException;
 
     /**
-     * @return the given relation's image set filtered by the input text. Example: if relation is "XWiki.RelationalGraph.IsA" and
+     * @return the given relation's image set filtered by the input text. Example: if relation is "XWiki.Hypergraph.IsA" and
      * the input is empty, the returned vertices will be all types, because the relation's image is "Type". TODO: rename
      * to filterRelationImage or searchInRelationImage
      */

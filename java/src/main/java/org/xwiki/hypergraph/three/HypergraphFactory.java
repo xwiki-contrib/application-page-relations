@@ -16,11 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.graph;
+package org.xwiki.hypergraph.three;
 
-public interface GraphFactory<I>
+import org.xwiki.hypergraph.GraphException;
+import org.xwiki.hypergraph.two.GraphFactory;
+
+/**
+ * Factory class used to create edges, relations or vertices.
+ * @param <I> vertex identifier
+ */
+public interface HypergraphFactory<I> extends GraphFactory<I>
 {
-    Vertex<I> createVertex(I identifier) throws GraphException;
+    Hyperedge<I> createEdge(I subject, I relation, Object object) throws GraphException;
 
-    Edge<I> createEdge(I vertex1, I vertex2) throws GraphException;
+    Relation<I> createRelation(I identifier, String domain, String image, boolean transitive) throws GraphException;
+
 }

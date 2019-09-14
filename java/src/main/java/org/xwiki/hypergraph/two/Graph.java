@@ -16,7 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.graph;
+package org.xwiki.hypergraph.two;
+
+import org.xwiki.hypergraph.GraphException;
+import org.xwiki.hypergraph.Vertex;
 
 public interface Graph<I>
 {

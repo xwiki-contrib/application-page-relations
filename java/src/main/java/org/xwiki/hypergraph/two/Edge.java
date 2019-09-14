@@ -16,20 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.graph.relational;
+package org.xwiki.hypergraph.two;
 
-import org.xwiki.graph.GraphException;
-import org.xwiki.graph.GraphFactory;
-import org.xwiki.graph.Vertex;
+import org.apache.commons.lang3.tuple.Pair;
 
-/**
- * Factory class used to create edges, relations or vertices.
- * @param <I> vertex identifier
- */
-public interface RelationalGraphFactory<I> extends GraphFactory<I>
+public interface Edge<I>
 {
-    RelationalEdge<I> createEdge(I origin, I relation, Object target) throws GraphException;
-
-    Relation<I> createRelation(I identifier, String domain, String image, boolean transitive) throws GraphException;
-
+    Pair<I, I> getVertices();
 }

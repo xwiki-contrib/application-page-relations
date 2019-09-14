@@ -45,7 +45,7 @@ import org.xwiki.contrib.graph.internal.model.DefaultXWikiRelation;
 import org.xwiki.contrib.graph.internal.model.DefaultXWikiVertex;
 import org.xwiki.contrib.graph.internal.model.Names;
 import org.xwiki.contrib.graph.internal.model.StringXWikiEdge;
-import org.xwiki.graph.GraphException;
+import org.xwiki.hypergraph.GraphException;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
 import org.xwiki.model.reference.EntityReference;
@@ -139,12 +139,12 @@ public class DefaultGraphFactory implements XWikiGraphFactory
         return null;
     }
 
-    public XWikiEdge createEdge(DocumentReference origin, DocumentReference relation, Object destination)
+    public XWikiEdge createEdge(DocumentReference subject, DocumentReference relation, Object object)
     {
-        if (destination instanceof DocumentReference) {
-            return new DefaultXWikiEdge(origin, relation, (DocumentReference) destination, serializer, resolver);
+        if (object instanceof DocumentReference) {
+            return new DefaultXWikiEdge(subject, relation, (DocumentReference) object, serializer, resolver);
         } else {
-            throw new NotImplementedException("createEdge for " + destination);
+            throw new NotImplementedException("createEdge for " + object);
         }
     }
 

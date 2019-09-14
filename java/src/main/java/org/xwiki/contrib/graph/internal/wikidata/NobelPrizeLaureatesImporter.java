@@ -42,7 +42,7 @@ import org.xwiki.contrib.graph.XWikiGraphFactory;
 import org.xwiki.contrib.graph.internal.model.Names;
 import org.xwiki.contrib.graph.internal.services.SolrGraphIndexer;
 import org.xwiki.environment.Environment;
-import org.xwiki.graph.GraphException;
+import org.xwiki.hypergraph.GraphException;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
 import org.xwiki.model.reference.EntityReferenceSerializer;

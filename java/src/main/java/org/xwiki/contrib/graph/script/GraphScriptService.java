@@ -30,13 +30,13 @@ import org.xwiki.contrib.graph.XWikiGraph;
 import org.xwiki.contrib.graph.XWikiGraphTraverser;
 import org.xwiki.contrib.graph.XWikiRelation;
 import org.xwiki.contrib.graph.internal.model.Names;
-import org.xwiki.graph.GraphException;
+import org.xwiki.hypergraph.GraphException;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.query.Query;
 import org.xwiki.script.service.ScriptService;
 
 /**
- * Make the RelationalGraph API available to scripting.
+ * Make the Hypergraph API available to scripting.
  *
  * @version $Id$
  */
