@@ -18,15 +18,9 @@
  */
 package org.xwiki.graph;
 
-/**
- * Factory class used to create edges, relations or vertices.
- * @param <I> vertex identifier
- */
 public interface GraphFactory<I>
 {
-    Edge<I> createEdge(I origin, I relation, Object target) throws GraphException;
-
-    Relation<I> createRelation(I identifier, String domain, String image, boolean transitive) throws GraphException;
-
     Vertex<I> createVertex(I identifier) throws GraphException;
+
+    Edge<I> createEdge(I vertex1, I vertex2) throws GraphException;
 }

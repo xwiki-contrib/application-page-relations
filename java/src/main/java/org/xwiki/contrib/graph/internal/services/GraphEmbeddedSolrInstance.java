@@ -29,7 +29,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.search.solr.internal.EmbeddedSolrInstance;
 
 /**
- * Graph Solr instance created to give access to the internal SolrClient:getById method.
+ * RelationalGraph Solr instance created to give access to the internal SolrClient:getById method.
  * TODO: see if this method can be added directly to SolrInstance, since this requires to update the Solr type
  *   in xwiki.properties at the moment to 'embedded.graph'.
  */

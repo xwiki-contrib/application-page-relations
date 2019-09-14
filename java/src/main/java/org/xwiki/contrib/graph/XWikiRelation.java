@@ -18,7 +18,7 @@
  */
 package org.xwiki.contrib.graph;
 
-import org.xwiki.graph.Relation;
+import org.xwiki.graph.relational.Relation;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.stability.Unstable;
 

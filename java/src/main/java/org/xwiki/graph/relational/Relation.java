@@ -16,8 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.graph;
+package org.xwiki.graph.relational;
 
+import org.xwiki.graph.Vertex;
 import org.xwiki.stability.Unstable;
 
 /**

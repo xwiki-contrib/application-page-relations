@@ -36,7 +36,7 @@ import org.xwiki.query.Query;
 import org.xwiki.script.service.ScriptService;
 
 /**
- * Make the Graph API available to scripting.
+ * Make the RelationalGraph API available to scripting.
  *
  * @version $Id$
  */

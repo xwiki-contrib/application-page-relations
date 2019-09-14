@@ -33,7 +33,7 @@ public interface Names
     String HAS_RELATION = "has-relation";
     String HAS_DESTINATION = "has-destination";
     String HAS_VALUE = "has-value";
-    String GRAPH_NAMESPACE = "Graph";
+    String GRAPH_NAMESPACE = "RelationalGraph";
     EntityReference GRAPH_SPACE_REFERENCE = new EntityReference(GRAPH_NAMESPACE, EntityType.SPACE);
     String GRAPH_CODE_NAMESPACE = GRAPH_NAMESPACE + ".Code";
     EntityReference GRAPH_CODE_SPACE_REFERENCE = new EntityReference("Code", EntityType.SPACE, GRAPH_SPACE_REFERENCE);

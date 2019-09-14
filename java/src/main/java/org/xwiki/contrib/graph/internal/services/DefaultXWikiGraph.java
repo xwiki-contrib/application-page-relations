@@ -27,7 +27,6 @@ import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.apache.commons.lang.NotImplementedException;
-import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.graph.XWikiEdge;
@@ -42,7 +41,6 @@ import org.xwiki.contrib.graph.internal.model.Names;
 import org.xwiki.graph.GraphException;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
-import org.xwiki.model.reference.EntityReference;
 import org.xwiki.model.reference.EntityReferenceSerializer;
 import org.xwiki.model.reference.ObjectReference;
 import org.xwiki.query.QueryException;
@@ -133,6 +131,11 @@ public class DefaultXWikiGraph implements XWikiGraph
         }
     }
 
+    public void addEdge(DocumentReference origin, DocumentReference destination) throws GraphException
+    {
+        addEdge(origin, factory.getIdentifier(Names.IS_CONNECTED_TO_RELATION_NAME), destination);
+    }
+
     public void addEdgeOnce(DocumentReference origin, DocumentReference relation, Object target)
             throws GraphException
     {
@@ -173,6 +176,11 @@ public class DefaultXWikiGraph implements XWikiGraph
         }
     }
 
+    public void addVertex(DocumentReference identifier) throws GraphException
+    {
+        addVertex(identifier, "");
+    }
+
     public void addVertex(DocumentReference identifier, String name) throws GraphException
     {
         addVertex(identifier, name, null);
@@ -194,7 +202,7 @@ public class DefaultXWikiGraph implements XWikiGraph
                 // Save document as is, in case no type is passed
                 xwiki.saveDocument(page, "graph.index-vertex", true, context);
                 if (type != null) {
-                    // In case a type is passed, add an Edge pointing at that type (the document will get saved again)
+                    // In case a type is passed, add an RelationalEdge pointing at that type (the document will get saved again)
                     addEdge(identifier, factory.getIdentifier(Names.IS_A_RELATION_NAME), type);
                 }
             } else {
@@ -283,6 +291,11 @@ public class DefaultXWikiGraph implements XWikiGraph
         return factory.createVertex(identifier);
     }
 
+    public void removeEdge(DocumentReference vertex1, DocumentReference vertex2) throws GraphException
+    {
+        removeEdges(vertex1, vertex2);
+    }
+
     public void removeEdge(DocumentReference origin, DocumentReference relation, Object destinationOrValue)
             throws GraphException
     {
@@ -306,6 +319,11 @@ public class DefaultXWikiGraph implements XWikiGraph
         } else {
             throw new NotImplementedException();
         }
+    }
+
+    public void removeEdges(DocumentReference vertex) throws GraphException
+    {
+        removeEdgesTo(vertex);
     }
 
     public void removeEdges(DocumentReference origin, DocumentReference destination) throws GraphException
@@ -341,7 +359,7 @@ public class DefaultXWikiGraph implements XWikiGraph
         }
 
         //if (edge == null) {
-        // If Edge was not found from origin, look for the ones which start from destination
+        // If RelationalEdge was not found from origin, look for the ones which start from destination
         //clone = getDocument(destination, true);
         //edge = clone.getXObject(EDGE_VERTEX_REFERENCE, HAS_DESTINATION, serialize(destination), false);
         //}
@@ -456,6 +474,11 @@ public class DefaultXWikiGraph implements XWikiGraph
             logger.error("updateEdge {} {} {}", originVertex, originalReference, newReference, e);
             throw new GraphException(e);
         }
+    }
+
+    public void updateEdges(DocumentReference originalVertex, DocumentReference newVertex) throws GraphException
+    {
+        updateEdgesTo(originalVertex, newVertex);
     }
 
     protected void updateEdges(DocumentReference originalReference, DocumentReference newReference, String edgeProperty)

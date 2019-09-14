@@ -18,14 +18,14 @@
  */
 package org.xwiki.contrib.graph;
 
-import org.xwiki.graph.Edge;
+import org.xwiki.graph.relational.RelationalEdge;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.stability.Unstable;
 
 import com.xpn.xwiki.objects.BaseObject;
 
 @Unstable
-public interface XWikiEdge extends XWikiVertex, Edge<DocumentReference>
+public interface XWikiEdge extends XWikiVertex, RelationalEdge<DocumentReference>
 {
     BaseObject getBaseObject();
 

@@ -18,6 +18,8 @@
  */
 package org.xwiki.contrib.graph.internal.model;
 
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.xwiki.contrib.graph.XWikiEdge;
 import org.xwiki.model.EntityType;
 import org.xwiki.model.reference.DocumentReference;
@@ -31,7 +33,7 @@ import com.xpn.xwiki.objects.BaseObject;
 import com.xpn.xwiki.objects.BaseObjectReference;
 
 /**
- * Edge implementation.
+ * RelationalEdge implementation.
  *
  * @version $Id$
  */
@@ -43,8 +45,8 @@ public class DefaultXWikiEdge extends DefaultXWikiVertex implements XWikiEdge
     public static final String EDGE_VERTEX_ID = Names.GRAPH_CODE_NAMESPACE + ".EdgeClass";
 
     /**
-     * Edge object identifier. TODO: check if this is the canonical way TODO: check if there's a way to register object
-     * events only for a given class name See also CommentEventGeneratorListener
+     * RelationalEdge object identifier. TODO: check if this is the canonical way TODO: check if there's a way to
+     * register object events only for a given class name See also CommentEventGeneratorListener
      */
     public static final RegexEntityReference EDGE_OBJECT_REFERENCE = BaseObjectReference.any(EDGE_VERTEX_ID);
 
@@ -123,6 +125,11 @@ public class DefaultXWikiEdge extends DefaultXWikiVertex implements XWikiEdge
     {
         // throw IllegalXxxException?
         return null;
+    }
+
+    public Pair<DocumentReference, DocumentReference> getVertices()
+    {
+        return new MutablePair<>(getOrigin(), getDestination());
     }
 
     public boolean hasDestination()

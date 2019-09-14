@@ -16,10 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.graph;
+package org.xwiki.graph.relational;
 
 import java.util.List;
 
+import org.xwiki.graph.GraphException;
 import org.xwiki.stability.Unstable;
 
 /**
@@ -28,29 +29,29 @@ import org.xwiki.stability.Unstable;
  * @param <I> vertex identifier class
  */
 @Unstable
-public interface GraphTraverser<I>
+public interface RelationalGraphTraverser<I>
 {
     /**
      * @return the list of edges from the given origin to the given destination
      */
-    List<? extends Edge<I>> getEdges(I origin, I destination) throws GraphException;
+    List<? extends RelationalEdge<I>> getEdges(I origin, I destination) throws GraphException;
 
     /**
      * A wildcard is used so that a list of subclass instances can also be returned.
      *
      * @return the list of edges originating from the given vertex
      */
-    List<? extends Edge<I>> getEdgesFrom(I vertex) throws GraphException;
+    List<? extends RelationalEdge<I>> getEdgesFrom(I vertex) throws GraphException;
 
     /**
      * @return the list of edges originating from the given vertex with the given relation
      */
-    List<? extends Edge<I>> getEdgesFrom(I vertex, I relation) throws GraphException;
+    List<? extends RelationalEdge<I>> getEdgesFrom(I vertex, I relation) throws GraphException;
 
     /**
      * @return the first edge originating from the given vertex with the given relation
      */
-    Edge<I> getFirstEdgeFrom(I origin, I relation) throws GraphException;
+    RelationalEdge<I> getFirstEdgeFrom(I origin, I relation) throws GraphException;
 
     /**
      * @return the list of relations whose domain is compatible with the given vertex TODO: rename to something
@@ -61,7 +62,7 @@ public interface GraphTraverser<I>
     List<I> search(String text) throws GraphException;
 
     /**
-     * @return the given relation's image set filtered by the input text. Example: if relation is "XWiki.Graph.IsA" and
+     * @return the given relation's image set filtered by the input text. Example: if relation is "XWiki.RelationalGraph.IsA" and
      * the input is empty, the returned vertices will be all types, because the relation's image is "Type". TODO: rename
      * to filterRelationImage or searchInRelationImage
      */

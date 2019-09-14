@@ -16,29 +16,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.graph;
+package org.xwiki.graph.relational;
+
+import org.xwiki.graph.GraphException;
+import org.xwiki.graph.GraphFactory;
+import org.xwiki.graph.Vertex;
 
 /**
- * Utility class used to ease the definition of relations domains and images.
+ * Factory class used to create edges, relations or vertices.
+ * @param <I> vertex identifier
  */
-public enum Set
+public interface RelationalGraphFactory<I> extends GraphFactory<I>
 {
-    ANY("any"),
-    BOOLEAN("boolean"),
-    STRING("string"),
-    DATE("date"),
-    LONG("long"),
-    DOUBLE("double");
+    RelationalEdge<I> createEdge(I origin, I relation, Object target) throws GraphException;
 
-    private String label;
+    Relation<I> createRelation(I identifier, String domain, String image, boolean transitive) throws GraphException;
 
-    private Set(String label)
-    {
-        this.label = label;
-    }
-
-    public String getLabel()
-    {
-        return label;
-    }
 }

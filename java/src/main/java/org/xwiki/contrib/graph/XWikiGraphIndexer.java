@@ -18,24 +18,20 @@
  */
 package org.xwiki.contrib.graph;
 
-import org.apache.solr.common.SolrInputDocument;
 import org.xwiki.component.annotation.Role;
-import org.xwiki.graph.Edge;
+import org.xwiki.graph.relational.RelationalEdge;
 import org.xwiki.graph.GraphException;
-import org.xwiki.graph.GraphIndexer;
+import org.xwiki.graph.relational.RelationalGraphIndexer;
 import org.xwiki.model.reference.DocumentReference;
-import org.xwiki.model.reference.EntityReference;
-import org.xwiki.search.solr.internal.api.SolrIndexerException;
-import org.xwiki.search.solr.internal.metadata.LengthSolrInputDocument;
 
 @Role
-public interface XWikiGraphIndexer extends GraphIndexer<DocumentReference>
+public interface XWikiGraphIndexer extends RelationalGraphIndexer<DocumentReference>
 {
 
-    void index(Edge<DocumentReference> edge) throws GraphException;
+    void index(RelationalEdge<DocumentReference> edge) throws GraphException;
 
     /**
      * Remove edge from index
      */
-    void unindex(Edge<DocumentReference> edge) throws GraphException;
+    void unindex(RelationalEdge<DocumentReference> edge) throws GraphException;
 }

@@ -16,11 +16,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.graph;
+package org.xwiki.graph.relational;
 
-import org.apache.commons.lang3.tuple.Pair;
+import org.xwiki.graph.GraphException;
+import org.xwiki.stability.Unstable;
 
-public interface Edge<I>
+/**
+ * RelationalGraph indexing service that maintains an index of edges, vertices and relations for easing graph traversal.
+ *
+ * @param <I> vertex identifier class
+ */
+@Unstable
+public interface RelationalGraphIndexer<I>
 {
-    Pair<I, I> getVertices();
+    void index(RelationalEdge<I> edge) throws GraphException;
+
+    void unindex(RelationalEdge<I> edge) throws GraphException;
 }

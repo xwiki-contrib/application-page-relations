@@ -37,7 +37,7 @@ import org.xwiki.search.solr.internal.metadata.LengthSolrInputDocument;
  * that if there is any existing indexed data that should not be replaced by the extractor, it should be left as is.
  * Typically, the XWikiEdgeSolrMetadataExtractor adds some values to the index of a document (e.g. the destination of an
  * edge), that should remain present when the document metadata extraction occurs: this extraction should remove all
- * keys that do not relate to Graph keys, but keep the Graph key/value pairs.
+ * keys that do not relate to RelationalGraph keys, but keep the RelationalGraph key/value pairs.
  *
  * A higher priority is set in components.txt so that this component gets loaded instead of
  * DocumentSolrMetadataExtractor.
@@ -94,7 +94,7 @@ public class XWikiVertexSolrMetadataExtractor extends DocumentSolrMetadataExtrac
 
         /*
 
-        Add Edge
+        Add RelationalEdge
         String field = "property." + graph.serialize(edge.getRelation());
         List<DocumentReference> destinations = new ArrayList<>();
         String typeVertexIdentifierAsString =

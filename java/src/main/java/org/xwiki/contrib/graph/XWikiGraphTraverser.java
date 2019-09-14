@@ -22,8 +22,8 @@ import java.util.List;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.graph.GraphException;
-import org.xwiki.graph.GraphTraverser;
-import org.xwiki.graph.Relation;
+import org.xwiki.graph.relational.RelationalGraphTraverser;
+import org.xwiki.graph.relational.Relation;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.query.Query;
 import org.xwiki.query.QueryException;
@@ -32,7 +32,7 @@ import org.xwiki.search.solr.internal.metadata.LengthSolrInputDocument;
 import com.xpn.xwiki.doc.XWikiDocument;
 
 @Role
-public interface XWikiGraphTraverser extends GraphTraverser<DocumentReference>
+public interface XWikiGraphTraverser extends RelationalGraphTraverser<DocumentReference>
 {
     List<Object[]> runEdgeHqlQuery(String propertyName, String destinationId, String wikiId)
             throws QueryException;

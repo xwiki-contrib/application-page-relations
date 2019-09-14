@@ -16,19 +16,29 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.graph;
-
-import org.xwiki.stability.Unstable;
+package org.xwiki.graph.relational;
 
 /**
- * Graph indexing service that maintains an index of edges, vertices and relations for easing graph traversal.
- *
- * @param <I> vertex identifier class
+ * Utility class used to ease the definition of relations domains and images.
  */
-@Unstable
-public interface GraphIndexer<I>
+public enum Set
 {
-    void index(Edge<I> edge) throws GraphException;
+    ANY("any"),
+    BOOLEAN("boolean"),
+    STRING("string"),
+    DATE("date"),
+    LONG("long"),
+    DOUBLE("double");
 
-    void unindex(Edge<I> edge) throws GraphException;
+    private String label;
+
+    private Set(String label)
+    {
+        this.label = label;
+    }
+
+    public String getLabel()
+    {
+        return label;
+    }
 }

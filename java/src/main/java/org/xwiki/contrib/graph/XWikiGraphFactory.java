@@ -23,7 +23,7 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Triple;
 import org.xwiki.component.annotation.Role;
 import org.xwiki.graph.GraphException;
-import org.xwiki.graph.GraphFactory;
+import org.xwiki.graph.relational.RelationalGraphFactory;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.EntityReference;
 
@@ -31,7 +31,7 @@ import com.xpn.xwiki.doc.XWikiDocument;
 import com.xpn.xwiki.objects.BaseObject;
 
 @Role
-public interface XWikiGraphFactory extends GraphFactory<DocumentReference>
+public interface XWikiGraphFactory extends RelationalGraphFactory<DocumentReference>
 {
     XWikiVertex createVertex(DocumentReference identifier);
 

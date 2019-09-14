@@ -110,6 +110,11 @@ public class DefaultGraphFactory implements XWikiGraphFactory
         }
     }
 
+    public XWikiEdge createEdge(DocumentReference origin, DocumentReference destination) throws GraphException
+    {
+        return createEdge(origin, getIdentifier(Names.IS_CONNECTED_TO_RELATION_NAME), destination);
+    }
+
     public XWikiEdge createEdge(XWikiDocument document, Object destinationOrValue) throws GraphException
     {
 
