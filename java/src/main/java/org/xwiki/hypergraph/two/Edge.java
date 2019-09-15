@@ -20,7 +20,14 @@ package org.xwiki.hypergraph.two;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+/**
+ * A graph edge.
+ * @param <I>
+ */
 public interface Edge<I>
 {
+    /**
+     * @return the two vertices connected by this edge.
+     */
     Pair<I, I> getVertices();
 }

@@ -22,7 +22,7 @@ import org.xwiki.hypergraph.Vertex;
 import org.xwiki.stability.Unstable;
 
 /**
- * A binary relation that can be used by Edges to connect a Vertex identifier to another one.
+ * Represents a binary relation that is used by edges to connect a vertex to another one. A Relation is a Vertex.
  *
  * @param <I> relation and vertex identifier class
  */

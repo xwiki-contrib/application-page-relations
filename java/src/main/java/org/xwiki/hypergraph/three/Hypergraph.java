@@ -20,26 +20,28 @@ package org.xwiki.hypergraph.three;
 
 import java.util.List;
 
-import org.xwiki.hypergraph.two.Graph;
 import org.xwiki.hypergraph.GraphException;
+import org.xwiki.hypergraph.two.Graph;
 import org.xwiki.stability.Unstable;
 
 /**
- * Represents a directed graph. The I generics represents an identifier interface used to identifiy vertices, relations
- * and edges. The terminology used by the interfaces in this package corresponds to the one used in <a
- * href="https://en.wikipedia.org/wiki/Glossary_of_graph_theory">the mathematical graph theory</a>.
+ * Represents a directed 3-uniform hypergraph where edges are also vertices. Edges involved in this hypergraph class
+ * link 3 vertices, where each vertex has a specific role: subject, relation and object. The "I" generics represents an
+ * identifier interface used to identify vertices, relations and edges.
  *
  * @param <I> vertex identifier class
+ *
+ * TODO: - Use iterators instead of collections as returned types
  */
 @Unstable
 public interface Hypergraph<I> extends Graph<I>
 {
     /**
-     * Adds an edge to the graph from the given origin to the given target using the given relation.
+     * Adds an edge to the graph from between given subject and the given object using the given relation.
      *
-     * @param subject identifier of the origin vertex
+     * @param subject identifier of the subjectvertex
      * @param relation identifier of the edge's relation
-     * @param object identifier or value of the destination
+     * @param object identifier or value of the object
      * @throws GraphException in case an error occurs
      */
     void addEdge(I subject, I relation, Object object) throws GraphException;
@@ -48,9 +50,9 @@ public interface Hypergraph<I> extends Graph<I>
      * Same as {@link #addEdge(Object, Object, Object)} except the edge is created only if an equivalent one does not
      * exist already.
      *
-     * @param subject identifier of the origin vertex
-     * @param relation identifier of the edge's relation
-     * @param object destination identifier or value of the edge's
+     * @param subject identifier of the subject vertex
+     * @param relation identifier of the edge relation
+     * @param object object identifier or value of the edge
      * @throws GraphException in case an error occurs
      */
     void addEdgeOnce(I subject, I relation, Object object) throws GraphException;
@@ -60,10 +62,10 @@ public interface Hypergraph<I> extends Graph<I>
      * relation's domain and image in graphs at <a href="https://en.wikipedia.org/wiki/Binary_relation">Binary
      * relation</a>.
      *
-     * @param identifier the relation's identifier
-     * @param label the relation's label
-     * @param domain the relation's domain, typically a query describing the set of elements it can be applied to
-     * @param image the relations's image, typically a query describing the set of elements it acceptss
+     * @param identifier the relation identifier
+     * @param label the relation label
+     * @param domain the relation domain, typically a query describing the set of elements it can be applied to
+     * @param image the relations image, typically a query describing the set of elements it acceptss
      * @throws GraphException in case an error occurs
      */
     void addRelation(I identifier, String label, String domain, String image) throws GraphException;
@@ -87,11 +89,12 @@ public interface Hypergraph<I> extends Graph<I>
     Hyperedge<I> getEdge(I identifier) throws GraphException;
 
     /**
-     * Returns the edge from origin to destination using relation, if it exists in the graph, null otherwise.
+     * Returns the edge between the given subject and object with the given relation, if it exists in the graph, null
+     * otherwise.
      *
-     * @param subject origin vertex
-     * @param relation edge relation
-     * @param object destination vertex
+     * @param subject subject vertex identifier
+     * @param relation edge relation identifier
+     * @param object object vertex identifier
      * @return found edge, if any
      */
     Hyperedge<I> getEdge(I subject, I relation, I object) throws GraphException;
@@ -105,38 +108,40 @@ public interface Hypergraph<I> extends Graph<I>
     Relation<I> getRelation(I identifier) throws GraphException;
 
     /**
-     * Returns all the relations contained by the graph.
+     * Returns all the relations that this graph contains.
      *
      * @return list of relations
      */
     List<? extends Relation<I>> getRelations() throws GraphException;
 
     /**
-     * Removes the edge corresponding to the given triple origin / relation / destination or value, if it exists.
+     * Removes the edge corresponding to the given edge subject / relation / object, if it exists.
      *
-     * @param subject edge origin identifier
+     * @param subject edge subject identifier
      * @param relation edge relation identifier
-     * @param object edge destination identifier or edge value
+     * @param object edge object identifier or edge value
      */
     void removeEdge(I subject, I relation, Object object) throws GraphException;
 
     /**
-     * Removes all edges between origin and destination and between destination and origin.
+     * Removes all edges between subject and object, whatever the direction and relation.
      *
-     * @param subject edge origin identifier
-     * @param object edge destination identifier
+     * @param subject edge subject identifier
+     * @param object edge object identifier
      */
     void removeEdges(I subject, I object) throws GraphException;
 
     /**
-     * Removes all edges having the given vertex as origin. See also {@link #removeEdgesTo(Object)}
+     * Removes all edges having the given vertex as subject. See also {@link #removeEdgesTo(Object)}
      *
      * @param subject vertex identifier
      */
     void removeEdgesFrom(I subject) throws GraphException;
 
     /**
-     * Removes all edges having the given vertex as destination.
+     * Removes all edges having the given vertex as object
+     *
+     * @param object vertex identifier.
      */
     void removeEdgesTo(I object) throws GraphException;
 
@@ -148,18 +153,18 @@ public interface Hypergraph<I> extends Graph<I>
     void removeEdgesWith(I relation) throws GraphException;
 
     /**
-     * Updates all edges from origin vertex to new origin vertex.
+     * Updates all edges having the given vertex as object to another vertex.
      *
      * @param originalObject original vertex identifier
-     * @param newObject new vertex identifier
+     * @param otherObject new vertex identifier
      */
-    void updateEdgesTo(I originalObject, I newObject) throws GraphException;
+    void updateEdgesTo(I originalObject, I otherObject) throws GraphException;
 
     /**
-     * Updates all edges involving the given relation to a new relation.
+     * Updates all edges involving the given relation to another relation.
      *
      * @param originalRelation original relation identifier
-     * @param newRelation new relation identifier
+     * @param otherRelation other relation identifier
      */
-    void updateEdgesWith(I originalRelation, I newRelation) throws GraphException;
+    void updateEdgesWith(I originalRelation, I otherRelation) throws GraphException;
 }

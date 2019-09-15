@@ -21,6 +21,10 @@ package org.xwiki.hypergraph.two;
 import org.xwiki.hypergraph.GraphException;
 import org.xwiki.hypergraph.Vertex;
 
+/**
+ * A factory for creating vertices and edges.
+ * @param <I>
+ */
 public interface GraphFactory<I>
 {
     Vertex<I> createVertex(I identifier) throws GraphException;

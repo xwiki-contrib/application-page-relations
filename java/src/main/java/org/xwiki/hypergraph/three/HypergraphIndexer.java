@@ -22,14 +22,26 @@ import org.xwiki.hypergraph.GraphException;
 import org.xwiki.stability.Unstable;
 
 /**
- * Hypergraph indexing service that maintains an index of edges, vertices and relations for easing graph traversal.
+ * Hypergraph indexer that maintains an index of Hyperedges, Vertices and Relations for easing graph traversal.
  *
  * @param <I> vertex identifier class
  */
 @Unstable
 public interface HypergraphIndexer<I>
 {
+    /**
+     * Adds the given edge to the index.
+     *
+     * @param edge the edge identifier to index
+     * @throws GraphException in case an error occurs
+     */
     void index(Hyperedge<I> edge) throws GraphException;
 
+    /**
+     * Removes the given edge from the index.
+     *
+     * @param edge the edge identifier to be removed
+     * @throws GraphException in case an error occurs
+     */
     void unindex(Hyperedge<I> edge) throws GraphException;
 }

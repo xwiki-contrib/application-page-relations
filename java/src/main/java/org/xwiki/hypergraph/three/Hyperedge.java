@@ -18,13 +18,14 @@
  */
 package org.xwiki.hypergraph.three;
 
-import org.xwiki.hypergraph.two.Edge;
 import org.xwiki.hypergraph.Vertex;
+import org.xwiki.hypergraph.two.Edge;
 import org.xwiki.stability.Unstable;
 
 /**
- * An Hyperedge is an ordered triple consisting of an origin vertex, a relation and a destination vertex or a
- * scalar value. An Hyperedge is a also a Vertex so that it is possible to interlink an edge with other vertices.
+ * An Hyperedge is an ordered triple of vertices where each vertex has a well defined role: the first one is a subject,
+ * the second one a relation and the third one an object. An Hyperedge is a also a Vertex so that it is possible to
+ * involve an Hyperedge in other Hyperedges.
  *
  * @param <I> edge and vertex identifier class
  */
@@ -32,16 +33,16 @@ import org.xwiki.stability.Unstable;
 public interface Hyperedge<I> extends Edge<I>, Vertex<I>
 {
     /**
-     * Returns the edge destination identifier, if any. See also {@link #getValue()}.
+     * Returns the edge object identifier, if any. See also {@link #getValue()}.
      *
-     * @return edge destination identifier
+     * @return edge object identifier
      */
     I getObject();
 
     /**
-     * Returns the edge origin identifier.
+     * Returns the edge subject identifier.
      *
-     * @return edge origin identifier
+     * @return edge subject identifier
      */
     I getSubject();
 
@@ -53,17 +54,18 @@ public interface Hyperedge<I> extends Edge<I>, Vertex<I>
     I getRelation();
 
     /**
-     * Returns the edge's value, if any.
+     * Returns the edge, if any. In case a vertex should be connected to several values over the same relation,
+     * several edges need to be created: one for each value.
      *
      * @return edge value
      */
     Object getValue();
 
     /**
-     * Returns true if the edge destination identifier is not null, false otherwise. See also {@link #hasValue()}. An
-     * edge is meant to have either a destination identifier or an object value, not both.
+     * Returns true if the edge object identifier is not null, false otherwise. See also {@link #hasValue()}. An
+     * edge is meant to have either an object identifier or an object value, not both, and at least one of them.
      *
-     * @return true if edge has a non-null destination identifier
+     * @return true if edge has a non-null object identifier
      */
     boolean hasObject();
 
@@ -82,11 +84,11 @@ public interface Hyperedge<I> extends Edge<I>, Vertex<I>
     boolean hasValue();
 
     /**
-     * Sets this edge destination identifier.
+     * Sets this edge object identifier.
      *
-     * @param destination vertex identifier
+     * @param object vertex identifier
      */
-    void setObject(I destination);
+    void setObject(I object);
 
     /**
      * Sets this edge relation identifier.

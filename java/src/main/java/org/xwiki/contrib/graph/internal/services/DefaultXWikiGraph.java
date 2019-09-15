@@ -503,16 +503,16 @@ public class DefaultXWikiGraph implements XWikiGraph
         }
     }
 
-    public void updateEdgesTo(DocumentReference originalObject, DocumentReference newObject)
+    public void updateEdgesTo(DocumentReference originalObject, DocumentReference otherObject)
             throws GraphException
     {
-        updateEdges(originalObject, newObject, Names.HAS_DESTINATION);
+        updateEdges(originalObject, otherObject, Names.HAS_DESTINATION);
     }
 
-    public void updateEdgesWith(DocumentReference originalRelation, DocumentReference newRelation)
+    public void updateEdgesWith(DocumentReference originalRelation, DocumentReference otherRelation)
             throws GraphException
     {
-        updateEdges(originalRelation, newRelation, Names.HAS_RELATION);
+        updateEdges(originalRelation, otherRelation, Names.HAS_RELATION);
     }
 
     @FunctionalInterface

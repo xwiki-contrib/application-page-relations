@@ -24,7 +24,7 @@ import org.xwiki.hypergraph.GraphException;
 import org.xwiki.stability.Unstable;
 
 /**
- * A service used to traverse a graph.
+ * A an Hypergraph traverser.
  *
  * @param <I> vertex identifier class
  */

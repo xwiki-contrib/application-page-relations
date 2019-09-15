@@ -130,7 +130,7 @@ public interface XWikiGraph extends Hypergraph<DocumentReference>
     void updateEdge(DocumentReference origin, int objectIndex, DocumentReference originalReference,
             DocumentReference newReference, String edgeProperty) throws GraphException;
 
-    void updateEdgesTo(DocumentReference originalObject, DocumentReference newObject) throws GraphException;
+    void updateEdgesTo(DocumentReference originalObject, DocumentReference otherObject) throws GraphException;
 
-    void updateEdgesWith(DocumentReference originalRelation, DocumentReference newRelation) throws GraphException;
+    void updateEdgesWith(DocumentReference originalRelation, DocumentReference otherRelation) throws GraphException;
 }

@@ -22,13 +22,31 @@ import org.xwiki.hypergraph.GraphException;
 import org.xwiki.hypergraph.two.GraphFactory;
 
 /**
- * Factory class used to create edges, relations or vertices.
+ * Factory class used to create Hyperedges, Relations or Vertices.
+ *
  * @param <I> vertex identifier
  */
 public interface HypergraphFactory<I> extends GraphFactory<I>
 {
+    /**
+     * Creates an Edge with the given subject, relation and object. The object can either be a vertex identifier or a
+     * scalar value.
+     *
+     * @param subject edge subject
+     * @param relation edge relation
+     * @param object edge object (identifier or scalar)
+     * @return the created Edge
+     */
     Hyperedge<I> createEdge(I subject, I relation, Object object) throws GraphException;
 
+    /**
+     * Creates a Relation with the given identifier, domain, image and transitivity property.
+     *
+     * @param identifier relation identifier
+     * @param domain relation domain
+     * @param image relation image
+     * @param transitive relation transitivity value
+     * @return the created Relation
+     */
     Relation<I> createRelation(I identifier, String domain, String image, boolean transitive) throws GraphException;
-
 }
