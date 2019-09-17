@@ -18,28 +18,32 @@
  * specific language governing permissions and limitations
  * under the License.
 -->
-<xwikidoc version="1.3" reference="Graph.Code.RelationFacetDisplayer" locale="">
-  <web>Graph.Code</web>
-  <name>RelationFacetDisplayer</name>
-  <language/>
-  <defaultLanguage/>
-  <translation>0</translation>
+<xwikidoc version="1.3" reference="Graph.The Jungle Book" locale="fr">
+  <web>Graph</web>
+  <name>The Jungle Book</name>
+  <language>fr</language>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>1</translation>
+  <parent>Graph.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
-  <parent>WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>Relation Facet Displayer</title>
+  <title>Le Livre de la jungle</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>true</hidden>
-  <content>{{velocity}}
-#macro (displaySearchFacetValue_page $pageId)
-  #set ($pageReference = $services.model.resolveDocument($pageId, 'current'))
-  #set ($title = $xwiki.getDocument($pageReference).displayTitle)
-  &lt;span&gt;&amp;nbsp;$escapetool.xml($stringtool.capitalize($title))&lt;/span&gt;
-#end
-{{html clean="false"}}#displaySearchFacetValues($facetValues {} 'displaySearchFacetValue_page'){{/html}}
-{{/velocity}}</content>
+  <hidden>false</hidden>
+  <content>(% class="row" %)
+(((
+(% class="col-xs-3" %)
+(((
+[[image:JunglebookCover.jpg||width="600px"]]
+)))
+
+(% class="col-xs-9" %)
+(((
+&gt;Le Livre de la jungle (The Jungle Book) est un recueil de nouvelles écrit par Rudyard Kipling lors d’un séjour de quatre années dans le Vermont, aux États-Unis. Kipling avait auparavant vécu pendant plus de six ans en Inde, d'où est puisée l'inspiration de la plupart de ses nouvelles. Parus en 1894 et en 1895, Le Livre de la jungle et Le Second Livre de la jungle constituent probablement son œuvre la plus célèbre. La traduction française la plus connue est due à Robert d'Humières et Louis Fabulet.
+)))
+)))</content>
 </xwikidoc>

@@ -209,6 +209,7 @@ The implementation consists in particular of the following components:
 
 * Articles and books
 ** [[Graph databases go mainstream&gt;&gt;https://www.forbes.com/sites/cognitiveworld/2019/07/18/graph-databases-go-mainstream/#579accb3179d]] – Kurt Cagle, Forbes, July 2019
+** [[Tim Berners Lee mail about a //Giant Global Graph// (2007)&gt;&gt;https://web.archive.org/web/20071123145313/http://dig.csail.mit.edu/breadcrumbs/node/215]]
 ** [[Graph databases in action&gt;&gt;https://www.manning.com/books/graph-databases-in-action]]
 ** [[Graphs in mathematics&gt;&gt;https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)]]
 ** [[Graph traversal / search&gt;&gt;https://en.wikipedia.org/wiki/Graph_traversal]]
@@ -218,12 +219,13 @@ The implementation consists in particular of the following components:
 ** [[Dgraph presentation&gt;&gt;https://docs.google.com/presentation/d/1JqHw_kGmEJE6WgnP4xMVXQ1b1CAWYOYK9eS09an2aI0/]], [[How Dgraph raised series A&gt;&gt;https://blog.dgraph.io/post/how-dgraph-labs-raised-series-a/]]
 ** [[Grakn database&gt;&gt;https://en.wikipedia.org/wiki/GRAKN.AI]]
 ** [[Neo4j - Moving from relational to relationships&gt;&gt;https://neo4j.com/business-edge/relational-to-relationships/]]
-** JGraphT
-** Apache Giraphe
-** Apache Common Graphs
+** [[JGraphT&gt;&gt;https://jgrapht.org/]]
+** [[Apache Giraph&gt;&gt;http://giraph.apache.org/]]
+** [[Apache Common Graphs&gt;&gt;http://commons.apache.org/sandbox/commons-graph/]]
 * User interface libraries
 ** [[GRANDstack framework&gt;&gt;https://grandstack.io/]] - "Build full stack graph applications with GraphQL, React, Apollo, Neo4j", Demo: https://movies.grandstack.io/ with [[example queries&gt;&gt;https://grandstack.io/docs/graphql-filtering.html]], [[more examples&gt;&gt;https://grandstack.io/docs/graphql-schema-generation-augmentation.html]]
-** SigmaJS
+** [[SigmaJS&gt;&gt;http://sigmajs.org/]]
+* [[Neo4j Bloom&gt;&gt;https://neo4j.com/bloom/]]
 * Data models
 ** [[Resource Description Framework&gt;&gt;https://en.wikipedia.org/wiki/Resource_Description_Framework]]
 </content>

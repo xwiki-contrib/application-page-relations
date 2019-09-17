@@ -22,7 +22,7 @@
   <web>Graph</web>
   <name>HasDomain</name>
   <language/>
-  <defaultLanguage/>
+  <defaultLanguage>en</defaultLanguage>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
   <parent>WebHome</parent>

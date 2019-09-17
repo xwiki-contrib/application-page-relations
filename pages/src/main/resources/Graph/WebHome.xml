@@ -23,68 +23,67 @@
   <name>WebHome</name>
   <language/>
   <defaultLanguage/>
-  <parent>XWiki.WebHome</parent>
   <translation>0</translation>
+  <parent>XWiki.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>Graph Application</title>
+  <title>$services.localization.render('graph.title')</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <content>{{velocity output="false"}}
-
-#macro (panel $title $text $icon)
+  <content>{{velocity}}
+#macro (panel $title $items $localize)
   (% class="panel panel-default" %)(((
     (% class="panel-heading text-center"%)(((
-      $title
+      $services.localization.render($title)
     )))
     (% class="panel-body" %)(((
-      $text
+      #foreach ($item in $items)
+        #if ($localize)
+          * [[$services.localization.render($item[0])&gt;&gt;$item[1]]]
+        #else
+          * [[$item[0]&gt;&gt;$item[1]]]
+        #end
+      #end
     )))
   )))
 #end
 
-#set ($typesOrRelations = []) #set ($types = '') #set ($root = $services.graph.getNamespace('root'))
-#set ($typeReference = $services.model.resolveDocument("${root}.Type"))
-#set ($isAReference = $services.model.resolveDocument("${root}.IsA"))
-#set ($entries = $services.graph.getDirectPredecessors($typeReference, $isAReference))
-#foreach ($entry in $entries)
-  #set ($page = $xwiki.getDocument($entry))
-  #set ($types = "$types${escapetool.newline}* [[$page.title&gt;&gt;$entry]]")
-  #set ($discard = $typesOrRelations.add($entry))
+#macro (list $entries)
+  #set ($list = [])
+  #foreach ($entry in $entries)
+    #set ($reference = $services.model.resolveDocument($entry))
+    #set ($treference = $services.model.createDocumentReference($entry, $xcontext.locale))
+    #if ($xwiki.exists($treference))
+      #set ($reference = $treference)
+    #end
+    #set ($page = $xwiki.getDocument($reference))
+    #set ($discard = $list.add([$page.title, $entry]))
+  #end
 #end
-
-#set ($relations = '') #set ($entries = $services.graph.getRelations())
-#foreach ($entry in $entries)
-  #set ($page = $xwiki.getDocument($entry))
-  #set ($relations = "$relations${escapetool.newline}* [[$page.title&gt;&gt;$entry]]")
-  #set ($discard = $typesOrRelations.add($entry))
-#end
-
-{{/velocity}}
 
 (% style="background-color: #f5f5f5; padding: 1.6em; margin-bottom: 1.5em;" %)(((
-The Graph application allows to draw relations between wiki pages. For instance, the relation //has author// can be created to state that page //The Jungle Book// has relation //has author// with page //Rudyard Kipling//. Relations are stored in the wiki as any other page, with the only specificity that they have relation //is a// with the //Relation// page. The connections of each wiki page can be browsed using the widget that should show up below the title, allowing also to add new connections.
+$services.localization.render('graph.about')
 )))
 
-{{velocity}}
 (% class="row" %)(((
   (% class="col-md-4 col-xs-12" %)(((
-    #panel('Documentation and quick links', "
-      * [[Documentation]]
-      * [[Demo&gt;&gt;WikidataImporter]]
-      * [[Graph search&gt;&gt;Search]]
-      * [[Graph Solr administration&gt;&gt;SolrConsole]]
-      ")
+    #panel('graph.quick-links', [['graph.documentation', 'Documentation'], ['graph.demo', 'WikidataImporter'], ['graph.search', 'Search'], ['graph.administration', 'SolrConsole'] ], true)
   )))
   (% class="col-md-4 col-xs-12" %)(((
-    #panel('Types', $types)
+    #set ($root = $services.graph.getNamespace('root'))
+    #set ($typeReference = $services.model.resolveDocument("${root}.Type"))
+    #set ($isAReference = $services.model.resolveDocument("${root}.IsA"))
+    #set ($entries = $services.graph.getDirectPredecessors($typeReference, $isAReference))
+    #list($entries)
+    #panel('graph.types', $list, false)
   )))
   (% class="col-md-4 col-xs-12" %)(((
-    #panel('Relations', $relations)
+    #list($services.graph.getRelations())
+    #panel('graph.relations', $list, false)
   )))
 )))
 {{/velocity}}
