@@ -18,7 +18,7 @@
  */
 package org.xwiki.contrib.graph;
 
-import org.xwiki.hypergraph.three.Relation;
+import org.xwiki.hypergraph.Relation;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.stability.Unstable;
 

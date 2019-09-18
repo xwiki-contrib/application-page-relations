@@ -46,7 +46,7 @@
 #end
 {{/velocity}}
 
-{{include reference="GraphMacros"/}}
+{{include reference="Macros"/}}
 
 {{include reference="SolrConfiguration"/}}
 

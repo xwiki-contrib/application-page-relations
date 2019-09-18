@@ -16,12 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.hypergraph.three;
+package org.xwiki.hypergraph;
 
 import java.util.List;
 
-import org.xwiki.hypergraph.GraphException;
-import org.xwiki.hypergraph.two.Graph;
 import org.xwiki.stability.Unstable;
 
 /**
@@ -34,8 +32,17 @@ import org.xwiki.stability.Unstable;
  * TODO: - Use iterators instead of collections as returned types
  */
 @Unstable
-public interface Hypergraph<I> extends Graph<I>
+public interface Graph<I>
 {
+
+    /**
+     * Adds edge between the two given vertex identifiers.
+     * @param vertex1 edge vertex one
+     * @param vertex2 edge vertex two
+     * @throws GraphException in case an error occurs
+     */
+    void addEdge(I vertex1, I vertex2) throws GraphException;
+
     /**
      * Adds an edge to the graph from between given subject and the given object using the given relation.
      *
@@ -71,6 +78,13 @@ public interface Hypergraph<I> extends Graph<I>
     void addRelation(I identifier, String label, String domain, String image) throws GraphException;
 
     /**
+     * Adds a vertex to this graph.
+     * @param identifier vertex identifier
+     * @throws GraphException
+     */
+    void addVertex(I identifier) throws GraphException;
+
+    /**
      * Adds a vertex to the graph with the given identifier and label.
      *
      * @param identifier vertex identifier
@@ -86,7 +100,7 @@ public interface Hypergraph<I> extends Graph<I>
      * @return the edge corresponding to the given identifier
      * @throws GraphException in case an error occurs
      */
-    Hyperedge<I> getEdge(I identifier) throws GraphException;
+    Edge<I> getEdge(I identifier) throws GraphException;
 
     /**
      * Returns the edge between the given subject and object with the given relation, if it exists in the graph, null
@@ -97,7 +111,7 @@ public interface Hypergraph<I> extends Graph<I>
      * @param object object vertex identifier
      * @return found edge, if any
      */
-    Hyperedge<I> getEdge(I subject, I relation, I object) throws GraphException;
+    Edge<I> getEdge(I subject, I relation, I object) throws GraphException;
 
     /**
      * Returns the relation with the given identifier, if it exists in the graph, null otherwise.
@@ -115,6 +129,21 @@ public interface Hypergraph<I> extends Graph<I>
     List<? extends Relation<I>> getRelations() throws GraphException;
 
     /**
+     * Returns the vertex corresponding to the given identifier, if it exists, null otherwise.
+     *
+     * @param identifier vertex identifier
+     */
+    Vertex<I> getVertex(I identifier) throws GraphException;
+
+    /**
+     * Remove the edge between the two given vertices
+     * @param vertex1
+     * @param vertex2
+     * @throws GraphException
+     */
+    void removeEdge(I vertex1, I vertex2) throws GraphException;
+
+    /**
      * Removes the edge corresponding to the given edge subject / relation / object, if it exists.
      *
      * @param subject edge subject identifier
@@ -122,6 +151,8 @@ public interface Hypergraph<I> extends Graph<I>
      * @param object edge object identifier or edge value
      */
     void removeEdge(I subject, I relation, Object object) throws GraphException;
+
+    void removeEdges(I vertex) throws GraphException;
 
     /**
      * Removes all edges between subject and object, whatever the direction and relation.
@@ -151,6 +182,21 @@ public interface Hypergraph<I> extends Graph<I>
      * @param relation relation identifier
      */
     void removeEdgesWith(I relation) throws GraphException;
+
+    /**
+     * Removes the vertex with the given identifier, if found.
+     *
+     * @param identifier vertex identifier
+     */
+    void removeVertex(I identifier) throws GraphException;
+
+    /**
+     * Updates all edges from / to the given first vertex to the second one.
+     * @param vertex1
+     * @param vertex2
+     * @throws GraphException
+     */
+    void updateEdges(I vertex1, I vertex2) throws GraphException;
 
     /**
      * Updates all edges having the given vertex as object to another vertex.

@@ -41,7 +41,7 @@ import com.xpn.xwiki.objects.BaseObject;
 import com.xpn.xwiki.objects.BaseObjectReference;
 
 /**
- * Extractor with higher priority than ObjectSolrMetadataExtractor in order to implement a custom indexation of Hyperedge
+ * Extractor with higher priority than ObjectSolrMetadataExtractor in order to implement a custom indexation of Edge
  * objects.
  */
 @Component
@@ -60,7 +60,7 @@ public class XWikiEdgeSolrMetadataExtractor extends ObjectSolrMetadataExtractor
     private XWikiGraphFactory factory;
 
     /**
-     * Overrides in order to index Hyperedge objects in a specific manner, and to compute the identifier via the graph
+     * Overrides in order to index Edge objects in a specific manner, and to compute the identifier via the graph
      * service, in order to make sure it contains a locale and to call a customized version of {@link
      * #setDocumentFields(DocumentReference, SolrInputDocument)} so that the fields get set even if the document does
      * not exist yet. See {@link SolrGraphIndexer#getSolrIdentifier(EntityReference)}

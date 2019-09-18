@@ -16,21 +16,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.hypergraph.three;
+package org.xwiki.hypergraph;
 
 import org.xwiki.hypergraph.Vertex;
-import org.xwiki.hypergraph.two.Edge;
 import org.xwiki.stability.Unstable;
 
 /**
- * An Hyperedge is an ordered triple of vertices where each vertex has a well defined role: the first one is a subject,
- * the second one a relation and the third one an object. An Hyperedge is a also a Vertex so that it is possible to
- * involve an Hyperedge in other Hyperedges.
+ * An Edge is an ordered triple of vertices where each vertex has a well defined role: the first one is a subject,
+ * the second one a relation and the third one an object. An Edge is a also a Vertex so that it is possible to
+ * involve an Edge in other Hyperedges.
  *
  * @param <I> edge and vertex identifier class
  */
 @Unstable
-public interface Hyperedge<I> extends Edge<I>, Vertex<I>
+public interface Edge<I> extends Vertex<I>
 {
     /**
      * Returns the edge object identifier, if any. See also {@link #getValue()}.

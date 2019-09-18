@@ -18,9 +18,9 @@
  * specific language governing permissions and limitations
  * under the License.
 -->
-<xwikidoc version="1.3" reference="Graph.Code.GraphMacros" locale="">
+<xwikidoc version="1.3" reference="Graph.Code.Macros" locale="">
   <web>Graph.Code</web>
-  <name>GraphMacros</name>
+  <name>Macros</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -67,6 +67,7 @@
   #end
 #end
 
+## Overriding in order to remove the message on top of "collapse / expand facets" which consists in "Refine search"
 #macro (displaySearchFacets $searchResponse)
   #set($void = $services.progress.startStep('#displaySearchFacets'))
   (% class="search-facets collapsed-xs xform" %)(((
@@ -126,25 +127,6 @@
   #end
 #end
 
-## Overriding to customize the way the translated labels are computed
-#macro (displaySearchFacetHeader $facetField)
-  #set ($facetPrettyNameKey = "solr.field.$facetField.name")
-  #if ($services.localization.get($facetPrettyNameKey))
-    #set ($facetPrettyName = $services.localization.render($facetPrettyNameKey))
-  #elseif ($facetField.name.startsWith('property.'))
-    ## FIXME
-    #set ($id = $facetField.name.replaceAll('\.\.', '.'))
-    #set ($id = $id.replaceAll('_string', ''))
-    #set ($id = $id.replaceAll('property.', ''))
-    #set ($page = $xwiki.getDocument($id))
-    #set ($facetPrettyName = $page.displayTitle)
-  #else
-    #set ($facetPrettyName = $facetField.name)
-  #end
-
-  &lt;div class="search-facet-header"&gt;$escapetool.xml($stringtool.capitalize($facetPrettyName))&lt;/div&gt;
-#end
-
 ## TODO: see why it's overridden
 #macro (displaySearchResultsSort)
   #set ($defaultSortOrder = $solrConfig.sortFields.get($type))
@@ -190,7 +172,7 @@
     'desc': $services.icon.render('caret-down')
   })
   (% class="search-results-sort" %)
-  * [[Filter&gt;&gt;path:||class="search-filter-button btn btn-default"]]
+  * [[$services.localization.render('graph.filter')&gt;&gt;path:||class="search-filter-button btn btn-default"]]
   * {{translation key="solr.sortBy"/}}
   #foreach ($entry in $defaultSortOrder.entrySet())
     #set ($class = 'sort-item')
@@ -281,7 +263,12 @@
   ## &lt;!-- xwiki-graph
   #elseif ($facetField.name.startsWith('property.graph.'))
     #set ($facetPageId= $facetField.name.replace('property.graph.', '').replace('_string', ''))
-    #set ($facetPrettyName = $xwiki.getDocument($facetPageId).displayTitle)
+    #set ($reference = $services.model.resolveDocument($facetPageId))
+    #set ($treference = $services.model.createDocumentReference($reference, $xcontext.locale))
+    #if ($xwiki.exists($treference))
+      #set ($reference = $treference)
+    #end
+    #set ($facetPrettyName = $xwiki.getDocument($reference).displayTitle)
   ## xwiki-graph --&gt;
   #elseif ($facetField.name.startsWith('property.'))
     ## Display the translated property pretty name.

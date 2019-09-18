@@ -16,32 +16,29 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.hypergraph.three;
-
-import org.xwiki.hypergraph.GraphException;
-import org.xwiki.stability.Unstable;
+package org.xwiki.hypergraph;
 
 /**
- * Hypergraph indexer that maintains an index of Hyperedges, Vertices and Relations for easing graph traversal.
- *
- * @param <I> vertex identifier class
+ * Utility class used to ease the definition of relations domains and images.
  */
-@Unstable
-public interface HypergraphIndexer<I>
+public enum Set
 {
-    /**
-     * Adds the given edge to the index.
-     *
-     * @param edge the edge identifier to index
-     * @throws GraphException in case an error occurs
-     */
-    void index(Hyperedge<I> edge) throws GraphException;
+    ANY("any"),
+    BOOLEAN("boolean"),
+    STRING("string"),
+    DATE("date"),
+    LONG("long"),
+    DOUBLE("double");
 
-    /**
-     * Removes the given edge from the index.
-     *
-     * @param edge the edge identifier to be removed
-     * @throws GraphException in case an error occurs
-     */
-    void unindex(Hyperedge<I> edge) throws GraphException;
+    private String label;
+
+    private Set(String label)
+    {
+        this.label = label;
+    }
+
+    public String getLabel()
+    {
+        return label;
+    }
 }

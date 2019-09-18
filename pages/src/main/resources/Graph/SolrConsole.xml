@@ -76,9 +76,9 @@
     |$result.type|$result.id|(((
     * Wiki: $result.wiki - Full name: [[$result.fullname&gt;&gt;$result.fullname]]
     #foreach ($fieldName in $result.getFieldNames())
-      #if ($fieldName.startsWith('property.'))
+      ##if ($fieldName.startsWith('property.'))
       * $fieldName: $result.getFieldValues($fieldName)
-      #end
+      ##end
     #end
     )))
   #end

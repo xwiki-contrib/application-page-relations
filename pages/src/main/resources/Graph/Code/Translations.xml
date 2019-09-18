@@ -24,7 +24,7 @@
   <language/>
   <defaultLanguage>en</defaultLanguage>
   <translation>0</translation>
-  <parent>Graph.Code</parent>
+  <parent>Graph.Code.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
@@ -42,7 +42,8 @@ graph.demo=Demo
 graph.search=Graph search
 graph.administration=Administration
 graph.types=Types
-graph.relations=Relations</content>
+graph.relations=Relations
+graph.filter=Filter</content>
   <object>
     <name>Graph.Code.Translations</name>
     <number>0</number>
