@@ -317,7 +317,7 @@
     #end
     #if ($hasedit)
       #set ($title = $services.localization.render('Add relation from this page to another one'))
-      * [[+&gt;&gt;||class="graph-add-edge btn btn-primary" title="$title" data-origin="$originPage.fullName"]]
+      * [[+&gt;&gt;||class="graph-add-ring btn btn-primary" title="$title" data-origin="$originPage.fullName"]]
     #end
   )))
   #set ($discard = $paginationParameters.put('position', 'bottom'))
@@ -337,7 +337,7 @@
   #set ($titleURL = $xwiki.getURL($searchResultReference))
   ## TODO: use absolute model references ${searchResult.wiki}:
   #set ($object = "${searchResult.fullname}")
-  ## FIXME: the exact predicate and object should be mentioned there, via a better query edge above, focusing directly on OBJECT, not DOCUMENT
+  ## FIXME: the exact predicate and object should be mentioned there, via a better query ring above, focusing directly on OBJECT, not DOCUMENT
   ## We don't know what is the origin and what is the destination actually
   ## Either get the title directly from the searchResult object, or from the XWiki page
   #set ($treference = $services.model.createDocumentReference($searchResultReference, $xcontext.locale))
@@ -345,7 +345,7 @@
     #set ($searchResultReference = $treference)
   #end
   #set ($title = $xwiki.getDocument($searchResultReference).title)
-  * (% style="display: inline-block" %)((([[$title&gt;&gt;path:$titleURL]] (% class="graph-delete-edge" data-origin="$escapetool.xml($originPage.fullName)" data-destination="$escapetool.xml($destination)" %)x)))
+  * (% style="display: inline-block" %)((([[$title&gt;&gt;path:$titleURL]] (% class="graph-delete-ring" data-origin="$escapetool.xml($originPage.fullName)" data-destination="$escapetool.xml($destination)" %)x)))
 #end
 
 ## Adapted from displaySearchResult_document for custom display of edges

@@ -1,12 +1,12 @@
-org.xwiki.contrib.graph.internal.DefaultGraphFactory
+org.xwiki.contrib.graph.internal.DefaultTermFactory
 org.xwiki.contrib.graph.internal.listeners.DocumentRenamingEventListener
 900:org.xwiki.contrib.graph.internal.listeners.GraphSolrIndexEventListener
 900:org.xwiki.contrib.graph.internal.metadata.XWikiEdgeSolrMetadataExtractor
 900:org.xwiki.contrib.graph.internal.metadata.XWikiVertexSolrMetadataExtractor
 org.xwiki.contrib.graph.internal.listeners.XWikiEdgeEventListener
-org.xwiki.contrib.graph.internal.services.DefaultXWikiGraph
+org.xwiki.contrib.graph.internal.services.DefaultXWikiRingSet
 org.xwiki.contrib.graph.internal.services.GraphEmbeddedSolrInstance
-org.xwiki.contrib.graph.internal.services.SolrGraphIndexer
-org.xwiki.contrib.graph.internal.services.SolrSqlGraphTraverser
+org.xwiki.contrib.graph.internal.services.SolrRingIndexer
+org.xwiki.contrib.graph.internal.services.SolrSqlRingTraverser
 org.xwiki.contrib.graph.internal.wikidata.NobelPrizeLaureatesImporter
-org.xwiki.contrib.graph.script.GraphScriptService
+org.xwiki.contrib.graph.script.RingScriptService

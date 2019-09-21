@@ -47,7 +47,7 @@
 
 #set ($queryStatement = "$!request.query")
 #if ($queryStatement == '')
-  ##set ($queryStatement = "(type:OBJECT and property.xdf.edge.has-object:""wiki.christine-and-the-queens"") or (type:OBJECT and class:""xdf.edge"" and name_exact:""christine-and-the-queens"")")
+  ##set ($queryStatement = "(type:OBJECT and property.xdf.ring.has-object:""wiki.christine-and-the-queens"") or (type:OBJECT and class:""xdf.ring"" and name_exact:""christine-and-the-queens"")")
   #set ($queryStatement = "(type:DOCUMENT AND fullname:""Graph.Book"")")
 #end
 
