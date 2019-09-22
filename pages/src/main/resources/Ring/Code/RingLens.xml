@@ -189,9 +189,9 @@ require(['jquery', 'xwiki-suggestPages', 'xwiki-events-bridge'], function($) {
     $code
 
     var getRings = function() {
-      var origin = XWiki.Model.serialize(XWiki.currentDocument.getDocumentReference());
+      var referent = XWiki.Model.serialize(XWiki.currentDocument.getDocumentReference());
       $("#rings").html("&lt;img src='$xwiki.getSkinFile('icons/xwiki/spinner.gif')'/&gt;");
-      sendRequest("get-rings", origin, null, null, "html").done(function(data) {
+      sendRequest("get-rings", referent, null, null, "html").done(function(data) {
         $("#rings").html(data);
         enhanceSearchUI();
       });
@@ -205,11 +205,11 @@ require(['jquery', 'xwiki-suggestPages', 'xwiki-events-bridge'], function($) {
         event.preventDefault();
         // TODO: ignore cascade clicks by disabling the form
         var input = form.find(".xwiki-selectize-option");
-        var destination = input.data('value');
-        var origin = form.find("input[name='origin']").val();
+        var relatum = input.data('value');
+        var referent = form.find("input[name='referent']").val();
         var relation = form.find("select[name='relation']").val();
         var notification = new XWiki.widgets.Notification("Adding ring...", "inprogress");
-        sendRequest("add-ring", origin, relation, destination, "plain").done(function (data) {
+        sendRequest("add-ring", referent, relation, relatum, "plain").done(function (data) {
           form.remove();
           notification.hide();
           getRings();
@@ -225,8 +225,8 @@ require(['jquery', 'xwiki-suggestPages', 'xwiki-events-bridge'], function($) {
       selectized[0].selectize.focus();
     }
 
-    var removeRing = function(origin, relation, destination) {
-      sendRequest("remove-ring", origin, relation, destination, "plain").done(function (data) {
+    var removeRing = function(referent, relation, relatum) {
+      sendRequest("remove-ring", referent, relation, relatum, "plain").done(function (data) {
         // TODO: we may remove the ring manually instead, since Solr indexing update takes a few more milliseconds.
         // Also, we don't want the UI to be completely reset (pagination index, active facets etc.)
         getRings();
@@ -234,15 +234,15 @@ require(['jquery', 'xwiki-suggestPages', 'xwiki-events-bridge'], function($) {
     }
 
     // TODO: add CSRF
-    var sendRequest = function(action, origin, relation, destination, outputSyntax) {
+    var sendRequest = function(action, referent, relation, relatum, outputSyntax) {
       return $.ajax({
         type: "post",
         url: "$ringServiceUrl",
         data: {
           action: action,
-          origin: origin,
+          referent: referent,
           relation: relation,
-          destination: destination,
+          relatum: relatum,
           xpage: "plain",
           outputSyntax: outputSyntax
         },
@@ -323,25 +323,25 @@ require(['jquery', 'xwiki-suggestPages', 'xwiki-events-bridge'], function($) {
       ].join(',')).click(reloadSearchUI);
 
         $(".ring-delete-ring").click(function(event) {
-          var origin = $(this).data("origin");
+          var referent = $(this).data("referent");
           var relation = $(this).data("relation");
-          var destination = $(this).data("destination");
-          // This is a trick for the case when we list inverse rings, since we can't get the ring relation or destination easily at the moment in that case.
-          if (!destination) {
-            destination = XWiki.Model.serialize(XWiki.currentDocument.getDocumentReference());
+          var relatum = $(this).data("relatum");
+          // This is a trick for the case when we list inverse rings, since we can't get the ring relation or relatum easily at the moment in that case.
+          if (!relatum) {
+            relatum = XWiki.Model.serialize(XWiki.currentDocument.getDocumentReference());
           }
-          removeRing(origin, relation, destination);
+          removeRing(referent, relation, relatum);
         });
         $("a.ring-add-ring").click(function(event) {
           event.preventDefault();
-          var origin = $(this).data("origin");
+          var referent = $(this).data("referent");
           var parentListItem = $(this).closest("li");
           // We want the form to wrap if needed, and we cannot add this rule properly directly in the generated list item at the moment (wiki syntax), so we add this rule in JavaScript. FIXME
           parentListItem.css('white-space', 'normal');
           // TODO: handle fail and other ajax responses
           // TODO: localize
           var notification = new XWiki.widgets.Notification("Fetching form...", "inprogress");
-          sendRequest('get-add-ring-form', origin, null, null, "html").done(function (data) {
+          sendRequest('get-add-ring-form', referent, null, null, "html").done(function (data) {
             notification.hide();
             createNewRingForm(data, parentListItem);
           })

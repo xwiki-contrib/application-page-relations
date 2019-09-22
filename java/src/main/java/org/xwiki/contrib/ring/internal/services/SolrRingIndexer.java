@@ -36,14 +36,10 @@ import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.contrib.ring.XWikiTermFactory;
 import org.xwiki.contrib.ring.XWikiRingIndexer;
+import org.xwiki.contrib.ring.XWikiTermFactory;
 import org.xwiki.contrib.ring.internal.metadata.XWikiTermSolrMetadataExtractor;
 import org.xwiki.contrib.ring.internal.model.Names;
-
-import io.ring.Ring;
-import io.ring.RingException;
-
 import org.xwiki.model.EntityType;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.EntityReference;
@@ -59,6 +55,9 @@ import org.xwiki.text.StringUtils;
 
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.doc.XWikiDocument;
+
+import io.ring.Ring;
+import io.ring.RingException;
 
 @Component
 @Singleton
@@ -169,9 +168,10 @@ public class SolrRingIndexer implements XWikiRingIndexer
     /**
      * Computes the Solr identifier making sure that the id always contain a locale at the end. An id without a locale
      * can be returned when the looked up reference does not exist yet in the wiki, typically when the method is called
-     * when updating an ringSet destination during a refactoring job, while the new destination page has not been entirely
-     * created yet. Since rings are meant to connect content pages, it makes no sense to have a page Solr id without a
-     * locale and this can lead to errors. See also {@link #getLocale(DocumentReference)}. TODO: handle this properly.
+     * when updating an ringSet destination during a refactoring job, while the new destination page has not been
+     * entirely created yet. Since rings are meant to connect content pages, it makes no sense to have a page Solr id
+     * without a locale and this can lead to errors. See also {@link #getLocale(DocumentReference)}. TODO: handle this
+     * properly.
      */
     public String getSolrIdentifier(EntityReference reference) throws SolrIndexerException
     {
@@ -285,7 +285,8 @@ public class SolrRingIndexer implements XWikiRingIndexer
 
     /**
      * Adds the value of "has-relation" directly as a property. Example: EdgeClass object with has-relation =
-     * XWiki.RingSet.IsA and has-destination = wiki.Book will become, in Solr index: property.ringSet.XWiki.RingSet.IsA:[wiki.Book].
+     * XWiki.RingSet.IsA and has-destination = wiki.Book will become, in Solr index:
+     * property.ringSet.XWiki.RingSet.IsA:[wiki.Book].
      */
     public void index(Ring<DocumentReference> ring, boolean transitively) throws RingException
     {
@@ -435,23 +436,24 @@ public class SolrRingIndexer implements XWikiRingIndexer
         // index entry.
         if (ring != null && ring.hasRelation() && ring.hasRelatum()) {
             try {
-                SolrInputDocument originDocument = getSolrInputDocument(ring.getReferent(), true);
-                unindexValue(originDocument, getFieldName(ring.getRelation()),
-                        serializer.serialize(ring.getRelatum()));
+                SolrInputDocument referentPage = getSolrInputDocument(ring.getReferent(), true);
+                unindex(referentPage, getFieldName(ring.getRelation()), serializer.serialize(ring.getRelatum()));
 
-                // Also remove the IS_CONNECTED_TO field in case the destination is not empty
+                // Also remove the IS_CONNECTED_TO field in case the relation is not IS_CONNECTED_TO
                 if (!ring.getRelation().equals(factory.getIdentifier(Names.IS_CONNECTED_TO_RELATION_NAME))) {
-                    // TODO: the value should be removed only if this was the single ringSet with this destination
+                    // TODO: the value should be removed only if this was the single ringSet with this relatum
                     String fieldName = getFieldName(Names.IS_CONNECTED_TO_RELATION_NAME);
-                    unindexValue(originDocument, fieldName, serializer.serialize(ring.getRelatum()));
-
-                    // TODO: handle multiple rings with same destination or origin
-                    SolrInputDocument destinationDocument = getSolrInputDocument(ring.getRelatum(), true);
-                    unindexValue(destinationDocument, fieldName, serializer.serialize(ring.getReferent()));
-                    save(destinationDocument);
+                    unindex(referentPage, fieldName, serializer.serialize(ring.getRelatum()));
                 }
 
-                save(originDocument);
+                save(referentPage);
+
+                // Remove the referent from the relatum page
+                // TODO: handle multiple rings with same destination or origin
+                String fieldName = getFieldName(Names.IS_CONNECTED_TO_RELATION_NAME);
+                SolrInputDocument relatumPage = getSolrInputDocument(ring.getRelatum(), true);
+                unindex(relatumPage, fieldName, serializer.serialize(ring.getReferent()));
+                save(relatumPage);
 
                 // TODO: should we handle the case of rings pointing at values
 
@@ -477,7 +479,7 @@ public class SolrRingIndexer implements XWikiRingIndexer
 //            logger.debug("Remove ringSet from {} to {}", predecessor, destination);
 //            try {
 //                SolrInputDocument predecessorDocument = getSolrInputDocument(predecessor);
-//                unindexValue(predecessorDocument, ringSet.serializ(destination));
+//                unindex(predecessorDocument, ringSet.serializ(destination));
 //                index(predecessorDocument);
 //            } catch (IOException | SolrServerException e) {
 //                logger.error("Unindex ringSet from {} to {}", predecessor, destination, e);
@@ -491,14 +493,14 @@ public class SolrRingIndexer implements XWikiRingIndexer
 
     }
 
-    protected void unindexValue(SolrInputDocument solrDocument, Object fieldValue)
+    protected void unindex(SolrInputDocument solrDocument, Object fieldValue)
     {
         for (String fieldName : solrDocument.getFieldNames()) {
-            unindexValue(solrDocument, fieldName, fieldValue);
+            unindex(solrDocument, fieldName, fieldValue);
         }
     }
 
-    protected void unindexValue(SolrInputDocument solrDocument, String fieldName, Object fieldValue)
+    protected void unindex(SolrInputDocument solrDocument, String fieldName, Object fieldValue)
     {
         Collection<Object> fieldValues = solrDocument.getFieldValues(fieldName);
         if (fieldValues != null && fieldValues.contains(fieldValue)) {

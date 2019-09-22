@@ -42,7 +42,7 @@
 #set ($facetDisplayerReference = $services.model.resolveDocument("${services.ring.namespace}.RelationFacetDisplayer"))
 #set ($ringServiceReference = $services.model.resolveDocument("${services.ring.namespace}.RingService"))
 
-## Overriding existing macro in order to compute the URL from the origin parameter instead of the current document when the invoking page is RingService
+## Overriding existing macro in order to compute the URL from the referent parameter instead of the current document when the invoking page is RingService
 ## WARNING: be careful in case of refactoring
 #macro (extendQueryString $url $extraParameters)
   #set ($parameters = {})
@@ -54,10 +54,10 @@
   #set ($discard = $parameters.remove('outputSyntax'))
   ## We remove the action parameter since the default is 'get-rings'
   #set ($discard = $parameters.remove('action'))
-  #set ($discard = $parameters.remove('origin'))
+  #set ($discard = $parameters.remove('referent'))
   #set ($url = $NULL)
   #if ($doc.fullName == $services.model.serialize($ringServiceReference, 'compactwiki'))
-    #set ($discard = $parameters.put('origin', $originPage.fullName))
+    #set ($discard = $parameters.put('referent', $originPage.fullName))
     #set ($queryString = $escapetool.url($parameters))
     #setVariable("$url" $originPage.getURL('view', $queryString))
   #else
@@ -152,7 +152,7 @@
       #set ($sortOrderIndicator = "(% class=""sort-item-order"" title=""$sortOrderHint"" %)$sortOrderSymbol.get($sortOrder)(%%)")
       #set ($targetSortOrder = "#if ($sortOrder == 'asc')desc#{else}asc#end")
     #end
-    #extendQueryString($url {'sort': [$entry.key], 'sortOrder': [$targetSortOrder], 'origin': [$originPage.fullName]})
+    #extendQueryString($url {'sort': [$entry.key], 'sortOrder': [$targetSortOrder], 'referent': [$originPage.fullName]})
     * [[{{translation key="solr.sortBy.$entry.key"/}}$!sortOrderIndicator&gt;&gt;path:$url||class="$class"]]
   #end
 #end
@@ -183,7 +183,7 @@
       #set ($sortOrderIndicator = "(% class=""sort-item-order"" title=""$sortOrderHint"" %)$sortOrderSymbol.get($sortOrder)(%%)")
       #set ($targetSortOrder = "#if ($sortOrder == 'asc')desc#{else}asc#end")
     #end
-    #extendQueryString($url {'sort': [$entry.key], 'sortOrder': [$targetSortOrder], 'origin': [$originPage.fullName]})
+    #extendQueryString($url {'sort': [$entry.key], 'sortOrder': [$targetSortOrder], 'referent': [$originPage.fullName]})
     * [[{{translation key="solr.sortBy.$entry.key"/}}$!sortOrderIndicator&gt;&gt;path:$url||class="$class"]]
   #end
 #end
@@ -283,8 +283,8 @@
 #end
 
 #macro (getRings)
-  #set ($origin = ${originPage.fullName})
-  #set ($query = $services.ring.getNeighboursQuery($services.model.resolveDocument($origin)))
+  #set ($referent = ${originPage.fullName})
+  #set ($query = $services.ring.getNeighboursQuery($services.model.resolveDocument($referent)))
   ## Set query parameters
   #set ($discard = $query.setLimit($rows))
   #set ($discard = $query.setOffset($start))
@@ -303,7 +303,7 @@
 #macro (displaySearchRingsResults)
   #set ($results = $searchResponse.results)
   #set ($xurl = $originPage.getURL($xcontext.action, "$!request.queryString.replaceAll('firstIndex=[0-9]*','')"))
-  #extendQueryString($xurl {'origin': [$originPage.fullName], 'firstIndex': []})
+  #extendQueryString($xurl {'referent': [$originPage.fullName], 'firstIndex': []})
   #set ($paginationParameters = {
     'url': $xurl,
     'totalItems': $results.numFound,
@@ -316,7 +316,7 @@
     #end
     #if ($hasedit)
       #set ($title = $services.localization.render('Add relation from this page to another one'))
-      * [[+&gt;&gt;||class="ring-add-ring btn btn-primary" title="$title" data-origin="$originPage.fullName"]]
+      * [[+&gt;&gt;||class="ring-add-ring btn btn-primary" title="$title" data-referent="$originPage.fullName"]]
     #end
   )))
   #set ($discard = $paginationParameters.put('position', 'bottom'))
@@ -337,14 +337,14 @@
   ## TODO: use absolute model references ${searchResult.wiki}:
   #set ($object = "${searchResult.fullname}")
   ## FIXME: the exact predicate and object should be mentioned there, via a better query ring above, focusing directly on OBJECT, not DOCUMENT
-  ## We don't know what is the origin and what is the destination actually
+  ## We don't know what is the origin and what is the relatum actually
   ## Either get the title directly from the searchResult object, or from the XWiki page
   #set ($treference = $services.model.createDocumentReference($searchResultReference, $xcontext.locale))
   #if ($xwiki.exists($treference))
     #set ($searchResultReference = $treference)
   #end
   #set ($title = $xwiki.getDocument($searchResultReference).title)
-  * (% style="display: inline-block" %)((([[$title&gt;&gt;path:$titleURL]] (% class="ring-delete-ring" data-origin="$escapetool.xml($originPage.fullName)" data-destination="$escapetool.xml($destination)" %)x)))
+  * (% style="display: inline-block" %)((([[$title&gt;&gt;path:$titleURL]] (% class="ring-delete-ring" data-referent="$escapetool.xml($originPage.fullName)" data-relatum="$escapetool.xml($services.model.serialize($searchResultReference))" %)x)))
 #end
 
 ## Adapted from displaySearchResult_document for custom display of rings
@@ -357,10 +357,10 @@
 ## - show the search input form only on the search page
 ## - show results even for empty text on xdf.service
 ## - limit number of rows (this should be moved to the parameters)
-#macro (displaySearchRingsUI $origin)
+#macro (displaySearchRingsUI $referent)
   #set($void = $services.progress.startStep('#displaySearchRingsUI'))
   #set($void = $services.progress.pushLevel())
-  #set ($originPage = $xwiki.getDocument($origin))
+  #set ($originPage = $xwiki.getDocument($referent))
   ## TODO: the Main.SolrSearch ssx is already called in the list-rings macro, and the JSX is overridden
   ##set ($discard = $xwiki.ssx.use('Main.SolrSearch'))
   ##set ($discard = $xwiki.jsx.use('Main.SolrSearch'))

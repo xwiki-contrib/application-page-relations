@@ -37,9 +37,9 @@
   <content>{{velocity output="false"}}
 #set ($action = "$!{request.action}")
 ## 'x' is added to each variable name to distinguish the URL parameter values from the ones used in the macros below.
-#set ($xorigin = "$!request.origin")
+#set ($xreferent = "$!request.referent")
 #set ($xrelation = "$!request.relation")
-#set ($xdestination = "$!request.destination")
+#set ($xrelatum = "$!request.relatum")
 ## Default action is 'get-rings'
 #if ($action == '')
   #set ($action = 'get-rings')
@@ -51,12 +51,12 @@
 {{include reference="SolrConfiguration"/}}
 
 {{velocity output="false"}}
-#macro (displayRingForm $origin)
+#macro (displayRingForm $referent)
   {{html clean="false"}}
   &lt;form class="add-ring" action=""&gt;
     &lt;div class="row"&gt;
     &lt;div class="col-md-3 col-xs-12"&gt;
-    #getRelations($origin)
+    #getRelations($referent)
     &lt;select name="relation" style="width:100%"&gt;
     #foreach ($relation in $relations)
       #set ($page = $xwiki.getDocument($relation))
@@ -72,16 +72,16 @@
     &lt;div class="col-md-3 col-xs-12" style="text-align: center"&gt;
     &lt;input class="btn btn-primary" type="submit" value="$services.localization.render('Add')"/&gt;
     &lt;input type="button" class="btn btn-default add-ring-cancel" value="$services.localization.render('Cancel')"/&gt;
-    &lt;input type="hidden" name="origin" value="$origin"/&gt;
+    &lt;input type="hidden" name="referent" value="$referent"/&gt;
     &lt;input type="hidden" name="csrf" value="$!{services.csrf.token}"/&gt;
     &lt;/div&gt;
     &lt;/div&gt;
   &lt;/form&gt;
   {{/html}}
 #end
-#macro (addRing $origin $relation $destination)
+#macro (addRing $referent $relation $relatum)
   ## TODO: check CSRF
-  $services.ring.addRing($services.model.resolveDocument($origin), $services.model.resolveDocument($relation), $services.model.resolveDocument($destination))
+  $services.ring.addRing($services.model.resolveDocument($referent), $services.model.resolveDocument($relation), $services.model.resolveDocument($relatum))
   #*
   #elseif ($result == 'NO_EFFECT')
     $response.setStatus(409)
@@ -96,9 +96,9 @@
   $error
   *#
 #end
-#macro(removeRing $origin $relation $destination)
-  ## At this stage, all rings between origin and destination are removed
-  $services.ring.removeRings($services.model.resolveDocument($origin), $services.model.resolveDocument($destination))
+#macro(removeRing $referent $relation $relatum)
+  ## At this stage, all rings between referent and relatum are removed
+  $services.ring.removeRings($services.model.resolveDocument($referent), $services.model.resolveDocument($relatum))
   ## TODO: handle case where ring was not found or an error occurred
   #*
   #elseif ($result == 'NO_EFFECT')
@@ -135,18 +135,18 @@
 ## TODO: add try catch in case of RingException
 #if ($action == 'get-rings')
   #set ($facetEnabled = true)
-  #displaySearchRingsUI($xorigin)
+  #displaySearchRingsUI($xreferent)
 #elseif ($action == 'get-add-ring-form')
-  #displayRingForm($xorigin)
+  #displayRingForm($xreferent)
 #end
 {{/velocity}}
 
 {{velocity output="true" wiki="false"}}
 ## We don't want to intepret wiki syntax, except for get-rings, which returns content partly in wiki syntax
 #if ($action == 'add-ring')
-  #addRing($xorigin, $xrelation, $xdestination)
+  #addRing($xreferent, $xrelation, $xrelatum)
 #elseif ($action == 'remove-ring')
-  #removeRing($xorigin, $xrelation, $xdestination)
+  #removeRing($xreferent, $xrelation, $xrelatum)
 #elseif ($action == 'get-suggestions')
   #suggest($xrelation)
 #end

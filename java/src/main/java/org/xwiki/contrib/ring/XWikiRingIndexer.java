@@ -31,7 +31,7 @@ public interface XWikiRingIndexer extends RingIndexer<DocumentReference>
     void index(Ring<DocumentReference> ring) throws RingException;
 
     /**
-     * Remove ringSet from index
+     * Remove ring from index
      */
     void unindex(Ring<DocumentReference> ring) throws RingException;
 }
