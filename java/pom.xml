@@ -23,14 +23,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.xwiki.contrib</groupId>
-        <artifactId>application-graph</artifactId>
+        <artifactId>xwiki-ring</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>application-graph-lib</artifactId>
-    <name>Graph Application Library</name>
+    <artifactId>xwiki-ring-lib</artifactId>
+    <name>Ring Application Library</name>
     <packaging>jar</packaging>
     <properties>
-        <xwiki.extension.name>Graph Application Java Library</xwiki.extension.name>
+        <xwiki.extension.name>Knowledge Ring Application Java Library</xwiki.extension.name>
         <xwiki.extension.category>api</xwiki.extension.category>
         <xwiki.spoon.skip>true</xwiki.spoon.skip>
     </properties>

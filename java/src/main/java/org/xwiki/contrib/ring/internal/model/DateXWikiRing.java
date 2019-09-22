@@ -30,7 +30,7 @@ import com.xpn.xwiki.objects.BaseObject;
 public class DateXWikiRing extends BaseXWikiRing
 {
     public final static EntityReference XCLASS_REFERENCE =
-            new EntityReference("DateEdgeClass", EntityType.DOCUMENT, Names.RING_CODE_SPACE_REFERENCE);
+            new EntityReference("DateRingClass", EntityType.DOCUMENT, Names.RING_CODE_SPACE_REFERENCE);
 
     public DateXWikiRing(BaseObject object, EntityReferenceSerializer<String> serializer,
             DocumentReferenceResolver<String> resolver)

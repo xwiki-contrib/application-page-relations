@@ -136,7 +136,7 @@ public class SolrSqlRingTraverser implements XWikiRingTraverser
             // NB: an HQL query is used here, not Solr QL, because this method is called by the Solr indexer to
             // compute the index
             // NB: no access right is checked here, because this method is meant to get used internally only.
-            List<Object[]> entries = runRingQueryHql(Names.HAS_DESTINATION, serializer.serialize(vertex),
+            List<Object[]> entries = runRingQueryHql(Names.HAS_RELATUM, serializer.serialize(vertex),
                     vertex.getWikiReference().getName());
             List<DocumentReference> vertices = new ArrayList<>();
             for (Object[] entry : entries) {
@@ -165,9 +165,9 @@ public class SolrSqlRingTraverser implements XWikiRingTraverser
                             + "hasRelation.id.id = obj.id and hasRelation.id.name = :hasRelation and "
                             + "hasRelatum.id.id = obj.id and hasRelatum.id.name = :hasRelatum and "
                             + "hasRelation.value  = :relation and hasRelatum.value = :destination", Query.HQL);
-            query = query.bindValue("className", BaseXWikiRing.EDGE_VERTEX_ID)
+            query = query.bindValue("className", BaseXWikiRing.RING_TERM_ID)
                     .bindValue("hasRelation", Names.HAS_RELATION)
-                    .bindValue("hasRelatum", Names.HAS_DESTINATION)
+                    .bindValue("hasRelatum", Names.HAS_RELATUM)
                     .bindValue("relation", serializer.serialize(relation))
                     .bindValue("destination", serializer.serialize(vertex));
             query.setWiki(vertex.getWikiReference().getName());
@@ -188,13 +188,13 @@ public class SolrSqlRingTraverser implements XWikiRingTraverser
             throws RingException
     {
         XWikiDocument page = factory.getDocument(vertex, false);
-        for (Triple<EntityReference, Class, Class> edgeType : factory.getEdgeClasses()) {
-            for (BaseObject baseObject : page.getXObjects(edgeType.getLeft())) {
+        for (Triple<EntityReference, Class, Class> ringType : factory.getRingClasses()) {
+            for (BaseObject baseObject : page.getXObjects(ringType.getLeft())) {
                 // TODO: check if and why getXObjects can return null elements
                 if (baseObject != null) {
-                    XWikiRing edge = factory.createEdge(baseObject);
-                    if (destination.equals(edge.getRelatum()) && relation.equals(edge.getRelation())) {
-                        return edge;
+                    XWikiRing ring = factory.createRing(baseObject);
+                    if (destination.equals(ring.getRelatum()) && relation.equals(ring.getRelation())) {
+                        return ring;
                     }
                 }
             }
@@ -202,24 +202,24 @@ public class SolrSqlRingTraverser implements XWikiRingTraverser
         return null;
     }
 
-    // TODO: in theory, this should return all edges from vertex to destination and inversely, to be
+    // TODO: in theory, this should return all rings from vertex to destination and inversely, to be
     //  in symetry with removeRings(origin, destination)
     public List<XWikiRing> getRings(DocumentReference referent, DocumentReference relatum) throws RingException
     {
         // TODO: use functional interface to share common code with getRing()
-        List<XWikiRing> edges = new ArrayList<>();
+        List<XWikiRing> rings = new ArrayList<>();
         XWikiDocument page = factory.getDocument(referent, false);
-        for (Triple<EntityReference, Class, Class> edgeType : factory.getEdgeClasses()) {
-            for (BaseObject baseObject : page.getXObjects(edgeType.getLeft())) {
+        for (Triple<EntityReference, Class, Class> ringType : factory.getRingClasses()) {
+            for (BaseObject baseObject : page.getXObjects(ringType.getLeft())) {
                 if (baseObject != null) {
-                    XWikiRing edge = factory.createEdge(baseObject);
-                    if (relatum.equals(edge.getRelatum())) {
-                        edges.add(edge);
+                    XWikiRing ring = factory.createRing(baseObject);
+                    if (relatum.equals(ring.getRelatum())) {
+                        rings.add(ring);
                     }
                 }
             }
         }
-        return edges;
+        return rings;
     }
 
     public List<XWikiRing> getRingsFrom(DocumentReference referent) throws RingException
@@ -235,41 +235,41 @@ public class SolrSqlRingTraverser implements XWikiRingTraverser
     public List<XWikiRing> getRingsFrom(XWikiDocument page) throws RingException
     {
         // TODO: share code with #getRingsFrom(XWikiDocument, DocumentReference)
-        List<XWikiRing> edges = new ArrayList<>();
-        for (Triple<EntityReference, Class, Class> edgeType : factory.getEdgeClasses()) {
-            for (BaseObject baseObject : page.getXObjects(edgeType.getLeft())) {
+        List<XWikiRing> rings = new ArrayList<>();
+        for (Triple<EntityReference, Class, Class> ringType : factory.getRingClasses()) {
+            for (BaseObject baseObject : page.getXObjects(ringType.getLeft())) {
                 if (baseObject != null) {
-                    edges.add(factory.createEdge(baseObject));
+                    rings.add(factory.createRing(baseObject));
                 }
             }
         }
-        return edges;
+        return rings;
     }
 
     // TODO: use optional single parameter instead of a vargs?
     public List<XWikiRing> getRingsFrom(XWikiDocument page, DocumentReference relation) throws RingException
     {
-        List<XWikiRing> edges = new ArrayList<>();
+        List<XWikiRing> rings = new ArrayList<>();
         if (relation == null) {
-            return edges;
+            return rings;
         }
-        for (Triple<EntityReference, Class, Class> edgeType : factory.getEdgeClasses()) {
-            for (BaseObject baseObject : page.getXObjects(edgeType.getLeft())) {
+        for (Triple<EntityReference, Class, Class> ringType : factory.getRingClasses()) {
+            for (BaseObject baseObject : page.getXObjects(ringType.getLeft())) {
                 if (baseObject != null) {
-                    // Add edge only if its relation matches with the one given as parameter.
+                    // Add ringSet only if its relation matches with the one given as parameter.
                     if (serializer.serialize(relation).equals(baseObject.getStringValue(Names.HAS_RELATION))) {
-                        edges.add(factory.createEdge(baseObject));
+                        rings.add(factory.createRing(baseObject));
                     }
                 }
             }
         }
-        return edges;
+        return rings;
     }
 
     public XWikiRing getFirstRingFrom(DocumentReference referent, DocumentReference relation) throws RingException
     {
-        for (XWikiRing edge : getRingsFrom(referent, relation)) {
-            return edge;
+        for (XWikiRing ring : getRingsFrom(referent, relation)) {
+            return ring;
         }
         return null;
     }
@@ -366,7 +366,7 @@ public class SolrSqlRingTraverser implements XWikiRingTraverser
                 "select distinct obj.name, obj.number from BaseObject as obj, StringProperty as prop where "
                         + "obj.className = :className and prop.id.id = obj.id and prop.id.name = :property and "
                         + "prop.value = :destination", Query.HQL);
-        query = query.bindValue("className", BaseXWikiRing.EDGE_VERTEX_ID).bindValue("property", property)
+        query = query.bindValue("className", BaseXWikiRing.RING_TERM_ID).bindValue("property", property)
                 .bindValue("destination", destination);
         query.setWiki(wiki);
         return query.execute();

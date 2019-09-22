@@ -31,7 +31,7 @@ public interface Names
     String HAS_DOMAIN_RELATION_NAME = "HasDomain";
     String IS_TRANSTIVE_RELATION_NAME = "IsTransitive";
     String HAS_RELATION = "has-relation";
-    String HAS_DESTINATION = "has-destination";
+    String HAS_RELATUM = "has-relatum";
     String HAS_VALUE = "has-value";
     String RING_NEXUS_NAMESPACE = "Ring";
     EntityReference RING_NEXUS_SPACE_REFERENCE = new EntityReference(RING_NEXUS_NAMESPACE, EntityType.SPACE);

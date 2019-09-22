@@ -1,0 +1,47 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+<xwikidoc version="1.3" reference="Ring.Code.Translations" locale="fr">
+  <web>Ring.Code</web>
+  <name>Translations</name>
+  <language>fr</language>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>1</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>Graph.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>plain/1.0</syntaxId>
+  <hidden>true</hidden>
+  <content>ring.title=Anneaux de connaissances
+ring.about=L'application « anneaux de connaissances » permet de créer des relations entre les pages d'un wiki. Par exemple, la relation //a comme auteur// peut être créée pour indiquer que //Le Livre de la jungle// a la relation //a comme auteur// avec la page //Rudyard Kipling//. Les relations sont des pages du wiki comme les autres, avec comme spécificité le fait d'avoir elles-mêmes une relation //est un(e)// avec la page //Relation//. Les connexions créées entre les pages sont ensuite mises en avant pour proposer une navigation intuitive dans les données à l'aide d'un widget graphique situé sous le titre des pages, qui permet également de créer de nouvelles connexions.
+ring.quick-links=Documentation et liens
+ring.documentation=Documentation
+ring.demo=Démo
+ring.search=Recherche
+ring.administration=Administration
+ring.types=Types
+ring.relations=Relations
+ring.filter=Filtrer</content>
+</xwikidoc>

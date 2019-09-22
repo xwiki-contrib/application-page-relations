@@ -28,7 +28,7 @@ import com.xpn.xwiki.objects.BaseObject;
 public class BooleanXWikiRing extends BaseXWikiRing
 {
     public final static EntityReference XCLASS_REFERENCE =
-            new EntityReference("BooleanEdgeClass", EntityType.DOCUMENT, Names.RING_CODE_SPACE_REFERENCE);
+            new EntityReference("BooleanRingClass", EntityType.DOCUMENT, Names.RING_CODE_SPACE_REFERENCE);
 
     public BooleanXWikiRing(BaseObject object, EntityReferenceSerializer<String> serializer,
             DocumentReferenceResolver<String> resolver)

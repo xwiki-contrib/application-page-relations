@@ -39,8 +39,8 @@ public interface XWikiRingTraverser extends RingTraverser<DocumentReference>
             throws QueryException;
 
     /**
-     * Get vertices having an edge toward a given vertex whose relation matches the given one. TODO: rename to
-     * getInboundEdges?
+     * Get vertices having an ringSet toward a given vertex whose relation matches the given one. TODO: rename to
+     * getInboundrings?
      *
      * @param relation a relation
      * @return all vertices pointing at the vertex with the given relation
@@ -50,7 +50,7 @@ public interface XWikiRingTraverser extends RingTraverser<DocumentReference>
 
     /**
      * @param vertex the origin vertex
-     * @return list of vertex references which have the origin vertex as destination for at least one edge
+     * @return list of vertex references which have the origin vertex as destination for at least one ringSet
      * @throws RingException if an error occurs
      */
     List<DocumentReference> getDirectPredecessorsViaHql(DocumentReference vertex) throws RingException;
@@ -58,7 +58,7 @@ public interface XWikiRingTraverser extends RingTraverser<DocumentReference>
     /**
      * @param vertex origin vertex
      * @param relation relation
-     * @return list of vertices having the origin vertex as destination for at least one edge with the given relation
+     * @return list of vertices having the origin vertex as destination for at least one ringSet with the given relation
      */
     List<DocumentReference> getDirectPredecessorsViaHql(DocumentReference vertex, DocumentReference relation)
             throws RingException;

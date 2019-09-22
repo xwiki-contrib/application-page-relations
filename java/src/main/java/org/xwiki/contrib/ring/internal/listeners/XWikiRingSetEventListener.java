@@ -30,7 +30,7 @@ import org.xwiki.observation.AbstractEventListener;
 import org.xwiki.observation.event.Event;
 
 /**
- * Abstract listener inherited by all ring event listeners.
+ * Abstract listener inherited by all ringSet event listeners.
  *
  * @version $Id$
  */
@@ -48,7 +48,7 @@ public abstract class XWikiRingSetEventListener extends AbstractEventListener
     protected DocumentReferenceResolver<String> resolver;
 
     @Inject
-    protected XWikiRingSet ring;
+    protected XWikiRingSet ringSet;
 
     @Inject
     @Named("solr")

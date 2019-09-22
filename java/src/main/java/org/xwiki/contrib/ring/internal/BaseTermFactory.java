@@ -66,7 +66,7 @@ import com.xpn.xwiki.objects.BaseObject;
 @Named("default")
 public class BaseTermFactory implements XWikiTermFactory
 {
-    protected List<Triple<EntityReference, Class, Class>> edgeClasses;
+    protected List<Triple<EntityReference, Class, Class>> ringClasses;
 
     @Inject
     private Logger logger;
@@ -88,22 +88,22 @@ public class BaseTermFactory implements XWikiTermFactory
 
     // TODO: this method can be called a large number of times, so the class lookup should be optimized (using
     //  a list of Pairs is not).
-    public XWikiRing createEdge(BaseObject object) throws RingException
+    public XWikiRing createRing(BaseObject object) throws RingException
     {
         EntityReference classReference = object.getRelativeXClassReference();
-        for (Triple<EntityReference, Class, Class> entry : getEdgeClasses()) {
+        for (Triple<EntityReference, Class, Class> entry : getRingClasses()) {
             if (entry.getLeft().equals(classReference)) {
-                return createEdge(object, entry.getMiddle());
+                return createRing(object, entry.getMiddle());
             }
         }
         return null;
     }
 
-    protected XWikiRing createEdge(BaseObject object, Class edgeClass) throws RingException
+    protected XWikiRing createRing(BaseObject object, Class ringClass) throws RingException
     {
         try {
             Constructor constructor =
-                    edgeClass.getConstructor(BaseObject.class, EntityReferenceSerializer.class,
+                    ringClass.getConstructor(BaseObject.class, EntityReferenceSerializer.class,
                             DocumentReferenceResolver.class);
             return (XWikiRing) constructor.newInstance(object, serializer, resolver);
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
@@ -112,26 +112,26 @@ public class BaseTermFactory implements XWikiTermFactory
         }
     }
 
-    public XWikiRing createEdge(DocumentReference origin, DocumentReference destination) throws RingException
+    public XWikiRing createRing(DocumentReference origin, DocumentReference destination) throws RingException
     {
         return createRing(origin, getIdentifier(Names.IS_CONNECTED_TO_RELATION_NAME), destination);
     }
 
-    public XWikiRing createEdge(XWikiDocument document, Object destinationOrValue) throws RingException
+    public XWikiRing createRing(XWikiDocument document, Object destinationOrValue) throws RingException
     {
 
         XWikiContext context = contextualizer.get();
         try {
             // DocumentReference is a special case
             if (destinationOrValue instanceof DocumentReference) {
-                BaseObject baseObject = document.newXObject(BaseXWikiRing.EDGE_XCLASS_REFERENCE, context);
+                BaseObject baseObject = document.newXObject(BaseXWikiRing.RING_XCLASS_REFERENCE, context);
                 return new BaseXWikiRing(baseObject, serializer, resolver);
             }
 
-            for (Triple<EntityReference, Class, Class> entry : getEdgeClasses()) {
+            for (Triple<EntityReference, Class, Class> entry : getRingClasses()) {
                 if (entry.getRight().equals(destinationOrValue.getClass())) {
                     BaseObject baseObject = document.newXObject(entry.getLeft(), context);
-                    return createEdge(baseObject, entry.getMiddle());
+                    return createRing(baseObject, entry.getMiddle());
                 }
             }
         } catch (XWikiException e) {
@@ -156,7 +156,7 @@ public class BaseTermFactory implements XWikiTermFactory
         return new BaseXWikiRelation(identifier, domain, image, transitive);
     }
 
-    public XWikiTerm createVertex(DocumentReference identifier)
+    public XWikiTerm createTerm(DocumentReference identifier)
     {
         return new BaseXWikiTerm(identifier);
     }
@@ -179,19 +179,19 @@ public class BaseTermFactory implements XWikiTermFactory
         }
     }
 
-    public List<Triple<EntityReference, Class, Class>> getEdgeClasses()
+    public List<Triple<EntityReference, Class, Class>> getRingClasses()
     {
-        if (edgeClasses == null) {
-            edgeClasses = new ArrayList<>();
-            edgeClasses.add(new ImmutableTriple<>(BaseXWikiRing.EDGE_XCLASS_REFERENCE, BaseXWikiRing.class,
+        if (ringClasses == null) {
+            ringClasses = new ArrayList<>();
+            ringClasses.add(new ImmutableTriple<>(BaseXWikiRing.RING_XCLASS_REFERENCE, BaseXWikiRing.class,
                     BaseXWikiRing.class));
-            edgeClasses.add(new ImmutableTriple<>(BooleanXWikiRing.XCLASS_REFERENCE, BooleanXWikiRing.class,
+            ringClasses.add(new ImmutableTriple<>(BooleanXWikiRing.XCLASS_REFERENCE, BooleanXWikiRing.class,
                     Boolean.class));
-            edgeClasses.add(new ImmutableTriple<>(DateXWikiRing.XCLASS_REFERENCE, DateXWikiRing.class, Date.class));
-            edgeClasses
+            ringClasses.add(new ImmutableTriple<>(DateXWikiRing.XCLASS_REFERENCE, DateXWikiRing.class, Date.class));
+            ringClasses
                     .add(new ImmutableTriple<>(StringXWikiRing.XCLASS_REFERENCE, StringXWikiRing.class, String.class));
         }
-        return edgeClasses;
+        return ringClasses;
     }
 
     public DocumentReference getIdentifier(String relativeName)

@@ -111,13 +111,13 @@ public class RingScriptService implements ScriptService
         return graph.getRelations();
     }
 
-    public void removeEdge(DocumentReference origin, DocumentReference relation, DocumentReference destination)
+    public void removeRing(DocumentReference referent, DocumentReference relation, DocumentReference relatum)
             throws RingException
     {
-        graph.removeRing(origin, relation, destination);
+        graph.removeRing(referent, relation, relatum);
     }
 
-    public void removeEdges(DocumentReference origin, DocumentReference destination) throws RingException
+    public void removeRings(DocumentReference origin, DocumentReference destination) throws RingException
     {
         graph.removeRings(origin, destination);
     }

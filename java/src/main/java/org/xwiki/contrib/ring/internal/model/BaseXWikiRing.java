@@ -42,20 +42,20 @@ public class BaseXWikiRing extends BaseXWikiTerm implements XWikiRing
     /**
      * TODO: this is redundant with the statement document identifier above.
      */
-    public static final String EDGE_VERTEX_ID = Names.RING_NEXUS_CODE_NAMESPACE + ".EdgeClass";
+    public static final String RING_TERM_ID = Names.RING_NEXUS_CODE_NAMESPACE + ".RingClass";
 
     /**
      * Ring object identifier. TODO: check if this is the canonical way TODO: check if there's a way to
      * register object events only for a given class name See also CommentEventGeneratorListener
      */
-    public static final RegexEntityReference EDGE_OBJECT_REFERENCE = BaseObjectReference.any(EDGE_VERTEX_ID);
+    public static final RegexEntityReference RING_OBJECT_REFERENCE = BaseObjectReference.any(RING_TERM_ID);
 
-    public static final EntityReference EDGE_XCLASS_REFERENCE =
-            new EntityReference("EdgeClass", EntityType.DOCUMENT, Names.RING_CODE_SPACE_REFERENCE);
+    public static final EntityReference RING_XCLASS_REFERENCE =
+            new EntityReference("RingClass", EntityType.DOCUMENT, Names.RING_CODE_SPACE_REFERENCE);
 
     /**
-     * The wrapped BaseObject. Contrarily to Vertices which can be built from a DocumentReference, Edges are built
-     * entirely from a BaseObject, otherwise we could have Vertices and their Edges which do not relate to the same
+     * The wrapped BaseObject. Contrarily to Vertices which can be built from a DocumentReference, rings are built
+     * entirely from a BaseObject, otherwise we could have Vertices and their rings which do not relate to the same
      * XWikiDocument.
      */
     protected final BaseObject object;
@@ -67,8 +67,8 @@ public class BaseXWikiRing extends BaseXWikiTerm implements XWikiRing
     public BaseXWikiRing(BaseObject object, EntityReferenceSerializer<String> serializer,
             DocumentReferenceResolver<String> resolver)
     {
-        // DocumentReference is null because at this stage, only Edges attached to an existing document
-        // are supported, not yet edges in their own document.
+        // DocumentReference is null because at this stage, only rings attached to an existing document
+        // are supported, not yet rings in their own document.
         super(null);
         this.object = object;
         this.serializer = serializer;
@@ -76,8 +76,8 @@ public class BaseXWikiRing extends BaseXWikiTerm implements XWikiRing
     }
 
     /**
-     * This constructor is useful for manipulating Edges in memory that are not stored as BaseObjects in XWikiDocuments,
-     * but have an existence in the index. Used for instance for computing edges by relation transitivity.
+     * This constructor is useful for manipulating rings in memory that are not stored as BaseObjects in XWikiDocuments,
+     * but have an existence in the index. Used for instance for computing rings by relation transitivity.
      */
     public BaseXWikiRing(DocumentReference origin, DocumentReference relation, DocumentReference destination,
             EntityReferenceSerializer<String> serializer, DocumentReferenceResolver<String> resolver)
@@ -97,16 +97,6 @@ public class BaseXWikiRing extends BaseXWikiTerm implements XWikiRing
         return this.object;
     }
 
-    public DocumentReference getRelatum()
-    {
-        String destinationValue = object.getStringValue(Names.HAS_DESTINATION);
-        if (!StringUtils.isEmpty(destinationValue)) {
-            return resolver.resolve(destinationValue, object.getDocumentReference());
-        }
-
-        return null;
-    }
-
     public DocumentReference getReferent()
     {
         return object.getDocumentReference();
@@ -121,6 +111,16 @@ public class BaseXWikiRing extends BaseXWikiTerm implements XWikiRing
         return null;
     }
 
+    public DocumentReference getRelatum()
+    {
+        String destinationValue = object.getStringValue(Names.HAS_RELATUM);
+        if (!StringUtils.isEmpty(destinationValue)) {
+            return resolver.resolve(destinationValue, object.getDocumentReference());
+        }
+
+        return null;
+    }
+
     public Object getValue()
     {
         // throw IllegalXxxException?
@@ -132,24 +132,19 @@ public class BaseXWikiRing extends BaseXWikiTerm implements XWikiRing
         return new MutablePair<>(getReferent(), getRelatum());
     }
 
-    public boolean hasRelatum()
-    {
-        return getRelatum() != null;
-    }
-
     public boolean hasRelation()
     {
         return getRelation() != null;
     }
 
+    public boolean hasRelatum()
+    {
+        return getRelatum() != null;
+    }
+
     public boolean hasValue()
     {
         return getValue() != null;
-    }
-
-    public void setRelatum(DocumentReference destination)
-    {
-        setPropertyValue(Names.HAS_DESTINATION, serializer.serialize(destination));
     }
 
     /**
@@ -171,6 +166,11 @@ public class BaseXWikiRing extends BaseXWikiTerm implements XWikiRing
         setPropertyValue(Names.HAS_RELATION, serializer.serialize(relation));
     }
 
+    public void setRelatum(DocumentReference destination)
+    {
+        setPropertyValue(Names.HAS_RELATUM, serializer.serialize(destination));
+    }
+
     // TODO: implement equals and hashCode
 
     public void setValue(Object value)
@@ -180,7 +180,7 @@ public class BaseXWikiRing extends BaseXWikiTerm implements XWikiRing
 
     public String toString()
     {
-        return "origin: " + getReferent() + " - relation: " + getRelation() + " - destination: " + getRelatum()
+        return "referent: " + getReferent() + " - relation: " + getRelation() + " - relatum: " + getRelatum()
                 + " value: " + getValue();
     }
 }

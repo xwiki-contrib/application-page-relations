@@ -1,0 +1,105 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+<xwikidoc version="1.3" reference="Ring.Code.Migrator" locale="">
+  <web>Ring.Code</web>
+  <name>Migrator</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>Migrator</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>{{velocity}}
+
+  {{info}}
+    This page provides a migration from the PageRelations application to the XDF application.
+
+    #set ($action = "$!request.action")
+    #if ($action != 'migrate')
+      {{html clean="false"}}
+
+      &lt;form action="" method="post"&gt;
+      &lt;button class="btn btn-default" type="submit" name="action" value="migrate"&gt;Preview migration&lt;/button&gt;
+      &lt;/form&gt;
+
+      {{/html}}
+    #end
+
+  {{/info}}
+
+#if ($action == 'migrate')
+  #set ($actOnDatabase = ("$!request.actOnDatabase" == 'true'))
+  #set ($PAGE_RELATION_CLASS_NAME = 'PageRelations.Code.PageRelationClass')
+  #set ($XDF_STATEMENT_CLASS_NAME = 'xdf.edge')
+  
+  #if (!$xwiki.exists($PAGE_RELATION_CLASS_NAME) || !$xwiki.exists($XDF_STATEMENT_CLASS_NAME))
+    {{error}}
+      Either the PageRelations application or the XDF application is not installed. Please check your installation before proceeding.
+    {{/error}}
+  #else
+  
+    #set ($logger = $services.logging.getLogger('xdf-migration'))
+    #set ($hql = "select distinct(obj.name) from BaseObject as obj where obj.className='$PAGE_RELATION_CLASS_NAME' order by obj.name")
+    #set ($entries = $services.query.hql($hql).setLimit(2500).execute())
+    #foreach ($entry in $entries)
+      #set ($page = $xwiki.getDocument($entry))
+      == $velocityCount - [[$page]] ==
+      #set ($relations = $page.getObjects($PAGE_RELATION_CLASS_NAME))
+      #set ($edges = $page.getObjects($XDF_STATEMENT_CLASS_NAME))
+      #if ($edges.size() == 0)
+        $logger.warn('Processing {} - #{}', $page, $velocityCount)
+        #foreach ($relation in $relations)
+          #set ($object = $relation.getProperty('page').value)
+          * $object
+          #set ($edge = $page.newObject($XDF_STATEMENT_CLASS_NAME))
+          #set ($discard = $edge.set('has-predicate', 'xdf.has-relation-with'))
+          #set ($discard = $edge.set('has-object', $object))
+        #end
+        #set ($discard = $page.removeObjects($PAGE_RELATION_CLASS_NAME))
+        #if ($actOnDatabase)
+          #set ($discard = $page.save("XDF migration"))
+        #end
+      #end
+    #end
+    #if (!$actOnDatabase)
+
+      {{html clean="false"}}
+      &lt;hr/&gt;
+      &lt;form action="" method="post"&gt;
+        &lt;button class="btn btn-default" type="submit" name="actOnDatabase" value="true"&gt;Confirm&lt;/button&gt;
+        &lt;button class="btn btn-default" type="submit" name="action" value="cancel"&gt;Cancel&lt;/button&gt;
+        &lt;input type="hidden" name="action" value="migrate"/&gt;
+      &lt;/form&gt;
+
+      {{/html}}
+    #end
+  #end
+#end
+
+{{/velocity}}</content>
+</xwikidoc>

@@ -23,7 +23,7 @@ import java.util.List;
 import org.xwiki.stability.Unstable;
 
 /**
- * Represents a set of rings. Can be seen itself as a large ring, a meta ring, a ring of rings.  The structure is a
+ * Represents a set of rings. Can be seen itself as a large ringSet, a meta ringSet, a ringSet of rings.  The structure is a
  * directed 3-uniform hypergraph where rings are edges, and are also vertices. Rings involved in this hypergraph class
  * link 3 vertices, where each vertex has a specific role: referent, relation and relatum. The "I" generics represents
  * an identifier interface used to identify terms (vertices), relations and rings (edges).
@@ -34,7 +34,7 @@ import org.xwiki.stability.Unstable;
 public interface RingSet<I>
 {
     /**
-     * Adds a relation to the ring with the given identifier, label, domain and image. See also the definition of a
+     * Adds a relation to the ringSet with the given identifier, label, domain and image. See also the definition of a
      * relation's domain and image in graphs at <a href="https://en.wikipedia.org/wiki/Binary_relation">Binary
      * relation</a>.
      *
@@ -56,7 +56,7 @@ public interface RingSet<I>
     void addRing(I referent, I relatum) throws RingException;
 
     /**
-     * Adds an edge to the ring from between given referent and the given relatum using the given relation.
+     * Adds an edge to the ringSet from between given referent and the given relatum using the given relation.
      *
      * @param referent identifier of the subjectvertex
      * @param relation identifier of the edge's relation
@@ -77,14 +77,14 @@ public interface RingSet<I>
     void addRingOnce(I referent, I relation, Object relatum) throws RingException;
 
     /**
-     * Adds a vertex to this ring.
+     * Adds a vertex to this ringSet.
      *
      * @param identifier vertex identifier
      */
     void addTerm(I identifier) throws RingException;
 
     /**
-     * Adds a vertex to the ring with the given identifier and label.
+     * Adds a vertex to the ringSet with the given identifier and label.
      *
      * @param identifier vertex identifier
      * @param label vertex label
@@ -93,7 +93,7 @@ public interface RingSet<I>
     void addTerm(I identifier, String label) throws RingException;
 
     /**
-     * Returns the relation with the given identifier, if it exists in the ring, null otherwise.
+     * Returns the relation with the given identifier, if it exists in the ringSet, null otherwise.
      *
      * @param identifier relation identifier
      * @return relation, if found
@@ -101,7 +101,7 @@ public interface RingSet<I>
     Relation<I> getRelation(I identifier) throws RingException;
 
     /**
-     * Returns all the relations that this ring contains.
+     * Returns all the relations that this ringSet contains.
      *
      * @return list of relations
      */
@@ -117,7 +117,7 @@ public interface RingSet<I>
     Ring<I> getRing(I identifier) throws RingException;
 
     /**
-     * Returns the edge between the given subject and object with the given relation, if it exists in the ring, null
+     * Returns the edge between the given subject and object with the given relation, if it exists in the ringSet, null
      * otherwise.
      *
      * @param subject subject vertex identifier
@@ -205,5 +205,5 @@ public interface RingSet<I>
      * @param originalRelation original relation identifier
      * @param otherRelation other relation identifier
      */
-    void updateEdgesWith(I originalRelation, I otherRelation) throws RingException;
+    void updateRingsWith(I originalRelation, I otherRelation) throws RingException;
 }
