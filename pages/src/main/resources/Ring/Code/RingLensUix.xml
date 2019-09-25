@@ -160,8 +160,10 @@
     </property>
     <property>
       <content>{{velocity}}
-## Display the edges on all pages except search ones because the Jsx can interfer
+## Display the rings on all pages except search ones because the Jsx can interfer
 #if ($doc.fullName != "${services.ring.getNamespace('root')}.Search" &amp;&amp; $doc.fullName != 'Main.Search')
+  ## picker_import is needed to load selectize for the add ring form, in case it was not loaded by other pages
+  #picker_import()
   #set ($discard = $xwiki.ssx.use('Main.SolrSearch'))
   #set ($discard = $xwiki.ssx.use("${services.ring.namespace}.RingLens"))
   #set ($discard = $xwiki.jsx.use("${services.ring.namespace}.RingLens"))

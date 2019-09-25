@@ -53,7 +53,7 @@
   }
 })
 
-## We need to configure Solr here only when retrieving edges, otherwise (when requesting suggestions for instance, there is no need)
+## We need to configure Solr here only when retrieving rings, otherwise (when requesting suggestions for instance, there is no need)
 #if ($action == 'get-rings')
   #addRelationsToSolrConfiguration($solrConfig)
 #end

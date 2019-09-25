@@ -214,8 +214,8 @@
   #set($void = $services.progress.startStep('#displaySearchUI'))
   #set($void = $services.progress.pushLevel())
   #set ($discard = $xwiki.ssx.use('Main.SolrSearch'))
-  #set ($discard = $xwiki.ssx.use("${services.ring.namespace}.VertexLens"))
-  #set ($discard = $xwiki.jsx.use("${services.ring.namespace}.VertexLens"))
+  #set ($discard = $xwiki.ssx.use("${services.ring.namespace}.RingLens"))
+  #set ($discard = $xwiki.jsx.use("${services.ring.namespace}.RingLens"))
   ## Disable the document extra data: comments, attachments, history...
   #set ($displayDocExtra = false)
   #processRequestParameters()
@@ -400,14 +400,14 @@
   #set($void = $services.progress.endStep())
 #end
 
-#macro (getRelations $vertex)
-  #if ($vertex)
-    #set ($relations = $services.ring.getRelations($services.model.resolveDocument($vertex)))
+#macro (getRelations $term)
+  #if ($term)
+    #set ($relations = $services.ring.getRelations($services.model.resolveDocument($term)))
   #end
-  #if (!$vertex || $relations.size() == 0)
+  #if (!$term || $relations.size() == 0)
     #set ($relations = $services.ring.getRelations())
   #end
-  ## make sure $IS_A is first
+  ## TODO: make sure the "is a" relation is first
   ## TODO: introduce a property index to make it possible to configure the order of properties
 #end
 

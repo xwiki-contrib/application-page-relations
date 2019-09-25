@@ -55,26 +55,30 @@
   {{html clean="false"}}
   &lt;form class="add-ring" action=""&gt;
     &lt;div class="row"&gt;
-    &lt;div class="col-md-3 col-xs-12"&gt;
-    #getRelations($referent)
-    &lt;select name="relation" style="width:100%"&gt;
-    #foreach ($relation in $relations)
-      #set ($page = $xwiki.getDocument($relation))
-      &lt;option value="$services.model.serialize($relation)"&gt;$page.displayTitle&lt;/option&gt;
-    #end
-    &lt;/select&gt;
-    &lt;/div&gt;
-    &lt;div class="col-md-6 col-xs-12"&gt;
-    #picker_import()
-    #set ($parameters = {'name': 'object', 'class': 'suggest-pages', 'placeholder': 'Select a page'})
-    #suggestInput($parameters)
-    &lt;/div&gt;
-    &lt;div class="col-md-3 col-xs-12" style="text-align: center"&gt;
-    &lt;input class="btn btn-primary" type="submit" value="$services.localization.render('Add')"/&gt;
-    &lt;input type="button" class="btn btn-default add-ring-cancel" value="$services.localization.render('Cancel')"/&gt;
-    &lt;input type="hidden" name="referent" value="$referent"/&gt;
-    &lt;input type="hidden" name="csrf" value="$!{services.csrf.token}"/&gt;
-    &lt;/div&gt;
+      &lt;div class="col-md-3 col-xs-12"&gt;
+        #getRelations($referent)
+        &lt;select name="relation" style="width:100%"&gt;
+        #foreach ($relation in $relations)
+          #set ($treference = $services.model.createDocumentReference($relation, $xcontext.locale))
+          #if ($xwiki.exists($treference))
+            #set ($relation = $treference)
+          #end
+          #set ($page = $xwiki.getDocument($relation))
+          &lt;option value="$services.model.serialize($relation)"&gt;$page.displayTitle&lt;/option&gt;
+        #end
+        &lt;/select&gt;
+      &lt;/div&gt;
+      &lt;div class="col-md-6 col-xs-12"&gt;
+        #picker_import()
+        #set ($parameters = {'name': 'object', 'class': 'suggest-pages', 'placeholder': 'Select a page'})
+        #suggestInput($parameters)
+      &lt;/div&gt;
+      &lt;div class="col-md-3 col-xs-12" style="text-align: center"&gt;
+        &lt;input class="btn btn-primary" type="submit" value="$services.localization.render('Add')"/&gt;
+        &lt;input type="button" class="btn btn-default add-ring-cancel" value="$services.localization.render('Cancel')"/&gt;
+        &lt;input type="hidden" name="referent" value="$referent"/&gt;
+        &lt;input type="hidden" name="csrf" value="$!{services.csrf.token}"/&gt;
+      &lt;/div&gt;
     &lt;/div&gt;
   &lt;/form&gt;
   {{/html}}
@@ -123,7 +127,7 @@
     ## if we don't have a $page is because current user doesn't have the right to see it
     #if ($page != $NULL)
       ##set($docHint = "#hierarchy($rDoc.documentReference, {'limit': 5, 'plain': true, 'local': true, 'displayTitle': true})")
-      #set($discard = $json.add({'value' : $services.model.serialize($reference, 'local'), 'info' : $page.displayTitle, 'id' : $velocityCount, 'hint' : ''}))
+      #set($discard = $json.add({'value' : $services.model.serialize($reference, 'local'), 'label' : $page.displayTitle, 'index' : $velocityCount, 'hint' : ''}))
     #end
   #end
   #set($discard = $response.setContentType('application/json'))
