@@ -23,6 +23,7 @@
   <name>HasAuthor</name>
   <language>fr</language>
   <defaultLanguage>en</defaultLanguage>
+  <parent>WebHome</parent>
   <translation>1</translation>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
