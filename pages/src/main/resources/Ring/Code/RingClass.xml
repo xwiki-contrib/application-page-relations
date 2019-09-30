@@ -101,48 +101,4 @@
       <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
     </has-relatum>
   </class>
-  <object>
-    <name>Ring.Code.RingClass</name>
-    <number>0</number>
-    <className>XWiki.ClassSheetBinding</className>
-    <guid>dabc844c-4e4e-4a06-a7f5-be539bea2fdb</guid>
-    <class>
-      <name>XWiki.ClassSheetBinding</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <sheet>
-        <cache>0</cache>
-        <classname/>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <hint/>
-        <idField/>
-        <multiSelect>0</multiSelect>
-        <name>sheet</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Sheet</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators/>
-        <size>30</size>
-        <sort>none</sort>
-        <sql/>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <valueField/>
-        <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
-      </sheet>
-    </class>
-    <property>
-      <sheet>Ring.Code.ElmSheet</sheet>
-    </property>
-  </object>
 </xwikidoc>

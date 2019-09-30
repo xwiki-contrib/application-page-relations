@@ -55,7 +55,7 @@
 #macro (list $entries)
   #set ($list = [])
   #foreach ($entry in $entries)
-    #set ($page = $xwiki.getDocument($reference).translatedDocument)
+    #set ($page = $xwiki.getDocument($entry).translatedDocument)
     #set ($discard = $list.add([$page.title, $entry]))
   #end
 #end

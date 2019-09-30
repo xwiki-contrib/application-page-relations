@@ -46,7 +46,7 @@
       #set ($type = $xcontext.action)
       {{include reference="AppWithinMinutes.Content"/}}
     )))
-    (% class="col-xs-12" %)(((
+    (% class="col-xs-12 ring-section" %)(((
 
       {{html clean="false"}}
       #template("menus_content.vm")
@@ -59,15 +59,15 @@
         #set ($relatum = $ring.getRelatum())
         #set ($value = $ring.getValue())
         #if ($relatum != $NULL)
-          #set ($relatumPage = $xwiki.getDocument($reference))
+          #set ($relatumPage = $xwiki.getDocument($relatum))
           * $relation.translatedDocument.title [[$relatumPage.translatedDocument.title&gt;&gt;$relatum]]
         #else
           * $relation.translatedDocument.title $value
         #end
       #end
     )))
-    (% class="col-xs-12 text-center" %)(((
-      {{attachmentGallery/}}
+    (% class="col-xs-12 section-carousel" %)(((
+      {{carousel/}}
     )))
   )))
 #end
