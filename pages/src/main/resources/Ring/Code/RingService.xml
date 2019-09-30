@@ -59,12 +59,8 @@
         #getRelations($referent)
         &lt;select name="relation" style="width:100%"&gt;
         #foreach ($relation in $relations)
-          #set ($treference = $services.model.createDocumentReference($relation, $xcontext.locale))
-          #if ($xwiki.exists($treference))
-            #set ($relation = $treference)
-          #end
           #set ($page = $xwiki.getDocument($relation))
-          &lt;option value="$services.model.serialize($relation)"&gt;$page.displayTitle&lt;/option&gt;
+          &lt;option value="$services.model.serialize($relation)"&gt;$page.translatedDocument.displayTitle&lt;/option&gt;
         #end
         &lt;/select&gt;
       &lt;/div&gt;

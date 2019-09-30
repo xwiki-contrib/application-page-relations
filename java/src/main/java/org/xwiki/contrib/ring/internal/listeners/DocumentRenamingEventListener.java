@@ -22,7 +22,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import io.ring.RingException;
+import aek.ring.RingException;
 
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.observation.event.Event;
@@ -37,7 +37,7 @@ import org.xwiki.refactoring.event.DocumentRenamingEvent;
 @Component
 @Singleton
 @Named(DocumentRenamingEventListener.NAME)
-public class DocumentRenamingEventListener extends XWikiRingSetEventListener
+public class DocumentRenamingEventListener extends BaseXWikiRingEventListener
 {
     /**
      * Listener's name.

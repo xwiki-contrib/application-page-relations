@@ -16,29 +16,17 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.ring;
+package aek.ring;
+
+import org.xwiki.stability.Unstable;
 
 /**
- * Utility class used to ease the definition of relations domains and images.
+ * Represents a term.
+ *
+ * @param <I> term identifier class
  */
-public enum TermSet
+@Unstable
+public interface Term<I>
 {
-    ANY("any"),
-    BOOLEAN("boolean"),
-    STRING("string"),
-    DATE("date"),
-    LONG("long"),
-    DOUBLE("double");
-
-    private String label;
-
-    private TermSet(String label)
-    {
-        this.label = label;
-    }
-
-    public String getLabel()
-    {
-        return label;
-    }
+    I getIdentifier();
 }

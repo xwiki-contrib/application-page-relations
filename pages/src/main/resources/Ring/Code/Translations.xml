@@ -43,7 +43,17 @@ ring.search=Search
 ring.administration=Administration
 ring.types=Types
 ring.relations=Relations
-ring.filter=Filter</content>
+ring.filter=Filter
+
+ring.settings.title=Settings
+Ring.Code.ConfigurationClass_spacesIn=Included spaces
+Ring.Code.ConfigurationClass_spacesIn.hint=List of spaces where the application will be activated (separator: comma), e.g.: Main, XWiki
+Ring.Code.ConfigurationClass_spacesOut=Excluded spaces
+Ring.Code.ConfigurationClass_spacesOut.hint=List of spaces where the application will not be activated (separator: comma)
+Ring.Code.ConfigurationClass_pagesOut=Excluded pages
+Ring.Code.ConfigurationClass_pagesOut.hint=List of pages where the application will not be activated (separator: comma), e.g.: Main.WebHome, XWiki.WebHome
+Ring.Code.ConfigurationClass_termSheet=Term sheet
+Ring.Code.ConfigurationClass_termSheet.hint=Sheet to be used to display the pages containing at least one ring</content>
   <object>
     <name>Ring.Code.Translations</name>
     <number>0</number>

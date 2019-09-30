@@ -55,12 +55,7 @@
 #macro (list $entries)
   #set ($list = [])
   #foreach ($entry in $entries)
-    #set ($reference = $services.model.resolveDocument($entry))
-    #set ($treference = $services.model.createDocumentReference($entry, $xcontext.locale))
-    #if ($xwiki.exists($treference))
-      #set ($reference = $treference)
-    #end
-    #set ($page = $xwiki.getDocument($reference))
+    #set ($page = $xwiki.getDocument($reference).translatedDocument)
     #set ($discard = $list.add([$page.title, $entry]))
   #end
 #end
@@ -74,11 +69,7 @@ $services.localization.render('ring.about')
     #panel('ring.quick-links', [['ring.documentation', 'Documentation'], ['ring.demo', 'WikidataImporter'], ['ring.search', 'Search'], ['ring.administration', 'SolrConsole'] ], true)
   )))
   (% class="col-md-4 col-xs-12" %)(((
-    #set ($root = $services.ring.getNamespace('root'))
-    #set ($typeReference = $services.model.resolveDocument("${root}.Type"))
-    #set ($isAReference = $services.model.resolveDocument("${root}.IsA"))
-    #set ($entries = $services.ring.getDirectPredecessors($typeReference, $isAReference))
-    #list($entries)
+    #list($services.ring.getTypes())
     #panel('ring.types', $list, false)
   )))
   (% class="col-md-4 col-xs-12" %)(((

@@ -21,8 +21,9 @@ package org.xwiki.contrib.ring;
 import java.util.List;
 
 import org.xwiki.component.annotation.Role;
-import io.ring.RingSet;
-import io.ring.RingException;
+
+import aek.ring.RRing;
+import aek.ring.RingException;
 
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.ObjectReference;
@@ -32,8 +33,13 @@ import com.xpn.xwiki.doc.XWikiDocument;
 
 /*
   TODO:
+    - Rename getDirectPredecessors?
+    - Rename removeRingsWith to removeRingsInvolving?
+    - Script service:
+        - Add method getRingsWith
+    - Add method getRingsTo, and check implementation of method getRings
     - Rename identifier into reference, denotation?
-    - Check access rights, and protection of resources such as Ring:object, and dangerous RingSet methods
+    - Check access rights, and protection of resources such as Ring:object, and dangerous RRing methods
     - Add events GraphEvent ringAddedEvent, VertexAddedEvent, ringRemovedEvent, VertexRemovedEvent, ...
       VertexUpdatedEvent, ringUpdatedEvent, ...
     - Check and translate the labels cf xar-handler / ApplicationResources
@@ -43,7 +49,7 @@ import com.xpn.xwiki.doc.XWikiDocument;
       such objects are availble from the script service
     - Make it easy to delete Solr index of all pages with an ringSet and recreate it (simple HQL query)
     - When deleting document from Solr index from the XWiki administration via HQL query, it seems the index
-      refererring to translated documents are not remove, eg "kuava:XWiki.RingSet.Type_en" remains present in the index
+      refererring to translated documents are not remove, eg "kuava:XWiki.RRing.Type_en" remains present in the index
       until we request a deletion from all
     - In the Solr admin console, add ability to enter specify the documents to be removed via a query or a list of
       Solr identifiers
@@ -61,7 +67,7 @@ import com.xpn.xwiki.doc.XWikiDocument;
       can be resolved properly (i.e. from which an EntityReference can be built). If an EntityReference cannot
       get created (which can happen if the index was wrongly created), the wrong index entry will remain.
     - Issue when restoring a deleted vertex: the index is not correctly restored.
-    - the property "property.XWiki.RingSet.IsConnectedTo:[PageA]" should remain present in the index until
+    - the property "property.XWiki.RRing.IsConnectedTo:[PageA]" should remain present in the index until
        there is no ringSet any more invovling PageA.
     - Imagine how a full implementation based on a ringSet database will work: Neo4jGraph, DgraphGraph, etc.
     - Create document, delete it, the Solr index still contains an entry about it
@@ -83,19 +89,25 @@ import com.xpn.xwiki.doc.XWikiDocument;
 
 @Role
 @Unstable
-public interface XWikiRingSet extends RingSet<DocumentReference>
+public interface XWikiRRing extends RRing<DocumentReference>
 {
+    void addRelation(DocumentReference identifier, String label, String domain, String image) throws RingException;
+
     void addRing(DocumentReference referent, DocumentReference relation, Object relatum) throws RingException;
 
     void addRing(DocumentReference referent, DocumentReference relatum) throws RingException;
 
     void addRingOnce(DocumentReference referent, DocumentReference relation, Object relatum) throws RingException;
 
-    void addRelation(DocumentReference identifier, String label, String domain, String image) throws RingException;
-
     void addTerm(DocumentReference identifier, String label) throws RingException;
 
     void addTerm(DocumentReference identifier, String label, DocumentReference type) throws RingException;
+
+    List<DocumentReference> getInstances(DocumentReference type) throws RingException;
+
+    XWikiRelation getRelation(DocumentReference identifier) throws RingException;
+
+    List<XWikiRelation> getRelations() throws RingException;
 
     XWikiRing getRing(DocumentReference identifier) throws RingException;
 
@@ -104,11 +116,9 @@ public interface XWikiRingSet extends RingSet<DocumentReference>
     XWikiRing getRing(DocumentReference subject, DocumentReference relation, DocumentReference object)
             throws RingException;
 
-    XWikiRelation getRelation(DocumentReference identifier) throws RingException;
-
-    List<XWikiRelation> getRelations() throws RingException;
-
     XWikiTerm getTerm(DocumentReference identifier) throws RingException;
+
+    List<DocumentReference> getTypes() throws RingException;
 
     /**
      * This method uses the Solr index to retrieve all documents having the deleted one as destination because in case
@@ -126,6 +136,8 @@ public interface XWikiRingSet extends RingSet<DocumentReference>
     void removeRingsTo(DocumentReference object) throws RingException;
 
     void removeRingsWith(DocumentReference relation) throws RingException;
+
+    void removeRingsWith(DocumentReference referent, DocumentReference relation) throws RingException;
 
     void removeTerm(DocumentReference identifier) throws RingException;
 

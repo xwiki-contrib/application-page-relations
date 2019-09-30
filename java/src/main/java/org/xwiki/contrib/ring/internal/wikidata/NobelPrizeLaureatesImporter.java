@@ -37,12 +37,12 @@ import javax.inject.Singleton;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.ring.XWikiRingSet;
+import org.xwiki.contrib.ring.XWikiRRing;
 import org.xwiki.contrib.ring.XWikiTermFactory;
 import org.xwiki.contrib.ring.internal.model.Names;
 import org.xwiki.contrib.ring.internal.services.SolrRingIndexer;
 import org.xwiki.environment.Environment;
-import io.ring.RingException;
+import aek.ring.RingException;
 
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
@@ -74,7 +74,7 @@ public class NobelPrizeLaureatesImporter implements WikidataImporter
     private EntityReferenceSerializer<String> serializer;
 
     @Inject
-    protected XWikiRingSet graph;
+    protected XWikiRRing graph;
 
     @Inject
     protected XWikiTermFactory factory;

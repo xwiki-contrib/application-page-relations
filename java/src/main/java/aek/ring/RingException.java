@@ -16,17 +16,38 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.ring;
-
-import org.xwiki.stability.Unstable;
+package aek.ring;
 
 /**
- * Represents a term.
- *
- * @param <I> term identifier class
+ * Exception that can be thrown during executing operations on terms or rings.
  */
-@Unstable
-public interface Term<I>
+public class RingException extends Exception
 {
-    I getIdentifier();
+    Throwable throwable;
+
+    String message;
+
+    public RingException(Throwable e)
+    {
+        this.throwable = e;
+    }
+
+    public RingException(String message) {
+        this.message = message;
+    }
+
+    public RingException(String message, Throwable e)
+    {
+        this(e);
+        this.message = message;
+    }
+
+    public Throwable get()
+    {
+        return throwable;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }

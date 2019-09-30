@@ -263,11 +263,7 @@
   #elseif ($facetField.name.startsWith('property.ring.'))
     #set ($facetPageId= $facetField.name.replace('property.ring.', '').replace('_string', ''))
     #set ($reference = $services.model.resolveDocument($facetPageId))
-    #set ($treference = $services.model.createDocumentReference($reference, $xcontext.locale))
-    #if ($xwiki.exists($treference))
-      #set ($reference = $treference)
-    #end
-    #set ($facetPrettyName = $xwiki.getDocument($reference).displayTitle)
+    #set ($facetPrettyName = $xwiki.getDocument($reference).translatedDocument.displayTitle)
   ## xwiki-ring --&gt;
   #elseif ($facetField.name.startsWith('property.'))
     ## Display the translated property pretty name.
@@ -339,11 +335,7 @@
   ## FIXME: the exact predicate and object should be mentioned there, via a better query ring above, focusing directly on OBJECT, not DOCUMENT
   ## We don't know what is the origin and what is the relatum actually
   ## Either get the title directly from the searchResult object, or from the XWiki page
-  #set ($treference = $services.model.createDocumentReference($searchResultReference, $xcontext.locale))
-  #if ($xwiki.exists($treference))
-    #set ($searchResultReference = $treference)
-  #end
-  #set ($title = $xwiki.getDocument($searchResultReference).title)
+  #set ($title = $xwiki.getDocument($searchResultReference).translatedDocument.title)
   * (% style="display: inline-block" %)((([[$title&gt;&gt;path:$titleURL]] (% class="ring-delete-ring" data-referent="$escapetool.xml($originPage.fullName)" data-relatum="$escapetool.xml($services.model.serialize($searchResultReference))" %)x)))
 #end
 

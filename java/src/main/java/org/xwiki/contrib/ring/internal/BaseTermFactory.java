@@ -46,7 +46,7 @@ import org.xwiki.contrib.ring.internal.model.BaseXWikiTerm;
 import org.xwiki.contrib.ring.internal.model.Names;
 import org.xwiki.contrib.ring.internal.model.StringXWikiRing;
 
-import io.ring.RingException;
+import aek.ring.RingException;
 
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;

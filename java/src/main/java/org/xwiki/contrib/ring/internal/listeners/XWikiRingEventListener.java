@@ -41,7 +41,7 @@ import com.xpn.xwiki.internal.event.XObjectUpdatedEvent;
 @Component
 @Singleton
 @Named(XWikiRingEventListener.NAME)
-public class XWikiRingEventListener extends XWikiRingSetEventListener
+public class XWikiRingEventListener extends BaseXWikiRingEventListener
 {
     public static final String NAME = "ringSet.ringSet";
 

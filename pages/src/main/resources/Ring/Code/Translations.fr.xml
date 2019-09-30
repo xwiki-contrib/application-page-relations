@@ -43,5 +43,15 @@ ring.search=Recherche
 ring.administration=Administration
 ring.types=Types
 ring.relations=Relations
-ring.filter=Filtrer</content>
+ring.filter=Filtrer
+
+ring.settings.title=Paramètres
+Ring.Code.ConfigurationClass_spacesIn=Espaces inclus
+Ring.Code.ConfigurationClass_spacesIn.hint=Liste d'espaces dans lesquels l'application doit être activée (séparateur: virgule), e.g.: Main, XWiki
+Ring.Code.ConfigurationClass_spacesOut=Espaces exclus
+Ring.Code.ConfigurationClass_spacesOut.hint=Liste d'espaces dans lesquels l'application doit être désactivée (séparateur: virgule)
+Ring.Code.ConfigurationClass_pagesOut=Pages exclues
+Ring.Code.ConfigurationClass_pagesOut.hint=Liste de pages pour lesquelles l'application doit être désactivée (séparateur: virgule), e.g.: Main.WebHome, XWiki.WebHome
+Ring.Code.ConfigurationClass_termSheet=Gabarit
+Ring.Code.ConfigurationClass_termSheet.hint=Gabarit à utiliser pour afficher les pages contenant au moins un anneau</content>
 </xwikidoc>
