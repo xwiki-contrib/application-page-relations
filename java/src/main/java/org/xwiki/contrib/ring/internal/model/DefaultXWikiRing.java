@@ -37,7 +37,7 @@ import com.xpn.xwiki.objects.BaseObjectReference;
  *
  * @version $Id$
  */
-public class BaseXWikiRing extends BaseXWikiTerm implements XWikiRing
+public class DefaultXWikiRing extends DefaultXWikiTerm implements XWikiRing
 {
     /**
      * TODO: this is redundant with the statement document identifier above.
@@ -64,7 +64,7 @@ public class BaseXWikiRing extends BaseXWikiTerm implements XWikiRing
 
     protected EntityReferenceSerializer<String> serializer;
 
-    public BaseXWikiRing(BaseObject object, EntityReferenceSerializer<String> serializer,
+    public DefaultXWikiRing(BaseObject object, EntityReferenceSerializer<String> serializer,
             DocumentReferenceResolver<String> resolver)
     {
         // DocumentReference is null because at this stage, only rings attached to an existing document
@@ -79,7 +79,7 @@ public class BaseXWikiRing extends BaseXWikiTerm implements XWikiRing
      * This constructor is useful for manipulating rings in memory that are not stored as BaseObjects in XWikiDocuments,
      * but have an existence in the index. Used for instance for computing rings by relation transitivity.
      */
-    public BaseXWikiRing(DocumentReference origin, DocumentReference relation, DocumentReference destination,
+    public DefaultXWikiRing(DocumentReference origin, DocumentReference relation, DocumentReference destination,
             EntityReferenceSerializer<String> serializer, DocumentReferenceResolver<String> resolver)
     {
         super(null);

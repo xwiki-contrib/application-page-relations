@@ -38,11 +38,11 @@ import org.xwiki.contrib.ring.XWikiRing;
 import org.xwiki.contrib.ring.XWikiTermFactory;
 import org.xwiki.contrib.ring.XWikiRelation;
 import org.xwiki.contrib.ring.XWikiTerm;
-import org.xwiki.contrib.ring.internal.model.BaseXWikiRing;
+import org.xwiki.contrib.ring.internal.model.DefaultXWikiRing;
 import org.xwiki.contrib.ring.internal.model.BooleanXWikiRing;
 import org.xwiki.contrib.ring.internal.model.DateXWikiRing;
-import org.xwiki.contrib.ring.internal.model.BaseXWikiRelation;
-import org.xwiki.contrib.ring.internal.model.BaseXWikiTerm;
+import org.xwiki.contrib.ring.internal.model.DefaultXWikiRelation;
+import org.xwiki.contrib.ring.internal.model.DefaultXWikiTerm;
 import org.xwiki.contrib.ring.internal.model.Names;
 import org.xwiki.contrib.ring.internal.model.StringXWikiRing;
 
@@ -64,7 +64,7 @@ import com.xpn.xwiki.objects.BaseObject;
 @Component
 @Singleton
 @Named("default")
-public class BaseTermFactory implements XWikiTermFactory
+public class DefaultTermFactory implements XWikiTermFactory
 {
     protected List<Triple<EntityReference, Class, Class>> ringClasses;
 
@@ -124,8 +124,8 @@ public class BaseTermFactory implements XWikiTermFactory
         try {
             // DocumentReference is a special case
             if (destinationOrValue instanceof DocumentReference) {
-                BaseObject baseObject = document.newXObject(BaseXWikiRing.RING_XCLASS_REFERENCE, context);
-                return new BaseXWikiRing(baseObject, serializer, resolver);
+                BaseObject baseObject = document.newXObject(DefaultXWikiRing.RING_XCLASS_REFERENCE, context);
+                return new DefaultXWikiRing(baseObject, serializer, resolver);
             }
 
             for (Triple<EntityReference, Class, Class> entry : getRingClasses()) {
@@ -144,7 +144,7 @@ public class BaseTermFactory implements XWikiTermFactory
     public XWikiRing createRing(DocumentReference referent, DocumentReference relation, Object relatum)
     {
         if (relatum instanceof DocumentReference) {
-            return new BaseXWikiRing(referent, relation, (DocumentReference) relatum, serializer, resolver);
+            return new DefaultXWikiRing(referent, relation, (DocumentReference) relatum, serializer, resolver);
         } else {
             throw new NotImplementedException("createRing for " + relatum);
         }
@@ -153,12 +153,12 @@ public class BaseTermFactory implements XWikiTermFactory
     public XWikiRelation createRelation(DocumentReference identifier, String domain, String image,
             boolean transitive)
     {
-        return new BaseXWikiRelation(identifier, domain, image, transitive);
+        return new DefaultXWikiRelation(identifier, domain, image, transitive);
     }
 
     public XWikiTerm createTerm(DocumentReference identifier)
     {
-        return new BaseXWikiTerm(identifier);
+        return new DefaultXWikiTerm(identifier);
     }
 
     public XWikiDocument getDocument(DocumentReference vertex, boolean clone) throws RingException
@@ -183,8 +183,8 @@ public class BaseTermFactory implements XWikiTermFactory
     {
         if (ringClasses == null) {
             ringClasses = new ArrayList<>();
-            ringClasses.add(new ImmutableTriple<>(BaseXWikiRing.RING_XCLASS_REFERENCE, BaseXWikiRing.class,
-                    BaseXWikiRing.class));
+            ringClasses.add(new ImmutableTriple<>(DefaultXWikiRing.RING_XCLASS_REFERENCE, DefaultXWikiRing.class,
+                    DefaultXWikiRing.class));
             ringClasses.add(new ImmutableTriple<>(BooleanXWikiRing.XCLASS_REFERENCE, BooleanXWikiRing.class,
                     Boolean.class));
             ringClasses.add(new ImmutableTriple<>(DateXWikiRing.XCLASS_REFERENCE, DateXWikiRing.class, Date.class));

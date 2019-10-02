@@ -27,7 +27,7 @@ import org.xwiki.model.reference.EntityReferenceSerializer;
 
 import com.xpn.xwiki.objects.BaseObject;
 
-public class DateXWikiRing extends BaseXWikiRing
+public class DateXWikiRing extends DefaultXWikiRing
 {
     public final static EntityReference XCLASS_REFERENCE =
             new EntityReference("DateRingClass", EntityType.DOCUMENT, Names.RING_CODE_SPACE_REFERENCE);

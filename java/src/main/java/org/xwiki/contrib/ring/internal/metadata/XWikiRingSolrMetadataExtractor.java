@@ -27,7 +27,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.ring.XWikiRing;
 import org.xwiki.contrib.ring.XWikiRingIndexer;
 import org.xwiki.contrib.ring.XWikiTermFactory;
-import org.xwiki.contrib.ring.internal.model.BaseXWikiRing;
+import org.xwiki.contrib.ring.internal.model.DefaultXWikiRing;
 import org.xwiki.contrib.ring.internal.services.SolrRingIndexer;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.EntityReference;
@@ -85,7 +85,7 @@ public class XWikiRingSolrMetadataExtractor extends ObjectSolrMetadataExtractor
         setLocaleAndContentFields(documentReference, solrDocument, object);
 
         EntityReference relativeXClassReference = object.getRelativeXClassReference();
-        if (relativeXClassReference.equals(BaseXWikiRing.RING_XCLASS_REFERENCE)) {
+        if (relativeXClassReference.equals(DefaultXWikiRing.RING_XCLASS_REFERENCE)) {
             XWikiRing ring = factory.createRing(object);
             indexer.index(ring);
         }

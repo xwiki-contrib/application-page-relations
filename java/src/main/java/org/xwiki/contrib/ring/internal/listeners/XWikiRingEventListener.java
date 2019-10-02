@@ -23,7 +23,7 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.ring.XWikiRing;
-import org.xwiki.contrib.ring.internal.model.BaseXWikiRing;
+import org.xwiki.contrib.ring.internal.model.DefaultXWikiRing;
 import org.xwiki.model.reference.ObjectReference;
 import org.xwiki.observation.event.Event;
 
@@ -47,9 +47,9 @@ public class XWikiRingEventListener extends BaseXWikiRingEventListener
 
     public XWikiRingEventListener()
     {
-        super(NAME, new XObjectAddedEvent(BaseXWikiRing.RING_OBJECT_REFERENCE),
-                new XObjectUpdatedEvent(BaseXWikiRing.RING_OBJECT_REFERENCE),
-                new XObjectDeletedEvent(BaseXWikiRing.RING_OBJECT_REFERENCE));
+        super(NAME, new XObjectAddedEvent(DefaultXWikiRing.RING_OBJECT_REFERENCE),
+                new XObjectUpdatedEvent(DefaultXWikiRing.RING_OBJECT_REFERENCE),
+                new XObjectDeletedEvent(DefaultXWikiRing.RING_OBJECT_REFERENCE));
     }
 
     public void onEvent(Event event, Object source, Object data)

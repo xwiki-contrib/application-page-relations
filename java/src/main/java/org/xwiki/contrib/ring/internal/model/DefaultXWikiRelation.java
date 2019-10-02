@@ -21,13 +21,13 @@ package org.xwiki.contrib.ring.internal.model;
 import org.xwiki.contrib.ring.XWikiRelation;
 import org.xwiki.model.reference.DocumentReference;
 
-public class BaseXWikiRelation extends BaseXWikiTerm implements XWikiRelation
+public class DefaultXWikiRelation extends DefaultXWikiTerm implements XWikiRelation
 {
     String domain, image;
 
     boolean transitive;
 
-    public BaseXWikiRelation(DocumentReference identifier, String domain, String image, boolean transitive)
+    public DefaultXWikiRelation(DocumentReference identifier, String domain, String image, boolean transitive)
     {
         super(identifier);
         this.domain = domain;

@@ -35,8 +35,8 @@ import org.xwiki.contrib.ring.XWikiRing;
 import org.xwiki.contrib.ring.XWikiRingTraverser;
 import org.xwiki.contrib.ring.XWikiTerm;
 import org.xwiki.contrib.ring.XWikiTermFactory;
-import org.xwiki.contrib.ring.internal.model.BaseXWikiRing;
 import org.xwiki.contrib.ring.internal.model.BooleanXWikiRing;
+import org.xwiki.contrib.ring.internal.model.DefaultXWikiRing;
 import org.xwiki.contrib.ring.internal.model.Names;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
@@ -62,7 +62,7 @@ import aek.ring.RingException;
 @Singleton
 @Named("default")
 @Unstable
-public class BaseXWikiRRing implements XWikiRRing
+public class DefaultXWikiRRing implements XWikiRRing
 {
     @Inject
     private Logger logger;
@@ -217,7 +217,11 @@ public class BaseXWikiRRing implements XWikiRRing
 
     public List<DocumentReference> getInstances(DocumentReference type) throws RingException
     {
-        return traverser.getDirectPredecessors(type, factory.getIdentifier(Names.IS_A_RELATION_NAME));
+        List<DocumentReference> instances = new ArrayList<>();
+        for (XWikiRing ring : traverser.getRingsTo(type, factory.getIdentifier(Names.IS_A_RELATION_NAME))) {
+            instances.add(ring.getReferent());
+        }
+        return instances;
     }
 
     public XWikiRelation getRelation(DocumentReference identifier) throws RingException
@@ -246,12 +250,11 @@ public class BaseXWikiRRing implements XWikiRRing
 
     public List<XWikiRelation> getRelations() throws RingException
     {
-        List<DocumentReference> relationReferences =
-                traverser.getDirectPredecessors(factory.getIdentifier(Names.RELATION_TERM_NAME),
-                        factory.getIdentifier(Names.IS_A_RELATION_NAME));
+        List<XWikiRing> rings = traverser.getRingsTo(factory.getIdentifier(Names.RELATION_TERM_NAME),
+                factory.getIdentifier(Names.IS_A_RELATION_NAME));
         List<XWikiRelation> relations = new ArrayList<>();
-        for (DocumentReference identifier : relationReferences) {
-            relations.add(getRelation(identifier));
+        for (XWikiRing ring : rings) {
+            relations.add(getRelation(ring.getRelation()));
         }
         return relations;
     }
@@ -267,7 +270,7 @@ public class BaseXWikiRRing implements XWikiRRing
     protected XWikiRing getRing(XWikiDocument origin, int objectIndex) throws RingException
     {
         BaseObjectReference objectReference =
-                origin.getXObject(BaseXWikiRing.RING_XCLASS_REFERENCE, objectIndex).getReference();
+                origin.getXObject(DefaultXWikiRing.RING_XCLASS_REFERENCE, objectIndex).getReference();
         return getRing(origin, objectReference);
     }
 
@@ -299,10 +302,13 @@ public class BaseXWikiRRing implements XWikiRRing
 
     public List<DocumentReference> getTypes() throws RingException
     {
-        List<DocumentReference> references =
-                traverser.getDirectPredecessors(factory.getIdentifier(Names.TYPE_TERM_NAME),
-                        factory.getIdentifier(Names.IS_A_RELATION_NAME));
-        return references;
+        List<XWikiRing> rings = traverser.getRingsTo(factory.getIdentifier(Names.TYPE_TERM_NAME),
+                factory.getIdentifier(Names.IS_A_RELATION_NAME));
+        List<DocumentReference> types = new ArrayList<>();
+        for (XWikiRing ring : rings) {
+            types.add(ring.getReferent());
+        }
+        return types;
     }
 
     public void removeRing(DocumentReference referent, DocumentReference relatum) throws RingException

@@ -59,10 +59,10 @@ public class RingScriptService implements ScriptService
         ring.addRing(referent, relation, relatum);
     }
 
-    public List<DocumentReference> getDirectPredecessors(DocumentReference referent, DocumentReference relation)
+    public List<XWikiRing> getRingsTo(DocumentReference relatum, DocumentReference relation)
             throws RingException
     {
-        return traverser.getDirectPredecessors(referent, relation);
+        return traverser.getRingsTo(relatum, relation);
     }
 
     public String getDomain(DocumentReference relation) throws RingException

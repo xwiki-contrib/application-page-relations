@@ -38,7 +38,7 @@ import org.xwiki.contrib.ring.XWikiRing;
 import org.xwiki.contrib.ring.XWikiRingIndexer;
 import org.xwiki.contrib.ring.XWikiRingTraverser;
 import org.xwiki.contrib.ring.XWikiTermFactory;
-import org.xwiki.contrib.ring.internal.model.BaseXWikiRing;
+import org.xwiki.contrib.ring.internal.model.DefaultXWikiRing;
 import org.xwiki.contrib.ring.internal.model.Names;
 import org.xwiki.model.EntityType;
 import org.xwiki.model.reference.DocumentReference;
@@ -117,18 +117,6 @@ public class SolrSqlRingTraverser implements XWikiRingTraverser
         }
     }
 
-    public List<DocumentReference> getDirectPredecessors(DocumentReference vertex, DocumentReference relation)
-            throws RingException
-    {
-        // TODO: escape dots in relation name? replaceAll("\\.", "..");
-        // TODO: also escape slashes? replace("\\", "\\\\")?
-        String statement =
-                SolrRingIndexer.PROPERTY_GRAPH_PREFIX + serializer.serialize(relation) + ":\"" + serializer
-                        .serialize(vertex)
-                        + "\"";
-        return search(statement, SolrSqlRingTraverser.DEFAULT_SORT, SolrSqlRingTraverser.MAX);
-    }
-
     public List<DocumentReference> getDirectPredecessorsViaHql(DocumentReference vertex) throws RingException
     {
         try {
@@ -165,7 +153,7 @@ public class SolrSqlRingTraverser implements XWikiRingTraverser
                             + "hasRelation.id.id = obj.id and hasRelation.id.name = :hasRelation and "
                             + "hasRelatum.id.id = obj.id and hasRelatum.id.name = :hasRelatum and "
                             + "hasRelation.value  = :relation and hasRelatum.value = :destination", Query.HQL);
-            query = query.bindValue("className", BaseXWikiRing.RING_TERM_ID)
+            query = query.bindValue("className", DefaultXWikiRing.RING_TERM_ID)
                     .bindValue("hasRelation", Names.HAS_RELATION)
                     .bindValue("hasRelatum", Names.HAS_RELATUM)
                     .bindValue("relation", serializer.serialize(relation))
@@ -182,6 +170,60 @@ public class SolrSqlRingTraverser implements XWikiRingTraverser
             logger.error("Exception while getting direct predecessors of " + vertex, e);
             throw new RingException(e);
         }
+    }
+
+    public XWikiRing getFirstRingFrom(DocumentReference referent, DocumentReference relation) throws RingException
+    {
+        for (XWikiRing ring : getRingsFrom(referent, relation)) {
+            return ring;
+        }
+        return null;
+    }
+
+    public List<DocumentReference> getNeighbours(DocumentReference vertex) throws RingException
+    {
+        // TODO: escape dots?
+        // TODO: we may need to escape anti-slash: #set ($subjectId = $subjectId.replaceAll('\\', '\\\\'))
+        return run(getNeighboursQuery(vertex));
+    }
+
+    public Query getNeighboursQuery(DocumentReference vertex) throws RingException
+    {
+        String statement =
+                SolrRingIndexer.PROPERTY_GRAPH_PREFIX +
+                        serializer.serialize(factory.getIdentifier(Names.IS_CONNECTED_TO_RELATION_NAME)) + ":\"" +
+                        serializer.serialize(vertex) + "\"";
+        return createQuery(statement, DEFAULT_SORT, MAX);
+    }
+
+    public List<XWikiRelation> getRelations(DocumentReference term,
+            List<? extends Relation<DocumentReference>> relations) throws RingException
+    {
+        List<XWikiRelation> compatibleRelations = new ArrayList<>();
+        LengthSolrInputDocument vertexSolr = getSolrInputDocument(term);
+        for (Relation<DocumentReference> relation : relations) {
+            String domain = relation.getDomain();
+            if (!StringUtils.isEmpty(domain)) {
+                if (domain.equals(TermSet.ANY.getLabel())) {
+                    compatibleRelations.add((XWikiRelation) relation);
+                } else {
+                    int idx = domain.indexOf(":");
+                    if (idx > 0) {
+                        String fieldName = domain.substring(0, idx);
+                        String fieldValue = domain.substring(idx + 1).replaceAll("\"", "");
+                        //TODO: do not append "string" manually
+                        Collection<Object> values = vertexSolr.getFieldValues(fieldName + "_string");
+                        if (values != null && values.contains(fieldValue)) {
+                            compatibleRelations.add((XWikiRelation) relation);
+                        }
+                    }
+                }
+            } else {
+                // if the applies-to constraint is empty, consider that the relation applies to any vertex
+                compatibleRelations.add((XWikiRelation) relation);
+            }
+        }
+        return compatibleRelations;
     }
 
     public XWikiRing getRing(DocumentReference vertex, DocumentReference relation, DocumentReference destination)
@@ -266,58 +308,22 @@ public class SolrSqlRingTraverser implements XWikiRingTraverser
         return rings;
     }
 
-    public XWikiRing getFirstRingFrom(DocumentReference referent, DocumentReference relation) throws RingException
+    public List<XWikiRing> getRingsTo(DocumentReference relatum, DocumentReference relation)
+            throws RingException
     {
-        for (XWikiRing ring : getRingsFrom(referent, relation)) {
-            return ring;
-        }
-        return null;
-    }
-
-    public List<DocumentReference> getNeighbours(DocumentReference vertex) throws RingException
-    {
-        // TODO: escape dots?
-        // TODO: we may need to escape anti-slash: #set ($subjectId = $subjectId.replaceAll('\\', '\\\\'))
-        return run(getNeighboursQuery(vertex));
-    }
-
-    public Query getNeighboursQuery(DocumentReference vertex) throws RingException
-    {
+        // TODO: escape dots in relation name? replaceAll("\\.", "..");
+        // TODO: also escape slashes? replace("\\", "\\\\")?
         String statement =
-                SolrRingIndexer.PROPERTY_GRAPH_PREFIX +
-                        serializer.serialize(factory.getIdentifier(Names.IS_CONNECTED_TO_RELATION_NAME)) + ":\"" +
-                        serializer.serialize(vertex) + "\"";
-        return createQuery(statement, DEFAULT_SORT, MAX);
-    }
-
-    public List<XWikiRelation> getRelations(DocumentReference term,
-            List<? extends Relation<DocumentReference>> relations) throws RingException
-    {
-        List<XWikiRelation> compatibleRelations = new ArrayList<>();
-        LengthSolrInputDocument vertexSolr = getSolrInputDocument(term);
-        for (Relation<DocumentReference> relation : relations) {
-            String domain = relation.getDomain();
-            if (!StringUtils.isEmpty(domain)) {
-                if (domain.equals(TermSet.ANY.getLabel())) {
-                    compatibleRelations.add((XWikiRelation) relation);
-                } else {
-                    int idx = domain.indexOf(":");
-                    if (idx > 0) {
-                        String fieldName = domain.substring(0, idx);
-                        String fieldValue = domain.substring(idx + 1).replaceAll("\"", "");
-                        //TODO: do not append "string" manually
-                        Collection<Object> values = vertexSolr.getFieldValues(fieldName + "_string");
-                        if (values != null && values.contains(fieldValue)) {
-                            compatibleRelations.add((XWikiRelation) relation);
-                        }
-                    }
-                }
-            } else {
-                // if the applies-to constraint is empty, consider that the relation applies to any vertex
-                compatibleRelations.add((XWikiRelation) relation);
-            }
+                SolrRingIndexer.PROPERTY_GRAPH_PREFIX + serializer.serialize(relation) + ":\"" + serializer
+                        .serialize(relatum)
+                        + "\"";
+        List<DocumentReference> referents =
+                search(statement, SolrSqlRingTraverser.DEFAULT_SORT, SolrSqlRingTraverser.MAX);
+        List<XWikiRing> rings = new ArrayList<>();
+        for (DocumentReference referent : referents) {
+            rings.add(factory.createRing(referent, relation, relatum));
         }
-        return compatibleRelations;
+        return rings;
     }
 
     public LengthSolrInputDocument getSolrInputDocument(DocumentReference identifier) throws RingException
@@ -366,7 +372,7 @@ public class SolrSqlRingTraverser implements XWikiRingTraverser
                 "select distinct obj.name, obj.number from BaseObject as obj, StringProperty as prop where "
                         + "obj.className = :className and prop.id.id = obj.id and prop.id.name = :property and "
                         + "prop.value = :destination", Query.HQL);
-        query = query.bindValue("className", BaseXWikiRing.RING_TERM_ID).bindValue("property", property)
+        query = query.bindValue("className", DefaultXWikiRing.RING_TERM_ID).bindValue("property", property)
                 .bindValue("destination", destination);
         query.setWiki(wiki);
         return query.execute();

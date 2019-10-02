@@ -1,14 +1,11 @@
-# XWiki Graph Application
+# XWiki Ring Application
 
-This application makes it possible to create and display relations between pages and to organize the pages as a graph.
+This application makes it possible to create typed relations between pages and to organize the pages as a semantic graph.
 
 * Project Lead: [slauriere](http://www.xwiki.org/xwiki/bin/view/XWiki/slauriere)
-* [Documentation & Download](http://extensions.xwiki.org/xwiki/bin/view/Extension/Page%20Relations%20Application/)
-* [Issue Tracker](https://jira.xwiki.org/projects/PAGEREL/summary)
-* Communication: [user forum or development mailing list](http://dev.xwiki.org/xwiki/bin/view/Community/Discuss), [chat](http://dev.xwiki.org/xwiki/bin/view/Community/Chat)
+* [Documentation & Download](https://dev.xwiki.org/xwiki/bin/view/Drafts/Ring%20Application)
+* [Issue Tracker](https://framagit.org/aeka/xwiki-ring/issues)
+* Communication: [XWiki forum ](https://forum.xwiki.org/), [XWiki chat](http://dev.xwiki.org/xwiki/bin/view/Community/Chat)
 * [Development Practices](http://dev.xwiki.org)
-* Minimal XWiki version supported: 9.11
-* License: LGPL 2.1
-* Translations: to be specified
-* Sonar Dashboard: N/A
-* Continuous Integration Status: [![Build Status](http://ci.xwiki.org/job/XWiki%20Contrib/job/application-page-relations/job/master/badge/icon)](http://ci.xwiki.org/job/XWiki%20Contrib/job/application-page-relations/job/master/)
+* Minimal XWiki version supported: 11.8
+* License: [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)
