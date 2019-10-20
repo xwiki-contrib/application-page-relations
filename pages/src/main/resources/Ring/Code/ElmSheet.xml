@@ -46,6 +46,19 @@
       #set ($type = $xcontext.action)
       {{include reference="AppWithinMinutes.Content"/}}
     )))
+    #set ($extensions = $services.uix.getExtensions('org.xwiki.contrib.ring.sheet'))
+    #foreach($uix in $extensions)
+      (% class="col-xs-12" %)(((
+        #set ($content = $services.rendering.render($uix.execute(), 'html/5.0'))
+        {{html clean="false"}}
+        $content
+        {{/html}}
+      )))
+    #end
+    #if ($xcontext.epub == $NULL)
+    (% class="col-xs-12 section-carousel" %)(((
+      {{carousel/}}
+    )))
     (% class="col-xs-12 ring-section" %)(((
 
       {{html clean="false"}}
@@ -62,13 +75,17 @@
           #set ($relatumPage = $xwiki.getDocument($relatum))
           * $relation.translatedDocument.title [[$relatumPage.translatedDocument.title&gt;&gt;$relatum]]
         #else
-          * $relation.translatedDocument.title $value
+          #set ($str = "$!value")
+          #set ($length = $str.length())
+          #if ($length &lt; 100)
+            * $relation.translatedDocument.title $value
+          #else
+            * $relation.translatedDocument.title [...]
+          #end
         #end
       #end
     )))
-    (% class="col-xs-12 section-carousel" %)(((
-      {{carousel/}}
-    )))
+    #end
   )))
 #end
 {{/velocity}}</content>

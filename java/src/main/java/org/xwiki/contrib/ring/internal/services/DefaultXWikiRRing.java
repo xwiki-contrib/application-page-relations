@@ -109,8 +109,8 @@ public class DefaultXWikiRRing implements XWikiRRing
     }
 
     /**
-     * A FunctionInterface is used to handle both cases where the destination is either a DocumentReference or a scalar
-     * as a String, Boolean, Date, ...
+     * A FunctionInterface is used to handle both cases where the destination is either a DocumentReference or a scalar as a String, Boolean, Date,
+     * ...
      */
     public void addRing(DocumentReference origin, DocumentReference relation, Object destinationOrValue,
             EdgeTargeter targeter) throws RingException
@@ -254,7 +254,7 @@ public class DefaultXWikiRRing implements XWikiRRing
                 factory.getIdentifier(Names.IS_A_RELATION_NAME));
         List<XWikiRelation> relations = new ArrayList<>();
         for (XWikiRing ring : rings) {
-            relations.add(getRelation(ring.getRelation()));
+            relations.add(getRelation(ring.getReferent()));
         }
         return relations;
     }
@@ -392,8 +392,7 @@ public class DefaultXWikiRRing implements XWikiRRing
     }
 
     /**
-     * Remove all stored edges having the given reference as destination. TODO: also remove the edges not stored but
-     * indexed via transitivity
+     * Remove all stored edges having the given reference as destination. TODO: also remove the edges not stored but indexed via transitivity
      */
     public void removeRingsTo(DocumentReference object) throws RingException
     {

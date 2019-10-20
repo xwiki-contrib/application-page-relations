@@ -172,18 +172,22 @@ The application hinges on the XWiki classes below.
 |Ring|(((
 * has-relation: page
 * has-relatum: page
+* has-properties: large string
 )))
 |StringRing|(((
 * has-relation: page
 * has-value: large string
+* has-properties: large string
 )))
 |DateRing|(((
 * has-relation: page
 * has-value: date
+* has-properties: large string
 )))
 |BooleanRing|(((
 * has-relation: page
 * has-value: boolean
+* has-properties: large string
 )))
 
 An additional index field is added automatically by Solr when indexing Ring objects, via a SolrMetadataExtractor component having a higher priority than the default one provided by xwiki-platform. For instance, "The Jungle Book has author Rudyard Kipling" is indexed as follows in Solr:

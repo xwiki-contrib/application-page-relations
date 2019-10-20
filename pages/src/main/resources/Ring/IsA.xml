@@ -49,6 +49,23 @@
       <defaultWeb/>
       <nameField/>
       <validationScript/>
+      <has-properties>
+        <contenttype>---</contenttype>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <editor>---</editor>
+        <hint/>
+        <name>has-properties</name>
+        <number>3</number>
+        <picker>0</picker>
+        <prettyName>has-properties</prettyName>
+        <rows>5</rows>
+        <size>70</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </has-properties>
       <has-relation>
         <cache>0</cache>
         <classname/>
@@ -64,7 +81,7 @@
         <name>has-relation</name>
         <number>1</number>
         <picker>1</picker>
-        <prettyName>Has relation</prettyName>
+        <prettyName>has-relation</prettyName>
         <relationalStorage>1</relationalStorage>
         <separator> </separator>
         <separators/>
@@ -86,13 +103,16 @@
         <hint/>
         <name>has-value</name>
         <number>2</number>
-        <prettyName>Has value</prettyName>
+        <prettyName>has-value</prettyName>
         <unmodifiable>0</unmodifiable>
         <validationMessage/>
         <validationRegExp/>
         <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
       </has-value>
     </class>
+    <property>
+      <has-properties/>
+    </property>
     <property>
       <has-relation>Ring.IsTransitive</has-relation>
     </property>
@@ -114,6 +134,23 @@
       <defaultWeb/>
       <nameField/>
       <validationScript/>
+      <has-properties>
+        <contenttype>---</contenttype>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <editor>---</editor>
+        <hint/>
+        <name>has-properties</name>
+        <number>3</number>
+        <picker>0</picker>
+        <prettyName>has-properties</prettyName>
+        <rows>5</rows>
+        <size>70</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </has-properties>
       <has-relation>
         <cache>0</cache>
         <classname/>
@@ -129,7 +166,7 @@
         <name>has-relation</name>
         <number>1</number>
         <picker>1</picker>
-        <prettyName>Has relation</prettyName>
+        <prettyName>has-relation</prettyName>
         <relationalStorage>1</relationalStorage>
         <separator> </separator>
         <separators/>
@@ -157,7 +194,7 @@
         <name>has-relatum</name>
         <number>2</number>
         <picker>1</picker>
-        <prettyName>Has relatum</prettyName>
+        <prettyName>has-relatum</prettyName>
         <relationalStorage>1</relationalStorage>
         <separator> </separator>
         <separators/>
@@ -171,6 +208,9 @@
         <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
       </has-relatum>
     </class>
+    <property>
+      <has-properties/>
+    </property>
     <property>
       <has-relation>Ring.IsA</has-relation>
     </property>
@@ -192,6 +232,23 @@
       <defaultWeb/>
       <nameField/>
       <validationScript/>
+      <has-properties>
+        <contenttype>---</contenttype>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <editor>---</editor>
+        <hint/>
+        <name>has-properties</name>
+        <number>3</number>
+        <picker>0</picker>
+        <prettyName>has-properties</prettyName>
+        <rows>5</rows>
+        <size>70</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </has-properties>
       <has-relation>
         <cache>0</cache>
         <classname/>
@@ -207,7 +264,7 @@
         <name>has-relation</name>
         <number>1</number>
         <picker>1</picker>
-        <prettyName>Has relation</prettyName>
+        <prettyName>has-relation</prettyName>
         <relationalStorage>1</relationalStorage>
         <separator> </separator>
         <separators/>
@@ -229,7 +286,7 @@
         <name>has-value</name>
         <number>2</number>
         <picker>1</picker>
-        <prettyName>Has value</prettyName>
+        <prettyName>has-value</prettyName>
         <rows>5</rows>
         <size>40</size>
         <unmodifiable>0</unmodifiable>
@@ -238,6 +295,9 @@
         <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
       </has-value>
     </class>
+    <property>
+      <has-properties/>
+    </property>
     <property>
       <has-relation>Ring.HasImage</has-relation>
     </property>

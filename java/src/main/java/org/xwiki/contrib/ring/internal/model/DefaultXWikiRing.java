@@ -45,8 +45,8 @@ public class DefaultXWikiRing extends DefaultXWikiTerm implements XWikiRing
     public static final String RING_TERM_ID = Names.RING_NEXUS_CODE_NAMESPACE + ".RingClass";
 
     /**
-     * Ring object identifier. TODO: check if this is the canonical way TODO: check if there's a way to
-     * register object events only for a given class name See also CommentEventGeneratorListener
+     * Ring object identifier. TODO: check if this is the canonical way TODO: check if there's a way to register object events only for a given class
+     * name See also CommentEventGeneratorListener
      */
     public static final RegexEntityReference RING_OBJECT_REFERENCE = BaseObjectReference.any(RING_TERM_ID);
 
@@ -54,9 +54,8 @@ public class DefaultXWikiRing extends DefaultXWikiTerm implements XWikiRing
             new EntityReference("RingClass", EntityType.DOCUMENT, Names.RING_CODE_SPACE_REFERENCE);
 
     /**
-     * The wrapped BaseObject. Contrarily to Vertices which can be built from a DocumentReference, rings are built
-     * entirely from a BaseObject, otherwise we could have Vertices and their rings which do not relate to the same
-     * XWikiDocument.
+     * The wrapped BaseObject. Contrarily to Vertices which can be built from a DocumentReference, rings are built entirely from a BaseObject,
+     * otherwise we could have Vertices and their rings which do not relate to the same XWikiDocument.
      */
     protected final BaseObject object;
 
@@ -76,8 +75,8 @@ public class DefaultXWikiRing extends DefaultXWikiTerm implements XWikiRing
     }
 
     /**
-     * This constructor is useful for manipulating rings in memory that are not stored as BaseObjects in XWikiDocuments,
-     * but have an existence in the index. Used for instance for computing rings by relation transitivity.
+     * This constructor is useful for manipulating rings in memory that are not stored as BaseObjects in XWikiDocuments, but have an existence in the
+     * index. Used for instance for computing rings by relation transitivity.
      */
     public DefaultXWikiRing(DocumentReference origin, DocumentReference relation, DocumentReference destination,
             EntityReferenceSerializer<String> serializer, DocumentReferenceResolver<String> resolver)
@@ -95,6 +94,15 @@ public class DefaultXWikiRing extends DefaultXWikiTerm implements XWikiRing
     public BaseObject getBaseObject()
     {
         return this.object;
+    }
+
+    public String getProperties()
+    {
+        String properties = object.getLargeStringValue(Names.HAS_PROPERTIES);
+        if (!StringUtils.isEmpty(properties)) {
+            return properties;
+        }
+        return null;
     }
 
     public DocumentReference getReferent()
@@ -145,6 +153,20 @@ public class DefaultXWikiRing extends DefaultXWikiTerm implements XWikiRing
     public boolean hasValue()
     {
         return getValue() != null;
+    }
+
+    public void setProperties(Object properties)
+    {
+        if (properties == null || properties.toString() == null) {
+            return;
+        }
+
+        String str = properties.toString();
+
+        if (StringUtils.isEmpty(str)) {
+            return;
+        }
+        object.setLargeStringValue(Names.HAS_PROPERTIES, str);
     }
 
     /**

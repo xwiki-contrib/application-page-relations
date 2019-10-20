@@ -1,3 +1,5 @@
+
+- Possibly add a displayer property to each Ring class for custom display
 - Check difference between ContextualAuthorizationManager and AuthorizationManager
 - Add extension point to ElmSheet to load content dynamically
 - Rename getDirectPredecessors to getRingsTo? and add method to RingTraverser and to RingScriptService?
@@ -7,7 +9,7 @@
     Add method getRingsTo, and check implementation of method getRings
 - Rename identifier into reference, denotation?
 - Check access rights, and protection of resources such as Ring:object, and dangerous RRing methods
-- Add events GraphEvent ringAddedEvent, VertexAddedEvent, ringRemovedEvent, VertexRemovedEvent, VertexUpdatedEvent, ringUpdatedEvent, ...
+- Add events RingEvent RingAddedEvent, TermAddedEvent, RingRemovedEvent, TermRemovedEvent, TermUpdatedEvent, RingUpdatedEvent, ...
 - Check and translate the labels cf xar-handler / ApplicationResources
 - Check with multilingual documents
 - Add a cache of relations
@@ -18,7 +20,6 @@
 - When launching Solr reindex, it seems the index is not deleted first
 - When importing a XAR with some pages with language="en", they get imported with no language set, while when creating a page, a default language is set.
 - {@link org.xwiki.search.solr.internal.reference.DefaultSolrReferenceResolver#getResover(EntityReference)} should be "getResolver" (make the old method deprecated and add a new one?)
-- Add method to EmbeddedSolrInstance to access SolrDocument by id
 - In an existing wiki, check if there are documents with content that have a Solr identifier that does not end with a locale id. This could be a bug: Solr identifiers ending with "_" or anything that is not a locale identifier should only relate to technical documents (which are supposed to have no language, even though they actually have one: the comments in the code use a language, and so do the variable names.
 - It seems Solr delete does not empty completely the index, but only the ones of correct documents that can be resolved properly (i.e. from which an EntityReference can be built). If an EntityReference cannot get created (which can happen if the index was wrongly created), the wrong index entry will remain.
 - Issue when restoring a deleted vertex: the index is not correctly restored.
@@ -36,5 +37,3 @@
 - User interface to enter / edit scalar values
 - Security aspects: Ring encapsulate a BaseObject which require programming rights. The general idea is to make sure that 1) the access to these restricted objects is restricted by programming right check, 2) the operations offered by Ring on these encapsulated objects either are not dangerous or they check the programming rights.
 
-Done:
-- Use "Default" rather than "Base"

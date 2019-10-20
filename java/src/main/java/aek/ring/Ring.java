@@ -30,6 +30,8 @@ import org.xwiki.stability.Unstable;
 @Unstable
 public interface Ring<I> extends Term<I>
 {
+    Object getProperties();
+
     /**
      * Returns the ring referent identifier.
      *
@@ -80,6 +82,8 @@ public interface Ring<I> extends Term<I>
      * @return true if the edge value is not null, false otherwise.
      */
     boolean hasValue();
+
+    void setProperties(Object properties);
 
     /**
      * Sets this edge relation identifier.
