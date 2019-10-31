@@ -1,0 +1,171 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.3" reference="Ring.Importer" locale="">
+  <web>Ring</web>
+  <name>Importer</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>Main.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>Importer</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}
+
+#set ($input = "$!request.input")
+#set ($limit = "$!request.limit")
+{{html clean="false"}}
+
+&lt;form class="xform" method="post" action=""&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Input&lt;/th&gt;
+      &lt;td&gt;
+        &lt;textarea name="input" rows="10"&gt;$input&lt;/textarea&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Type&lt;/th&gt;
+      &lt;td&gt;
+        &lt;select name="isA"&gt;
+          &lt;option value=""&gt;&lt;/option&gt;
+          #foreach ($entity in $services.ring.getTypes())
+            #set ($page = $xwiki.getDocument($entity))
+            #set ($value = $services.model.serialize($entity))
+            #if ($value == "$!request.isA") #set ($selected = ' selected') #else #set ($selected = '') #end
+            &lt;option value="$value"$selected&gt;$page.title&lt;/option&gt;
+          #end
+        &lt;/select&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Part of&lt;/th&gt;
+      &lt;td&gt;
+        &lt;input type="text" name="isPartOf" /&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Relation to be used for links&lt;/th&gt;
+      &lt;td&gt;
+        &lt;select name="linkRelation"&gt;
+          &lt;option value=""&gt;&lt;/option&gt;
+          #foreach ($entity in $services.ring.getRelations())
+            #set ($page = $xwiki.getDocument($entity))
+            #set ($value = $services.model.serialize($entity))
+            #if ($value == "$!request.linkRelation") #set ($selected = ' selected') #else #set ($selected = '') #end
+            &lt;option value="$value"$selected&gt;$page.title&lt;/option&gt;
+          #end
+        &lt;/select&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Limit&lt;/th&gt;
+      &lt;td&gt;
+        &lt;input name="limit" type="text" value="$limit"/&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;button type="submit" name="action" value="preview" class="btn btn-default"&gt;Preview&lt;/button&gt;
+  &lt;button type="submit" name="action" value="execute" class="btn btn-default"&gt;Import&lt;/button&gt;
+&lt;/form&gt;
+
+{{/html}}
+
+{{/velocity}}
+
+{{groovy}}
+
+import org.xwiki.rendering.syntax.Syntax
+import org.xwiki.rendering.block.Block
+import org.xwiki.rendering.block.LinkBlock
+import org.xwiki.rendering.block.CompositeBlock
+import org.xwiki.rendering.block.match.ClassBlockMatcher
+
+def toWikipediaUri(String input, String language) {
+  def str = input.capitalize();
+  str = str.replaceAll("\\s", "_")
+  return "wikipedia:${language}:${str}"
+}
+
+def toWikipediaUrl(String uri) {
+  def idx = uri.lastIndexOf(":")
+  def id = uri.substring(idx + 1)
+  return "https://fr.wikipedia.org/wiki/$id"
+}
+
+if (request.action == "preview" || request.action == "execute") {
+  def input = request.input
+  def type = request.isA
+  def partOf = request.isPartOf
+  def linkRelation = request.linkRelation
+  def limit = request.limit
+  if (limit != "") {
+    limit = Integer.parseInt(limit)
+  } else {
+    limit = 0
+  }
+  def xdom = services.rendering.parse(input, Syntax.XWIKI_2_1.toIdString())
+  def links = xdom.getBlocks(new ClassBlockMatcher(LinkBlock.class), Block.Axes.DESCENDANT)
+  links.eachWithIndex {
+    entry, index -&gt;
+      if (limit == 0 || index &lt; limit) {
+        def reference = entry.reference.reference
+        def children = entry.children
+        def label = services.rendering.render(new CompositeBlock(entry.children), Syntax.PLAIN_1_0.toIdString())
+        if (label.length() == 0)
+          label = reference
+        label = label.capitalize()
+        def identifier = label.toLowerCase()
+        identifier = identifier.replaceAll("\\s","-")
+        identifier = java.text.Normalizer.normalize(identifier, java.text.Normalizer.Form.NFD);
+        identifier = identifier.replaceAll("[^\\x00-\\x7F]", "");
+        def uri = toWikipediaUri(reference, "fr")
+        def url = toWikipediaUrl(uri)
+        def pageReference = services.model.createDocumentReference("", "wiki", identifier)
+        def page = xwiki.getDocument(pageReference)
+        page.setTitle(label)
+        if (request.action == "execute")
+          page.save()
+        def isA = services.model.createDocumentReference("", "Ring", "IsA")
+        def typeReference = services.model.resolveDocument(type)
+        if (request.action == "execute")
+          services.ring.addRing(pageReference, isA, typeReference)
+        if (linkRelation != null &amp;&amp; linkRelation != "") {
+          def linkRelationReference = services.model.resolveDocument(linkRelation)
+          if (request.action == "execute")
+            services.ring.addRing(pageReference, linkRelationReference, uri.toString())
+        }
+        println "* $label - $identifier - $reference - $uri - [[$url]] - $typeReference - [[$pageReference]]"
+      }
+  }
+  println ""
+}
+{{/groovy}}
+</content>
+</xwikidoc>
