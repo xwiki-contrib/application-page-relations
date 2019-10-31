@@ -19,29 +19,32 @@
  */
 package aek.ring;
 
-import org.xwiki.stability.Unstable;
-
 /**
- * RRing indexer that maintains an index of rings easing RRing querying.
+ * Factory class used to create terms, relations or rings.
  *
- * @param <I> vertex identifier class
+ * @param <I> vertex identifier
  */
-@Unstable
-public interface RingIndexer<I>
+public interface RingFactory<I>
 {
     /**
-     * Adds the given ringSet to the index.
+     * Creates a Ring with the given referent, relation and relatum. The relatum can either be a term identifier or a
+     * scalar value.
      *
-     * @param ring the ringSet identifier to index
-     * @throws RingException in case an error occurs
+     * @param referent ringSet referent
+     * @param relation ringSet relation
+     * @param relatum ringSet relatum (identifier or scalar)
+     * @return the created Ring
      */
-    void index(Ring<I> ring) throws RingException;
+    Ring<I> createRing(I referent, I relation, Object relatum) throws RingException;
 
     /**
-     * Removes the given ringSet from the index.
+     * Creates a Relation with the given identifier, domain, image and transitivity property.
      *
-     * @param ring the ringSet identifier to be removed
-     * @throws RingException in case an error occurs
+     * @param identifier relation identifier
+     * @param domain relation domain
+     * @param image relation image
+     * @param transitive relation transitivity value
+     * @return the created Relation
      */
-    void unindex(Ring<I> ring) throws RingException;
+    Relation<I> createRelation(I identifier, String domain, String image, boolean transitive) throws RingException;
 }

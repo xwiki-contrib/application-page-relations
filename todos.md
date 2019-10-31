@@ -1,5 +1,6 @@
 
-- Possibly add a displayer property to each Ring class for custom display
+- Making it possible to add StringRings and BooleanRings from the user interface
+- Possibly add a displayer property to each Ring class for custom display of the values?
 - Check difference between ContextualAuthorizationManager and AuthorizationManager
 - Add extension point to ElmSheet to load content dynamically
 - Rename getDirectPredecessors to getRingsTo? and add method to RingTraverser and to RingScriptService?

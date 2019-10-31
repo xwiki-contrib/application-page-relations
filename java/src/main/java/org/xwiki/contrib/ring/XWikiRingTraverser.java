@@ -1,20 +1,21 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 package org.xwiki.contrib.ring;
 
@@ -35,18 +36,7 @@ import aek.ring.RingTraverser;
 @Role
 public interface XWikiRingTraverser extends RingTraverser<DocumentReference>
 {
-    List<Object[]> runRingQueryHql(String propertyName, String destinationId, String wikiId)
-            throws QueryException;
-
-    /**
-     * Get vertices having an ringSet toward a given vertex whose relation matches the given one. TODO: rename to
-     * getInboundrings?
-     *
-     * @param relation a relation
-     * @return all vertices pointing at the vertex with the given relation
-     */
-    List<XWikiRing> getRingsTo(DocumentReference relatum, DocumentReference relation)
-            throws RingException;
+    List<XWikiRelation> filterRelations(DocumentReference term, List<? extends Relation<DocumentReference>> relations) throws RingException;
 
     /**
      * @param relatum the origin vertex
@@ -60,8 +50,7 @@ public interface XWikiRingTraverser extends RingTraverser<DocumentReference>
      * @param relation relation
      * @return list of vertices having the origin vertex as destination for at least one ringSet with the given relation
      */
-    List<DocumentReference> getDirectPredecessorsViaHql(DocumentReference relatum, DocumentReference relation)
-            throws RingException;
+    List<DocumentReference> getDirectPredecessorsViaHql(DocumentReference relatum, DocumentReference relation) throws RingException;
 
     XWikiRing getFirstRingFrom(DocumentReference referent, DocumentReference relation) throws RingException;
 
@@ -69,23 +58,21 @@ public interface XWikiRingTraverser extends RingTraverser<DocumentReference>
 
     Query getNeighboursQuery(DocumentReference vertex) throws RingException;
 
+    List<XWikiRing> getRings(DocumentReference referent, DocumentReference relatum) throws RingException;
+
     List<XWikiRing> getRingsFrom(DocumentReference referent) throws RingException;
 
     List<XWikiRing> getRingsFrom(DocumentReference referent, DocumentReference relation) throws RingException;
 
     List<XWikiRing> getRingsFrom(XWikiDocument page) throws RingException;
 
-    List<XWikiRing> getRings(DocumentReference referent, DocumentReference relatum) throws RingException;
-
-    /**
-     * @return list of relations that are compatible with the vertex, i.e. whose domains contain the vertex
-     */
-    List<XWikiRelation> getRelations(DocumentReference term, List<? extends Relation<DocumentReference>> relations)
-            throws RingException;
+    List<XWikiRing> getRingsTo(DocumentReference relatum, DocumentReference relation) throws RingException;
 
     LengthSolrInputDocument getSolrInputDocument(DocumentReference vertex) throws RingException;
 
     List<DocumentReference> run(Query query) throws RingException;
+
+    List<Object[]> runRingQueryHql(String propertyName, String destinationId, String wikiId) throws QueryException;
 
     List<DocumentReference> search(String query, String sort, int max) throws RingException;
 

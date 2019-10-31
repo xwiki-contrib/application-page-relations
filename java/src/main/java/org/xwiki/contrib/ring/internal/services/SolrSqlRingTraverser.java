@@ -1,20 +1,21 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 package org.xwiki.contrib.ring.internal.services;
 
@@ -37,7 +38,7 @@ import org.xwiki.contrib.ring.XWikiRelation;
 import org.xwiki.contrib.ring.XWikiRing;
 import org.xwiki.contrib.ring.XWikiRingIndexer;
 import org.xwiki.contrib.ring.XWikiRingTraverser;
-import org.xwiki.contrib.ring.XWikiTermFactory;
+import org.xwiki.contrib.ring.XWikiRingFactory;
 import org.xwiki.contrib.ring.internal.model.DefaultXWikiRing;
 import org.xwiki.contrib.ring.internal.model.Names;
 import org.xwiki.model.EntityType;
@@ -95,7 +96,7 @@ public class SolrSqlRingTraverser implements XWikiRingTraverser
     private DocumentReferenceResolver<String> resolver;
 
     @Inject
-    private XWikiTermFactory factory;
+    private XWikiRingFactory factory;
 
     protected Query createQuery(String solrQueryStatement, String sort, int max) throws RingException
     {
@@ -117,24 +118,52 @@ public class SolrSqlRingTraverser implements XWikiRingTraverser
         }
     }
 
-    public List<DocumentReference> getDirectPredecessorsViaHql(DocumentReference vertex) throws RingException
+    public List<XWikiRelation> filterRelations(DocumentReference term, List<? extends Relation<DocumentReference>> relations) throws RingException
+    {
+        List<XWikiRelation> compatibleRelations = new ArrayList<>();
+        LengthSolrInputDocument vertexSolr = getSolrInputDocument(term);
+        for (Relation<DocumentReference> relation : relations) {
+            String domain = relation.getDomain();
+            if (!StringUtils.isEmpty(domain)) {
+                if (domain.equals(TermSet.ANY.getLabel())) {
+                    compatibleRelations.add((XWikiRelation) relation);
+                } else {
+                    int idx = domain.indexOf(":");
+                    if (idx > 0) {
+                        String fieldName = domain.substring(0, idx);
+                        String fieldValue = domain.substring(idx + 1).replaceAll("\"", "");
+                        //TODO: do not append "string" manually
+                        Collection<Object> values = vertexSolr.getFieldValues(fieldName + "_string");
+                        if (values != null && values.contains(fieldValue)) {
+                            compatibleRelations.add((XWikiRelation) relation);
+                        }
+                    }
+                }
+            } else {
+                // if the applies-to constraint is empty, consider that the relation applies to any vertex
+                compatibleRelations.add((XWikiRelation) relation);
+            }
+        }
+        return compatibleRelations;
+    }
+
+    public List<DocumentReference> getDirectPredecessorsViaHql(DocumentReference term) throws RingException
     {
         try {
-            logger.debug("Get SQL direct predecessors: {}", vertex);
+            logger.debug("Get SQL direct predecessors: {}", term);
             // NB: an HQL query is used here, not Solr QL, because this method is called by the Solr indexer to
             // compute the index
             // NB: no access right is checked here, because this method is meant to get used internally only.
-            List<Object[]> entries = runRingQueryHql(Names.HAS_RELATUM, serializer.serialize(vertex),
-                    vertex.getWikiReference().getName());
-            List<DocumentReference> vertices = new ArrayList<>();
+            List<Object[]> entries = runRingQueryHql(Names.HAS_RELATUM, serializer.serialize(term), term.getWikiReference().getName());
+            List<DocumentReference> referents = new ArrayList<>();
             for (Object[] entry : entries) {
-                DocumentReference reference = resolver.resolve(entry[0].toString(), vertex);
-                vertices.add(reference);
+                DocumentReference reference = resolver.resolve(entry[0].toString(), term);
+                referents.add(reference);
             }
             //logger.debug("Direct predecessors of {} (HQL): ", vertex, vertices);
-            return vertices;
+            return referents;
         } catch (QueryException e) {
-            logger.error("Exception while getting direct predecessors of " + vertex, e);
+            logger.error("Exception while getting direct predecessors of " + term, e);
             throw new RingException(e);
         }
     }
@@ -194,54 +223,6 @@ public class SolrSqlRingTraverser implements XWikiRingTraverser
                         serializer.serialize(factory.getIdentifier(Names.IS_CONNECTED_TO_RELATION_NAME)) + ":\"" +
                         serializer.serialize(vertex) + "\"";
         return createQuery(statement, DEFAULT_SORT, MAX);
-    }
-
-    public List<XWikiRelation> getRelations(DocumentReference term,
-            List<? extends Relation<DocumentReference>> relations) throws RingException
-    {
-        List<XWikiRelation> compatibleRelations = new ArrayList<>();
-        LengthSolrInputDocument vertexSolr = getSolrInputDocument(term);
-        for (Relation<DocumentReference> relation : relations) {
-            String domain = relation.getDomain();
-            if (!StringUtils.isEmpty(domain)) {
-                if (domain.equals(TermSet.ANY.getLabel())) {
-                    compatibleRelations.add((XWikiRelation) relation);
-                } else {
-                    int idx = domain.indexOf(":");
-                    if (idx > 0) {
-                        String fieldName = domain.substring(0, idx);
-                        String fieldValue = domain.substring(idx + 1).replaceAll("\"", "");
-                        //TODO: do not append "string" manually
-                        Collection<Object> values = vertexSolr.getFieldValues(fieldName + "_string");
-                        if (values != null && values.contains(fieldValue)) {
-                            compatibleRelations.add((XWikiRelation) relation);
-                        }
-                    }
-                }
-            } else {
-                // if the applies-to constraint is empty, consider that the relation applies to any vertex
-                compatibleRelations.add((XWikiRelation) relation);
-            }
-        }
-        return compatibleRelations;
-    }
-
-    public XWikiRing getRing(DocumentReference vertex, DocumentReference relation, DocumentReference destination)
-            throws RingException
-    {
-        XWikiDocument page = factory.getDocument(vertex, false);
-        for (Triple<EntityReference, Class, Class> ringType : factory.getRingClasses()) {
-            for (BaseObject baseObject : page.getXObjects(ringType.getLeft())) {
-                // TODO: check if and why getXObjects can return null elements
-                if (baseObject != null) {
-                    XWikiRing ring = factory.createRing(baseObject);
-                    if (destination.equals(ring.getRelatum()) && relation.equals(ring.getRelation())) {
-                        return ring;
-                    }
-                }
-            }
-        }
-        return null;
     }
 
     // TODO: in theory, this should return all rings from vertex to destination and inversely, to be

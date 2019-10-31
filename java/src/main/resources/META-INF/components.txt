@@ -1,4 +1,4 @@
-org.xwiki.contrib.ring.internal.DefaultTermFactory
+org.xwiki.contrib.ring.internal.DefaultRingFactory
 org.xwiki.contrib.ring.internal.listeners.DocumentRenamingEventListener
 900:org.xwiki.contrib.ring.internal.listeners.XWikiTermSolrIndexEventListener
 900:org.xwiki.contrib.ring.internal.metadata.XWikiRingSolrMetadataExtractor
