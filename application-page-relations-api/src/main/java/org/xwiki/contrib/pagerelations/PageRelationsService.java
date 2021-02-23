@@ -20,10 +20,17 @@
 package org.xwiki.contrib.pagerelations;
 
 import org.xwiki.component.annotation.Role;
+import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.EntityReference;
+import org.xwiki.model.reference.LocalDocumentReference;
+import org.xwiki.query.QueryException;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Interface (aka Role) of the PageRelationsService.
- * 
+ *
  * @version $Id$
  */
 @Role
@@ -31,7 +38,21 @@ public interface PageRelationsService
 {
 
     /**
-     * @return String
+     * PageRelation XClass reference.
      */
-    String sayHello();
+    EntityReference PAGE_RELATION_CLASS_REFERENCE =
+            new LocalDocumentReference(Arrays.asList("PageRelations", "Code"), "PageRelationClass");
+
+    /**
+     * PageRelation XClass main field name.
+     */
+    String PAGE_FIELD = "page";
+
+    /**
+     * Gets incoming relations to a given page from any wiki in the farm.
+     * @param reference Reference to page
+     * @return List of pages having a relation toward the passed reference
+     * @throws QueryException Raised in case of error
+     */
+    List<DocumentReference> getIncomingRelations(DocumentReference reference) throws QueryException;
 }
