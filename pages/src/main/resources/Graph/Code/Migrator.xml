@@ -55,7 +55,7 @@
 #if ($action == 'migrate')
   #set ($actOnDatabase = ("$!request.actOnDatabase" == 'true'))
   #set ($PAGE_RELATION_CLASS_NAME = 'PageRelations.Code.PageRelationClass')
-  #set ($XDF_STATEMENT_CLASS_NAME = 'xdf.ring')
+  #set ($XDF_STATEMENT_CLASS_NAME = 'xdf.edge')
   
   #if (!$xwiki.exists($PAGE_RELATION_CLASS_NAME) || !$xwiki.exists($XDF_STATEMENT_CLASS_NAME))
     {{error}}
@@ -76,9 +76,9 @@
         #foreach ($relation in $relations)
           #set ($object = $relation.getProperty('page').value)
           * $object
-          #set ($ring = $page.newObject($XDF_STATEMENT_CLASS_NAME))
-          #set ($discard = $ring.set('has-predicate', 'xdf.has-relation-with'))
-          #set ($discard = $ring.set('has-object', $object))
+          #set ($edge = $page.newObject($XDF_STATEMENT_CLASS_NAME))
+          #set ($discard = $edge.set('has-predicate', 'xdf.has-relation-with'))
+          #set ($discard = $edge.set('has-object', $object))
         #end
         #set ($discard = $page.removeObjects($PAGE_RELATION_CLASS_NAME))
         #if ($actOnDatabase)

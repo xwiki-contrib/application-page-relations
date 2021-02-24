@@ -123,7 +123,7 @@
     </property>
     <property>
       <code>// - Customizes Main.SolrSearch JSX in order to send the get request to a custom search service instead of the current page
-// - Adds ring addition / removal capabitilies
+// - Adds edge addition / removal capabitilies
 // TODO: we should load Main.SolrSearch JSX separately and get the functions added to something like an XWiki.Solr namespace so that they can get called
 // from other scripts.
 
@@ -210,14 +210,14 @@ require(['jquery', 'xwiki-suggestPages', 'xwiki-events-bridge'], function($) {
         var destination = input.data('value');
         var origin = form.find("input[name='origin']").val();
         var relation = form.find("select[name='relation']").val();
-        var notification = new XWiki.widgets.Notification("Adding ring...", "inprogress");
-        sendRequest("add-ring", origin, relation, destination, "plain").done(function (data) {
+        var notification = new XWiki.widgets.Notification("Adding edge...", "inprogress");
+        sendRequest("add-edge", origin, relation, destination, "plain").done(function (data) {
           form.remove();
           notification.hide();
           getEdges();
         });
       });
-      var cancelButton = form.find(".add-ring-cancel");
+      var cancelButton = form.find(".add-edge-cancel");
       cancelButton.click(function() {
         form.remove();
         getEdges();
@@ -228,8 +228,8 @@ require(['jquery', 'xwiki-suggestPages', 'xwiki-events-bridge'], function($) {
     }
 
     var removeEdge = function(origin, relation, destination) {
-      sendRequest("remove-ring", origin, relation, destination, "plain").done(function (data) {
-        // TODO: we may remove the ring manually instead, since Solr indexing update takes a few more milliseconds.
+      sendRequest("remove-edge", origin, relation, destination, "plain").done(function (data) {
+        // TODO: we may remove the edge manually instead, since Solr indexing update takes a few more milliseconds.
         // Also, we don't want the UI to be completely reset (pagination index, active facets etc.)
         getEdges();
       });
@@ -255,7 +255,7 @@ require(['jquery', 'xwiki-suggestPages', 'xwiki-events-bridge'], function($) {
     getEdges();
 
     /** Returns the service to be called to perform the real search: either XWiki.Graph.Search for more or less standard search, 
-     * or XWiki.Graph.Service (for ring search) */
+     * or XWiki.Graph.Service (for edge search) */
     var getSearchServiceDocument = function() {
       var currentDocumentReference = XWiki.currentDocument.getDocumentReference();
       var wiki = currentDocumentReference.extractReference(XWiki.EntityType.WIKI).name;
@@ -303,7 +303,7 @@ require(['jquery', 'xwiki-suggestPages', 'xwiki-events-bridge'], function($) {
     });
 
     // Overrides the function defined in Main.SolrSearch
-    // This function adds interaction to the search results UI. It is overridden for adding interactions to the list of ring: delete a ring, add a ring,
+    // This function adds interaction to the search results UI. It is overridden for adding interactions to the list of edge: delete a edge, add a edge,
     // and to show the facets upon click on the filter button
     enhanceSearchUI = function() {
       $('.search-filter-button').click(function(event) {
@@ -324,17 +324,17 @@ require(['jquery', 'xwiki-suggestPages', 'xwiki-events-bridge'], function($) {
         '.search-facet-body .selectedLocation a'
       ].join(',')).click(reloadSearchUI);
 
-        $(".graph-delete-ring").click(function(event) {
+        $(".graph-delete-edge").click(function(event) {
           var origin = $(this).data("origin");
           var relation = $(this).data("relation");
           var destination = $(this).data("destination");
-          // This is a trick for the case when we list inverse edges, since we can't get the ring relation or destination easily at the moment in that case.
+          // This is a trick for the case when we list inverse edges, since we can't get the edge relation or destination easily at the moment in that case.
           if (!destination) {
             destination = XWiki.Model.serialize(XWiki.currentDocument.getDocumentReference());
           }
           removeEdge(origin, relation, destination);
         });
-        $("a.graph-add-ring").click(function(event) {
+        $("a.graph-add-edge").click(function(event) {
           event.preventDefault();
           var origin = $(this).data("origin");
           var parentListItem = $(this).closest("li");
@@ -343,7 +343,7 @@ require(['jquery', 'xwiki-suggestPages', 'xwiki-events-bridge'], function($) {
           // TODO: handle fail and other ajax responses
           // TODO: localize
           var notification = new XWiki.widgets.Notification("Fetching form...", "inprogress");
-          sendRequest('get-add-ring-form', origin, null, null, "html").done(function (data) {
+          sendRequest('get-add-edge-form', origin, null, null, "html").done(function (data) {
             notification.hide();
             createNewEdgeForm(data, parentListItem);
           })
@@ -523,7 +523,7 @@ a.sort-item {
            margin-top: 4px;
            font-size: 1em;
            a {text-decoration: none;}
-           &amp;.graph-delete-ring {
+           &amp;.graph-delete-edge {
              background-color: inherit;
              padding: 0.5px;
            }
@@ -532,7 +532,7 @@ a.sort-item {
      }
   }
 
-  li form.add-ring {
+  li form.add-edge {
     display: block;
     margin-top: 0.5em;
     background: #f1f1f1;
@@ -565,7 +565,7 @@ a.sort-item {
 }
 
 
-.graph-delete-ring:hover {
+.graph-delete-edge:hover {
   cursor: pointer;
 }
 

@@ -51,12 +51,7 @@ The application allows to:
 * Explore pages via their relations, using facets
 * Define relations constraints and properties
 
-<<<<<<< HEAD:pages/src/main/resources/Ring/Documentation.xml
-A ring is an ordered set consisting of:
-
-=======
-An ring is an ordered triple consisting of:
->>>>>>> parent of 95ed7c2... MISC: move to 'Ring' namespace:pages/src/main/resources/Graph/Documentation.xml
+An edge is an ordered triple consisting of:
 * An origin page
 * A relation
 * A destination page or a scalar value (string, date, number, etc.)
@@ -103,17 +98,14 @@ In order to draw a relation between two pages, the user needs to have at least e
 //Page "The Jungle Book" and its related pages//
 )))
 
-<<<<<<< HEAD:pages/src/main/resources/Ring/Documentation.xml
 [[[[image:add-edge-form.jpg||style="border:1px solid silver; max-width:100%;"]]&gt;&gt;attach:add-edge-form.jpg]]
 
 (% class="text-center" %)
 (((
 //Form for connecting pages//
 )))
-=======
-[[[[image:add-ring-form.jpg||style="border:1px solid silver; max-width:100%;"]]&gt;&gt;attach:add-ring-form.jpg]]
+[[[[image:add-edge-form.jpg||style="border:1px solid silver; max-width:100%;"]]&gt;&gt;attach:add-edge-form.jpg]]
 (% class="text-center" %)(((//Form for connecting pages//)))
->>>>>>> parent of 95ed7c2... MISC: move to 'Ring' namespace:pages/src/main/resources/Graph/Documentation.xml
 )))
 )))
 
@@ -166,7 +158,7 @@ Once imported into the wiki, the Nobel Prize laureate pages can be browsed using
 //Ring application class diagram//
 =======
 |Vertex|A vertex simply wraps a wiki page. It can have inward and outward edges.|
-|Edge|An ring typically links together two vertices – an origin and a destination – and a relation. "The Jungle Book has author Rudyard Kipling" is an ring that has origin page "The Jungle Book", destination page "Rudyard Kipling", and relation "has author". An ring can be a vertex, so that it's also possible to create edges involving edges, such as: "Anna says that 'The Jungle Book has author Rudyard Kipling'", where "says" is a relation used by the ring having origin "Anna" and destination "The Jungle Book has author Rudyard Kipling".
+|Edge|An edge typically links together two vertices – an origin and a destination – and a relation. "The Jungle Book has author Rudyard Kipling" is an edge that has origin page "The Jungle Book", destination page "Rudyard Kipling", and relation "has author". An edge can be a vertex, so that it's also possible to create edges involving edges, such as: "Anna says that 'The Jungle Book has author Rudyard Kipling'", where "says" is a relation used by the edge having origin "Anna" and destination "The Jungle Book has author Rudyard Kipling".
 |Relation|A relation has a domain and an image. Its domain is the set of vertices on which it can be applied to, and its domain is the set of vertices it can accept as values. For instance, "has award" is a relation. Its domain is the set of pages representing a person or an organization. Its image is the set of pages that represent an award.
 |Graph|A graph is a set of vertices, edges and relations.
 >>>>>>> parent of 95ed7c2... MISC: move to 'Ring' namespace:pages/src/main/resources/Graph/Documentation.xml
@@ -261,21 +253,29 @@ The implementation consists in particular of the following components:
 * Deploy the generated jar and import the generated xar
 
 
+<<<<<<< HEAD
 == Next steps ==
 
 * Ability to add ring scalar values via a form.
 =======
 * Add ring scalar values via a form.
 >>>>>>> parent of 95ed7c2... MISC: move to 'Ring' namespace:pages/src/main/resources/Graph/Documentation.xml
+=======
+* Add edge scalar values via a form.
+>>>>>>> parent of b8a23ca... Usage of Term and Ring instead of Vertex and Edge
 * See if the default EmbeddedSolrInstance can expose a method for accessing an indexed SolrDocument by its id.
 * Support relation transitivity.
 * Associate types with XWiki sheets.
 * Store the graph in a graph database.
+<<<<<<< HEAD
 <<<<<<< HEAD:pages/src/main/resources/Ring/Documentation.xml
 * Create rings using wiki syntax or macros: ##~{~{ring relation="wiki.HasAuthor" destination="wiki.Rudyard Kipling"}}The author of this book is Rudyard Kipling.~{~{/ring}}##
 =======
 * Create edges using wiki syntax or macros: ##~{~{ring relation="wiki.HasAuthor" destination="wiki.Rudyard Kipling"}}The author of this book is Rudyard Kipling.~{~{/ring}}##
 >>>>>>> parent of 95ed7c2... MISC: move to 'Ring' namespace:pages/src/main/resources/Graph/Documentation.xml
+=======
+* Create edges using wiki syntax or macros: ##~{~{edge relation="wiki.HasAuthor" destination="wiki.Rudyard Kipling"}}The author of this book is Rudyard Kipling.~{~{/edge}}##
+>>>>>>> parent of b8a23ca... Usage of Term and Ring instead of Vertex and Edge
 * Handle inverse relations. For example the inverse of relation "has author" is relation "has authored".
 * Display pages in livetables with ability to filter them by their rings.
 
@@ -326,7 +326,7 @@ The data structure of the application is an hypergraph.
 ** [[Apache TinkerPop&gt;&gt;http://tinkerpop.apache.org/]], [[Gremlin&gt;&gt;https://en.wikipedia.org/wiki/Gremlin_(programming_language)]], [[Pratical Gremlin&gt;&gt;http://kelvinlawrence.net/book/Gremlin-Graph-Guide.html]]
 ** [[Dgraph presentation&gt;&gt;https://docs.google.com/presentation/d/1JqHw_kGmEJE6WgnP4xMVXQ1b1CAWYOYK9eS09an2aI0/]], [[How Dgraph raised series A&gt;&gt;https://blog.dgraph.io/post/how-dgraph-labs-raised-series-a/]]
 ** [[Grakn database&gt;&gt;https://en.wikipedia.org/wiki/GRAKN.AI]]
-** [[Neo4j - Moving from relational to relationships&gt;&gt;https://neo4j.com/business-ring/relational-to-relationships/]]
+** [[Neo4j - Moving from relational to relationships&gt;&gt;https://neo4j.com/business-edge/relational-to-relationships/]]
 ** [[JGraphT&gt;&gt;https://jgrapht.org/]]
 >>>>>>> parent of 95ed7c2... MISC: move to 'Ring' namespace:pages/src/main/resources/Graph/Documentation.xml
 ** [[Apache Giraph&gt;&gt;http://giraph.apache.org/]]
@@ -354,7 +354,7 @@ The data structure of the application is an hypergraph.
 * [[Relations entry on Stanford Encyclopedia of Philosophpy&gt;&gt;https://plato.stanford.edu/entries/relations/]]
 </content>
   <attachment>
-    <filename>add-ring-form.jpg</filename>
+    <filename>add-edge-form.jpg</filename>
     <mimetype>image/jpeg</mimetype>
     <charset>UTF-8</charset>
     <author>xwiki:XWiki.Admin</author>
@@ -476,7 +476,7 @@ The data structure of the application is an hypergraph.
         <separators/>
         <size>1</size>
         <sort/>
-        <sql>select doc.fullName, doc.title from XWikiDocument as doc, BaseObject as ring, StringProperty as hasRelation, StringProperty as hasDestination where ring.name = doc.fullName and ring.className = 'Graph.Code.EdgeClass' and hasRelation.id.id = ring.id and hasRelation.id.name = 'has-relation' and hasRelation.value = 'Graph.IsA' and hasDestination.id.id = ring.id and hasDestination.id.name = 'has-destination' and hasDestination.value = 'Graph.Relation' order by doc.fullName</sql>
+        <sql>select doc.fullName, doc.title from XWikiDocument as doc, BaseObject as edge, StringProperty as hasRelation, StringProperty as hasDestination where edge.name = doc.fullName and edge.className = 'Graph.Code.EdgeClass' and hasRelation.id.id = edge.id and hasRelation.id.name = 'has-relation' and hasRelation.value = 'Graph.IsA' and hasDestination.id.id = edge.id and hasDestination.id.name = 'has-destination' and hasDestination.value = 'Graph.Relation' order by doc.fullName</sql>
         <unmodifiable>0</unmodifiable>
         <validationMessage/>
         <validationRegExp/>
@@ -554,7 +554,7 @@ The data structure of the application is an hypergraph.
         <separators/>
         <size>1</size>
         <sort/>
-        <sql>select doc.fullName, doc.title from XWikiDocument as doc, BaseObject as ring, StringProperty as hasRelation, StringProperty as hasDestination where ring.name = doc.fullName and ring.className = 'Graph.Code.EdgeClass' and hasRelation.id.id = ring.id and hasRelation.id.name = 'has-relation' and hasRelation.value = 'Graph.IsA' and hasDestination.id.id = ring.id and hasDestination.id.name = 'has-destination' and hasDestination.value = 'Graph.Relation' order by doc.fullName</sql>
+        <sql>select doc.fullName, doc.title from XWikiDocument as doc, BaseObject as edge, StringProperty as hasRelation, StringProperty as hasDestination where edge.name = doc.fullName and edge.className = 'Graph.Code.EdgeClass' and hasRelation.id.id = edge.id and hasRelation.id.name = 'has-relation' and hasRelation.value = 'Graph.IsA' and hasDestination.id.id = edge.id and hasDestination.id.name = 'has-destination' and hasDestination.value = 'Graph.Relation' order by doc.fullName</sql>
         <unmodifiable>0</unmodifiable>
         <validationMessage/>
         <validationRegExp/>

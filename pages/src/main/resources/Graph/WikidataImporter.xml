@@ -35,100 +35,94 @@
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>{{info}}
-      This page allows to import some pages representing Nobel Prize laureates from [[Wikidata&gt;&gt;https://en.wikipedia.org/wiki/Wikidata]]
-      and to browse it using the Graph Application. Wikidata is a collaboratively edited knowledge base hosted by the
-      Wikimedia Foundation. In order import this data, run the query below at [[query.wikidata.org&gt;&gt;https://query.wikidata.org]],
-      or directly hit [[this Wikidata link&gt;&gt;https://query.wikidata.org/#SELECT%20DISTINCT%20%3Fentity%20%3FentityLabel%20%3FentityDescription%20%3FtypeLabel%20%3Fcountry%20%3FcountryLabel%20%3Fprize%20%3FprizeLabel%20%3FimageUrl%20WHERE%20%7B%0A%20%20%3Fentity%20wdt%3AP166%20%3Fprize%20.%0A%20%20%3Fentity%20wdt%3AP31%20%3Ftype%20.%0A%20%20OPTIONAL%20%7B%3Fentity%20wdt%3AP27%20%3Fcountry%7D%20.%0A%20%20OPTIONAL%20%7B%3Fentity%20wdt%3AP18%20%3FimageUrl%7D%20.%0A%20%20FILTER%20%28%3Fprize%20IN%20%28wd%3AQ35637%2C%20wd%3AQ37922%2C%20wd%3AQ38104%2C%20wd%3AQ44585%2C%20wd%3AQ47170%2C%20wd%3AQ80061%29%20%29%0A%20%20SERVICE%20wikibase%3Alabel%20%7B%0A%20%20%20%20bd%3AserviceParam%20wikibase%3Alanguage%20%22%5BAUTO_LANGUAGE%5D%2Cen%22%20.%0A%20%20%7D%0A%7D%0A]]
-      and download the results in JSON, then copy the JSON text in the textarea below.
-      {{/info}}
+This page allows to import some pages representing Nobel Prize laureates from [[Wikidata&gt;&gt;https://en.wikipedia.org/wiki/Wikidata]] and to browse it using the Graph Application. Wikidata is a collaboratively edited knowledge base hosted by the Wikimedia Foundation. In order import this data, run the query below at [[query.wikidata.org&gt;&gt;https://query.wikidata.org]], or directly hit [[this Wikidata link&gt;&gt;https://query.wikidata.org/#SELECT%20DISTINCT%20%3Fentity%20%3FentityLabel%20%3FentityDescription%20%3FtypeLabel%20%3Fcountry%20%3FcountryLabel%20%3Fprize%20%3FprizeLabel%20%3FimageUrl%20WHERE%20%7B%0A%20%20%3Fentity%20wdt%3AP166%20%3Fprize%20.%0A%20%20%3Fentity%20wdt%3AP31%20%3Ftype%20.%0A%20%20OPTIONAL%20%7B%3Fentity%20wdt%3AP27%20%3Fcountry%7D%20.%0A%20%20OPTIONAL%20%7B%3Fentity%20wdt%3AP18%20%3FimageUrl%7D%20.%0A%20%20FILTER%20%28%3Fprize%20IN%20%28wd%3AQ35637%2C%20wd%3AQ37922%2C%20wd%3AQ38104%2C%20wd%3AQ44585%2C%20wd%3AQ47170%2C%20wd%3AQ80061%29%20%29%0A%20%20SERVICE%20wikibase%3Alabel%20%7B%0A%20%20%20%20bd%3AserviceParam%20wikibase%3Alanguage%20%22%5BAUTO_LANGUAGE%5D%2Cen%22%20.%0A%20%20%7D%0A%7D%0A]] and download the results in JSON, then copy the JSON text in the textarea below.
+{{/info}}
 
-      == Export query
+== Export query
 
-      (% style="font-size: 0.9em;" %)(((
-      {{{
-      SELECT DISTINCT
-      ?entity ?entityLabel ?entityDescription ?typeLabel ?country ?countryLabel ?prize ?prizeLabel ?imageUrl
-      WHERE {
-      ?entity wdt:P166 ?prize .
-      ?entity wdt:P31 ?type .
-      OPTIONAL {?entity wdt:P27 ?country} .
-      OPTIONAL {?entity wdt:P18 ?imageUrl} .
-      FILTER (?prize IN (wd:Q35637, wd:Q37922, wd:Q38104, wd:Q44585, wd:Q47170, wd:Q80061) )
-      SERVICE wikibase:label {
+(% style="font-size: 0.9em;" %)(((
+{{{
+SELECT DISTINCT 
+  ?entity ?entityLabel ?entityDescription ?typeLabel ?country ?countryLabel ?prize ?prizeLabel ?imageUrl 
+  WHERE {
+    ?entity wdt:P166 ?prize .
+    ?entity wdt:P31 ?type .
+    OPTIONAL {?entity wdt:P27 ?country} .
+    OPTIONAL {?entity wdt:P18 ?imageUrl} .
+    FILTER (?prize IN (wd:Q35637, wd:Q37922, wd:Q38104, wd:Q44585, wd:Q47170, wd:Q80061) )
+    SERVICE wikibase:label {
       bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" .
-      }
-      }
-      }}}
-      )))
+    }
+  }
+}}}
+)))
 
-      {{velocity}}
+{{velocity}}
 
-      == Import form
+== Import form
 
-      #set ($spaceName = $request.spaceName)
-      #if ("$!spaceName" == '')
-      #set ($spaceName = 'wiki')
-      #end
-      #set ($limit = $request.limit)
-      #if ("$!limit" == '')
-      #set ($limit = 10)
-      #end
-      #set ($mapping = $request.mapping)
-      #if ("$!mapping" == '')
-      #set ($mapping = "
-      person:Person
-      organization:Organization
-      country:Country
-      award:Award
-      has-country:HasCountry Country
-      has-award:HasAward Award
-      has-wikidata-identifier:HasWikidataIdentifier string
-      ")
-      #end
-      {{html clean="false"}}
-      &lt;form action="" method="post"&gt;
-      &lt;table&gt;
-      &lt;tr&gt;
-      &lt;th width="50%"&gt;JSON input&lt;/th&gt;&lt;th&gt;Mapping&lt;/th&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-      &lt;td&gt;
+#set ($spaceName = $request.spaceName)
+#if ("$!spaceName" == '')
+  #set ($spaceName = 'wiki')
+#end
+#set ($limit = $request.limit)
+#if ("$!limit" == '')
+  #set ($limit = 10)
+#end
+#set ($mapping = $request.mapping)
+#if ("$!mapping" == '')
+  #set ($mapping = "
+  person:Person
+  organization:Organization
+  country:Country
+  award:Award
+  has-country:HasCountry Country
+  has-award:HasAward Award
+  has-wikidata-identifier:HasWikidataIdentifier string
+  ")
+#end
+{{html clean="false"}}
+&lt;form action="" method="post"&gt;
+  &lt;table&gt;
+  &lt;tr&gt;
+    &lt;th width="50%"&gt;JSON input&lt;/th&gt;&lt;th&gt;Mapping&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;
       &lt;textarea name="input" style="width: 100%" rows="7"&gt;$!request.input&lt;/textarea&gt;
-      &lt;/td&gt;
-      &lt;td&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
       &lt;textarea name="mapping" style="width: 100%" rows="7"&gt;$mapping.trim()&lt;/textarea&gt;
-      &lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-      &lt;td colspan="2"&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td colspan="2"&gt;
       &lt;dl&gt;
-      &lt;dt&gt;Target space&lt;/dt&gt;
-      &lt;dd&gt;&lt;input name="spaceName" value="$spaceName"/&gt;&lt;/dd&gt;
-      &lt;dt&gt;Limit&lt;/dt&gt;
-      &lt;dd&gt;&lt;input name="limit" value="$limit"/&gt;&lt;/dd&gt;
+        &lt;dt&gt;Target space&lt;/dt&gt;
+        &lt;dd&gt;&lt;input name="spaceName" value="$spaceName"/&gt;&lt;/dd&gt;
+        &lt;dt&gt;Limit&lt;/dt&gt;
+        &lt;dd&gt;&lt;input name="limit" value="$limit"/&gt;&lt;/dd&gt;
       &lt;/dl&gt;
-      &lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;/table&gt;
-      &lt;button class="btn btn-default" name="action" value="import"&gt;Import&lt;/button&gt;
-      &lt;/form&gt;
-      {{/html}}
-      {{/velocity}}
-      {{groovy}}
-      import org.xwiki.model.reference.DocumentReference
-      def action = request.action
-      def importer =
-      services.component.componentManager.getInstance(org.xwiki.contrib.ring.internal.wikidata.WikidataImporter.class,
-      "nobel-prize-laureates")
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+  &lt;button class="btn btn-default" name="action" value="import"&gt;Import&lt;/button&gt;
+&lt;/form&gt;
+{{/html}}
+{{/velocity}}
+{{groovy}}
+import org.xwiki.model.reference.DocumentReference
+def action = request.action
+def importer = services.component.componentManager.getInstance(org.xwiki.contrib.graph.internal.wikidata.WikidataImporter.class, "nobel-prize-laureates")
 
-      if (action == "import") {
-      def input = request.input
-      def mapping = request.mapping
-      def limit = Integer.parseInt(request.limit)
-      if (input != null &amp;&amp; input.trim().length() &gt; 0) {
-      importer.importData(input, mapping, false, request.spaceName, limit)
-      }
-      }
-      {{/groovy}}
-  </content>
+if (action == "import") {
+  def input = request.input
+  def mapping = request.mapping
+  def limit = Integer.parseInt(request.limit)
+  if (input != null &amp;&amp; input.trim().length() &gt; 0) {
+    importer.importData(input, mapping, false, request.spaceName, limit)
+  }
+} 
+{{/groovy}}
+</content>
 </xwikidoc>

@@ -132,10 +132,10 @@
     #end ##end $hasEdit
   )))
   (% class="col-md-$col2 col-xs-12" %)(((
-    #foreach ($ring in $edges)
-      #set ($relation = $xwiki.getDocument($ring.getRelation()))
-      #set ($destination = $ring.getDestination())
-      #set ($value = $ring.getValue())
+    #foreach ($edge in $edges)
+      #set ($relation = $xwiki.getDocument($edge.getRelation()))
+      #set ($destination = $edge.getDestination())
+      #set ($value = $edge.getValue())
       #if ($destination)
         #set ($dest = $xwiki.getDocument($destination))
         * $relation.title [[$dest.title&gt;&gt;$dest.fullName]]
