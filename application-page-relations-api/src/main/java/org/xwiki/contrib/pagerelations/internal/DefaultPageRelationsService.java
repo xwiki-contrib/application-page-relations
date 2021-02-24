@@ -19,23 +19,79 @@
  */
 package org.xwiki.contrib.pagerelations.internal;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.pagerelations.PageRelationsService;
+import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.DocumentReferenceResolver;
+import org.xwiki.model.reference.EntityReferenceSerializer;
+import org.xwiki.query.Query;
+import org.xwiki.query.QueryException;
+import org.xwiki.query.QueryManager;
 
 /**
  * Implementation of a <tt>PageRelationsService</tt> component.
- * 
+ *
  * @version $Id$
  */
 @Component
 @Singleton
 public class DefaultPageRelationsService implements PageRelationsService
 {
+    @Inject
+    @Named("compactwiki")
+    protected EntityReferenceSerializer<String> compactWikiSerializer;
+
+    @Inject
+    @Named("default")
+    protected EntityReferenceSerializer<String> defaultSerializer;
+
+    @Inject
+    protected DocumentReferenceResolver<SolrDocument> solrDocumentReferenceResolver;
+
+    @Inject
+    protected QueryManager queryManager;
+
     @Override
-    public String sayHello()
+    // NB: the SolrExecutor includes performs some rights check. TODO: check
+    // NB: abusively, we call "relations" both a page that is related to another, and the page objects storing
+    // the link itself betweent the two pages.
+    // TODO: allow also using PageReference
+    // TODO: use SolrFieldEntitySerializer to compute the 'property.PageRelations.xxx' parameter name
+    public List<DocumentReference> getIncomingRelations(DocumentReference reference) throws QueryException
     {
-        return "Hello";
+        String wikiId = reference.getWikiReference().getName();
+        //Get inverse relations, querying pages which contain the current subject as a relation either with
+        // its full identifier (including the wiki name), or with an identifier that does not contain the wiki name
+        // (because the complement is in the same wiki as the subject).
+        // We pass the reference as an argument twice other the contextual wiki is used, which is "xwiki", not
+        // the one of "reference".
+        String relativeIdentifier = compactWikiSerializer.serialize(reference, reference);
+        String absoluteIdentifier = defaultSerializer.serialize((reference));
+        String solrStatement = "type:DOCUMENT AND ((property.PageRelations.Code.PageRelationClass.page:"
+            + "\"" + relativeIdentifier + "\" AND wiki:" + wikiId + ")"
+            + " OR (property.PageRelations.Code.PageRelationClass.page:\"" + absoluteIdentifier + "\"))";
+        Query query = this.queryManager.createQuery(solrStatement, "solr");
+        List<Object> response = query.execute();
+        List<DocumentReference> relations = new ArrayList<>();
+        if (response != null && response.size() > 0) {
+            QueryResponse searchResponse = (QueryResponse) response.get(0);
+            SolrDocumentList results = searchResponse.getResults();
+            for (SolrDocument document : results) {
+                DocumentReference documentReference = this.solrDocumentReferenceResolver.resolve(document);
+                relations.add(documentReference);
+            }
+            return relations;
+        }
+        return relations;
     }
 }

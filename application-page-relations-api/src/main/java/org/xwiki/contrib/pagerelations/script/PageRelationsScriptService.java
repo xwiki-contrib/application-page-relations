@@ -19,17 +19,21 @@
  */
 package org.xwiki.contrib.pagerelations.script;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.pagerelations.PageRelationsService;
+import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.query.QueryException;
 import org.xwiki.script.service.ScriptService;
 
 /**
  * Make the PageRelationsService API available to scripting.
- * 
+ *
  * @version $Id$
  */
 @Component
@@ -38,13 +42,17 @@ import org.xwiki.script.service.ScriptService;
 public class PageRelationsScriptService implements ScriptService
 {
     @Inject
-    private PageRelationsService service;
+    protected PageRelationsService service;
 
     /**
-     * @return String
+     * Gets incoming relations pointing at a given page from any wiki in the farm.
+     *
+     * @param reference A page reference
+     * @return Relations pointing at the passed page
+     * @throws QueryException Raised in case of error
      */
-    public String greet()
+    public List<DocumentReference> getIncomingRelations(DocumentReference reference) throws QueryException
     {
-        return this.service.sayHello();
+        return service.getIncomingRelations(reference);
     }
 }

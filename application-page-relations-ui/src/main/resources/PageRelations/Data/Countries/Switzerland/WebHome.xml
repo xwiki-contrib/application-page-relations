@@ -20,28 +20,28 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.4" reference="PageRelations.Code.PageRelationTemplate" locale="">
-  <web>PageRelations.Code</web>
-  <name>PageRelationTemplate</name>
+<xwikidoc version="1.4" reference="PageRelations.Data.Countries.Switzerland.WebHome" locale="">
+  <web>PageRelations.Data.Countries.Switzerland</web>
+  <name>WebHome</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <parent>PageRelations.Code.WebHome</parent>
+  <parent>Main.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>Page Relation Template</title>
+  <title>Switzerland</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>true</hidden>
+  <hidden>false</hidden>
   <content/>
   <object>
-    <name>PageRelations.Code.PageRelationTemplate</name>
-    <number>0</number>
+    <name>PageRelations.Data.Countries.Switzerland.WebHome</name>
+    <number>1</number>
     <className>PageRelations.Code.PageRelationClass</className>
-    <guid>4d3dce95-b206-4148-9889-7b0a16e1e412</guid>
+    <guid>8226ba98-62b3-4604-b9f7-ff2bd1e631b4</guid>
     <class>
       <name>PageRelations.Code.PageRelationClass</name>
       <customClass/>
@@ -78,7 +78,7 @@
       </page>
     </class>
     <property>
-      <page/>
+      <page>PageRelations.Data.Countries.Country.WebHome</page>
     </property>
   </object>
 </xwikidoc>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.1" encoding="UTF-8"?>
 
 <!--
  * See the NOTICE file distributed with this work for additional
@@ -20,21 +20,18 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.3" reference="PageRelations.Code.UIX" locale="">
+<xwikidoc version="1.4" reference="PageRelations.Code.PageRelationsUix" locale="">
   <web>PageRelations.Code</web>
-  <name>UIX</name>
+  <name>PageRelationsUix</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1526395258000</creationDate>
-  <parent>PageRelations.Code.WebHome</parent>
+  <parent>WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1526409782000</date>
-  <contentUpdateDate>1526395258000</contentUpdateDate>
   <version>1.1</version>
-  <title>UIX</title>
+  <title>Page Relations UIX</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
@@ -44,7 +41,7 @@
 $object.content
 {{/velocity}}</content>
   <object>
-    <name>PageRelations.Code.UIX</name>
+    <name>PageRelations.Code.PageRelationsUix</name>
     <number>0</number>
     <className>XWiki.UIExtensionClass</className>
     <guid>280ff0e2-8c37-4285-9e81-9d780090a8e7</guid>
@@ -57,21 +54,61 @@ $object.content
       <defaultWeb/>
       <nameField/>
       <validationScript/>
+      <async_cached>
+        <defaultValue>0</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType/>
+        <name>async_cached</name>
+        <number>3</number>
+        <prettyName>Cached</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </async_cached>
+      <async_context>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <freeText>forbidden</freeText>
+        <largeStorage>0</largeStorage>
+        <multiSelect>1</multiSelect>
+        <name>async_context</name>
+        <number>4</number>
+        <prettyName>Context elements</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator>, </separator>
+        <separators>|, </separators>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <values>action=Action|doc.reference=Document|icon.theme=Icon theme|locale=Language|rendering.defaultsyntax=Default syntax|rendering.restricted=Restricted|rendering.targetsyntax=Target syntax|request.base=Request base URL|request.parameters=Request parameters|request.url=Request URL|request.wiki=Request wiki|user=User|wiki=Wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </async_context>
+      <async_enabled>
+        <defaultValue>0</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType/>
+        <name>async_enabled</name>
+        <number>2</number>
+        <prettyName>Asynchronous rendering</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </async_enabled>
       <content>
         <disabled>0</disabled>
         <editor>Text</editor>
         <name>content</name>
-        <number>3</number>
-        <prettyName>Extension Content</prettyName>
-        <rows>10</rows>
-        <size>40</size>
+        <number>1</number>
+        <prettyName>Executed Content</prettyName>
+        <rows>25</rows>
+        <size>120</size>
         <unmodifiable>0</unmodifiable>
         <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
       </content>
       <extensionPointId>
         <disabled>0</disabled>
         <name>extensionPointId</name>
-        <number>1</number>
+        <number>5</number>
         <prettyName>Extension Point ID</prettyName>
         <size>30</size>
         <unmodifiable>0</unmodifiable>
@@ -80,7 +117,7 @@ $object.content
       <name>
         <disabled>0</disabled>
         <name>name</name>
-        <number>2</number>
+        <number>6</number>
         <prettyName>Extension ID</prettyName>
         <size>30</size>
         <unmodifiable>0</unmodifiable>
@@ -91,7 +128,7 @@ $object.content
         <disabled>0</disabled>
         <editor>PureText</editor>
         <name>parameters</name>
-        <number>4</number>
+        <number>7</number>
         <prettyName>Extension Parameters</prettyName>
         <rows>10</rows>
         <size>40</size>
@@ -102,9 +139,11 @@ $object.content
         <cache>0</cache>
         <disabled>0</disabled>
         <displayType>select</displayType>
+        <freeText>forbidden</freeText>
+        <largeStorage>0</largeStorage>
         <multiSelect>0</multiSelect>
         <name>scope</name>
-        <number>5</number>
+        <number>8</number>
         <prettyName>Extension Scope</prettyName>
         <relationalStorage>0</relationalStorage>
         <separator> </separator>
@@ -116,10 +155,26 @@ $object.content
       </scope>
     </class>
     <property>
-      <content>{{pageRelations showFacets="true" showBorder="true"/}}</content>
+      <async_cached>0</async_cached>
     </property>
     <property>
-      <extensionPointId>org.xwiki.platform.template.content.header.after</extensionPointId>
+      <async_context/>
+    </property>
+    <property>
+      <async_enabled>0</async_enabled>
+    </property>
+    <property>
+      <content>{{velocity}}
+(% class="page-relations-uix-container panel panel-default" %)(((
+  (% class="panel-heading" %)((($services.localization.render('pageRelations.title'))))
+  (% class="panel-body" %)(((
+    {{pageRelations showFacets="true" showBorder="true"/}}
+  )))
+)))
+{{/velocity}}</content>
+    </property>
+    <property>
+      <extensionPointId>org.xwiki.platform.template.content.header.afterxxx</extensionPointId>
     </property>
     <property>
       <name>xwiki:XWiki.PageRelations</name>

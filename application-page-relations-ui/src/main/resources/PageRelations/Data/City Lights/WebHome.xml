@@ -20,28 +20,28 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.4" reference="PageRelations.Code.PageRelationTemplate" locale="">
-  <web>PageRelations.Code</web>
-  <name>PageRelationTemplate</name>
+<xwikidoc version="1.4" reference="PageRelations.Data.City Lights.WebHome" locale="">
+  <web>PageRelations.Data.City Lights</web>
+  <name>WebHome</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <parent>PageRelations.Code.WebHome</parent>
+  <parent>PageRelations.Data.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>Page Relation Template</title>
+  <title>City Lights</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>true</hidden>
+  <hidden>false</hidden>
   <content/>
   <object>
-    <name>PageRelations.Code.PageRelationTemplate</name>
-    <number>0</number>
+    <name>PageRelations.Data.City Lights.WebHome</name>
+    <number>1</number>
     <className>PageRelations.Code.PageRelationClass</className>
-    <guid>4d3dce95-b206-4148-9889-7b0a16e1e412</guid>
+    <guid>2d69a711-b28a-47a5-8fb9-cbe93f6fa97f</guid>
     <class>
       <name>PageRelations.Code.PageRelationClass</name>
       <customClass/>
@@ -78,7 +78,7 @@
       </page>
     </class>
     <property>
-      <page/>
+      <page>PageRelations.Data.Movie.WebHome</page>
     </property>
   </object>
 </xwikidoc>
