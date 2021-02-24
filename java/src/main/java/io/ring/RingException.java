@@ -16,29 +16,38 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package aek.ring;
+package io.ring;
 
 /**
- * Utility class used to ease the definition of relations domains and images.
+ * Exception that can be thrown during executing operations on terms or rings.
  */
-public enum TermSet
+public class RingException extends Exception
 {
-    ANY("any"),
-    BOOLEAN("boolean"),
-    STRING("string"),
-    DATE("date"),
-    LONG("long"),
-    DOUBLE("double");
+    Throwable throwable;
 
-    private String label;
+    String message;
 
-    private TermSet(String label)
+    public RingException(Throwable e)
     {
-        this.label = label;
+        this.throwable = e;
     }
 
-    public String getLabel()
+    public RingException(String message) {
+        this.message = message;
+    }
+
+    public RingException(String message, Throwable e)
     {
-        return label;
+        this(e);
+        this.message = message;
+    }
+
+    public Throwable get()
+    {
+        return throwable;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

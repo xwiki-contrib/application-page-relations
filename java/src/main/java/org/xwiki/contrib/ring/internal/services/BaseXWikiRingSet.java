@@ -29,15 +29,17 @@ import javax.inject.Singleton;
 import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.ring.XWikiRRing;
-import org.xwiki.contrib.ring.XWikiRelation;
 import org.xwiki.contrib.ring.XWikiRing;
+import org.xwiki.contrib.ring.XWikiRingSet;
 import org.xwiki.contrib.ring.XWikiRingTraverser;
-import org.xwiki.contrib.ring.XWikiTerm;
 import org.xwiki.contrib.ring.XWikiTermFactory;
+import org.xwiki.contrib.ring.XWikiRelation;
+import org.xwiki.contrib.ring.XWikiTerm;
 import org.xwiki.contrib.ring.internal.model.BaseXWikiRing;
 import org.xwiki.contrib.ring.internal.model.BooleanXWikiRing;
 import org.xwiki.contrib.ring.internal.model.Names;
+import io.ring.RingException;
+
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
 import org.xwiki.model.reference.EntityReferenceSerializer;
@@ -56,13 +58,11 @@ import com.xpn.xwiki.doc.XWikiDocument;
 import com.xpn.xwiki.objects.BaseObject;
 import com.xpn.xwiki.objects.BaseObjectReference;
 
-import aek.ring.RingException;
-
 @Component
 @Singleton
 @Named("default")
 @Unstable
-public class BaseXWikiRRing implements XWikiRRing
+public class BaseXWikiRingSet implements XWikiRingSet
 {
     @Inject
     private Logger logger;
@@ -87,26 +87,6 @@ public class BaseXWikiRRing implements XWikiRRing
     @Inject
     @Named("current")
     private DocumentReferenceResolver<String> resolver;
-
-    public void addRelation(DocumentReference identifier, String name, String domain, String image)
-            throws RingException
-    {
-        try {
-            XWikiContext context = contextualizer.get();
-            XWiki xwiki = context.getWiki();
-            if (!xwiki.exists(identifier, context)) {
-                authorizer.checkAccess(Right.EDIT, context.getUserReference(), identifier);
-                addTerm(identifier, name, factory.getIdentifier(Names.RELATION_TERM_NAME));
-                addRing(identifier, factory.getIdentifier(Names.HAS_DOMAIN_RELATION_NAME), domain);
-                addRing(identifier, factory.getIdentifier(Names.HAS_IMAGE_RELATION_NAME), image);
-            } else {
-                throw new RingException("A vertex with reference " + identifier + " already exists in the ringSet.");
-            }
-        } catch (AccessDeniedException e) {
-            logger.error("Exception while adding relation", e);
-            throw new RingException(e);
-        }
-    }
 
     /**
      * A FunctionInterface is used to handle both cases where the destination is either a DocumentReference or a scalar
@@ -177,6 +157,26 @@ public class BaseXWikiRRing implements XWikiRRing
         addRing(referent, relation, relatum);
     }
 
+    public void addRelation(DocumentReference identifier, String name, String domain, String image)
+            throws RingException
+    {
+        try {
+            XWikiContext context = contextualizer.get();
+            XWiki xwiki = context.getWiki();
+            if (!xwiki.exists(identifier, context)) {
+                authorizer.checkAccess(Right.EDIT, context.getUserReference(), identifier);
+                addTerm(identifier, name, factory.getIdentifier(Names.RELATION_TERM_NAME));
+                addRing(identifier, factory.getIdentifier(Names.HAS_DOMAIN_RELATION_NAME), domain);
+                addRing(identifier, factory.getIdentifier(Names.HAS_IMAGE_RELATION_NAME), image);
+            } else {
+                throw new RingException("A vertex with reference " + identifier + " already exists in the ringSet.");
+            }
+        } catch (AccessDeniedException e) {
+            logger.error("Exception while adding relation", e);
+            throw new RingException(e);
+        }
+    }
+
     public void addTerm(DocumentReference identifier) throws RingException
     {
         addTerm(identifier, "");
@@ -215,9 +215,38 @@ public class BaseXWikiRRing implements XWikiRRing
         }
     }
 
-    public List<DocumentReference> getInstances(DocumentReference type) throws RingException
+    /**
+     * Not implemented: this corresponds to rings stored in their own document.
+     */
+    public XWikiRing getRing(DocumentReference identifier)
     {
-        return traverser.getDirectPredecessors(type, factory.getIdentifier(Names.IS_A_RELATION_NAME));
+        throw new NotImplementedException();
+    }
+
+    protected XWikiRing getRing(XWikiDocument origin, int objectIndex) throws RingException
+    {
+        BaseObjectReference objectReference =
+                origin.getXObject(BaseXWikiRing.RING_XCLASS_REFERENCE, objectIndex).getReference();
+        return getRing(origin, objectReference);
+    }
+
+    public XWikiRing getRing(XWikiDocument origin, ObjectReference reference) throws RingException
+    {
+        BaseObject object = origin.getXObject(reference);
+        return factory.createRing(object);
+    }
+
+    public XWikiRing getRing(DocumentReference subject, DocumentReference relation, DocumentReference object)
+            throws RingException
+    {
+        // Not optimized implementation but it avoids duplicating code for now
+        List<XWikiRing> rings = traverser.getRings(subject, object);
+        for (XWikiRing ring : rings) {
+            if (relation.equals(ring.getRelation())) {
+                return ring;
+            }
+        }
+        return null;
     }
 
     public XWikiRelation getRelation(DocumentReference identifier) throws RingException
@@ -256,53 +285,11 @@ public class BaseXWikiRRing implements XWikiRRing
         return relations;
     }
 
-    /**
-     * Not implemented: this corresponds to rings stored in their own document.
-     */
-    public XWikiRing getRing(DocumentReference identifier)
-    {
-        throw new NotImplementedException();
-    }
-
-    protected XWikiRing getRing(XWikiDocument origin, int objectIndex) throws RingException
-    {
-        BaseObjectReference objectReference =
-                origin.getXObject(BaseXWikiRing.RING_XCLASS_REFERENCE, objectIndex).getReference();
-        return getRing(origin, objectReference);
-    }
-
-    public XWikiRing getRing(XWikiDocument origin, ObjectReference reference) throws RingException
-    {
-        BaseObject object = origin.getXObject(reference);
-        return factory.createRing(object);
-    }
-
-    public XWikiRing getRing(DocumentReference subject, DocumentReference relation, DocumentReference object)
-            throws RingException
-    {
-        // Not optimized implementation but it avoids duplicating code for now
-        List<XWikiRing> rings = traverser.getRings(subject, object);
-        for (XWikiRing ring : rings) {
-            if (relation.equals(ring.getRelation())) {
-                return ring;
-            }
-        }
-        return null;
-    }
-
     public XWikiTerm getTerm(DocumentReference identifier)
     {
         // TODO: throw a RingException when a "system" Term is requested but not found, for example:
         //  the relation "HasImage", the vertex "Type", etc.
         return factory.createTerm(identifier);
-    }
-
-    public List<DocumentReference> getTypes() throws RingException
-    {
-        List<DocumentReference> references =
-                traverser.getDirectPredecessors(factory.getIdentifier(Names.TYPE_TERM_NAME),
-                        factory.getIdentifier(Names.IS_A_RELATION_NAME));
-        return references;
     }
 
     public void removeRing(DocumentReference referent, DocumentReference relatum) throws RingException
@@ -428,11 +415,11 @@ public class BaseXWikiRRing implements XWikiRRing
         List<DocumentReference> predecessors = traverser.getDirectPredecessorsViaHql(relation);
         for (DocumentReference predecessor : predecessors) {
             XWikiDocument predecessorDocument = factory.getDocument(predecessor, true);
-            List<XWikiRing> rings = traverser.getRingsFrom(predecessorDocument);
+            List<XWikiRing> edges = traverser.getRingsFrom(predecessorDocument);
             List<BaseObject> toBeRemoved = new ArrayList<>();
-            for (XWikiRing ring : rings) {
-                if (relation.equals(ring.getRelation())) {
-                    toBeRemoved.add(ring.getBaseObject());
+            for (XWikiRing edge : edges) {
+                if (relation.equals(edge.getRelation())) {
+                    toBeRemoved.add(edge.getBaseObject());
                 }
             }
             for (BaseObject baseObject : toBeRemoved) {
@@ -442,30 +429,6 @@ public class BaseXWikiRRing implements XWikiRRing
                 wiki.saveDocument(predecessorDocument, "ringSet.history.remove-edge " + relation, true, context);
             } catch (XWikiException e) {
                 logger.error("removeRingsTo {} from {}", relation, predecessor, e);
-                throw new RingException(e);
-            }
-        }
-    }
-
-    public void removeRingsWith(DocumentReference referent, DocumentReference relation) throws RingException
-    {
-        XWikiDocument referentDocument = factory.getDocument(referent, true);
-        List<XWikiRing> rings = traverser.getRingsFrom(referentDocument);
-        boolean saveIsNeeded = false;
-        for (XWikiRing ring : rings) {
-            if (relation.equals(ring.getRelation())) {
-                saveIsNeeded = true;
-                referentDocument.removeXObject(ring.getBaseObject());
-            }
-        }
-
-        if (saveIsNeeded) {
-            XWikiContext context = contextualizer.get();
-            XWiki wiki = context.getWiki();
-            try {
-                wiki.saveDocument(referentDocument, "ring.history.remove-ring " + relation, true, context);
-            } catch (XWikiException e) {
-                logger.error("removeRingsWith from {} with {}", referent, relation, e);
                 throw new RingException(e);
             }
         }
@@ -519,7 +482,7 @@ public class BaseXWikiRRing implements XWikiRRing
         updateRingsTo(term1, term2);
     }
 
-    protected void updateRings(DocumentReference originalReference, DocumentReference newReference, String ringProperty)
+    protected void updateEdges(DocumentReference originalReference, DocumentReference newReference, String edgeProperty)
             throws RingException
     {
         // We could get the BaseObjects directly, so that we don't iterate twice to get the target Edges,
@@ -527,13 +490,13 @@ public class BaseXWikiRRing implements XWikiRRing
         try {
             String wikiId = originalReference.getWikiReference().getName();
             List<Object[]> entries =
-                    traverser.runRingQueryHql(ringProperty, serializer.serialize(originalReference), wikiId);
+                    traverser.runRingQueryHql(edgeProperty, serializer.serialize(originalReference), wikiId);
             for (Object[] entry : entries) {
-                DocumentReference term = resolver.resolve(entry[0].toString(), originalReference);
+                DocumentReference originVertex = resolver.resolve(entry[0].toString(), originalReference);
                 int objectIndex = (int) entry[1];
                 // TODO: below we consider that edges are stored directly in the vertex document, but actually they could be
                 //  stored in their own page with own access rights
-                updateRing(term, objectIndex, originalReference, newReference, ringProperty);
+                updateRing(originVertex, objectIndex, originalReference, newReference, edgeProperty);
             }
         } catch (QueryException e) {
             logger.error("updateRingsTo", e);
@@ -544,13 +507,13 @@ public class BaseXWikiRRing implements XWikiRRing
     public void updateRingsTo(DocumentReference originalRelatum, DocumentReference otherRelatum)
             throws RingException
     {
-        updateRings(originalRelatum, otherRelatum, Names.HAS_RELATUM);
+        updateEdges(originalRelatum, otherRelatum, Names.HAS_RELATUM);
     }
 
     public void updateRingsWith(DocumentReference originalRelation, DocumentReference otherRelation)
             throws RingException
     {
-        updateRings(originalRelation, otherRelation, Names.HAS_RELATION);
+        updateEdges(originalRelation, otherRelation, Names.HAS_RELATION);
     }
 
     @FunctionalInterface

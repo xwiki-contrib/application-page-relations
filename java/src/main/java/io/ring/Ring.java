@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package aek.ring;
+package io.ring;
 
 import org.xwiki.stability.Unstable;
 

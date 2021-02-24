@@ -25,16 +25,16 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.ring.XWikiRRing;
-import org.xwiki.contrib.ring.XWikiRelation;
 import org.xwiki.contrib.ring.XWikiRing;
+import org.xwiki.contrib.ring.XWikiRingSet;
 import org.xwiki.contrib.ring.XWikiRingTraverser;
+import org.xwiki.contrib.ring.XWikiRelation;
 import org.xwiki.contrib.ring.internal.model.Names;
+import io.ring.RingException;
+
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.query.Query;
 import org.xwiki.script.service.ScriptService;
-
-import aek.ring.RingException;
 
 /**
  * Make the Ring API available to scripting.
@@ -47,55 +47,43 @@ import aek.ring.RingException;
 public class RingScriptService implements ScriptService
 {
     @Inject
-    protected XWikiRRing ring;
+    protected XWikiRingSet graph;
 
     @Inject
     @Named("solr-sql")
     protected XWikiRingTraverser traverser;
 
-    public void addRing(DocumentReference referent, DocumentReference relation, Object relatum)
+    public void addRing(DocumentReference origin, DocumentReference relation, DocumentReference destination)
             throws RingException
     {
-        ring.addRing(referent, relation, relatum);
+        graph.addRing(origin, relation, destination);
     }
 
-    public List<DocumentReference> getDirectPredecessors(DocumentReference referent, DocumentReference relation)
+    public List<DocumentReference> getDirectPredecessors(DocumentReference vertex, DocumentReference relation)
             throws RingException
     {
-        return traverser.getDirectPredecessors(referent, relation);
+        return traverser.getDirectPredecessors(vertex, relation);
     }
 
     public String getDomain(DocumentReference relation) throws RingException
     {
-        return ring.getRelation(relation).getDomain();
+        return graph.getRelation(relation).getDomain();
     }
 
-    public XWikiRing getFirstRingFrom(DocumentReference referent, DocumentReference relation) throws RingException
+    public List<XWikiRing> getRingsFrom(DocumentReference identifier) throws RingException
     {
-        return traverser.getFirstRingFrom(referent, relation);
+        return traverser.getRingsFrom(identifier);
+    }
+
+    public List<XWikiRing> getRingsFrom(DocumentReference identifier, DocumentReference relation)
+            throws RingException
+    {
+        return traverser.getRingsFrom(identifier, relation);
     }
 
     public String getImage(DocumentReference relation) throws RingException
     {
-        return ring.getRelation(relation).getImage();
-    }
-
-    public List<DocumentReference> getInstances(DocumentReference type) throws RingException
-    {
-        return ring.getInstances(type);
-    }
-
-    public String getNamespace()
-    {
-        return Names.RING_NEXUS_CODE_NAMESPACE;
-    }
-
-    public String getNamespace(String name)
-    {
-        if (name.equals("root")) {
-            return Names.RING_NEXUS_NAMESPACE;
-        }
-        return Names.RING_NEXUS_NAMESPACE;
+        return graph.getRelation(relation).getImage();
     }
 
     public List<DocumentReference> getNeighbours(DocumentReference vertex) throws RingException
@@ -110,49 +98,28 @@ public class RingScriptService implements ScriptService
 
     public XWikiRelation getRelation(DocumentReference identifier) throws RingException
     {
-        return ring.getRelation(identifier);
+        return graph.getRelation(identifier);
     }
 
-    public List<XWikiRelation> getRelations(DocumentReference term) throws RingException
+    public List<XWikiRelation> getRelations(DocumentReference vertex) throws RingException
     {
-        return traverser.getRelations(term, getRelations());
+        return traverser.getRelations(vertex, getRelations());
     }
 
     public List<XWikiRelation> getRelations() throws RingException
     {
-        return ring.getRelations();
-    }
-
-    public List<XWikiRing> getRingsFrom(DocumentReference identifier) throws RingException
-    {
-        return traverser.getRingsFrom(identifier);
-    }
-
-    public List<XWikiRing> getRingsFrom(DocumentReference identifier, DocumentReference relation)
-            throws RingException
-    {
-        return traverser.getRingsFrom(identifier, relation);
-    }
-
-    public List<DocumentReference> getTypes() throws RingException
-    {
-        return ring.getTypes();
+        return graph.getRelations();
     }
 
     public void removeRing(DocumentReference referent, DocumentReference relation, DocumentReference relatum)
             throws RingException
     {
-        ring.removeRing(referent, relation, relatum);
+        graph.removeRing(referent, relation, relatum);
     }
 
-    public void removeRings(DocumentReference referent, DocumentReference relatum) throws RingException
+    public void removeRings(DocumentReference origin, DocumentReference destination) throws RingException
     {
-        ring.removeRings(referent, relatum);
-    }
-
-    public void removeRingsWith(DocumentReference referent, DocumentReference relation) throws RingException
-    {
-        ring.removeRingsWith(referent, relation);
+        graph.removeRings(origin, destination);
     }
 
     public List<DocumentReference> search(String text) throws RingException
@@ -163,5 +130,18 @@ public class RingScriptService implements ScriptService
     public List<DocumentReference> search(String text, XWikiRelation relation) throws RingException
     {
         return traverser.search(text, relation);
+    }
+
+    public String getNamespace()
+    {
+        return Names.RING_NEXUS_CODE_NAMESPACE;
+    }
+
+    public String getNamespace(String name)
+    {
+        if (name.equals("root")) {
+            return Names.RING_NEXUS_NAMESPACE;
+        }
+        return Names.RING_NEXUS_NAMESPACE;
     }
 }

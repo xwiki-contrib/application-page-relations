@@ -16,14 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package aek.ring;
+package io.ring;
 
 import java.util.List;
 
 import org.xwiki.stability.Unstable;
 
 /**
- * A RRing traverser.
+ * A RingSet traverser.
  *
  * @param <I> vertex identifier class
  */
@@ -61,7 +61,7 @@ public interface RingTraverser<I>
     List<I> search(String text) throws RingException;
 
     /**
-     * @return the given relation's image set filtered by the input text. Example: if relation is "XWiki.RRing.IsA" and
+     * @return the given relation's image set filtered by the input text. Example: if relation is "XWiki.RingSet.IsA" and
      * the input is empty, the returned vertices will be all types, because the relation's image is "Type". TODO: rename
      * to filterRelationImage or searchInRelationImage
      */

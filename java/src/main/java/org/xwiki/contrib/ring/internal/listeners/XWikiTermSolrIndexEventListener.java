@@ -30,11 +30,11 @@ import org.xwiki.bridge.event.DocumentDeletedEvent;
 import org.xwiki.bridge.event.DocumentUpdatedEvent;
 import org.xwiki.bridge.event.WikiDeletedEvent;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.ring.XWikiRRing;
+import org.xwiki.contrib.ring.XWikiRingSet;
 import org.xwiki.contrib.ring.internal.metadata.XWikiRingSolrMetadataExtractor;
 import org.xwiki.contrib.ring.internal.model.BaseXWikiRing;
 
-import aek.ring.RingException;
+import io.ring.RingException;
 import org.xwiki.observation.event.Event;
 import org.xwiki.search.solr.internal.SolrIndexEventListener;
 
@@ -72,7 +72,7 @@ public class XWikiTermSolrIndexEventListener extends SolrIndexEventListener
             new XObjectPropertyUpdatedEvent(), new WikiDeletedEvent());
 
     @Inject
-    XWikiRRing ringSet;
+    XWikiRingSet ringSet;
 
     public List<Event> getEvents()
     {

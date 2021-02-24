@@ -22,7 +22,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.slf4j.Logger;
-import org.xwiki.contrib.ring.XWikiRRing;
+import org.xwiki.contrib.ring.XWikiRingSet;
 import org.xwiki.contrib.ring.XWikiRingIndexer;
 import org.xwiki.model.reference.DocumentReferenceResolver;
 import org.xwiki.model.reference.EntityReferenceSerializer;
@@ -34,7 +34,7 @@ import org.xwiki.observation.event.Event;
  *
  * @version $Id$
  */
-public abstract class BaseXWikiRingEventListener extends AbstractEventListener
+public abstract class XWikiRingSetEventListener extends AbstractEventListener
 {
     @Inject
     protected Logger logger;
@@ -48,13 +48,13 @@ public abstract class BaseXWikiRingEventListener extends AbstractEventListener
     protected DocumentReferenceResolver<String> resolver;
 
     @Inject
-    protected XWikiRRing ringSet;
+    protected XWikiRingSet ringSet;
 
     @Inject
     @Named("solr")
     protected XWikiRingIndexer indexer;
 
-    public BaseXWikiRingEventListener(String name, Event... events)
+    public XWikiRingSetEventListener(String name, Event... events)
     {
         super(name, events);
     }

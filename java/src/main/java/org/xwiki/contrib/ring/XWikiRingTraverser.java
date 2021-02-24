@@ -21,16 +21,16 @@ package org.xwiki.contrib.ring;
 import java.util.List;
 
 import org.xwiki.component.annotation.Role;
+import io.ring.RingException;
+import io.ring.RingTraverser;
+import io.ring.Relation;
+
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.query.Query;
 import org.xwiki.query.QueryException;
 import org.xwiki.search.solr.internal.metadata.LengthSolrInputDocument;
 
 import com.xpn.xwiki.doc.XWikiDocument;
-
-import aek.ring.Relation;
-import aek.ring.RingException;
-import aek.ring.RingTraverser;
 
 @Role
 public interface XWikiRingTraverser extends RingTraverser<DocumentReference>
@@ -45,22 +45,22 @@ public interface XWikiRingTraverser extends RingTraverser<DocumentReference>
      * @param relation a relation
      * @return all vertices pointing at the vertex with the given relation
      */
-    List<DocumentReference> getDirectPredecessors(DocumentReference relatum, DocumentReference relation)
+    List<DocumentReference> getDirectPredecessors(DocumentReference vertex, DocumentReference relation)
             throws RingException;
 
     /**
-     * @param relatum the origin vertex
+     * @param vertex the origin vertex
      * @return list of vertex references which have the origin vertex as destination for at least one ringSet
      * @throws RingException if an error occurs
      */
-    List<DocumentReference> getDirectPredecessorsViaHql(DocumentReference relatum) throws RingException;
+    List<DocumentReference> getDirectPredecessorsViaHql(DocumentReference vertex) throws RingException;
 
     /**
-     * @param relatum origin vertex
+     * @param vertex origin vertex
      * @param relation relation
      * @return list of vertices having the origin vertex as destination for at least one ringSet with the given relation
      */
-    List<DocumentReference> getDirectPredecessorsViaHql(DocumentReference relatum, DocumentReference relation)
+    List<DocumentReference> getDirectPredecessorsViaHql(DocumentReference vertex, DocumentReference relation)
             throws RingException;
 
     XWikiRing getFirstRingFrom(DocumentReference referent, DocumentReference relation) throws RingException;

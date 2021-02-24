@@ -19,7 +19,7 @@
 package org.xwiki.contrib.ring.internal.model;
 
 import org.xwiki.contrib.ring.XWikiTerm;
-import aek.ring.Term;
+import io.ring.Term;
 import org.xwiki.model.reference.DocumentReference;
 
 /**

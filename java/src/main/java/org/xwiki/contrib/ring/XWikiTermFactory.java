@@ -22,8 +22,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Triple;
 import org.xwiki.component.annotation.Role;
-import aek.ring.RingException;
-import aek.ring.TermFactory;
+import io.ring.RingException;
+import io.ring.TermFactory;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.EntityReference;
 

@@ -56,8 +56,8 @@ import org.xwiki.text.StringUtils;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.doc.XWikiDocument;
 
-import aek.ring.Ring;
-import aek.ring.RingException;
+import io.ring.Ring;
+import io.ring.RingException;
 
 @Component
 @Singleton
@@ -65,7 +65,7 @@ import aek.ring.RingException;
 public class SolrRingIndexer implements XWikiRingIndexer
 {
     /**
-     * Used to differentiate the properties added dynamically by XWikiRRing to the Solr index from the standard XWiki
+     * Used to differentiate the properties added dynamically by XWikiRingSet to the Solr index from the standard XWiki
      * properties.
      */
     public static final String PROPERTY_GRAPH_PREFIX = "property.ring.";
@@ -285,8 +285,8 @@ public class SolrRingIndexer implements XWikiRingIndexer
 
     /**
      * Adds the value of "has-relation" directly as a property. Example: EdgeClass object with has-relation =
-     * XWiki.RRing.IsA and has-destination = wiki.Book will become, in Solr index:
-     * property.ringSet.XWiki.RRing.IsA:[wiki.Book].
+     * XWiki.RingSet.IsA and has-destination = wiki.Book will become, in Solr index:
+     * property.ringSet.XWiki.RingSet.IsA:[wiki.Book].
      */
     public void index(Ring<DocumentReference> ring, boolean transitively) throws RingException
     {
@@ -296,7 +296,7 @@ public class SolrRingIndexer implements XWikiRingIndexer
                 logger.debug("Add ringSet: {}", ring);
                 // TODO: cross-wikis graphs
                 // TODO: see also the Solr reference serializers
-                // TODO: add a default relation RRing:getDefaultRelation
+                // TODO: add a default relation RingSet:getDefaultRelation
                 String fieldName = getFieldName(ring.getRelation());
                 if (ring.hasRelatum()) {
                     // Add index directly to the document so that the documents can be queried by their rings.
@@ -339,9 +339,9 @@ public class SolrRingIndexer implements XWikiRingIndexer
                                 // need to be covered by two distinct relations or if the two relations share the same
                                 // nature.
                                 if (!(ringSet.getRelation()
-                                        .equals(ringSet.getIdentifier(BaseXWikiRRing.IS_A_RELATION_NAME))
+                                        .equals(ringSet.getIdentifier(BaseXWikiRingSet.IS_A_RELATION_NAME))
                                         && secondLevelEdge.getRelatum()
-                                        .equals(ringSet.getIdentifier(BaseXWikiRRing.TYPE_TERM_NAME))))
+                                        .equals(ringSet.getIdentifier(BaseXWikiRingSet.TYPE_TERM_NAME))))
                                 {
                                     index(ringByTransitivity, false);
                                 }
@@ -368,7 +368,7 @@ public class SolrRingIndexer implements XWikiRingIndexer
 
     /**
      * Adapted from {@link org.xwiki.search.solr.internal.metadata.AbstractSolrMetadataExtractor} TODO: this should be
-     * refactored so that setDocumentFields can be called from XWikiRRing. Create a SolrEntryFactory component? And
+     * refactored so that setDocumentFields can be called from XWikiRingSet. Create a SolrEntryFactory component? And
      * customized: add FieldUtils.FULLNAME, and FieldUtils.TITLE. Customization: the document fields are set even if the
      * document does not exist yet in the wiki, since this can happen during the indexing of rings: destinations can be
      * indexed due to rings referencing them, prior to get indexed entirely.

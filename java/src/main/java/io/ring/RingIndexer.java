@@ -16,12 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package aek.ring;
+package io.ring;
 
 import org.xwiki.stability.Unstable;
 
 /**
- * RRing indexer that maintains an index of rings easing RRing querying.
+ * RingSet indexer that maintains an index of rings easing RingSet querying.
  *
  * @param <I> vertex identifier class
  */

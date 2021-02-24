@@ -18,7 +18,7 @@
  */
 package org.xwiki.contrib.ring;
 
-import aek.ring.Relation;
+import io.ring.Relation;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.stability.Unstable;
 

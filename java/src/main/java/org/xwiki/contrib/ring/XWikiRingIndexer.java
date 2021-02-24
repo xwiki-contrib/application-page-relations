@@ -19,9 +19,9 @@
 package org.xwiki.contrib.ring;
 
 import org.xwiki.component.annotation.Role;
-import aek.ring.Ring;
-import aek.ring.RingException;
-import aek.ring.RingIndexer;
+import io.ring.Ring;
+import io.ring.RingException;
+import io.ring.RingIndexer;
 import org.xwiki.model.reference.DocumentReference;
 
 @Role
