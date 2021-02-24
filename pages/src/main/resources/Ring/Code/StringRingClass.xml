@@ -44,23 +44,6 @@
     <defaultWeb/>
     <nameField/>
     <validationScript/>
-    <has-properties>
-      <contenttype>---</contenttype>
-      <customDisplay/>
-      <disabled>0</disabled>
-      <editor>---</editor>
-      <hint/>
-      <name>has-properties</name>
-      <number>3</number>
-      <picker>0</picker>
-      <prettyName>has-properties</prettyName>
-      <rows>5</rows>
-      <size>70</size>
-      <unmodifiable>0</unmodifiable>
-      <validationMessage/>
-      <validationRegExp/>
-      <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-    </has-properties>
     <has-relation>
       <cache>0</cache>
       <classname/>
@@ -76,7 +59,7 @@
       <name>has-relation</name>
       <number>1</number>
       <picker>1</picker>
-      <prettyName>has-relation</prettyName>
+      <prettyName>Has relation</prettyName>
       <relationalStorage>1</relationalStorage>
       <separator> </separator>
       <separators/>
@@ -98,7 +81,7 @@
       <name>has-value</name>
       <number>2</number>
       <picker>1</picker>
-      <prettyName>has-value</prettyName>
+      <prettyName>Has value</prettyName>
       <rows>5</rows>
       <size>40</size>
       <unmodifiable>0</unmodifiable>
@@ -107,48 +90,4 @@
       <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
     </has-value>
   </class>
-  <object>
-    <name>Ring.Code.StringRingClass</name>
-    <number>0</number>
-    <className>XWiki.DocumentSheetBinding</className>
-    <guid>195a18be-80ac-4025-a08a-d7db2a071a00</guid>
-    <class>
-      <name>XWiki.DocumentSheetBinding</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <sheet>
-        <cache>0</cache>
-        <classname/>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <hint/>
-        <idField/>
-        <multiSelect>0</multiSelect>
-        <name>sheet</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Sheet</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators/>
-        <size>30</size>
-        <sort>none</sort>
-        <sql/>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <valueField/>
-        <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
-      </sheet>
-    </class>
-    <property>
-      <sheet>XWiki.ClassSheet</sheet>
-    </property>
-  </object>
 </xwikidoc>

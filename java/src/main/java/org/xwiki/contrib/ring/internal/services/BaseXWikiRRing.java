@@ -35,8 +35,8 @@ import org.xwiki.contrib.ring.XWikiRing;
 import org.xwiki.contrib.ring.XWikiRingTraverser;
 import org.xwiki.contrib.ring.XWikiTerm;
 import org.xwiki.contrib.ring.XWikiTermFactory;
+import org.xwiki.contrib.ring.internal.model.BaseXWikiRing;
 import org.xwiki.contrib.ring.internal.model.BooleanXWikiRing;
-import org.xwiki.contrib.ring.internal.model.DefaultXWikiRing;
 import org.xwiki.contrib.ring.internal.model.Names;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
@@ -62,7 +62,7 @@ import aek.ring.RingException;
 @Singleton
 @Named("default")
 @Unstable
-public class DefaultXWikiRRing implements XWikiRRing
+public class BaseXWikiRRing implements XWikiRRing
 {
     @Inject
     private Logger logger;
@@ -109,8 +109,8 @@ public class DefaultXWikiRRing implements XWikiRRing
     }
 
     /**
-     * A FunctionInterface is used to handle both cases where the destination is either a DocumentReference or a scalar as a String, Boolean, Date,
-     * ...
+     * A FunctionInterface is used to handle both cases where the destination is either a DocumentReference or a scalar
+     * as a String, Boolean, Date, ...
      */
     public void addRing(DocumentReference origin, DocumentReference relation, Object destinationOrValue,
             EdgeTargeter targeter) throws RingException
@@ -217,11 +217,7 @@ public class DefaultXWikiRRing implements XWikiRRing
 
     public List<DocumentReference> getInstances(DocumentReference type) throws RingException
     {
-        List<DocumentReference> instances = new ArrayList<>();
-        for (XWikiRing ring : traverser.getRingsTo(type, factory.getIdentifier(Names.IS_A_RELATION_NAME))) {
-            instances.add(ring.getReferent());
-        }
-        return instances;
+        return traverser.getDirectPredecessors(type, factory.getIdentifier(Names.IS_A_RELATION_NAME));
     }
 
     public XWikiRelation getRelation(DocumentReference identifier) throws RingException
@@ -250,11 +246,12 @@ public class DefaultXWikiRRing implements XWikiRRing
 
     public List<XWikiRelation> getRelations() throws RingException
     {
-        List<XWikiRing> rings = traverser.getRingsTo(factory.getIdentifier(Names.RELATION_TERM_NAME),
-                factory.getIdentifier(Names.IS_A_RELATION_NAME));
+        List<DocumentReference> relationReferences =
+                traverser.getDirectPredecessors(factory.getIdentifier(Names.RELATION_TERM_NAME),
+                        factory.getIdentifier(Names.IS_A_RELATION_NAME));
         List<XWikiRelation> relations = new ArrayList<>();
-        for (XWikiRing ring : rings) {
-            relations.add(getRelation(ring.getReferent()));
+        for (DocumentReference identifier : relationReferences) {
+            relations.add(getRelation(identifier));
         }
         return relations;
     }
@@ -270,7 +267,7 @@ public class DefaultXWikiRRing implements XWikiRRing
     protected XWikiRing getRing(XWikiDocument origin, int objectIndex) throws RingException
     {
         BaseObjectReference objectReference =
-                origin.getXObject(DefaultXWikiRing.RING_XCLASS_REFERENCE, objectIndex).getReference();
+                origin.getXObject(BaseXWikiRing.RING_XCLASS_REFERENCE, objectIndex).getReference();
         return getRing(origin, objectReference);
     }
 
@@ -302,13 +299,10 @@ public class DefaultXWikiRRing implements XWikiRRing
 
     public List<DocumentReference> getTypes() throws RingException
     {
-        List<XWikiRing> rings = traverser.getRingsTo(factory.getIdentifier(Names.TYPE_TERM_NAME),
-                factory.getIdentifier(Names.IS_A_RELATION_NAME));
-        List<DocumentReference> types = new ArrayList<>();
-        for (XWikiRing ring : rings) {
-            types.add(ring.getReferent());
-        }
-        return types;
+        List<DocumentReference> references =
+                traverser.getDirectPredecessors(factory.getIdentifier(Names.TYPE_TERM_NAME),
+                        factory.getIdentifier(Names.IS_A_RELATION_NAME));
+        return references;
     }
 
     public void removeRing(DocumentReference referent, DocumentReference relatum) throws RingException
@@ -392,7 +386,8 @@ public class DefaultXWikiRRing implements XWikiRRing
     }
 
     /**
-     * Remove all stored edges having the given reference as destination. TODO: also remove the edges not stored but indexed via transitivity
+     * Remove all stored edges having the given reference as destination. TODO: also remove the edges not stored but
+     * indexed via transitivity
      */
     public void removeRingsTo(DocumentReference object) throws RingException
     {

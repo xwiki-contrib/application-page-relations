@@ -81,7 +81,7 @@ public class XWikiTermSolrMetadataExtractor extends DocumentSolrMetadataExtracto
     }
 
     /**
-     * Needed to set document fields from DefaultXWikiRRing. TODO: see if {@link org.xwiki.search.solr.internal.metadata.AbstractSolrMetadataExtractor}
+     * Needed to set document fields from BaseXWikiRRing. TODO: see if {@link org.xwiki.search.solr.internal.metadata.AbstractSolrMetadataExtractor}
      * setDocumentFields can be made public instead or if the field initializer can be moved to a class that is more
      * accessible.
      */
@@ -98,14 +98,14 @@ public class XWikiTermSolrMetadataExtractor extends DocumentSolrMetadataExtracto
         String field = "property." + ringSet.serialize(ringSet.getRelation());
         List<DocumentReference> destinations = new ArrayList<>();
         String typeVertexIdentifierAsString =
-                ringSet.serialize(ringSet.getIdentifier((DefaultXWikiRRing.TYPE_TERM_NAME)));
+                ringSet.serialize(ringSet.getIdentifier((BaseXWikiRRing.TYPE_TERM_NAME)));
         if (ringSet.hasRelatum()) {
             addFieldValueOnce(solrDocument, FieldUtils.getFieldName(field, TypedValue.STRING, locale),
                     ringSet.serialize(ringSet.getRelatum()));
 
             // Currently needed for displaying all neighbours of a vertex with a single query
             field =
-                    "property." + ringSet.serialize(ringSet.getIdentifier(DefaultXWikiRRing.IS_CONNECTED_TO_RELATION_NAME));
+                    "property." + ringSet.serialize(ringSet.getIdentifier(BaseXWikiRRing.IS_CONNECTED_TO_RELATION_NAME));
             addFieldValueOnce(solrDocument, FieldUtils.getFieldName(field, TypedValue.STRING, locale),
                     ringSet.serialize(ringSet.getRelatum()));
 
@@ -133,8 +133,8 @@ public class XWikiTermSolrMetadataExtractor extends DocumentSolrMetadataExtracto
                     }
                 }
 
-            //field = "property." + ringSet.serialize(DefaultXWikiRRing.ring_VERTEX_REFERENCE) + "."
-            //       + DefaultXWikiRRing.HAS_ORIGIN_ID;
+            //field = "property." + ringSet.serialize(BaseXWikiRRing.ring_VERTEX_REFERENCE) + "."
+            //       + BaseXWikiRRing.HAS_ORIGIN_ID;
             //for (DocumentReference destination : destinations) {
 //            addFieldValueOnce(solrDocument, FieldUtils.getFieldName(field, TypedValue.STRING, locale),
 //                    ringSet.serialize(ringSet.getReferent()));
@@ -169,7 +169,7 @@ public class XWikiTermSolrMetadataExtractor extends DocumentSolrMetadataExtracto
             // itself.
             if (!directPredecessor.equals(vertex)) {
                 String field =
-                        "property." + ringSet.serialize(ringSet.getIdentifier(DefaultXWikiRRing.IS_CONNECTED_TO_RELATION_NAME));
+                        "property." + ringSet.serialize(ringSet.getIdentifier(BaseXWikiRRing.IS_CONNECTED_TO_RELATION_NAME));
                 addFieldValueOnce(solrDocument, FieldUtils.getFieldName(field, TypedValue.STRING, locale),
                         ringSet.serialize(directPredecessor));
 
@@ -177,7 +177,7 @@ public class XWikiTermSolrMetadataExtractor extends DocumentSolrMetadataExtracto
                 // then index these rings destinations as well.
 //                List<DocumentReference> directPredecessorPredecessors =
 //                        ringSet.getDirectPredecessorsViaHql(directPredecessor,
-//                                ringSet.getIdentifier(DefaultXWikiRRing.IS_A_RELATION_NAME));
+//                                ringSet.getIdentifier(BaseXWikiRRing.IS_A_RELATION_NAME));
 //                for (DocumentReference directPredecessorPredecessor : directPredecessorPredecessors) {
 //                    if (!directPredecessorPredecessor.equals(directPredecessor)) {
 //                        addFieldValueOnce(solrDocument, FieldUtils.getFieldName(field, TypedValue.STRING, locale),

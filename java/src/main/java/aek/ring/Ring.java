@@ -21,33 +21,31 @@ package aek.ring;
 import org.xwiki.stability.Unstable;
 
 /**
- * A Ring is an ordered set of terms where each term has a well defined role: the first one is the referent,
- * the second one a relation and the third one the relatum. A Ring is a also a Term so that it is possible to
- * involve a Ring in other Rings. In addition a Ring can have properties.
+ * A Ring is an ordered triple of terms where each term has a well defined role: the first one is the referent,
+ * the second one a relation and the third one the relatum. An Ring is a also a Term so that it is possible to
+ * involve a Ring in other Rings.
  *
  * @param <I> ringSet and term identifier class
  */
 @Unstable
 public interface Ring<I> extends Term<I>
 {
-    Object getProperties();
-
     /**
-     * Returns the ring referent identifier.
+     * Returns the edge subject identifier.
      *
-     * @return referent identifier
+     * @return edge subject identifier
      */
     I getReferent();
 
     /**
-     * Returns the ring relation identifier.
+     * Returns the edge relation identifier.
      *
-     * @return relation identifier
+     * @return edge relation identifier
      */
     I getRelation();
 
     /**
-     * Returns the ring relatum identifier, if any. See also {@link #getValue()}.
+     * Returns the edge object identifier, if any. See also {@link #getValue()}.
      *
      * @return edge object identifier
      */
@@ -82,8 +80,6 @@ public interface Ring<I> extends Term<I>
      * @return true if the edge value is not null, false otherwise.
      */
     boolean hasValue();
-
-    void setProperties(Object properties);
 
     /**
      * Sets this edge relation identifier.

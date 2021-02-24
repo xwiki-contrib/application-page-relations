@@ -28,18 +28,18 @@ import org.xwiki.model.reference.DocumentReference;
  *
  * @version $Id$
  */
-public class DefaultXWikiTerm implements XWikiTerm
+public class BaseXWikiTerm implements XWikiTerm
 {
     protected DocumentReference identifier;
 
-    public DefaultXWikiTerm(DocumentReference reference)
+    public BaseXWikiTerm(DocumentReference reference)
     {
         this.identifier = reference;
     }
 
     public Term<DocumentReference> clone()
     {
-        XWikiTerm clone = new DefaultXWikiTerm(identifier);
+        XWikiTerm clone = new BaseXWikiTerm(identifier);
         return clone;
     }
 

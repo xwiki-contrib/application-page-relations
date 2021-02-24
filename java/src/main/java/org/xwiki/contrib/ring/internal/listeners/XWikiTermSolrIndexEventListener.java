@@ -32,10 +32,9 @@ import org.xwiki.bridge.event.WikiDeletedEvent;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.ring.XWikiRRing;
 import org.xwiki.contrib.ring.internal.metadata.XWikiRingSolrMetadataExtractor;
-import org.xwiki.contrib.ring.internal.model.DefaultXWikiRing;
+import org.xwiki.contrib.ring.internal.model.BaseXWikiRing;
 
 import aek.ring.RingException;
-
 import org.xwiki.observation.event.Event;
 import org.xwiki.search.solr.internal.SolrIndexEventListener;
 
@@ -90,7 +89,7 @@ public class XWikiTermSolrIndexEventListener extends SolrIndexEventListener
             // of XWikiRingSolrMetadataExtractor, and the ringSet application does not use the
             // BaseObject index created by the DocumentExtractor.
             List<BaseObject> rings =
-                    document.getXObjects(DefaultXWikiRing.RING_OBJECT_REFERENCE);
+                    document.getXObjects(BaseXWikiRing.RING_OBJECT_REFERENCE);
             if (rings != null && rings.size() > 0) {
                 if (!document.getContent().equals(originalDocument.getContent())) {
                     super.onEvent(event, source, data);

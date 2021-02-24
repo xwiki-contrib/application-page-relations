@@ -331,7 +331,7 @@ public class SolrRingIndexer implements XWikiRingIndexer
                                     ringSet.getRingsFrom(ringSet.getRelatum(), ringSet.getRelation());
                             for (XWikiRing secondLevelEdge : secondLevelEdges) {
                                 XWikiRing ringByTransitivity =
-                                        new DefaultXWikiRing(ringSet.getReferent(), ringSet.getRelation(),
+                                        new BaseXWikiRing(ringSet.getReferent(), ringSet.getRelation(),
                                                 secondLevelEdge.getRelatum(), ringSet);
                                 // Handle "is a" "type" specifically because "A is a B" and "B is a Type" does not
                                 // imply "A is a Type" unless we refactor the "is a" relation into "is instance of"
@@ -339,9 +339,9 @@ public class SolrRingIndexer implements XWikiRingIndexer
                                 // need to be covered by two distinct relations or if the two relations share the same
                                 // nature.
                                 if (!(ringSet.getRelation()
-                                        .equals(ringSet.getIdentifier(DefaultXWikiRRing.IS_A_RELATION_NAME))
+                                        .equals(ringSet.getIdentifier(BaseXWikiRRing.IS_A_RELATION_NAME))
                                         && secondLevelEdge.getRelatum()
-                                        .equals(ringSet.getIdentifier(DefaultXWikiRRing.TYPE_TERM_NAME))))
+                                        .equals(ringSet.getIdentifier(BaseXWikiRRing.TYPE_TERM_NAME))))
                                 {
                                     index(ringByTransitivity, false);
                                 }
@@ -474,7 +474,7 @@ public class SolrRingIndexer implements XWikiRingIndexer
         // Retrieve all vertices having an ringSet to destination using the IS_CONNECTED_TO relation which is supposed
         // to be present in all cases.
 //        List<DocumentReference> predecessors =
-//                getRingsTo(destination, getIdentifier(IS_CONNECTED_TO_RELATION_NAME));
+//                getDirectPredecessors(destination, getIdentifier(IS_CONNECTED_TO_RELATION_NAME));
 //        for (DocumentReference predecessor : predecessors) {
 //            logger.debug("Remove ringSet from {} to {}", predecessor, destination);
 //            try {

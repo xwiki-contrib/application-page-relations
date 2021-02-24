@@ -45,7 +45,7 @@ public interface XWikiRingTraverser extends RingTraverser<DocumentReference>
      * @param relation a relation
      * @return all vertices pointing at the vertex with the given relation
      */
-    List<XWikiRing> getRingsTo(DocumentReference relatum, DocumentReference relation)
+    List<DocumentReference> getDirectPredecessors(DocumentReference relatum, DocumentReference relation)
             throws RingException;
 
     /**

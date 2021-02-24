@@ -33,7 +33,6 @@ public interface Names
     String HAS_RELATION = "has-relation";
     String HAS_RELATUM = "has-relatum";
     String HAS_VALUE = "has-value";
-    String HAS_PROPERTIES = "properties";
     String RING_NEXUS_NAMESPACE = "Ring";
     EntityReference RING_NEXUS_SPACE_REFERENCE = new EntityReference(RING_NEXUS_NAMESPACE, EntityType.SPACE);
     String RING_NEXUS_CODE_NAMESPACE = RING_NEXUS_NAMESPACE + ".Code";

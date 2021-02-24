@@ -29,7 +29,7 @@
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>Translations</title>
+  <title/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>plain/1.0</syntaxId>
@@ -45,34 +45,6 @@ ring.types=Types
 ring.relations=Relations
 ring.filter=Filter
 
-# RingClass
-Ring.Code.RingClass_has-referent=Has referent
-Ring.Code.RingClass_has-relation=Has relation
-Ring.Code.RingClass_has-relation_hint=Relation between this page and another page
-Ring.Code.RingClass_has-relatum=Has relatum
-Ring.Code.RingClass_has-relatum_hint=The relatum is the second part of the relation
-Ring.Code.RingClass_has-properties=Has properties
-Ring.Code.RingClass_has-properties_hint=Properties describing this ring
-
-# StringRingClass
-Ring.Code.StringRingClass_has-referent=Has referent
-Ring.Code.StringRingClass_has-relation=Has relation
-Ring.Code.StringRingClass_has-relation_hint=Relation between this page and a value
-Ring.Code.StringRingClass_has-value=Has value
-Ring.Code.StringRingClass_has-value_value=Value taken
-Ring.Code.StringRingClass_has-properties=Has properties
-Ring.Code.StringRingClass_has-properties_hint=Properties describing this ring
-
-# BooleanRingClass
-Ring.Code.BooleanRingClass_has-referent=Has referent
-Ring.Code.BooleanRingClass_has-relation=Has relation
-Ring.Code.BooleanRingClass_has-relation_hint=Relation between this page and a value
-Ring.Code.BooleanRingClass_has-value=Has value
-Ring.Code.BooleanRingClass_has-value_value=Value taken
-Ring.Code.BooleanRingClass_has-properties=Has properties
-Ring.Code.BooleanRingClass_has-properties_hint=Properties describing this ring
-
-# ConfigurationClass
 ring.settings.title=Settings
 Ring.Code.ConfigurationClass_spacesIn=Included spaces
 Ring.Code.ConfigurationClass_spacesIn.hint=List of spaces where the application will be activated (separator: comma), e.g.: Main, XWiki
@@ -86,7 +58,7 @@ Ring.Code.ConfigurationClass_termSheet.hint=Sheet to be used to display the page
     <name>Ring.Code.Translations</name>
     <number>0</number>
     <className>XWiki.TranslationDocumentClass</className>
-    <guid>fc859761-700c-49f7-a52e-30531106e9f5</guid>
+    <guid>03b68266-616a-4607-887a-f6a131880e15</guid>
     <class>
       <name>XWiki.TranslationDocumentClass</name>
       <customClass/>

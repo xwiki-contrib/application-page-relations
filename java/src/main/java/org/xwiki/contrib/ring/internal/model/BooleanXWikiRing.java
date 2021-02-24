@@ -25,7 +25,7 @@ import org.xwiki.model.reference.EntityReferenceSerializer;
 
 import com.xpn.xwiki.objects.BaseObject;
 
-public class BooleanXWikiRing extends DefaultXWikiRing
+public class BooleanXWikiRing extends BaseXWikiRing
 {
     public final static EntityReference XCLASS_REFERENCE =
             new EntityReference("BooleanRingClass", EntityType.DOCUMENT, Names.RING_CODE_SPACE_REFERENCE);
