@@ -1,21 +1,20 @@
 /*
- * See the NOTICE file distributed with this work for additional
- * information regarding copyright ownership.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package aek.ring;
 
@@ -24,18 +23,20 @@ import java.util.List;
 import org.xwiki.stability.Unstable;
 
 /**
- * A RRing is a set of rings. It can be seen itself as a large ring, a meta ring, a ring of rings.  The structure is a directed 3-uniform hypergraph
- * where rings are edges and also vertices. Edges involved in this hypergraph class link 3 vertices, where each vertex has a specific role: referent,
- * relation and relatum. The 'I' generics represents an identifier interface used to identify terms (vertices), relations and rings (edges).
+ * A RRing or 2Ring represents a set of rings. Can be seen itself as a large ringSet, a meta ringSet, a ringSet of
+ * rings.  The structure is a directed 3-uniform hypergraph where rings are edges, and are also vertices. Rings involved
+ * in this hypergraph class link 3 vertices, where each vertex has a specific role: referent, relation and relatum. The
+ * "I" generics represents an identifier interface used to identify terms (vertices), relations and rings (edges).
  *
- * @param <I> Term identifier class
+ * @param <I> term identifier class
  */
 @Unstable
 public interface RRing<I>
 {
     /**
-     * Adds a relation to the RRing with the given identifier, label, domain and image. See also the definition of a relation's domain and image in
-     * graphs at <a href="https://en.wikipedia.org/wiki/Binary_relation">Binary relation</a>.
+     * Adds a relation to the ringSet with the given identifier, label, domain and image. See also the definition of a
+     * relation's domain and image in graphs at <a href="https://en.wikipedia.org/wiki/Binary_relation">Binary
+     * relation</a>.
      *
      * @param identifier the relation identifier
      * @param label the relation label
@@ -46,10 +47,10 @@ public interface RRing<I>
     void addRelation(I identifier, String label, String domain, String image) throws RingException;
 
     /**
-     * Adds a ring linking the two given terms identified by their identifiers.
+     * Adds ring linking the two given term identifiers.
      *
-     * @param referent referent identifier
-     * @param relatum relatum identifier
+     * @param referent ring referent
+     * @param relatum ring relatum
      * @throws RingException in case an error occurs
      */
     void addRing(I referent, I relatum) throws RingException;
@@ -57,7 +58,7 @@ public interface RRing<I>
     /**
      * Adds a ring between given referent and the given relatum using the given relation.
      *
-     * @param referent identifier of the referent
+     * @param referent identifier of the subjectvertex
      * @param relation identifier of the ring relation
      * @param relatum identifier or value of the relatum
      * @throws RingException in case an error occurs
@@ -65,7 +66,8 @@ public interface RRing<I>
     void addRing(I referent, I relation, Object relatum) throws RingException;
 
     /**
-     * Same as {@link #addRing(Object, Object, Object)} except the ring is created only if an equivalent one does not exist already.
+     * Same as {@link #addRing(Object, Object, Object)} except the ring is created only if an equivalent one does not
+     * exist already.
      *
      * @param referent identifier of the referent term
      * @param relation identifier of the ring relation
@@ -75,27 +77,27 @@ public interface RRing<I>
     void addRingOnce(I referent, I relation, Object relatum) throws RingException;
 
     /**
-     * Creates a term with given label and given type.
+     * Adds a term to this RRing
      *
-     * @param identifier term
-     * @param label label
-     * @param type type
+     * @param identifier term identifier
      */
-    void addTerm(I identifier, String label, I type) throws RingException;
+    void addTerm(I identifier) throws RingException;
 
     /**
-     * Adds a type to a term.
+     * Adds a term to the RRing with the given identifier and label.
      *
-     * @param term term identifier
-     * @param type type identifier
+     * @param identifier term identifier
+     * @param label term label
      * @throws RingException in case an error occurs
      */
-    void addType(I term, I type) throws RingException;
+    void addTerm(I identifier, String label) throws RingException;
 
     /**
-     * Gets all term identifiers having relation "is a" with the given type, i.e. terms which are instances of the given type.
-     *
+     * Gets all term identifiers having relation "is a" with the given type, i.e. terms which are instances of the
+     * given type.
+     * @param type
      * @return list of instances of the given type
+     * @throws RingException
      */
     List<? extends I> getInstances(I type) throws RingException;
 
@@ -124,7 +126,8 @@ public interface RRing<I>
     Ring<I> getRing(I identifier) throws RingException;
 
     /**
-     * Returns the ring between the given subject and object with the given relation, if it exists in the rring, null otherwise.
+     * Returns the ring between the given subject and object with the given relation, if it exists in the rring, null
+     * otherwise.
      *
      * @param referent referent identifier
      * @param relation relation identifier
@@ -195,9 +198,9 @@ public interface RRing<I>
 
     /**
      * Removes all rings from the given referent and involving the given relation.
-     *
      * @param referent a referent
      * @param relation a relation
+     * @throws RingException
      */
     void removeRingsWith(I referent, I relation) throws RingException;
 

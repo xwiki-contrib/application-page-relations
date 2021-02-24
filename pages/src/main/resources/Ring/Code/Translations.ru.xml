@@ -1,25 +1,23 @@
 <?xml version="1.1" encoding="UTF-8"?>
 
 <!--
- * See the NOTICE file distributed with this work for additional
- * information regarding copyright ownership.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
 -->
-
 <xwikidoc version="1.3" reference="Ring.Code.Translations" locale="ru">
   <web>Ring.Code</web>
   <name>Translations</name>
@@ -36,53 +34,25 @@
   <minorEdit>false</minorEdit>
   <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
-  <content>ring.title=Приложение Кольцо Знаний
-ring.about=Приложение «Кольцо знаний» позволяет рисовать отношения между вики-страницами. Например, отношение // имеет автора // может быть создано, чтобы утверждать, что эта страница // Книга джунглей // имеет отношение // имеет автора // со страницей // Редьярд Киплинг //. Отношения хранятся в вики, как и любая другая страница, с единственной специфичностью, с которой они имеют отношение, // это // страница // отношения. Соединения каждой вики-страницы можно просматривать с помощью виджета, отображаемого под заголовком каждой страницы, что также позволяет добавлять новые соединения.
-ring.quick-links=Документация и быстрые ссылки
-ring.documentation=Документация
-ring.demo=Демонстрация
-ring.search=Поиск
-ring.administration=Администрирование
-ring.import=Импорт
-ring.types=Типы
-ring.relations=Связи
-ring.filter=Фильтр
+  <content>### Missing: ring.title=Knowledge Ring Application
+### Missing: ring.about=The Knowledge Ring Application allows to draw relations between wiki pages. For instance, the relation //has author// can be created to state that page //The Jungle Book// has relation //has author// with page //Rudyard Kipling//. Relations are stored in the wiki as any other page, with the only specificity that they have relation //is a// with the //Relation// page. The connections of each wiki page can be browsed using a widget showing up under each page title, allowing also to add new connections.
+### Missing: ring.quick-links=Documentation and quick links
+### Missing: ring.documentation=Documentation
+### Missing: ring.demo=Demo
+### Missing: ring.search=Search
+### Missing: ring.administration=Administration
+### Missing: ring.types=Types
+### Missing: ring.relations=Relations
+### Missing: ring.filter=Filter
 
-# RingClass
-Ring.Code.RingClass_has-referent=Относится к
-Ring.Code.RingClass_has-relation=Связан с
-Ring.Code.RingClass_has-relation_hint=Связь между этой страницей и другой страницей
-### Missing: Ring.Code.RingClass_has-relatum=Has relatum
-### Missing: Ring.Code.RingClass_has-relatum_hint=The relatum is the second part of the relation
-Ring.Code.RingClass_has-properties=Имеет свойства
-Ring.Code.RingClass_has-properties_hint=Свойства, описывающие это кольцо
-
-# StringRingClass
-Ring.Code.StringRingClass_has-referent=Относится к
-Ring.Code.StringRingClass_has-relation=Связан с
-Ring.Code.StringRingClass_has-relation_hint=Связь между этой страницей и значением
-Ring.Code.StringRingClass_has-value=Имеет значение
-Ring.Code.StringRingClass_has-value_value=Значение принято
-Ring.Code.StringRingClass_has-properties=Имеет свойства
-Ring.Code.StringRingClass_has-properties_hint=Свойства, описывающие это кольцо
-
-# BooleanRingClass
-Ring.Code.BooleanRingClass_has-referent=Относится к
-Ring.Code.BooleanRingClass_has-relation=Связан с
-Ring.Code.BooleanRingClass_has-relation_hint=Связь между этой страницей и значением
-Ring.Code.BooleanRingClass_has-value=Имеет значение
-Ring.Code.BooleanRingClass_has-value_value=Значение принято
-Ring.Code.BooleanRingClass_has-properties=Имеет свойства
-Ring.Code.BooleanRingClass_has-properties_hint=Свойства, описывающие это кольцо
-
-# ConfigurationClass
-ring.settings.title=Настройки
-Ring.Code.ConfigurationClass_spacesIn=Включая пространства
-Ring.Code.ConfigurationClass_spacesIn.hint=Список пространств, где будет активировано приложение (разделитель: запятая), например: Main, XWiki
-Ring.Code.ConfigurationClass_spacesOut=Исключенные пространства
-Ring.Code.ConfigurationClass_spacesOut.hint=Список пространств, где приложение не будет активировано (разделитель: запятая)
-Ring.Code.ConfigurationClass_pagesOut=Исключенные страницы
-Ring.Code.ConfigurationClass_pagesOut.hint=Список страниц, где приложение не будет активировано (разделитель: запятая), например: Main.WebHome, XWiki.WebHome
+### Missing: ring.settings.title=Settings
+### Missing: Ring.Code.ConfigurationClass_spacesIn=Included spaces
+### Missing: Ring.Code.ConfigurationClass_spacesIn.hint=List of spaces where the application will be activated (separator: comma), e.g.: Main, XWiki
+### Missing: Ring.Code.ConfigurationClass_spacesOut=Excluded spaces
+### Missing: Ring.Code.ConfigurationClass_spacesOut.hint=List of spaces where the application will not be activated (separator: comma)
+### Missing: Ring.Code.ConfigurationClass_pagesOut=Excluded pages
+### Missing: Ring.Code.ConfigurationClass_pagesOut.hint=List of pages where the application will not be activated (separator: comma), e.g.: Main.WebHome, XWiki.WebHome
 ### Missing: Ring.Code.ConfigurationClass_termSheet=Term sheet
-Ring.Code.ConfigurationClass_termSheet.hint=Лист для отображения страниц, содержащих хотя бы одно кольцо</content>
+### Missing: Ring.Code.ConfigurationClass_termSheet.hint=Sheet to be used to display the pages containing at least one ring</content>
+  
 </xwikidoc>

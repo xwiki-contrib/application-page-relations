@@ -1,21 +1,20 @@
 /*
- * See the NOTICE file distributed with this work for additional
- * information regarding copyright ownership.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package org.xwiki.contrib.ring.script;
 
@@ -54,17 +53,14 @@ public class RingScriptService implements ScriptService
     @Named("solr-sql")
     protected XWikiRingTraverser traverser;
 
-    public void addRing(DocumentReference referent, DocumentReference relation, Object relatum) throws RingException
+    public void addRing(DocumentReference referent, DocumentReference relation, Object relatum)
+            throws RingException
     {
         ring.addRing(referent, relation, relatum);
     }
 
-    public void addTerm(DocumentReference identifier, String label, DocumentReference type) throws RingException
-    {
-        ring.addTerm(identifier, label, type);
-    }
-
-    public List<XWikiRing> getRingsTo(DocumentReference relatum, DocumentReference relation) throws RingException
+    public List<XWikiRing> getRingsTo(DocumentReference relatum, DocumentReference relation)
+            throws RingException
     {
         return traverser.getRingsTo(relatum, relation);
     }
@@ -119,7 +115,7 @@ public class RingScriptService implements ScriptService
 
     public List<XWikiRelation> getRelations(DocumentReference term) throws RingException
     {
-        return traverser.filterRelations(term, getRelations());
+        return traverser.getRelations(term, getRelations());
     }
 
     public List<XWikiRelation> getRelations() throws RingException
@@ -132,7 +128,8 @@ public class RingScriptService implements ScriptService
         return traverser.getRingsFrom(identifier);
     }
 
-    public List<XWikiRing> getRingsFrom(DocumentReference identifier, DocumentReference relation) throws RingException
+    public List<XWikiRing> getRingsFrom(DocumentReference identifier, DocumentReference relation)
+            throws RingException
     {
         return traverser.getRingsFrom(identifier, relation);
     }
@@ -142,7 +139,8 @@ public class RingScriptService implements ScriptService
         return ring.getTypes();
     }
 
-    public void removeRing(DocumentReference referent, DocumentReference relation, DocumentReference relatum) throws RingException
+    public void removeRing(DocumentReference referent, DocumentReference relation, DocumentReference relatum)
+            throws RingException
     {
         ring.removeRing(referent, relation, relatum);
     }

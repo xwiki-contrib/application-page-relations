@@ -1,21 +1,20 @@
 /*
- * See the NOTICE file distributed with this work for additional
- * information regarding copyright ownership.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package org.xwiki.contrib.ring.internal.services;
 
@@ -35,7 +34,7 @@ import org.xwiki.contrib.ring.XWikiRelation;
 import org.xwiki.contrib.ring.XWikiRing;
 import org.xwiki.contrib.ring.XWikiRingTraverser;
 import org.xwiki.contrib.ring.XWikiTerm;
-import org.xwiki.contrib.ring.XWikiRingFactory;
+import org.xwiki.contrib.ring.XWikiTermFactory;
 import org.xwiki.contrib.ring.internal.model.BooleanXWikiRing;
 import org.xwiki.contrib.ring.internal.model.DefaultXWikiRing;
 import org.xwiki.contrib.ring.internal.model.Names;
@@ -79,7 +78,7 @@ public class DefaultXWikiRRing implements XWikiRRing
     private XWikiRingTraverser traverser;
 
     @Inject
-    private XWikiRingFactory factory;
+    private XWikiTermFactory factory;
 
     @Inject
     @Named("local")
@@ -89,20 +88,19 @@ public class DefaultXWikiRRing implements XWikiRRing
     @Named("current")
     private DocumentReferenceResolver<String> resolver;
 
-    public void addRelation(DocumentReference term, String name, String domain, String image)
+    public void addRelation(DocumentReference identifier, String name, String domain, String image)
             throws RingException
     {
         try {
             XWikiContext context = contextualizer.get();
             XWiki xwiki = context.getWiki();
-            if (!xwiki.exists(term, context)) {
-                authorizer.checkAccess(Right.EDIT, context.getUserReference(), term);
-                addTerm(term, name);
-                addType(term, factory.getIdentifier(Names.RELATION_TERM_NAME));
-                addRing(term, factory.getIdentifier(Names.HAS_DOMAIN_RELATION_NAME), domain);
-                addRing(term, factory.getIdentifier(Names.HAS_IMAGE_RELATION_NAME), image);
+            if (!xwiki.exists(identifier, context)) {
+                authorizer.checkAccess(Right.EDIT, context.getUserReference(), identifier);
+                addTerm(identifier, name, factory.getIdentifier(Names.RELATION_TERM_NAME));
+                addRing(identifier, factory.getIdentifier(Names.HAS_DOMAIN_RELATION_NAME), domain);
+                addRing(identifier, factory.getIdentifier(Names.HAS_IMAGE_RELATION_NAME), image);
             } else {
-                throw new RingException("A vertex with reference " + term + " already exists in the ringSet.");
+                throw new RingException("A vertex with reference " + identifier + " already exists in the ringSet.");
             }
         } catch (AccessDeniedException e) {
             logger.error("Exception while adding relation", e);
@@ -179,37 +177,37 @@ public class DefaultXWikiRRing implements XWikiRRing
         addRing(referent, relation, relatum);
     }
 
-    public void addType(DocumentReference referent, DocumentReference type) throws RingException
+    public void addTerm(DocumentReference identifier) throws RingException
     {
-        logger.debug("Add type {} to {}", referent, type);
-        if (type != null) {
-            // In case a type is passed, add an Ring pointing at that type (the document will get saved again)
-            addRing(referent, factory.getIdentifier(Names.IS_A_RELATION_NAME), type);
-        }
+        addTerm(identifier, "");
     }
 
-    public void addTerm(DocumentReference identifier, String label, DocumentReference type) throws RingException
+    public void addTerm(DocumentReference identifier, String name) throws RingException
     {
-        addTerm(identifier, label);
-        addType(identifier, type);
+        addTerm(identifier, name, null);
     }
 
-    public void addTerm(DocumentReference identifier, String label) throws RingException
+    public void addTerm(DocumentReference identifier, String name, DocumentReference type)
+            throws RingException
     {
-        logger.debug("Add term: {}", identifier);
+        logger.debug("Add vertex: {}", identifier);
         try {
             XWikiContext context = contextualizer.get();
             XWiki xwiki = context.getWiki();
             if (!xwiki.exists(identifier, context)) {
                 authorizer.checkAccess(Right.EDIT, context.getUserReference(), identifier);
                 XWikiDocument page = factory.getDocument(identifier, false);
-                if (!StringUtils.isEmpty(label)) {
-                    page.setTitle(label);
+                if (!StringUtils.isEmpty(name)) {
+                    page.setTitle(name);
                 }
                 // Save document as is, in case no type is passed
-                xwiki.saveDocument(page, "ring.index-vertex", true, context);
+                xwiki.saveDocument(page, "ringSet.index-vertex", true, context);
+                if (type != null) {
+                    // In case a type is passed, add an Ring pointing at that type (the document will get saved again)
+                    addRing(identifier, factory.getIdentifier(Names.IS_A_RELATION_NAME), type);
+                }
             } else {
-                throw new RingException("A term with reference " + identifier + " already exists.");
+                throw new RingException("A vertex with reference " + identifier + " already exists in the ringSet.");
             }
         } catch (XWikiException | AccessDeniedException e) {
             logger.error("Exception while adding vertex", e);
@@ -282,11 +280,11 @@ public class DefaultXWikiRRing implements XWikiRRing
         return factory.createRing(object);
     }
 
-    public XWikiRing getRing(DocumentReference referent, DocumentReference relation, DocumentReference relatum)
+    public XWikiRing getRing(DocumentReference subject, DocumentReference relation, DocumentReference object)
             throws RingException
     {
         // Not optimized implementation but it avoids duplicating code for now
-        List<XWikiRing> rings = traverser.getRings(referent, relatum);
+        List<XWikiRing> rings = traverser.getRings(subject, object);
         for (XWikiRing ring : rings) {
             if (relation.equals(ring.getRelation())) {
                 return ring;
