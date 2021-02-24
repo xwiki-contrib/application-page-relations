@@ -16,11 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.hypergraph.three;
+package org.xwiki.graph;
 
-/**
- * Utility class used to ease the definition of relations domains and images.
- */
 public enum Set
 {
     ANY("any"),

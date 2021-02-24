@@ -16,18 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.hypergraph.two;
+package org.xwiki.graph;
 
-import org.xwiki.hypergraph.GraphException;
-import org.xwiki.hypergraph.Vertex;
+import org.xwiki.stability.Unstable;
 
-/**
- * A factory for creating vertices and edges.
- * @param <I>
- */
-public interface GraphFactory<I>
+@Unstable
+public interface Vertex<I>
 {
-    Vertex<I> createVertex(I identifier) throws GraphException;
-
-    Edge<I> createEdge(I vertex1, I vertex2) throws GraphException;
+    I getIdentifier();
 }

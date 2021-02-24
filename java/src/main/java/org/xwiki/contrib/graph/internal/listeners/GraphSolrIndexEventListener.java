@@ -33,7 +33,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.graph.XWikiGraph;
 import org.xwiki.contrib.graph.internal.model.DefaultXWikiEdge;
 import org.xwiki.contrib.graph.internal.metadata.XWikiEdgeSolrMetadataExtractor;
-import org.xwiki.hypergraph.GraphException;
+import org.xwiki.graph.GraphException;
 import org.xwiki.observation.event.Event;
 import org.xwiki.search.solr.internal.SolrIndexEventListener;
 

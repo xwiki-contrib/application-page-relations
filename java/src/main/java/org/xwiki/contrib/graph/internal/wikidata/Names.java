@@ -16,38 +16,23 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.hypergraph;
+package org.xwiki.contrib.graph.internal.wikidata;
 
-/**
- * Exception that can be thrown during executing graph operations.
- */
-public class GraphException extends Exception
+import java.lang.reflect.Type;
+import java.util.List;
+
+import com.google.gson.reflect.TypeToken;
+
+public interface Names
 {
-    Throwable throwable;
-
-    String message;
-
-    public GraphException(Throwable e)
+    String PERSON_TYPE_NAME = "person";
+    String COUNTRY_TYPE_NAME = "country";
+    String AWARD_TYPE_NAME = "award";
+    String ORGANIZATION_TYPE_NAME = "organization";
+    String HAS_COUNTRY = "has-country";
+    String HAS_AWARD = "has-award";
+    String HAS_WIKIDATA_ID = "has-wikidata-identifier";
+    Type LAUREATE = new TypeToken<List<Laureate>>()
     {
-        this.throwable = e;
-    }
-
-    public GraphException(String message) {
-        this.message = message;
-    }
-
-    public GraphException(String message, Throwable e)
-    {
-        this(e);
-        this.message = message;
-    }
-
-    public Throwable get()
-    {
-        return throwable;
-    }
-
-    public String getMessage() {
-        return message;
-    }
+    }.getType();
 }

@@ -1,58 +1,50 @@
-<?xml version="1.1" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!--
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
-<xwikidoc version="1.3" reference="Graph.Search" locale="">
-  <web>Graph</web>
-  <name>Search</name>
+
+<xwikidoc version="1.3" reference="PageRelations.Code.SSX" locale="">
+  <web>PageRelations.Code</web>
+  <name>SSX</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <parent>WebHome</parent>
+  <creationDate>1525856796000</creationDate>
+  <parent>PageRelations.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1526394881000</date>
+  <contentUpdateDate>1525856796000</contentUpdateDate>
   <version>1.1</version>
-  <title>Search</title>
+  <title>SSX</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>false</hidden>
-  <content>{{include reference="Main.SolrSearchConfig"/}}
-
-{{include reference=".Code.GraphMacros"/}}
-
-{{velocity}}
-#addRelationsToSolrConfiguration($solrConfig)
-
-## TODO: that'd be better to have this in a configuration
-#set ($text = "$!request.text")
-#if ($text == '')
-  $response.sendRedirect($xwiki.getURL($doc.fullName, 'view', 'text=*&amp;sort=title_sort&amp;sortOrder=asc'))
-#end
-#handleSolrSearchRequest
-{{/velocity}}</content>
+  <hidden>true</hidden>
+  <content/>
   <object>
-    <name>Graph.Search</name>
+    <name>PageRelations.Code.SSX</name>
     <number>0</number>
     <className>XWiki.StyleSheetExtension</className>
-    <guid>7a4e892c-da8d-4bf5-8f1e-f3a53b16dbd5</guid>
+    <guid>0ee94f0a-e0a2-42bf-9bc0-e1c981b9c37a</guid>
     <class>
       <name>XWiki.StyleSheetExtension</name>
       <customClass/>
@@ -64,11 +56,8 @@
       <validationScript/>
       <cache>
         <cache>0</cache>
-        <defaultValue>long</defaultValue>
         <disabled>0</disabled>
         <displayType>select</displayType>
-        <freeText>forbidden</freeText>
-        <largeStorage>0</largeStorage>
         <multiSelect>0</multiSelect>
         <name>cache</name>
         <number>5</number>
@@ -97,8 +86,6 @@
         <cache>0</cache>
         <disabled>0</disabled>
         <displayType>select</displayType>
-        <freeText>forbidden</freeText>
-        <largeStorage>0</largeStorage>
         <multiSelect>0</multiSelect>
         <name>contentType</name>
         <number>6</number>
@@ -134,8 +121,6 @@
         <cache>0</cache>
         <disabled>0</disabled>
         <displayType>select</displayType>
-        <freeText>forbidden</freeText>
-        <largeStorage>0</largeStorage>
         <multiSelect>0</multiSelect>
         <name>use</name>
         <number>3</number>
@@ -153,15 +138,124 @@
       <cache>long</cache>
     </property>
     <property>
-      <code>form {
-  margin-top: 1em;
-}</code>
+      <code>.facets ul {
+  display: inline;
+  padding-left: 0px;
+}
+
+.facets ul li {
+  display: inline;
+}
+.facets ul li a {
+  display: inline;
+  text-decoration: none;
+}
+
+.page-relations {
+  margin-bottom: 1em;
+}
+
+.page-relations ul {
+  display: inline;
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0px;
+}
+
+.page-relations ul li {
+  display: inline-block;
+}
+
+.page-relations ul li a {
+  display: inline;
+  text-decoration: none;
+}
+
+.page-relation {
+  background-color: #D0DFEE;
+  -moz-transition: all .1s linear 0s;
+  border: 1px solid transparent;
+  border-radius: 5px 5px 5px 5px;
+  display: inline;
+  padding: 1px 4px 2px;
+  position: relative;
+  margin-top: 4px;
+  font-size: 1em;
+}
+
+.page-relation-wrapper {
+  /*white-space: pre;*/
+  line-height: 1.8em;
+}
+
+.page-relation-wrapper .separator {
+    display: none;
+}
+
+a.page-relation-delete, a.page-relation-delete:visited {
+  color: #FFFFFF;
+  font-size: 70%;
+  font-weight: bold;
+  text-decoration: none!important;
+  vertical-align: super;
+  margin-left: 1px;
+}
+
+.page-relation-wrapper:hover a.page-relation-delete {
+  color: #656565;
+}
+
+.page-relation-wrapper a.page-relation-delete:hover {
+  color: #e51c23;
+}
+
+.page-relation-add a, .page-relation-add a:visited {
+  color: #656565;
+  font-size: 80%;
+  text-decoration: none;
+}
+
+.page-relation-add-form {
+  border: 1px outset #E8E8E8;
+  position: absolute;
+  z-index: 1000;
+  margin-top: 0.5em;
+}
+
+.page-relation-add-form div {
+  background: #F3F3F3;
+  overflow: hidden;
+  padding: 4px 8px;
+}
+
+.page-relation-add-form label {
+  color: #656565;
+  font-size: 80%;
+  margin: 2px 0;
+}
+
+.page-relation-add-form .button {
+  font-size: 80%;
+  padding: 3px 5px!important;
+  cursor: pointer;
+  display: inline-block;
+  min-height: 0!important;
+}
+
+/* Style the suggestions for the page relations */
+
+.suggestItems .xitem div.page-relation-suggestitem span.hint {
+  display: block;
+  margin-left: 0;
+  font-size: 90%;
+}
+</code>
     </property>
     <property>
-      <contentType/>
+      <contentType>CSS</contentType>
     </property>
     <property>
-      <name/>
+      <name>Relations CSS</name>
     </property>
     <property>
       <parse/>

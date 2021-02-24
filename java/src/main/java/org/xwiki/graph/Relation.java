@@ -16,53 +16,26 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.hypergraph.three;
+package org.xwiki.graph;
 
-import org.xwiki.hypergraph.Vertex;
 import org.xwiki.stability.Unstable;
 
-/**
- * Represents a binary relation that is used by edges to connect a vertex to another one. A Relation is a Vertex.
- *
- * @param <I> relation and vertex identifier class
- */
 @Unstable
 public interface Relation<I> extends Vertex<I>
 {
     /**
-     * Returns a representation of the relation image: set of vertices this relation can point at. Typically a query
-     * that describes a set of vertices. See also {@link #getDomain()}.
-     *
-     * @return a representation of the relation image
+     * @return a representation of the relation's image (set of elements this relation can point at)
      */
     String getImage();
 
     /**
-     * Returns a representation of the relation domain: set of vertices this relation can apply to. Typically a query
-     * that describes a set of vertices. See also {@link #getImage()}.
-     *
      * @return a representation of the relation's domain (set of elements this relation can apply to)
      */
     String getDomain();
 
-    /**
-     * Returns true if the relation is transitive: if A R B and B R C, then A R C, false otherwise.
-     *
-     * @return true if this relation is transitive, false otherwise
-     */
     boolean isTransitive();
 
-    /**
-     * Sets this relation image.
-     *
-     * @param image relation image
-     */
     void setImage(String image);
 
-    /**
-     * Sets this relation domain.
-     *
-     * @param domain relation domain
-     */
     void setDomain(String domain);
 }

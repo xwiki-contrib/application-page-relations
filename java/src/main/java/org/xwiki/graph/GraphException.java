@@ -16,17 +16,35 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.hypergraph;
+package org.xwiki.graph;
 
-import org.xwiki.stability.Unstable;
-
-/**
- * Represents a vertex.
- *
- * @param <I> vertex identifier class
- */
-@Unstable
-public interface Vertex<I>
+public class GraphException extends Exception
 {
-    I getIdentifier();
+    Throwable throwable;
+
+    String message;
+
+    public GraphException(Throwable e)
+    {
+        this.throwable = e;
+    }
+
+    public GraphException(String message) {
+        this.message = message;
+    }
+
+    public GraphException(String message, Throwable e)
+    {
+        this(e);
+        this.message = message;
+    }
+
+    public Throwable get()
+    {
+        return throwable;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }

@@ -29,7 +29,6 @@ import javax.inject.Named;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.slf4j.Logger;
@@ -45,7 +44,7 @@ import org.xwiki.contrib.graph.internal.model.DefaultXWikiRelation;
 import org.xwiki.contrib.graph.internal.model.DefaultXWikiVertex;
 import org.xwiki.contrib.graph.internal.model.Names;
 import org.xwiki.contrib.graph.internal.model.StringXWikiEdge;
-import org.xwiki.hypergraph.GraphException;
+import org.xwiki.graph.GraphException;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
 import org.xwiki.model.reference.EntityReference;
@@ -58,6 +57,8 @@ import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.doc.XWikiDocument;
 import com.xpn.xwiki.objects.BaseObject;
+
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @Component
 @Singleton
@@ -110,11 +111,6 @@ public class DefaultGraphFactory implements XWikiGraphFactory
         }
     }
 
-    public XWikiEdge createEdge(DocumentReference origin, DocumentReference destination) throws GraphException
-    {
-        return createEdge(origin, getIdentifier(Names.IS_CONNECTED_TO_RELATION_NAME), destination);
-    }
-
     public XWikiEdge createEdge(XWikiDocument document, Object destinationOrValue) throws GraphException
     {
 
@@ -139,12 +135,12 @@ public class DefaultGraphFactory implements XWikiGraphFactory
         return null;
     }
 
-    public XWikiEdge createEdge(DocumentReference subject, DocumentReference relation, Object object)
+    public XWikiEdge createEdge(DocumentReference origin, DocumentReference relation, Object destination)
     {
-        if (object instanceof DocumentReference) {
-            return new DefaultXWikiEdge(subject, relation, (DocumentReference) object, serializer, resolver);
+        if (destination instanceof DocumentReference) {
+            return new DefaultXWikiEdge(origin, relation, (DocumentReference) destination, serializer, resolver);
         } else {
-            throw new NotImplementedException("createEdge for " + object);
+            throw new NotImplementedException();
         }
     }
 

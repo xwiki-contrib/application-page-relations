@@ -35,7 +35,11 @@
   <syntaxId>plain/1.0</syntaxId>
   <hidden>false</hidden>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <content>&lt;mxGraphModel dx="991" dy="501" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0"&gt;
+=======
+  <content>&lt;mxGraphModel dx="690" dy="501" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0"&gt;
+>>>>>>> parent of 1a447d0... MISC: change license, modify poms, clean up pages
   &lt;root&gt;
     &lt;mxCell id="0"/&gt;
     &lt;mxCell id="1" parent="0"/&gt;
@@ -45,7 +49,10 @@
     &lt;mxCell id="4" value="&amp;lt;div&amp;gt;The Jungle Book&amp;lt;/div&amp;gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1"&gt;
       &lt;mxGeometry x="275" y="660" width="80" height="80" as="geometry"/&gt;
     &lt;/mxCell&gt;
+<<<<<<< HEAD
     &lt;mxCell id="40" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=none;startFill=0;endArrow=none;endFill=0;jettySize=auto;orthogonalLoop=1;" parent="1" source="5" target="36" ring="1"&gt;
+=======
+>>>>>>> parent of 1a447d0... MISC: change license, modify poms, clean up pages
     &lt;mxCell id="40" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=none;startFill=0;endArrow=none;endFill=0;jettySize=auto;orthogonalLoop=1;" parent="1" source="5" target="36" edge="1"&gt;
       &lt;mxGeometry relative="1" as="geometry"/&gt;
     &lt;/mxCell&gt;
@@ -58,17 +65,24 @@
     &lt;mxCell id="8" value="Relation" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1"&gt;
       &lt;mxGeometry x="425" y="310" width="80" height="80" as="geometry"/&gt;
     &lt;/mxCell&gt;
+<<<<<<< HEAD
     &lt;mxCell id="10" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1"&gt;
       &lt;mxGeometry x="450" y="685" width="30" height="30" as="geometry"/&gt;
     &lt;/mxCell&gt;
     &lt;mxCell id="11" value="" style="endArrow=none;html=1;entryX=0;entryY=0.5;exitX=1;exitY=0.5;endFill=0;startArrow=classic;startFill=1;" parent="1" source="4" target="10" edge="1"&gt;
     &lt;mxCell id="11" value="" style="endArrow=none;html=1;entryX=0;entryY=0.5;exitX=1;exitY=0.5;" parent="1" source="4" target="10" ring="1"&gt;
+=======
+    &lt;mxCell id="10" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1"&gt;
+      &lt;mxGeometry x="450" y="685" width="30" height="30" as="geometry"/&gt;
+    &lt;/mxCell&gt;
+>>>>>>> parent of 1a447d0... MISC: change license, modify poms, clean up pages
     &lt;mxCell id="11" value="" style="endArrow=none;html=1;entryX=0;entryY=0.5;exitX=1;exitY=0.5;" parent="1" source="4" target="10" edge="1"&gt;
       &lt;mxGeometry width="50" height="50" relative="1" as="geometry"&gt;
         &lt;mxPoint x="225" y="810" as="sourcePoint"/&gt;
         &lt;mxPoint x="275" y="760" as="targetPoint"/&gt;
       &lt;/mxGeometry&gt;
     &lt;/mxCell&gt;
+<<<<<<< HEAD
     &lt;mxCell id="45" value="referent" style="text;html=1;resizable=0;points=[];align=center;verticalAlign=middle;labelBackgroundColor=#ffffff;" parent="11" vertex="1" connectable="0"&gt;
       &lt;mxGeometry x="-0.2632" relative="1" as="geometry"&gt;
         &lt;mxPoint x="20" y="-10.5" as="offset"/&gt;
@@ -76,12 +90,15 @@
     &lt;/mxCell&gt;
     &lt;mxCell id="12" value="" style="endArrow=classic;html=1;entryX=0;entryY=0.5;exitX=1;exitY=0.5;" parent="1" source="10" target="5" edge="1"&gt;
     &lt;mxCell id="12" value="" style="endArrow=classic;html=1;entryX=0;entryY=0.5;exitX=1;exitY=0.5;" parent="1" source="10" target="5" ring="1"&gt;
+=======
+>>>>>>> parent of 1a447d0... MISC: change license, modify poms, clean up pages
     &lt;mxCell id="12" value="" style="endArrow=classic;html=1;entryX=0;entryY=0.5;exitX=1;exitY=0.5;" parent="1" source="10" target="5" edge="1"&gt;
       &lt;mxGeometry width="50" height="50" relative="1" as="geometry"&gt;
         &lt;mxPoint x="225" y="810" as="sourcePoint"/&gt;
         &lt;mxPoint x="275" y="760" as="targetPoint"/&gt;
       &lt;/mxGeometry&gt;
     &lt;/mxCell&gt;
+<<<<<<< HEAD
     &lt;mxCell id="46" value="relatum" style="text;html=1;resizable=0;points=[];align=center;verticalAlign=middle;labelBackgroundColor=#ffffff;" parent="12" vertex="1" connectable="0"&gt;
       &lt;mxGeometry x="0.2842" y="-1" relative="1" as="geometry"&gt;
         &lt;mxPoint x="-11" y="-11" as="offset"/&gt;
@@ -89,12 +106,15 @@
     &lt;/mxCell&gt;
     &lt;mxCell id="13" value="" style="endArrow=classic;html=1;entryX=0.5;entryY=1;" parent="1" source="10" target="6" edge="1"&gt;
     &lt;mxCell id="13" value="" style="endArrow=classic;html=1;entryX=0.5;entryY=1;" parent="1" source="10" target="6" ring="1"&gt;
+=======
+>>>>>>> parent of 1a447d0... MISC: change license, modify poms, clean up pages
     &lt;mxCell id="13" value="" style="endArrow=classic;html=1;entryX=0.5;entryY=1;" parent="1" source="10" target="6" edge="1"&gt;
       &lt;mxGeometry width="50" height="50" relative="1" as="geometry"&gt;
         &lt;mxPoint x="430" y="650" as="sourcePoint"/&gt;
         &lt;mxPoint x="480" y="600" as="targetPoint"/&gt;
       &lt;/mxGeometry&gt;
     &lt;/mxCell&gt;
+<<<<<<< HEAD
     &lt;mxCell id="47" value="relation" style="text;html=1;resizable=0;points=[];align=center;verticalAlign=middle;labelBackgroundColor=#ffffff;rotation=-90;" parent="13" vertex="1" connectable="0"&gt;
       &lt;mxGeometry x="0.268" y="-2" relative="1" as="geometry"&gt;
         &lt;mxPoint x="-17" y="12.5" as="offset"/&gt;
@@ -111,6 +131,14 @@
     &lt;/mxCell&gt;
     &lt;mxCell id="16" value="" style="endArrow=none;html=1;entryX=0.5;entryY=1;startArrow=classic;startFill=1;" parent="1" source="6" target="15" edge="1"&gt;
     &lt;mxCell id="16" value="" style="endArrow=none;html=1;entryX=0.5;entryY=1;" parent="1" source="6" target="15" ring="1"&gt;
+=======
+    &lt;mxCell id="14" value="Is a" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1"&gt;
+      &lt;mxGeometry x="575" y="420" width="80" height="80" as="geometry"/&gt;
+    &lt;/mxCell&gt;
+    &lt;mxCell id="15" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1"&gt;
+      &lt;mxGeometry x="450" y="445" width="30" height="30" as="geometry"/&gt;
+    &lt;/mxCell&gt;
+>>>>>>> parent of 1a447d0... MISC: change license, modify poms, clean up pages
     &lt;mxCell id="16" value="" style="endArrow=none;html=1;entryX=0.5;entryY=1;" parent="1" source="6" target="15" edge="1"&gt;
       &lt;mxGeometry width="50" height="50" relative="1" as="geometry"&gt;
         &lt;mxPoint x="325" y="475" as="sourcePoint"/&gt;
@@ -132,7 +160,11 @@
     &lt;mxCell id="20" value="Type" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1"&gt;
       &lt;mxGeometry x="725" y="310" width="80" height="80" as="geometry"/&gt;
     &lt;/mxCell&gt;
+<<<<<<< HEAD
     &lt;mxCell id="22" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1"&gt;
+=======
+    &lt;mxCell id="22" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1"&gt;
+>>>>>>> parent of 1a447d0... MISC: change license, modify poms, clean up pages
       &lt;mxGeometry x="600" y="335" width="30" height="30" as="geometry"/&gt;
     &lt;/mxCell&gt;
     &lt;mxCell id="23" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1" source="22" target="14" edge="1"&gt;
@@ -147,8 +179,11 @@
         &lt;mxPoint x="325" y="765" as="targetPoint"/&gt;
       &lt;/mxGeometry&gt;
     &lt;/mxCell&gt;
+<<<<<<< HEAD
     &lt;mxCell id="25" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;startArrow=classic;startFill=1;" parent="1" source="8" target="22" edge="1"&gt;
     &lt;mxCell id="25" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="8" target="22" ring="1"&gt;
+=======
+>>>>>>> parent of 1a447d0... MISC: change license, modify poms, clean up pages
     &lt;mxCell id="25" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="8" target="22" edge="1"&gt;
       &lt;mxGeometry width="50" height="50" relative="1" as="geometry"&gt;
         &lt;mxPoint x="550" y="400" as="sourcePoint"/&gt;
@@ -163,6 +198,7 @@
     &lt;mxCell id="34" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=none;startFill=0;endArrow=classic;endFill=1;jettySize=auto;orthogonalLoop=1;" parent="1" source="26" target="20" edge="1"&gt;
       &lt;mxGeometry relative="1" as="geometry"/&gt;
     &lt;/mxCell&gt;
+<<<<<<< HEAD
     &lt;mxCell id="44" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=none;startFill=0;endArrow=classic;endFill=1;jettySize=auto;orthogonalLoop=1;entryX=1;entryY=0.5;" parent="1" source="26" target="20" edge="1"&gt;
       &lt;mxGeometry relative="1" as="geometry"&gt;
         &lt;mxPoint x="860" y="460" as="targetPoint"/&gt;
@@ -173,6 +209,9 @@
       &lt;/mxGeometry&gt;
     &lt;/mxCell&gt;
     &lt;mxCell id="26" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1"&gt;
+=======
+    &lt;mxCell id="26" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1"&gt;
+>>>>>>> parent of 1a447d0... MISC: change license, modify poms, clean up pages
       &lt;mxGeometry x="750" y="445" width="30" height="30" as="geometry"/&gt;
     &lt;/mxCell&gt;
     &lt;mxCell id="35" value="Person" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1"&gt;
@@ -186,6 +225,7 @@
         &lt;mxPoint x="710" y="585" as="targetPoint"/&gt;
       &lt;/mxGeometry&gt;
     &lt;/mxCell&gt;
+<<<<<<< HEAD
     &lt;mxCell id="36" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1"&gt;
       &lt;mxGeometry x="600" y="570" width="30" height="30" as="geometry"/&gt;
     &lt;/mxCell&gt;
@@ -350,6 +390,13 @@
   &lt;/root&gt;
 &lt;/mxGraphModel&gt;
 >>>>>>> parent of d6bfffb... MISC: add FR pages
+=======
+    &lt;mxCell id="36" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1"&gt;
+      &lt;mxGeometry x="600" y="570" width="30" height="30" as="geometry"/&gt;
+    &lt;/mxCell&gt;
+  &lt;/root&gt;
+&lt;/mxGraphModel&gt;
+>>>>>>> parent of 1a447d0... MISC: change license, modify poms, clean up pages
 </content>
   <attachment>
     <filename>Ring Diagram Example.thumbnail.png</filename>

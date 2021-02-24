@@ -16,18 +16,35 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.hypergraph.two;
+package org.xwiki.graph;
 
-import org.apache.commons.lang3.tuple.Pair;
+import org.xwiki.stability.Unstable;
 
 /**
- * A graph edge.
- * @param <I>
+ * An edge is a also a vertex so that it is possible to interlink an edge with other vertices. An edge has an origin
+ * vertex, a relation and a target. The target can either be a vertex – the edge destination, or a scalar – the edge
+ * value.
  */
-public interface Edge<I>
+@Unstable
+public interface Edge<I> extends Vertex<I>
 {
-    /**
-     * @return the two vertices connected by this edge.
-     */
-    Pair<I, I> getVertices();
+    I getDestination();
+
+    I getOrigin();
+
+    I getRelation();
+
+    Object getValue();
+
+    boolean hasDestination();
+
+    boolean hasRelation();
+
+    boolean hasValue();
+
+    void setDestination(I destination);
+
+    void setRelation(I relation);
+
+    void setValue(Object value);
 }

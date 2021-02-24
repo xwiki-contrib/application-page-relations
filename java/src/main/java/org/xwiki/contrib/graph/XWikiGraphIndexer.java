@@ -18,20 +18,24 @@
  */
 package org.xwiki.contrib.graph;
 
+import org.apache.solr.common.SolrInputDocument;
 import org.xwiki.component.annotation.Role;
-import org.xwiki.hypergraph.three.Hyperedge;
-import org.xwiki.hypergraph.GraphException;
-import org.xwiki.hypergraph.three.HypergraphIndexer;
+import org.xwiki.graph.Edge;
+import org.xwiki.graph.GraphException;
+import org.xwiki.graph.GraphIndexer;
 import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.EntityReference;
+import org.xwiki.search.solr.internal.api.SolrIndexerException;
+import org.xwiki.search.solr.internal.metadata.LengthSolrInputDocument;
 
 @Role
-public interface XWikiGraphIndexer extends HypergraphIndexer<DocumentReference>
+public interface XWikiGraphIndexer extends GraphIndexer<DocumentReference>
 {
 
-    void index(Hyperedge<DocumentReference> edge) throws GraphException;
+    void index(Edge<DocumentReference> edge) throws GraphException;
 
     /**
      * Remove edge from index
      */
-    void unindex(Hyperedge<DocumentReference> edge) throws GraphException;
+    void unindex(Edge<DocumentReference> edge) throws GraphException;
 }

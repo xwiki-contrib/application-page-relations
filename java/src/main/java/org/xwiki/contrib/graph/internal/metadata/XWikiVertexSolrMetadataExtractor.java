@@ -37,7 +37,7 @@ import org.xwiki.search.solr.internal.metadata.LengthSolrInputDocument;
  * that if there is any existing indexed data that should not be replaced by the extractor, it should be left as is.
  * Typically, the XWikiEdgeSolrMetadataExtractor adds some values to the index of a document (e.g. the destination of an
  * edge), that should remain present when the document metadata extraction occurs: this extraction should remove all
- * keys that do not relate to Hypergraph keys, but keep the Hypergraph key/value pairs.
+ * keys that do not relate to Graph keys, but keep the Graph key/value pairs.
  *
  * A higher priority is set in components.txt so that this component gets loaded instead of
  * DocumentSolrMetadataExtractor.
@@ -94,23 +94,23 @@ public class XWikiVertexSolrMetadataExtractor extends DocumentSolrMetadataExtrac
 
         /*
 
-        Add Hyperedge
+        Add Edge
         String field = "property." + graph.serialize(edge.getRelation());
         List<DocumentReference> destinations = new ArrayList<>();
         String typeVertexIdentifierAsString =
                 graph.serialize(graph.getIdentifier((DefaultXWikiGraph.TYPE_VERTEX_NAME)));
-        if (edge.hasObject()) {
+        if (edge.hasDestination()) {
             addFieldValueOnce(solrDocument, FieldUtils.getFieldName(field, TypedValue.STRING, locale),
-                    graph.serialize(edge.getObject()));
+                    graph.serialize(edge.getDestination()));
 
             // Currently needed for displaying all neighbours of a vertex with a single query
             field =
                     "property." + graph.serialize(graph.getIdentifier(DefaultXWikiGraph.IS_CONNECTED_TO_RELATION_NAME));
             addFieldValueOnce(solrDocument, FieldUtils.getFieldName(field, TypedValue.STRING, locale),
-                    graph.serialize(edge.getObject()));
+                    graph.serialize(edge.getDestination()));
 
 
-            //destinations.index(edge.getObject());
+            //destinations.index(edge.getDestination());
 
             // Index edges that exist by transitivity, except Type, which is special, because we don't
             // want that "A is a Type" when "A is a B" and "B is a Type". We want "A is a Type" only if
@@ -119,16 +119,16 @@ public class XWikiVertexSolrMetadataExtractor extends DocumentSolrMetadataExtrac
                 XWikiRelation xrelation = graph.getRelation(edge.getRelation());
                 if (xrelation.isTransitive()) {
                     List<XWikiEdge> edgesByTransitivity =
-                            graph.getEdgesFrom(edge.getObject(), edge.getRelation());
+                            graph.getEdgesFrom(edge.getDestination(), edge.getRelation());
                     for (XWikiEdge edgeByTransitivity : edgesByTransitivity) {
                         // We need to compare local serialized references because the full references may differ
                         // due to different wiki context (this extractor is executed in the context of the main wiki)
                         String localDestinationIdentifierAsString =
-                                graph.serialize(edgeByTransitivity.getObject());
+                                graph.serialize(edgeByTransitivity.getDestination());
                         if (!localDestinationIdentifierAsString.equals(typeVertexIdentifierAsString)) {
                             addFieldValueOnce(solrDocument, FieldUtils.getFieldName(field, TypedValue.STRING, locale),
-                                    graph.serialize(edgeByTransitivity.getObject()));
-                            destinations.index(edgeByTransitivity.getObject());
+                                    graph.serialize(edgeByTransitivity.getDestination()));
+                            destinations.index(edgeByTransitivity.getDestination());
                         }
                     }
                 }
@@ -137,7 +137,7 @@ public class XWikiVertexSolrMetadataExtractor extends DocumentSolrMetadataExtrac
             //       + DefaultXWikiGraph.HAS_ORIGIN_ID;
             //for (DocumentReference destination : destinations) {
 //            addFieldValueOnce(solrDocument, FieldUtils.getFieldName(field, TypedValue.STRING, locale),
-//                    graph.serialize(edge.getSubject()));
+//                    graph.serialize(edge.getOrigin()));
             //}
 
         } else if (edge.hasValue()) {

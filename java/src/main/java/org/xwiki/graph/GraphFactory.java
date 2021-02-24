@@ -16,32 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.hypergraph.three;
+package org.xwiki.graph;
 
-import org.xwiki.hypergraph.GraphException;
-import org.xwiki.stability.Unstable;
-
-/**
- * Hypergraph indexer that maintains an index of Hyperedges, Vertices and Relations for easing graph traversal.
- *
- * @param <I> vertex identifier class
- */
-@Unstable
-public interface HypergraphIndexer<I>
+public interface GraphFactory<I>
 {
-    /**
-     * Adds the given edge to the index.
-     *
-     * @param edge the edge identifier to index
-     * @throws GraphException in case an error occurs
-     */
-    void index(Hyperedge<I> edge) throws GraphException;
+    Edge<I> createEdge(I origin, I relation, Object target) throws GraphException;
 
-    /**
-     * Removes the given edge from the index.
-     *
-     * @param edge the edge identifier to be removed
-     * @throws GraphException in case an error occurs
-     */
-    void unindex(Hyperedge<I> edge) throws GraphException;
+    Relation<I> createRelation(I identifier, String domain, String image, boolean transitive) throws GraphException;
+
+    Vertex<I> createVertex(I identifier) throws GraphException;
 }

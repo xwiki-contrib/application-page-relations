@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.3" reference="PageRelations.Code.Translations" locale="ru">
+  <web>PageRelations.Code</web>
+  <name>Translations</name>
+  <language>ru</language>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>1</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1525856811000</creationDate>
+  <parent>PageRelations.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1526454994000</date>
+  <contentUpdateDate>1526454994000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Translations</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>plain/1.0</syntaxId>
+  <hidden>true</hidden>
+  <content># Class fields
+PageRelations.Code.PageRelationClass_page=Страница
+
+# Live table generic keys
+pageRelations.livetable.doc.title=Заголовок страницы
+pageRelations.livetable.doc.name=Имя страницы
+pageRelations.livetable.doc.space=Пространство
+pageRelations.livetable.doc.fullname=Полное имя страницы
+pageRelations.livetable.doc.location=Расположение
+pageRelations.livetable.doc.author=Последний автор
+pageRelations.livetable.doc.creator=Создатель
+pageRelations.livetable.doc.date=Дата
+pageRelations.livetable.doc.creationDate=Дата создания
+pageRelations.livetable._avatar=Аватар
+pageRelations.livetable._images=Изображения
+pageRelations.livetable._attachments=Вложения
+pageRelations.livetable._actions=Действия
+pageRelations.livetable._actions.edit=Правка
+pageRelations.livetable._actions.delete=Удалить
+pageRelations.livetable.emptyvalue=-
+
+# Live table specific keys
+pageRelations.livetable.page=Страница
+
+# PageRelationsMacro
+pageRelations.entry.name=Связи
+pageRelations.title=Связи:
+pageRelations.facets=Аспекты:
+pageRelations.add.relatedPage=Связанная страница:
+pageRelations.add.hint=Добавить связь
+pageRelations.add.submit=Добавить
+pageRelations.add.cancel=Отмена
+pageRelations.add.error.alreadySet=Эти связи уже были установлены.
+pageRelations.add.error.notAllowed=Вам не разрешено выполнять данное действие.
+pageRelations.add.error.failed=Произошла ошибка.
+pageRelations.add.history.message=Добавление связи к "{0}"
+pageRelations.remove.hint=Удалить связь
+pageRelations.remove.error.notFound=Целевая страница не найдена.
+pageRelations.remove.error.notAllowed=Вам не разрешено выполнять данное действие.
+pageRelations.remove.error.failed=Произошла ошибка.
+pageRelations.remove.history.message=Удаление связи с "{0}"
+pageRelations.update.page=Обновление связи "{0}"
+pageRelations.panel.title=Связи
+
+# Deprecated keys
+pageRelations.dataSpace.title=Дата</content>
+  
+</xwikidoc>

@@ -18,8 +18,6 @@
  */
 package org.xwiki.contrib.graph.internal.model;
 
-import org.apache.commons.lang3.tuple.MutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import org.xwiki.contrib.graph.XWikiEdge;
 import org.xwiki.model.EntityType;
 import org.xwiki.model.reference.DocumentReference;
@@ -33,7 +31,7 @@ import com.xpn.xwiki.objects.BaseObject;
 import com.xpn.xwiki.objects.BaseObjectReference;
 
 /**
- * Hyperedge implementation.
+ * Edge implementation.
  *
  * @version $Id$
  */
@@ -45,8 +43,8 @@ public class DefaultXWikiEdge extends DefaultXWikiVertex implements XWikiEdge
     public static final String EDGE_VERTEX_ID = Names.GRAPH_CODE_NAMESPACE + ".EdgeClass";
 
     /**
-     * Hyperedge object identifier. TODO: check if this is the canonical way TODO: check if there's a way to
-     * register object events only for a given class name See also CommentEventGeneratorListener
+     * Edge object identifier. TODO: check if this is the canonical way TODO: check if there's a way to register object
+     * events only for a given class name See also CommentEventGeneratorListener
      */
     public static final RegexEntityReference EDGE_OBJECT_REFERENCE = BaseObjectReference.any(EDGE_VERTEX_ID);
 
@@ -88,7 +86,7 @@ public class DefaultXWikiEdge extends DefaultXWikiVertex implements XWikiEdge
         this.resolver = resolver;
         object.setDocumentReference(origin);
         setRelation(relation);
-        setObject(destination);
+        setDestination(destination);
     }
 
     // TODO: check rights
@@ -97,7 +95,7 @@ public class DefaultXWikiEdge extends DefaultXWikiVertex implements XWikiEdge
         return this.object;
     }
 
-    public DocumentReference getObject()
+    public DocumentReference getDestination()
     {
         String destinationValue = object.getStringValue(Names.HAS_DESTINATION);
         if (!StringUtils.isEmpty(destinationValue)) {
@@ -107,7 +105,7 @@ public class DefaultXWikiEdge extends DefaultXWikiVertex implements XWikiEdge
         return null;
     }
 
-    public DocumentReference getSubject()
+    public DocumentReference getOrigin()
     {
         return object.getDocumentReference();
     }
@@ -127,14 +125,9 @@ public class DefaultXWikiEdge extends DefaultXWikiVertex implements XWikiEdge
         return null;
     }
 
-    public Pair<DocumentReference, DocumentReference> getVertices()
+    public boolean hasDestination()
     {
-        return new MutablePair<>(getSubject(), getObject());
-    }
-
-    public boolean hasObject()
-    {
-        return getObject() != null;
+        return getDestination() != null;
     }
 
     public boolean hasRelation()
@@ -147,7 +140,7 @@ public class DefaultXWikiEdge extends DefaultXWikiVertex implements XWikiEdge
         return getValue() != null;
     }
 
-    public void setObject(DocumentReference destination)
+    public void setDestination(DocumentReference destination)
     {
         setPropertyValue(Names.HAS_DESTINATION, serializer.serialize(destination));
     }
@@ -180,7 +173,7 @@ public class DefaultXWikiEdge extends DefaultXWikiVertex implements XWikiEdge
 
     public String toString()
     {
-        return "origin: " + getSubject() + " - relation: " + getRelation() + " - destination: " + getObject()
+        return "origin: " + getOrigin() + " - relation: " + getRelation() + " - destination: " + getDestination()
                 + " value: " + getValue();
     }
 }

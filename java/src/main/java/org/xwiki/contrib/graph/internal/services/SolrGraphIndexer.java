@@ -40,8 +40,10 @@ import org.xwiki.contrib.graph.XWikiGraphFactory;
 import org.xwiki.contrib.graph.XWikiGraphIndexer;
 import org.xwiki.contrib.graph.internal.metadata.XWikiVertexSolrMetadataExtractor;
 import org.xwiki.contrib.graph.internal.model.Names;
-import org.xwiki.hypergraph.three.Hyperedge;
-import org.xwiki.hypergraph.GraphException;
+import org.xwiki.graph.Edge;
+import org.xwiki.graph.GraphException;
+import org.xwiki.graph.Relation;
+import org.xwiki.graph.Vertex;
 import org.xwiki.model.EntityType;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.EntityReference;
@@ -252,10 +254,10 @@ public class SolrGraphIndexer implements XWikiGraphIndexer
             /*try {
                 List<XWikiEdge> edges = getEdgesFrom(vertex);
                 for (XWikiEdge edge : edges) {
-                    if (!serialize(edge.getObject()).equals(serialize(getIdentifier(TYPE_VERTEX_NAME)))) {
+                    if (!serialize(edge.getDestination()).equals(serialize(getIdentifier(TYPE_VERTEX_NAME)))) {
                         XWikiRelation relation = getRelation(edge.getRelation());
-                        if (edge.hasObject() && relation.isTransitive()) {
-                            index(edge.getObject());
+                        if (edge.hasDestination() && relation.isTransitive()) {
+                            index(edge.getDestination());
                         }
                     }
                 }
@@ -276,16 +278,16 @@ public class SolrGraphIndexer implements XWikiGraphIndexer
         }
     }
 
-    public void index(Hyperedge<DocumentReference> edge) throws GraphException
+    public void index(Edge<DocumentReference> edge) throws GraphException
     {
         index(edge, true);
     }
 
     /**
      * Adds the value of "has-relation" directly as a property. Example: EdgeClass object with has-relation =
-     * XWiki.Hypergraph.IsA and has-destination = wiki.Book will become, in Solr index: property.graph.XWiki.Hypergraph.IsA:[wiki.Book].
+     * XWiki.Graph.IsA and has-destination = wiki.Book will become, in Solr index: property.graph.XWiki.Graph.IsA:[wiki.Book].
      */
-    public void index(Hyperedge<DocumentReference> edge, boolean transitively) throws GraphException
+    public void index(Edge<DocumentReference> edge, boolean transitively) throws GraphException
     {
         // Index edge only if the relation is not empty.
         if (edge != null && edge.hasRelation()) {
@@ -293,12 +295,12 @@ public class SolrGraphIndexer implements XWikiGraphIndexer
                 logger.debug("Add edge: {}", edge);
                 // TODO: cross-wikis graphs
                 // TODO: see also the Solr reference serializers
-                // TODO: add a default relation Hypergraph:getDefaultRelation
+                // TODO: add a default relation Graph:getDefaultRelation
                 String fieldName = getFieldName(edge.getRelation());
-                if (edge.hasObject()) {
+                if (edge.hasDestination()) {
                     // Add index directly to the document so that the documents can be queried by their edges.
-                    SolrInputDocument originDocument = getSolrInputDocument(edge.getSubject(), true);
-                    addFieldValueOnce(originDocument, fieldName, serializer.serialize(edge.getObject()));
+                    SolrInputDocument originDocument = getSolrInputDocument(edge.getOrigin(), true);
+                    addFieldValueOnce(originDocument, fieldName, serializer.serialize(edge.getDestination()));
 
                     // Also index relation IS_CONNECTED_TO because 1) if two vertices are connected by a any other relation,
                     // that can be handy to browse them by the more generic IS_CONNECTED_TO relation, 2) this relation
@@ -308,16 +310,16 @@ public class SolrGraphIndexer implements XWikiGraphIndexer
                             .equals(factory.getIdentifier(Names.IS_CONNECTED_TO_RELATION_NAME)))
                     {
                         fieldName = getFieldName(Names.IS_CONNECTED_TO_RELATION_NAME);
-                        addFieldValueOnce(originDocument, fieldName, serializer.serialize(edge.getObject()));
+                        addFieldValueOnce(originDocument, fieldName, serializer.serialize(edge.getDestination()));
                     }
                     // TODO: check that originDocument is not added twice, typically when this method
                     //  is called from XWikiEdgeSolrMetadataExtractor
                     save(originDocument);
 
                     // Add inverse edge, using the IS_CONNECTED_TO relation, so it's not the exact inverse
-                    SolrInputDocument destinationDocument = getSolrInputDocument(edge.getObject(), true);
+                    SolrInputDocument destinationDocument = getSolrInputDocument(edge.getDestination(), true);
                     addFieldValueOnce(destinationDocument, getFieldName(Names.IS_CONNECTED_TO_RELATION_NAME),
-                            serializer.serialize(edge.getSubject()));
+                            serializer.serialize(edge.getOrigin()));
                     save(destinationDocument);
 
                     // Add destinations by transitivity if parameter "transitively" is true
@@ -325,11 +327,11 @@ public class SolrGraphIndexer implements XWikiGraphIndexer
                         XWikiRelation relation = graph.getRelation(edge.getRelation());
                         if (relation.isTransitive()) {
                             List<XWikiEdge> secondLevelEdges =
-                                    graph.getEdgesFrom(edge.getObject(), edge.getRelation());
+                                    graph.getEdgesFrom(edge.getDestination(), edge.getRelation());
                             for (XWikiEdge secondLevelEdge : secondLevelEdges) {
                                 XWikiEdge edgeByTransitivity =
-                                        new DefaultXWikiEdge(edge.getSubject(), edge.getRelation(),
-                                                secondLevelEdge.getObject(), graph);
+                                        new DefaultXWikiEdge(edge.getOrigin(), edge.getRelation(),
+                                                secondLevelEdge.getDestination(), graph);
                                 // Handle "is a" "type" specifically because "A is a B" and "B is a Type" does not
                                 // imply "A is a Type" unless we refactor the "is a" relation into "is instance of"
                                 // in that case. We need to decide wheter "A is a B" and "A is instance of B" absolutely
@@ -337,7 +339,7 @@ public class SolrGraphIndexer implements XWikiGraphIndexer
                                 // nature.
                                 if (!(edge.getRelation()
                                         .equals(graph.getIdentifier(DefaultXWikiGraph.IS_A_RELATION_NAME))
-                                        && secondLevelEdge.getObject()
+                                        && secondLevelEdge.getDestination()
                                         .equals(graph.getIdentifier(DefaultXWikiGraph.TYPE_VERTEX_NAME))))
                                 {
                                     index(edgeByTransitivity, false);
@@ -347,7 +349,7 @@ public class SolrGraphIndexer implements XWikiGraphIndexer
                     }*/
                 } else if (edge.hasValue()) {
                     // TODO: handle cases where the value is not a string
-                    SolrInputDocument originDocument = getSolrInputDocument(edge.getSubject(), true);
+                    SolrInputDocument originDocument = getSolrInputDocument(edge.getOrigin(), true);
                     addFieldValueOnce(originDocument, fieldName, edge.getValue());
                     save(originDocument);
                 }
@@ -424,28 +426,28 @@ public class SolrGraphIndexer implements XWikiGraphIndexer
     }
 
     /**
-     * @see #index(Hyperedge)
+     * @see #index(Edge)
      */
-    public void unindex(Hyperedge<DocumentReference> edge) throws GraphException
+    public void unindex(Edge<DocumentReference> edge) throws GraphException
     {
         logger.debug("Remove edge from index: {}", edge);
         // If the edge has no relation, it has no custom index (see #index), so there is no need to remove any
         // index entry.
-        if (edge != null && edge.hasRelation() && edge.hasObject()) {
+        if (edge != null && edge.hasRelation() && edge.hasDestination()) {
             try {
-                SolrInputDocument originDocument = getSolrInputDocument(edge.getSubject(), true);
+                SolrInputDocument originDocument = getSolrInputDocument(edge.getOrigin(), true);
                 unindexValue(originDocument, getFieldName(edge.getRelation()),
-                        serializer.serialize(edge.getObject()));
+                        serializer.serialize(edge.getDestination()));
 
                 // Also remove the IS_CONNECTED_TO field in case the destination is not empty
                 if (!edge.getRelation().equals(factory.getIdentifier(Names.IS_CONNECTED_TO_RELATION_NAME))) {
                     // TODO: the value should be removed only if this was the single edge with this destination
                     String fieldName = getFieldName(Names.IS_CONNECTED_TO_RELATION_NAME);
-                    unindexValue(originDocument, fieldName, serializer.serialize(edge.getObject()));
+                    unindexValue(originDocument, fieldName, serializer.serialize(edge.getDestination()));
 
                     // TODO: handle multiple edges with same destination or origin
-                    SolrInputDocument destinationDocument = getSolrInputDocument(edge.getObject(), true);
-                    unindexValue(destinationDocument, fieldName, serializer.serialize(edge.getSubject()));
+                    SolrInputDocument destinationDocument = getSolrInputDocument(edge.getDestination(), true);
+                    unindexValue(destinationDocument, fieldName, serializer.serialize(edge.getOrigin()));
                     save(destinationDocument);
                 }
 
@@ -465,7 +467,7 @@ public class SolrGraphIndexer implements XWikiGraphIndexer
         // All the predecessors of the destination cannot be retrieved via HQL because in the case of
         // transitive relations for instance, the transitive edges are not stored in the SQL database,
         // only in the Solr index.
-        // TODO: check what happens with the predecessors which have a real Hyperedge object stored that points
+        // TODO: check what happens with the predecessors which have a real Edge object stored that points
         // to the destination
         // Retrieve all vertices having an edge to destination using the IS_CONNECTED_TO relation which is supposed
         // to be present in all cases.

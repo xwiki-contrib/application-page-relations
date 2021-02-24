@@ -16,23 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.contrib.graph.internal.wikidata;
+package org.xwiki.graph;
 
-import java.lang.reflect.Type;
-import java.util.List;
+import org.xwiki.stability.Unstable;
 
-import com.google.gson.reflect.TypeToken;
-
-public interface WikidataNames
+@Unstable
+public interface GraphIndexer<I>
 {
-    String PERSON_TYPE_NAME = "person";
-    String COUNTRY_TYPE_NAME = "country";
-    String AWARD_TYPE_NAME = "award";
-    String ORGANIZATION_TYPE_NAME = "organization";
-    String HAS_COUNTRY = "has-country";
-    String HAS_AWARD = "has-award";
-    String HAS_WIKIDATA_ID = "has-wikidata-identifier";
-    Type LAUREATE = new TypeToken<List<Laureate>>()
-    {
-    }.getType();
+    void index(Edge<I> edge) throws GraphException;
+
+    void unindex(Edge<I> edge) throws GraphException;
 }
