@@ -20,65 +20,30 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.4" reference="PageRelations.Code.PageRelationClass" locale="">
-  <web>PageRelations.Code</web>
-  <name>PageRelationClass</name>
+<xwikidoc version="1.4" reference="PageRelations.Data.Charlie Chaplin.WebHome" locale="">
+  <web>PageRelations.Data.Charlie Chaplin</web>
+  <name>WebHome</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <parent>PageRelations.Code.WebHome</parent>
+  <parent>PageRelations.Data.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>Page Relation Class</title>
+  <title>Charlie Chaplin</title>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
-  <hidden>true</hidden>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
   <content/>
-  <class>
-    <name>PageRelations.Code.PageRelationClass</name>
-    <customClass/>
-    <customMapping/>
-    <defaultViewSheet/>
-    <defaultEditSheet/>
-    <defaultWeb/>
-    <nameField/>
-    <validationScript/>
-    <page>
-      <cache>0</cache>
-      <classname/>
-      <customDisplay/>
-      <disabled>0</disabled>
-      <displayType>input</displayType>
-      <hint/>
-      <idField/>
-      <multiSelect>0</multiSelect>
-      <name>page</name>
-      <number>1</number>
-      <picker>1</picker>
-      <prettyName>Page</prettyName>
-      <relationalStorage>1</relationalStorage>
-      <separator> </separator>
-      <separators/>
-      <size>1</size>
-      <sort>none</sort>
-      <sql/>
-      <unmodifiable>0</unmodifiable>
-      <validationMessage/>
-      <validationRegExp/>
-      <valueField/>
-      <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
-    </page>
-  </class>
   <object>
-    <name>PageRelations.Code.PageRelationClass</name>
-    <number>0</number>
-    <className>AppWithinMinutes.MetadataClass</className>
-    <guid>02894404-a6eb-4a6b-a9b1-c505d22da9a8</guid>
+    <name>PageRelations.Data.Charlie Chaplin.WebHome</name>
+    <number>18</number>
+    <className>PageRelations.Code.PageRelationClass</className>
+    <guid>2685b098-ce67-49c5-8cfe-1573ae2990f4</guid>
     <class>
-      <name>AppWithinMinutes.MetadataClass</name>
+      <name>PageRelations.Code.PageRelationClass</name>
       <customClass/>
       <customMapping/>
       <defaultViewSheet/>
@@ -86,39 +51,7 @@
       <defaultWeb/>
       <nameField/>
       <validationScript/>
-      <dataSpaceName>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <name>dataSpaceName</name>
-        <number>1</number>
-        <picker>0</picker>
-        <prettyName>Data Space Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </dataSpaceName>
-    </class>
-    <property>
-      <dataSpaceName/>
-    </property>
-  </object>
-  <object>
-    <name>PageRelations.Code.PageRelationClass</name>
-    <number>0</number>
-    <className>XWiki.ClassSheetBinding</className>
-    <guid>80c7dd5a-2b77-44e4-b684-d1ec72ca660a</guid>
-    <class>
-      <name>XWiki.ClassSheetBinding</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <sheet>
+      <page>
         <cache>0</cache>
         <classname/>
         <customDisplay/>
@@ -127,14 +60,14 @@
         <hint/>
         <idField/>
         <multiSelect>0</multiSelect>
-        <name>sheet</name>
+        <name>page</name>
         <number>1</number>
         <picker>1</picker>
-        <prettyName>Sheet</prettyName>
-        <relationalStorage>0</relationalStorage>
+        <prettyName>Page</prettyName>
+        <relationalStorage>1</relationalStorage>
         <separator> </separator>
         <separators/>
-        <size>30</size>
+        <size>1</size>
         <sort>none</sort>
         <sql/>
         <unmodifiable>0</unmodifiable>
@@ -142,19 +75,19 @@
         <validationRegExp/>
         <valueField/>
         <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
-      </sheet>
+      </page>
     </class>
     <property>
-      <sheet>RelationsSheet</sheet>
+      <page>PageRelations.Data.Person.WebHome</page>
     </property>
   </object>
   <object>
-    <name>PageRelations.Code.PageRelationClass</name>
-    <number>0</number>
-    <className>XWiki.DocumentSheetBinding</className>
-    <guid>9e7441c2-853c-4d83-b1e4-6063b691f3aa</guid>
+    <name>PageRelations.Data.Charlie Chaplin.WebHome</name>
+    <number>20</number>
+    <className>PageRelations.Code.PageRelationClass</className>
+    <guid>b6e5aee0-30e3-423e-b418-0df6f1e052d4</guid>
     <class>
-      <name>XWiki.DocumentSheetBinding</name>
+      <name>PageRelations.Code.PageRelationClass</name>
       <customClass/>
       <customMapping/>
       <defaultViewSheet/>
@@ -162,7 +95,7 @@
       <defaultWeb/>
       <nameField/>
       <validationScript/>
-      <sheet>
+      <page>
         <cache>0</cache>
         <classname/>
         <customDisplay/>
@@ -171,14 +104,14 @@
         <hint/>
         <idField/>
         <multiSelect>0</multiSelect>
-        <name>sheet</name>
+        <name>page</name>
         <number>1</number>
         <picker>1</picker>
-        <prettyName>Sheet</prettyName>
-        <relationalStorage>0</relationalStorage>
+        <prettyName>Page</prettyName>
+        <relationalStorage>1</relationalStorage>
         <separator> </separator>
         <separators/>
-        <size>30</size>
+        <size>1</size>
         <sort>none</sort>
         <sql/>
         <unmodifiable>0</unmodifiable>
@@ -186,19 +119,19 @@
         <validationRegExp/>
         <valueField/>
         <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
-      </sheet>
+      </page>
     </class>
     <property>
-      <sheet>AppWithinMinutes.ClassEditSheet</sheet>
+      <page>PageRelations.Data.City Lights.WebHome</page>
     </property>
   </object>
   <object>
-    <name>PageRelations.Code.PageRelationClass</name>
-    <number>1</number>
-    <className>XWiki.DocumentSheetBinding</className>
-    <guid>62c060fa-15f8-4340-82f2-0f2e0722c9de</guid>
+    <name>PageRelations.Data.Charlie Chaplin.WebHome</name>
+    <number>21</number>
+    <className>PageRelations.Code.PageRelationClass</className>
+    <guid>6a47602f-5929-4e2e-b597-862a9d3e1207</guid>
     <class>
-      <name>XWiki.DocumentSheetBinding</name>
+      <name>PageRelations.Code.PageRelationClass</name>
       <customClass/>
       <customMapping/>
       <defaultViewSheet/>
@@ -206,7 +139,7 @@
       <defaultWeb/>
       <nameField/>
       <validationScript/>
-      <sheet>
+      <page>
         <cache>0</cache>
         <classname/>
         <customDisplay/>
@@ -215,14 +148,14 @@
         <hint/>
         <idField/>
         <multiSelect>0</multiSelect>
-        <name>sheet</name>
+        <name>page</name>
         <number>1</number>
         <picker>1</picker>
-        <prettyName>Sheet</prettyName>
-        <relationalStorage>0</relationalStorage>
+        <prettyName>Page</prettyName>
+        <relationalStorage>1</relationalStorage>
         <separator> </separator>
         <separators/>
-        <size>30</size>
+        <size>1</size>
         <sort>none</sort>
         <sql/>
         <unmodifiable>0</unmodifiable>
@@ -230,10 +163,54 @@
         <validationRegExp/>
         <valueField/>
         <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
-      </sheet>
+      </page>
     </class>
     <property>
-      <sheet>XWiki.ClassSheet</sheet>
+      <page>PageRelations.Data.The Gold Rush.WebHome</page>
+    </property>
+  </object>
+  <object>
+    <name>PageRelations.Data.Charlie Chaplin.WebHome</name>
+    <number>22</number>
+    <className>PageRelations.Code.PageRelationClass</className>
+    <guid>3b669d9e-8ea3-4cf9-8909-e659f0f803f4</guid>
+    <class>
+      <name>PageRelations.Code.PageRelationClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <page>
+        <cache>0</cache>
+        <classname/>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <hint/>
+        <idField/>
+        <multiSelect>0</multiSelect>
+        <name>page</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Page</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>1</size>
+        <sort>none</sort>
+        <sql/>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <valueField/>
+        <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
+      </page>
+    </class>
+    <property>
+      <page>PageRelations.Data.Modern Times.WebHome</page>
     </property>
   </object>
 </xwikidoc>

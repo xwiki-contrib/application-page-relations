@@ -20,28 +20,28 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.4" reference="PageRelations.Code.PageRelationTemplate" locale="">
-  <web>PageRelations.Code</web>
-  <name>PageRelationTemplate</name>
+<xwikidoc version="1.4" reference="PageRelations.Data.Harold Lloyd.WebHome" locale="">
+  <web>PageRelations.Data.Harold Lloyd</web>
+  <name>WebHome</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <parent>PageRelations.Code.WebHome</parent>
+  <parent>PageRelations.Data.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>Page Relation Template</title>
+  <title>Harold Lloyd</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>true</hidden>
+  <hidden>false</hidden>
   <content/>
   <object>
-    <name>PageRelations.Code.PageRelationTemplate</name>
+    <name>PageRelations.Data.Harold Lloyd.WebHome</name>
     <number>0</number>
     <className>PageRelations.Code.PageRelationClass</className>
-    <guid>4d3dce95-b206-4148-9889-7b0a16e1e412</guid>
+    <guid>3a959740-bf00-445f-a431-743174bf65f3</guid>
     <class>
       <name>PageRelations.Code.PageRelationClass</name>
       <customClass/>
@@ -78,7 +78,51 @@
       </page>
     </class>
     <property>
-      <page/>
+      <page>PageRelations.Data.Person.WebHome</page>
+    </property>
+  </object>
+  <object>
+    <name>PageRelations.Data.Harold Lloyd.WebHome</name>
+    <number>1</number>
+    <className>PageRelations.Code.PageRelationClass</className>
+    <guid>760c1f28-c9c1-41e9-8480-af0083bf1578</guid>
+    <class>
+      <name>PageRelations.Code.PageRelationClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <page>
+        <cache>0</cache>
+        <classname/>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <hint/>
+        <idField/>
+        <multiSelect>0</multiSelect>
+        <name>page</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Page</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>1</size>
+        <sort>none</sort>
+        <sql/>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <valueField/>
+        <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
+      </page>
+    </class>
+    <property>
+      <page>PageRelations.Data.Charlie Chaplin.WebHome</page>
     </property>
   </object>
 </xwikidoc>

@@ -70,6 +70,9 @@ public class DefaultPageRelationsService implements PageRelationsService
     public List<DocumentReference> getIncomingRelations(DocumentReference reference) throws QueryException
     {
         String wikiId = reference.getWikiReference().getName();
+        //Get inverse relations, querying pages which contain the current subject as a relation either with
+        // its full identifier (including the wiki name), or with an identifier that does not contain the wiki name
+        // (because the complement is in the same wiki as the subject).
         // We pass the reference as an argument twice other the contextual wiki is used, which is "xwiki", not
         // the one of "reference".
         String relativeIdentifier = compactWikiSerializer.serialize(reference, reference);

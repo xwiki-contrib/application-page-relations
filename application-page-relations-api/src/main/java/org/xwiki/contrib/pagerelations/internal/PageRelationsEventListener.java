@@ -118,12 +118,15 @@ public class PageRelationsEventListener extends AbstractEventListener
                 if (relationObject != null) {
                     String message = null;
                     if (event instanceof DocumentRenamingEvent) {
+                        logger.debug("Updating inverse relation: [{}].", reference);
                         DocumentReference newReference = ((DocumentRenamingEvent) event).getTargetReference();
                         relationObjectValue = compactWikiSerializer.serialize(newReference, reference);
                         relationObject.setStringValue(PageRelationsService.PAGE_FIELD, relationObjectValue);
                         String newPageId = defaultSerializer.serialize(newReference);
                         message = contextLocalization.getTranslationPlain("pageRelations.update.page", newPageId);
                     } else if (event instanceof DocumentDeletedEvent) {
+                        logger.debug("Deleting inverse relation: [{}].", reference);
+                        message = contextLocalization.getTranslationPlain("pageRelations.remove.page", reference);
                         relatedPage.removeXObject(relationObject);
                     }
                     wiki.saveDocument(relatedPage, message, context);
