@@ -1,6 +1,4 @@
-<?xml version="1.1" encoding="UTF-8"?>
-
-<!--
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -17,22 +15,33 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
--->
-<xwikidoc version="1.3" reference="Graph.Type" locale="fr">
-  <web>Graph</web>
-  <name>Type</name>
-  <language>fr</language>
-  <defaultLanguage>en</defaultLanguage>
-  <translation>1</translation>
-  <parent>Graph.WebHome</parent>
-  <creator>xwiki:XWiki.Admin</creator>
-  <author>xwiki:XWiki.Admin</author>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <version>1.1</version>
-  <title>Type</title>
-  <comment/>
-  <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>false</hidden>
-  <content/>
-</xwikidoc>
+ */
+package org.xwiki.hypergraph.three;
+
+import org.xwiki.hypergraph.GraphException;
+import org.xwiki.stability.Unstable;
+
+/**
+ * Hypergraph indexer that maintains an index of Hyperedges, Vertices and Relations for easing graph traversal.
+ *
+ * @param <I> vertex identifier class
+ */
+@Unstable
+public interface HypergraphIndexer<I>
+{
+    /**
+     * Adds the given edge to the index.
+     *
+     * @param edge the edge identifier to index
+     * @throws GraphException in case an error occurs
+     */
+    void index(Hyperedge<I> edge) throws GraphException;
+
+    /**
+     * Removes the given edge from the index.
+     *
+     * @param edge the edge identifier to be removed
+     * @throws GraphException in case an error occurs
+     */
+    void unindex(Hyperedge<I> edge) throws GraphException;
+}

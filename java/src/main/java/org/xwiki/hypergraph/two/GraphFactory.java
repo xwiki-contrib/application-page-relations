@@ -1,6 +1,4 @@
-<?xml version="1.1" encoding="UTF-8"?>
-
-<!--
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -17,22 +15,19 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
--->
-<xwikidoc version="1.3" reference="Graph.HasImage" locale="fr">
-  <web>Graph</web>
-  <name>HasImage</name>
-  <language>fr</language>
-  <defaultLanguage>en</defaultLanguage>
-  <translation>1</translation>
-  <parent>Graph.WebHome</parent>
-  <creator>xwiki:XWiki.Admin</creator>
-  <author>xwiki:XWiki.Admin</author>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <version>1.1</version>
-  <title>A pour image</title>
-  <comment/>
-  <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>false</hidden>
-  <content/>
-</xwikidoc>
+ */
+package org.xwiki.hypergraph.two;
+
+import org.xwiki.hypergraph.GraphException;
+import org.xwiki.hypergraph.Vertex;
+
+/**
+ * A factory for creating vertices and edges.
+ * @param <I>
+ */
+public interface GraphFactory<I>
+{
+    Vertex<I> createVertex(I identifier) throws GraphException;
+
+    Edge<I> createEdge(I vertex1, I vertex2) throws GraphException;
+}

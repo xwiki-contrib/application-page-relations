@@ -202,7 +202,7 @@ public class DefaultXWikiGraph implements XWikiGraph
                 // Save document as is, in case no type is passed
                 xwiki.saveDocument(page, "graph.index-vertex", true, context);
                 if (type != null) {
-                    // In case a type is passed, add an Edge pointing at that type (the document will get saved again)
+                    // In case a type is passed, add an Hyperedge pointing at that type (the document will get saved again)
                     addEdge(identifier, factory.getIdentifier(Names.IS_A_RELATION_NAME), type);
                 }
             } else {
@@ -359,7 +359,7 @@ public class DefaultXWikiGraph implements XWikiGraph
         }
 
         //if (edge == null) {
-        // If Edge was not found from origin, look for the ones which start from destination
+        // If Hyperedge was not found from origin, look for the ones which start from destination
         //clone = getDocument(destination, true);
         //edge = clone.getXObject(EDGE_VERTEX_REFERENCE, HAS_DESTINATION, serialize(destination), false);
         //}

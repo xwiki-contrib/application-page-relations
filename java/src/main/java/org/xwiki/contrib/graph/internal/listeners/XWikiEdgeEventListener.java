@@ -66,17 +66,17 @@ public class XWikiEdgeEventListener extends XWikiGraphEventListener
             try {
                 if (event instanceof XObjectAddedEvent) {
                     XWikiEdge edge = graph.getEdge(document, edgeReference);
-                    logger.debug("Edge was added: {}", edge);
+                    logger.debug("Hyperedge was added: {}", edge);
                     indexer.index(edge);
                 } else if (event instanceof XObjectUpdatedEvent) {
                     XWikiEdge edge = graph.getEdge(document, edgeReference);
                     XWikiEdge originalEdge = graph.getEdge(originalDocument, edgeReference);
-                    logger.debug("Edge was updated: {}", edge);
+                    logger.debug("Hyperedge was updated: {}", edge);
                     indexer.unindex(originalEdge);
                     indexer.index(edge);
                 } else if (event instanceof XObjectDeletedEvent) {
                     XWikiEdge originalEdge = graph.getEdge(originalDocument, edgeReference);
-                    logger.debug("Edge was deleted: {}", originalEdge);
+                    logger.debug("Hyperedge was deleted: {}", originalEdge);
                     indexer.unindex(originalEdge);
                 }
             } catch (Exception e) {

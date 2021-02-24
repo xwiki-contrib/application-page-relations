@@ -16,14 +16,17 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.hypergraph;
+package org.xwiki.hypergraph.three;
+
+import org.xwiki.hypergraph.GraphException;
+import org.xwiki.hypergraph.two.GraphFactory;
 
 /**
  * Factory class used to create Hyperedges, Relations or Vertices.
  *
  * @param <I> vertex identifier
  */
-public interface GraphFactory<I>
+public interface HypergraphFactory<I> extends GraphFactory<I>
 {
     /**
      * Creates an Edge with the given subject, relation and object. The object can either be a vertex identifier or a
@@ -34,7 +37,7 @@ public interface GraphFactory<I>
      * @param object edge object (identifier or scalar)
      * @return the created Edge
      */
-    Edge<I> createEdge(I subject, I relation, Object object) throws GraphException;
+    Hyperedge<I> createEdge(I subject, I relation, Object object) throws GraphException;
 
     /**
      * Creates a Relation with the given identifier, domain, image and transitivity property.

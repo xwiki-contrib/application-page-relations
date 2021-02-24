@@ -48,7 +48,7 @@
 #set ($queryStatement = "$!request.query")
 #if ($queryStatement == '')
   ##set ($queryStatement = "(type:OBJECT and property.xdf.edge.has-object:""wiki.christine-and-the-queens"") or (type:OBJECT and class:""xdf.edge"" and name_exact:""christine-and-the-queens"")")
-  #set ($queryStatement = "(type:DOCUMENT AND fullname:""Graph.Book"")")
+  #set ($queryStatement = "(type:DOCUMENT AND fullname:""XWiki.Graph.Book"")")
 #end
 
 &lt;form action="" method="post"&gt;
@@ -76,9 +76,9 @@
     |$result.type|$result.id|(((
     * Wiki: $result.wiki - Full name: [[$result.fullname&gt;&gt;$result.fullname]]
     #foreach ($fieldName in $result.getFieldNames())
-      ##if ($fieldName.startsWith('property.'))
+      #if ($fieldName.startsWith('property.'))
       * $fieldName: $result.getFieldValues($fieldName)
-      ##end
+      #end
     #end
     )))
   #end

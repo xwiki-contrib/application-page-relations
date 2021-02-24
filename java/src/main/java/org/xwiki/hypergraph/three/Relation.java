@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.xwiki.hypergraph;
+package org.xwiki.hypergraph.three;
 
 import org.xwiki.hypergraph.Vertex;
 import org.xwiki.stability.Unstable;

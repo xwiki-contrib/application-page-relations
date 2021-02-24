@@ -1,0 +1,437 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+<xwikidoc version="1.3" reference="Graph.Code.GraphMacros" locale="">
+  <web>Graph.Code</web>
+  <name>GraphMacros</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>Graph Macros</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>{{include reference="Main.SolrSearchMacros" /}}
+
+{{velocity output="false"}}
+## Set of macros overriding some of Main.SolrSearchMacros, and new macros used by XWiki.Graph.Service
+
+## Move most of the calls to GraphService
+#set ($facetDisplayerReference = $services.model.resolveDocument("${services.graph.namespace}.RelationFacetDisplayer"))
+#set ($graphServiceReference = $services.model.resolveDocument("${services.graph.namespace}.EdgeService"))
+
+## Overriding existing macro in order to compute the URL from the origin parameter instead of the current document when the invoking page is XWiki.Graph.Service
+## WARNING: be careful in case of refactoring
+#macro (extendQueryString $url $extraParameters)
+  #set ($parameters = {})
+  #set ($discard = $parameters.putAll($request.getParameterMap()))
+  #set ($discard = $parameters.putAll($extraParameters))
+  ## We want the URL to contain just the info reflecting the current user interface, not the technical parameters used for internal communication between the page and the xdf service
+  ## We remove the xpage and outputSyntax that get added during JavaScript requests, otherwise reloading the page with the current URL won't work
+  #set ($discard = $parameters.remove('xpage'))
+  #set ($discard = $parameters.remove('outputSyntax'))
+  ## We remove the action parameter since the default is 'get-edges'
+  #set ($discard = $parameters.remove('action'))
+  #set ($discard = $parameters.remove('origin'))
+  #set ($url = $NULL)
+  #if ($doc.fullName == $services.model.serialize($graphServiceReference, 'compactwiki'))
+    #set ($discard = $parameters.put('origin', $originPage.fullName))
+    #set ($queryString = $escapetool.url($parameters))
+    #setVariable("$url" $originPage.getURL('view', $queryString))
+  #else
+    #set ($queryString = $escapetool.url($parameters))
+    #setVariable("$url" $doc.getURL('view', $queryString))
+  #end
+#end
+
+#macro (displaySearchFacets $searchResponse)
+  #set($void = $services.progress.startStep('#displaySearchFacets'))
+  (% class="search-facets collapsed-xs xform" %)(((
+    (% class="search-facets-actions" %)(((
+      #set ($resetParameters = {})
+      #foreach ($parameter in $request.parameterMap.entrySet())
+        #if ($parameter.key.startsWith('f_') || $parameter.key.startsWith('l_'))
+          #set ($discard = $resetParameters.put($parameter.key, []))
+        #end
+      #end
+      #extendQueryString($url $resetParameters)
+      [[{{translation key="solr.facets.resetAll"}}&gt;&gt;path:$url
+        ||class="search-facets-action-reset"]]## Continue in the same paragraph.
+      {{html clean="false"}}
+      &lt;a href="#" class="search-facets-action-collapseAll hidden"&gt;
+        $escapetool.xml($services.localization.render('solr.facets.collapseAll'))
+      &lt;/a&gt;
+      &lt;a href="#" class="search-facets-action-expandAll hidden"&gt;
+        $escapetool.xml($services.localization.render('solr.facets.expandAll'))
+      &lt;/a&gt;
+      &lt;span class="clearfloats"&gt;&lt;/span&gt;
+      {{/html}}
+    )))
+    {{html clean="false"}}
+      #foreach ($facetField in $searchResponse.facetFields)
+        #displaySearchFacet($facetField)
+      #end
+    {{/html}}
+
+  )))
+  #set($void = $services.progress.endStep())
+#end
+
+## Overriding to force expand
+## TODO: the "expanded" class could be set in JavaScript rather than overriding the macro
+#macro (displaySearchFacet $facetField)
+  #set ($facetRequestParameter = "f_$facetField.name")
+  #set ($facetRequestValues = $request.getParameterValues($facetRequestParameter))
+  #set ($facetValues = [])
+  #foreach ($facetValue in $facetField.values)
+    ## Keep only the values that have at least one match or that are specified on the request.
+    #if ($facetValue.count &gt; 0 || ($facetRequestValues &amp;&amp; $facetRequestValues.contains($facetValue.name)))
+      #set ($discard = $facetValues.add($facetValue))
+    #end
+  #end
+  ## Facets that perform a 'facet.prefix'-based drill down (see https://wiki.apache.org/solr/HierarchicalFaceting) don't
+  ## have any values (not even with 0 count) when the prefix specified on the request doesn't have any "sub-values", but
+  ## we still want to display them to allow the user to reset the filter.
+  #if ($facetValues.size() &gt; 0 || $facetRequestValues)
+    ## Show active facets (that have selected values or that have an explicit limit on the number of values, i.e.
+    ## pagination) as expanded. Collapse the rest, otherwise you have to scroll to see all the available facets.
+    #set ($facetValuesLimit = $request.getParameter("l_$facetField.name"))
+    &lt;div class="search-facet expanded data-name="$facetField.name"&gt;
+      #displaySearchFacetHeader($facetField)
+      #displaySearchFacetBody($facetField)
+    &lt;/div&gt;
+  #end
+#end
+
+## Overriding to customize the way the translated labels are computed
+#macro (displaySearchFacetHeader $facetField)
+  #set ($facetPrettyNameKey = "solr.field.$facetField.name")
+  #if ($services.localization.get($facetPrettyNameKey))
+    #set ($facetPrettyName = $services.localization.render($facetPrettyNameKey))
+  #elseif ($facetField.name.startsWith('property.'))
+    ## FIXME
+    #set ($id = $facetField.name.replaceAll('\.\.', '.'))
+    #set ($id = $id.replaceAll('_string', ''))
+    #set ($id = $id.replaceAll('property.', ''))
+    #set ($page = $xwiki.getDocument($id))
+    #set ($facetPrettyName = $page.displayTitle)
+  #else
+    #set ($facetPrettyName = $facetField.name)
+  #end
+
+  &lt;div class="search-facet-header"&gt;$escapetool.xml($stringtool.capitalize($facetPrettyName))&lt;/div&gt;
+#end
+
+## TODO: see why it's overridden
+#macro (displaySearchResultsSort)
+  #set ($defaultSortOrder = $solrConfig.sortFields.get($type))
+  ## There is more than one type so we need a custom sort
+  #if (!$defaultSortOrder)
+    #set ($defaultSortOrder = {
+      'title_sort': 'asc',
+      'date': 'desc'
+    })
+  #end
+  #set ($sortOrderSymbol = {
+    'asc': $services.icon.render('caret-up'),
+    'desc': $services.icon.render('caret-down')
+  })
+  (% class="search-results-sort" %)
+  * {{translation key="solr.sortBy"/}}
+  #foreach ($entry in $defaultSortOrder.entrySet())
+    #set ($class = 'sort-item')
+    #set ($sortOrderIndicator = $NULL)
+    #set ($targetSortOrder = $entry.value)
+    #if ($sort == $entry.key)
+      #set ($class = "$class active")
+      #set ($sortOrderHint = $services.localization.render("solr.sortOrder.$sortOrder"))
+      #set ($sortOrderIndicator = "(% class=""sort-item-order"" title=""$sortOrderHint"" %)$sortOrderSymbol.get($sortOrder)(%%)")
+      #set ($targetSortOrder = "#if ($sortOrder == 'asc')desc#{else}asc#end")
+    #end
+    #extendQueryString($url {'sort': [$entry.key], 'sortOrder': [$targetSortOrder], 'origin': [$originPage.fullName]})
+    * [[{{translation key="solr.sortBy.$entry.key"/}}$!sortOrderIndicator&gt;&gt;path:$url||class="$class"]]
+  #end
+#end
+
+#macro (displayFilterAndSortActions)
+  #set ($defaultSortOrder = $solrConfig.sortFields.get($type))
+  ## There is more than one type so we need a custom sort
+  #if (!$defaultSortOrder)
+    #set ($defaultSortOrder = {
+      'title_sort': 'asc',
+      'date': 'desc'
+    })
+  #end
+  #set ($sortOrderSymbol = {
+    'asc': $services.icon.render('caret-up'),
+    'desc': $services.icon.render('caret-down')
+  })
+  (% class="search-results-sort" %)
+  * [[Filter&gt;&gt;path:||class="search-filter-button btn btn-default"]]
+  * {{translation key="solr.sortBy"/}}
+  #foreach ($entry in $defaultSortOrder.entrySet())
+    #set ($class = 'sort-item')
+    #set ($sortOrderIndicator = $NULL)
+    #set ($targetSortOrder = $entry.value)
+    #if ($sort == $entry.key)
+      #set ($class = "$class active")
+      #set ($sortOrderHint = $services.localization.render("solr.sortOrder.$sortOrder"))
+      #set ($sortOrderIndicator = "(% class=""sort-item-order"" title=""$sortOrderHint"" %)$sortOrderSymbol.get($sortOrder)(%%)")
+      #set ($targetSortOrder = "#if ($sortOrder == 'asc')desc#{else}asc#end")
+    #end
+    #extendQueryString($url {'sort': [$entry.key], 'sortOrder': [$targetSortOrder], 'origin': [$originPage.fullName]})
+    * [[{{translation key="solr.sortBy.$entry.key"/}}$!sortOrderIndicator&gt;&gt;path:$url||class="$class"]]
+  #end
+#end
+
+## Overriding to not show rss link
+#macro (displaySearchResults)
+  #set ($results = $searchResponse.results)
+  #set ($paginationParameters = {
+    'url': $doc.getURL('view', "$!request.queryString.replaceAll('firstIndex=[0-9]*', '')"),
+    'totalItems': $results.numFound,
+    'defaultItemsPerPage': $rows,
+    'position': 'top'
+  })
+  {{html clean="false"}}#pagination($paginationParameters){{/html}}
+  (% class="search-results" %)(((
+    #foreach ($searchResult in $results)
+      #displaySearchResult($searchResult)
+    #end
+  )))
+  #set ($discard = $paginationParameters.put('position', 'bottom'))
+  {{html clean="false"}}#pagination($paginationParameters){{/html}}
+
+#end
+
+## Overriding in order to display facets with a different layout and style (apply 'xdf.search-style')
+## See also displaySearchEdgesUI
+#macro (displaySearchUI)
+  #set($void = $services.progress.startStep('#displaySearchUI'))
+  #set($void = $services.progress.pushLevel())
+  #set ($discard = $xwiki.ssx.use('Main.SolrSearch'))
+  #set ($discard = $xwiki.ssx.use("${services.graph.namespace}.VertexLens"))
+  #set ($discard = $xwiki.jsx.use("${services.graph.namespace}.VertexLens"))
+  ## Disable the document extra data: comments, attachments, history...
+  #set ($displayDocExtra = false)
+  #processRequestParameters()
+  (% class="search-ui" %)(((
+    #if ($xcontext.action == 'get')
+      {{html clean="false"}}
+      ## The search UI is updated dynamically through AJAX and we need to pull the skin extensions.
+      ## We put the skin extension imports inside a &lt;noscript&gt; element to prevent jQuery from fetching the JavaScript
+      ## files automatically (we want to fetch only the new JavaScript files).
+      &lt;noscript class="hidden skin-extension-imports"&gt;#skinExtensionHooks&lt;/noscript&gt;
+      {{/html}}
+
+    #end
+    #displaySearchForm()
+    #if ($text != '')
+      #getSearchResults()
+      #if ($debug)
+        #displaySearchDebugInfo()
+      #end
+      (% class="search-results-container row" %)(((
+        (% class="search-results-left col-xs-12" %)
+        (((
+          #if ($facetEnabled)
+            #displaySearchFacets($searchResponse)
+            #displayFilterAndSortActions()
+          #else
+            #displaySearchResultsSort()
+          #end
+
+          #displaySearchResults()
+        )))
+      )))
+    #end
+  )))
+  #set($void = $services.progress.popLevel())
+  #set($void = $services.progress.endStep())
+#end
+
+## Overriding in order to retrieve the label of custom index keys starting with "property.graph"
+#macro (displaySearchFacetHeader $facetField)
+  #set ($facetPrettyNameKey = "solr.field.$facetField.name")
+  #if ($services.localization.get($facetPrettyNameKey))
+    #set ($facetPrettyName = $services.localization.render($facetPrettyNameKey))
+  ## &lt;!-- XWikiGraph
+  #elseif ($facetField.name.startsWith('property.graph.'))
+    #set ($facetPageId= $facetField.name.replace('property.graph.', '').replace('_string', ''))
+    #set ($facetPrettyName = $xwiki.getDocument($facetPageId).displayTitle)
+  ## XWikiGraph --&gt;
+  #elseif ($facetField.name.startsWith('property.'))
+    ## Display the translated property pretty name.
+    #getXClassProperty($facetField.name $property $classPropertyReference)
+    #set ($facetPrettyName = $property.translatedPrettyName)
+    #if ("$!facetPrettyName" == '')
+      #set ($facetPrettyName = $classPropertyReference.name)
+    #end
+  #else
+    #set ($facetPrettyName = $facetField.name)
+  #end
+  &lt;div class="search-facet-header"&gt;$escapetool.xml($facetPrettyName)&lt;/div&gt;
+#end
+
+#macro (getEdges)
+  #set ($origin = ${originPage.fullName})
+  #set ($query = $services.graph.getNeighboursQuery($services.model.resolveDocument($origin)))
+  ## Set query parameters
+  #set ($discard = $query.setLimit($rows))
+  #set ($discard = $query.setOffset($start))
+  ## Set default sort to title sort asc (ordering edges by score does not make much sense in this context)
+  #if (!$sort || $sort == 'score')
+    #set ($sort = 'title_sort')
+    #set ($sortOrder = 'asc')
+  #end
+  #set ($discard = $query.bindValue('sort', "${sort} ${sortOrder}"))
+  #setFacetFields($query)
+  #setFilterQuery($query)
+  ## Execute the query
+  #set ($searchResponse = $query.execute()[0])
+#end
+
+#macro (displaySearchEdgesResults)
+  #set ($results = $searchResponse.results)
+  #set ($xurl = $originPage.getURL($xcontext.action, "$!request.queryString.replaceAll('firstIndex=[0-9]*','')"))
+  #extendQueryString($xurl {'origin': [$originPage.fullName], 'firstIndex': []})
+  #set ($paginationParameters = {
+    'url': $xurl,
+    'totalItems': $results.numFound,
+    'defaultItemsPerPage': $rows,
+    'position': 'top'
+  })
+  (% class="search-results" %)(((
+    #foreach ($searchResult in $results)
+      #displaySearchEdgesResult($searchResult)
+    #end
+    #if ($hasedit)
+      #set ($title = $services.localization.render('Add relation from this page to another one'))
+      * [[+&gt;&gt;||class="graph-add-edge btn btn-primary" title="$title" data-origin="$originPage.fullName"]]
+    #end
+  )))
+  #set ($discard = $paginationParameters.put('position', 'bottom'))
+  {{html clean="false"}}#pagination($paginationParameters){{/html}}
+
+#end
+
+## Adapted from displaySearchResult for custom display of edges
+#macro (displaySearchEdgesResult $searchResult)
+  #set ($searchResultReference = $services.solr.resolve($searchResult))
+  ## We use the HTML macro here mainly because we don't have a way to escape the wiki syntax in the data provided by the user.
+  #evaluate("${escapetool.h}displaySearchEdgesResult_$searchResult.type.toLowerCase()(${escapetool.d}searchResult)")
+#end
+
+## Adapted from displaySearchResultTitle for custom display of edges
+#macro (displaySearchEdgesResultTitle)
+  #set ($titleURL = $xwiki.getURL($searchResultReference))
+  ## TODO: use absolute model references ${searchResult.wiki}:
+  #set ($destination = "${searchResult.fullname}")
+  ## FIXME: the exact predicate and object should be mentioned there, via a better query edge above, focusing directly on OBJECT, not DOCUMENT
+  ## We don't know what is the origin and what is the destination actually
+  * (% style="display: inline-block" %)((([[$stringtool.capitalize($searchResult.title_)&gt;&gt;path:$titleURL]] (% class="graph-delete-edge" data-origin="$escapetool.xml($originPage.fullName)" data-destination="$escapetool.xml($destination)" %)x)))
+#end
+
+## Adapted from displaySearchResult_document for custom display of edges
+#macro (displaySearchEdgesResult_document $searchResult)
+  #displaySearchEdgesResultTitle()
+#end
+
+## Similar to displaySearchUI, with adaptations in order to:
+## - add origin parameter
+## - show the search input form only on the search page
+## - show results even for empty text on xdf.service
+## - limit number of rows (this should be moved to the parameters)
+#macro (displaySearchEdgesUI $origin)
+  #set($void = $services.progress.startStep('#displaySearchEdgesUI'))
+  #set($void = $services.progress.pushLevel())
+  #set ($originPage = $xwiki.getDocument($origin))
+  ## TODO: the Main.SolrSearch ssx is already called in the list-edges macro, and the JSX is overridden
+  ##set ($discard = $xwiki.ssx.use('Main.SolrSearch'))
+  ##set ($discard = $xwiki.jsx.use('Main.SolrSearch'))
+  ## Disable the document extra data: comments, attachments, history...
+  #set ($displayDocExtra = false)
+  ## TODO: we should process the object/predicate parameters present in the current URL, and the facet parameters
+  #processRequestParameters()
+  #set ($rows = 50)
+  (% class="search-ui" %)(((
+    #if ($xcontext.action == 'get')
+      {{html clean="false"}}
+      ## The search UI is updated dynamically through AJAX and we need to pull the skin extensions.
+      ## We put the skin extension imports inside a &lt;noscript&gt; element to prevent jQuery from fetching the JavaScript
+      ## files automatically (we want to fetch only the new JavaScript files).
+      &lt;noscript class="hidden skin-extension-imports"&gt;#skinExtensionHooks&lt;/noscript&gt;
+      {{/html}}
+
+    #end
+    #getEdges()
+    #if ($debug)
+      #displaySearchDebugInfo()
+    #end
+    (% class="search-results-container row" %)(((
+      (% class="col-xs-12" %)
+        (((
+          #if ($facetEnabled)
+            #displaySearchFacets($searchResponse)
+            #displayFilterAndSortActions()
+          #else
+            #displaySearchResultsSort()
+          #end
+          #displaySearchEdgesResults()
+        )))
+    )))
+  )))
+  #set($void = $services.progress.popLevel())
+  #set($void = $services.progress.endStep())
+#end
+
+#macro (getRelations $vertex)
+  #if ($vertex)
+    #set ($relations = $services.graph.getRelations($services.model.resolveDocument($vertex)))
+  #end
+  #if (!$vertex || $relations.size() == 0)
+    #set ($relations = $services.graph.getRelations())
+  #end
+  ## make sure $IS_A is first
+  ## TODO: introduce a property index to make it possible to configure the order of properties
+#end
+
+## Add all relations as facets, except the ones which accept "string", because we don't want to have individual string values as facet options
+#macro (addRelationsToSolrConfiguration $solrConfig)
+  #getRelations()
+  ## TODO: check why a reverse is needed while relations are supposed to be sorted by name already
+  #set ($discard = $collectionstool.reverse($relations))
+  #foreach ($relation in $relations)
+    #set ($image = $services.graph.getImage($relation.getIdentifier()))
+    #if ("$!image" != 'string')
+      #set ($key = "property.graph.${services.model.serialize($relation, 'compactwiki')}_string")
+      #set ($discard = $solrConfig.facetFields.add(0, $key))
+      #set ($discard = $solrConfig.facetDisplayers.put($key, $services.model.serialize($facetDisplayerReference, 'compactwiki')))
+    #end
+  #end
+#end
+{{/velocity}}</content>
+</xwikidoc>

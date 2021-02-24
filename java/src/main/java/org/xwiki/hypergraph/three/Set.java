@@ -1,6 +1,4 @@
-<?xml version="1.1" encoding="UTF-8"?>
-
-<!--
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -17,22 +15,30 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
--->
-<xwikidoc version="1.3" reference="Graph.Book" locale="fr">
-  <web>Graph</web>
-  <name>Book</name>
-  <language>fr</language>
-  <defaultLanguage>en</defaultLanguage>
-  <translation>1</translation>
-  <parent>Graph.WebHome</parent>
-  <creator>xwiki:XWiki.Admin</creator>
-  <author>xwiki:XWiki.Admin</author>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <version>1.1</version>
-  <title>Livre</title>
-  <comment/>
-  <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>false</hidden>
-  <content/>
-</xwikidoc>
+ */
+package org.xwiki.hypergraph.three;
+
+/**
+ * Utility class used to ease the definition of relations domains and images.
+ */
+public enum Set
+{
+    ANY("any"),
+    BOOLEAN("boolean"),
+    STRING("string"),
+    DATE("date"),
+    LONG("long"),
+    DOUBLE("double");
+
+    private String label;
+
+    private Set(String label)
+    {
+        this.label = label;
+    }
+
+    public String getLabel()
+    {
+        return label;
+    }
+}

@@ -34,6 +34,7 @@
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
+<<<<<<< HEAD
   <content>(% class="row" %)
 (((
 (% class="col-md-8" %)
@@ -352,6 +353,200 @@ The data structure of the application is an hypergraph.
 * Book [[A Modern Introduction to Logic&gt;&gt;https://www.taylorfrancis.com/books/9781315121758]]
 * [[Wikipedia:Referent&gt;&gt;https://en.wikipedia.org/wiki/Referent]]
 * [[Relations entry on Stanford Encyclopedia of Philosophpy&gt;&gt;https://plato.stanford.edu/entries/relations/]]
+=======
+  <content>(% class="row" %)(((
+(% class="col-md-8" %)(((
+The Graph application allows to draw relations between wiki pages. For instance, the relation "has author" can be created to state that page "The Jungle Book" has relation "has author" with page "Rudyard Kipling". Relations are stored in the wiki as any other page, with the only specificity that they have relation "is a" with the "Relation" page.
+
+The application allows to:
+* Create types and relations as wiki pages
+* Use these relations to interlink pages with edges
+* Define relations constraints and properties
+* Search for pages by their relations, using facets
+
+An edge is an ordered triple consisting of:
+* An origin page
+* A relation
+* A destination page or a scalar value (string, date, number, etc.)
+
+For example, "The Jungle Book has author Rudyard Kipling" or "The Jungle Book has publication date 1894" are edges.
+
+Relations can have specific constraints, such as about the pages they can bind to one another. For instance, the relation "has author" will typically accept as destination pages only those of type "person" or "organization". A page type is defined using the built-in relation "is a".
+
+)))
+(% class="col-md-4" %)(((
+[[[[image:lesMis-1.svg]]&gt;&gt;attach:lesMis-1.svg]]
+(% class="text-center" style="margin-top: 1em;" %)(((//Source: [[Textgraphs.org&gt;&gt;http://www.textgraphs.org/]]//)))
+)))
+)))
+
+
+== User interface
+
+(% class="row" %)(((
+(% class="col-md-8" %)(((
+Once installed, the application adds a block to each page header which displays the list of pages that are linked with the current one. This list can be ordered by page title or by last modification date.
+
+This additional block also includes crosses for removing existing links, and a button for adding new ones. When hitting this button, a form shows up, displaying the list of relations that the current page can use, and a search input field for selecting a destination page. For instance, on page "The Jungle Book", once declared as a "book", the form will propose the relations "has author", "has publication date", "has publisher", etc. When selecting the relation "has author", the search input field will suggest all the wiki pages of type "person" and matching the entered input. The form supports only the addition of edges linking two pages together, not yet a page and a scalar value.
+
+The user interface also includes a "Filter" buton which makes it possible to restrict the list of related pages by their own types or relations. All relations available in the wiki are automatically added to the faceting system for easy navigation across the network of pages.
+
+In order to draw a relation between two pages, the user needs to have at least edit right on the origin page. On a given page, a user will see all the related pages even though he has not access to them: in that case, he will get a denied access only when trying the view the content of these pages.
+)))
+(% class="col-md-4" %)(((
+[[[[image:the-jungle-book.jpg||style="border:1px solid silver; max-width:100%;"]]&gt;&gt;attach:the-jungle-book.jpg]]
+(% class="text-center" %)(((//Page "The Jungle Book" and its related pages//)))
+
+[[[[image:add-edge-form.jpg||style="border:1px solid silver; max-width:100%;"]]&gt;&gt;attach:add-edge-form.jpg]]
+(% class="text-center" %)(((//Form for connecting pages//)))
+)))
+)))
+
+
+== Example: Nobel Prize Laureates
+
+
+(% class="row" %)(((
+(% class="col-md-8" %)(((
+The application includes a [[Wikidata&gt;&gt;https://www.wikidata.org/]] data importer which creates a set of relations and types corresponding to Nobel Prizes Laureates – relations "has award", "has country" in particular, and types "person" and "organization" – and import data into the wiki.
+
+Wikidata is a project that stores data using a graph structure as well, and provides interfaces for browsing the graph visually and for entering new statements.
+
+Once imported into the wiki, the Nobel Prize laureate pages can be browsed using facets. For instance, all organizations and persons who received the Nobel Peace Prize can be browsed by country.
+)))
+(% class="col-md-4" %)(((
+[[[[image:person.jpg||style="border:1px solid silver; max-width:100%;"]]&gt;&gt;attach:person.jpg]]
+(% class="text-center" %)(((//Faceted filtering on page "Person"//)))
+)))
+)))
+
+
+== Data model
+
+(% class="row" %)(((
+(% class="col-md-8" %)(((
+|=Concept|=Definition
+|Vertex|A vertex simply wraps a wiki page. It can have inward and outward edges.|
+|Edge|An edge typically links together two vertices – an origin and a destination – and a relation. "The Jungle Book has author Rudyard Kipling" is an edge that has origin page "The Jungle Book", destination page "Rudyard Kipling", and relation "has author". An edge can be a vertex, so that it's also possible to create edges involving edges, such as: "Anna says that 'The Jungle Book has author Rudyard Kipling'", where "says" is a relation used by the edge having origin "Anna" and destination "The Jungle Book has author Rudyard Kipling".
+|Relation|A relation has a domain and an image. Its domain is the set of vertices on which it can be applied to, and its domain is the set of vertices it can accept as values. For instance, "has award" is a relation. Its domain is the set of pages representing a person or an organization. Its image is the set of pages that represent an award.
+|Graph|A graph is a set of vertices, edges and relations.
+)))
+(% class="col-md-4" %)(((
+[[[[image:data-model.jpg||style="border:1px solid silver; max-width:100%;"]]&gt;&gt;attach:data-model.jpg]]
+(% class="text-center" %)(((//Graph application class diagram//)))
+)))
+)))
+
+== Built-in relations and vertices
+
+(% class="row" %)(((
+(% class="col-md-8" %)(((
+The application includes a set of predefined relations described below, and one type.
+
+|=(% style="width: 25%" %)Relation or Type|=Description|=Example
+|Is connected to|Can be used to express that two pages are related to one another.|The Jungle Book is connected to Rikki-Tikki-Tavi.
+|Is a|Can be used to declare that a page has a specific type.|Rudyard Kipling is a journalist.
+|Is transitive|Can be used to specify whether a relation is transitive or not.|Relation "is a" is transitive: if Rudyard Kipling is a journalist, and journalist is a person, then Rudyard Kipling is a person. This property is not used by the application at the moment.
+|Has domain|Can be used to specify the set of pages a relation can take as first parameter. It is similar to [[the RDF schema domain property&gt;&gt;https://www.w3.org/TR/rdf-schema/#ch_domain]], except that rdfs:domain only accept class names, while the "has domain" relation can accept any set definition. |Relation "has head office" has domain "organization".
+|Has image|Can be used to specify the set of pages a relation can have as destination. It is similar to [[the RDF schema range property&gt;&gt;https://www.w3.org/TR/rdf-schema/#ch_range]]. The terms "domain" and "image" come from [[the mathematical definition of a relation&gt;&gt;https://en.wikipedia.org/wiki/Binary_relation]].|Relation "has author" has image "person".
+|Type|Represents a type.|The page "Type" has relation "is a" with itself: a type is a type. Book is a type.
+)))
+(% class="col-md-4" %)(((
+[[[[image:diagram.jpg||style="border:1px solid silver; max-width:100%;"]]&gt;&gt;attach:diagram.jpg]]
+(% class="text-center" %)(((//Visual representation of an example set of vertices, relations and edges. Edges are circles connecting an origin, a relation and a destination.//)))
+)))
+)))
+
+== Script service
+
+The application includes a script service that can be accessed via ##$services.graph## and which exposes the functions below.
+
+* ##void addEdge(DocumentReference origin, DocumentReference relation, DocumentReference destination)##
+* ##List&lt;XWikiRelation&gt; getRelations(DocumentReference vertex)##
+* ##List&lt;DocumentReference&gt; getDirectPredecessors(DocumentReference vertex, DocumentReference relation)##
+* ##String getDomain(DocumentReference relation)##
+* ##String getImage(DocumentReference relation)##
+* ##List&lt;XWikiRelation&gt; getRelations()##
+* ##removeEdge(DocumentReference origin, DocumentReference relation, DocumentReference destination)##
+* ##List&lt;DocumentReference&gt; search(String text)##
+* ##List&lt;DocumentReference&gt; search(String text, DocumentReference relation)##
+
+== Implementation
+
+The application hinges on the XWiki classes below.
+
+|=XWiki class|=Properties
+|Edge|(((
+* has-relation: page
+* has-destination: page
+)))
+|StringEdge|(((
+* has-relation: page
+* has-value: large string
+)))
+|DateEdge|(((
+* has-relation: page
+* has-value: date
+)))
+|BooleanEdge|(((
+* has-relation: page
+* has-value: boolean
+)))
+
+An additional index field is added automatically by Solr when indexing Edge instances, via a SolrMetadaExtractor component having a higher priority than the default one provided by xwiki-platform. For instance, "The Jungle Book has author Rudyard Kipling" is indexed as follows in Solr:
+
+##property.graph.wiki.HasAuthor_string:[wiki.Rudyard Kipling]##.
+
+In addition, all inverse edges are indexed, but only partially at this stage, using the generic relation "is connected to", because inverse relations are not handled at this stage, so that we have, for page ##wiki.Rudyard Kipling## the following index entry:
+
+##property.graph.XWiki.Graph.IsConnectedTo_string:[wiki.The Jungle Book]##.
+
+The implementation consists in particular of the following components:
+* XWikiGraph: allows to create vertices, edges and relations
+* SolrGraphIndexer: manages the index of edges
+* SolrGraphTraverser: runs queries across vertices, edges and relations
+* GraphEmbeddedSolrInstance extending EmbeddedSolrInstance for adding access to indexed SolrDocuments by their identifier.
+
+== Next steps
+
+* Add edge scalar values via a form.
+* See if the default EmbeddedSolrInstance can expose a method for accessing an indexed SolrDocument by its id.
+* Support relation transitivity.
+* Associate types with XWiki sheets.
+* Store the graph in a graph database.
+* Create edges using wiki syntax or macros: ##~{~{edge relation="wiki.HasAuthor" destination="wiki.Rudyard Kipling"}}The author of this book is Rudyard Kipling.~{~{/edge}}##
+* Handle inverse relations. For example the inverse of relation "has author" is relation "has authored".
+* Display pages in livetables with ability to filter them by their edges.
+
+== Similar projects
+
+* [[OntoWiki&gt;&gt;http://ontowiki.net/]]
+* [[Semantic MediaWiki&gt;&gt;https://en.wikipedia.org/wiki/Semantic_MediaWiki]]
+* [[Wikibase&gt;&gt;https://wikiba.se/]]
+* [[Wikipedia:Semantic wiki&gt;&gt;https://en.wikipedia.org/wiki/Semantic_wiki]]
+
+== Resources about graphs
+
+* Articles and books
+** [[Graph databases go mainstream&gt;&gt;https://www.forbes.com/sites/cognitiveworld/2019/07/18/graph-databases-go-mainstream/#579accb3179d]] – Kurt Cagle, Forbes, July 2019
+** [[Graph databases in action&gt;&gt;https://www.manning.com/books/graph-databases-in-action]]
+** [[Graphs in mathematics&gt;&gt;https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)]]
+** [[Graph traversal / search&gt;&gt;https://en.wikipedia.org/wiki/Graph_traversal]]
+** [[The Practitioner's Guide to Graph Data&gt;&gt;http://shop.oreilly.com/product/0636920205746.do]]
+* Databases and server libraries
+** [[Apache TinkerPop&gt;&gt;http://tinkerpop.apache.org/]], [[Gremlin&gt;&gt;https://en.wikipedia.org/wiki/Gremlin_(programming_language)]], [[Pratical Gremlin&gt;&gt;http://kelvinlawrence.net/book/Gremlin-Graph-Guide.html]]
+** [[Dgraph presentation&gt;&gt;https://docs.google.com/presentation/d/1JqHw_kGmEJE6WgnP4xMVXQ1b1CAWYOYK9eS09an2aI0/]], [[How Dgraph raised series A&gt;&gt;https://blog.dgraph.io/post/how-dgraph-labs-raised-series-a/]]
+** [[Grakn database&gt;&gt;https://en.wikipedia.org/wiki/GRAKN.AI]]
+** [[Neo4j - Moving from relational to relationships&gt;&gt;https://neo4j.com/business-edge/relational-to-relationships/]]
+** JGraphT
+** Apache Giraphe
+** Apache Common Graphs
+* User interface libraries
+** [[GRANDstack framework&gt;&gt;https://grandstack.io/]] - "Build full stack graph applications with GraphQL, React, Apollo, Neo4j", Demo: https://movies.grandstack.io/ with [[example queries&gt;&gt;https://grandstack.io/docs/graphql-filtering.html]], [[more examples&gt;&gt;https://grandstack.io/docs/graphql-schema-generation-augmentation.html]]
+** SigmaJS
+* Data models
+** [[Resource Description Framework&gt;&gt;https://en.wikipedia.org/wiki/Resource_Description_Framework]]
+>>>>>>> parent of d6bfffb... MISC: add FR pages
 </content>
   <attachment>
     <filename>add-edge-form.jpg</filename>

@@ -40,7 +40,7 @@ import org.xwiki.contrib.graph.XWikiGraphFactory;
 import org.xwiki.contrib.graph.XWikiGraphIndexer;
 import org.xwiki.contrib.graph.internal.metadata.XWikiVertexSolrMetadataExtractor;
 import org.xwiki.contrib.graph.internal.model.Names;
-import org.xwiki.hypergraph.Edge;
+import org.xwiki.hypergraph.three.Hyperedge;
 import org.xwiki.hypergraph.GraphException;
 import org.xwiki.model.EntityType;
 import org.xwiki.model.reference.DocumentReference;
@@ -276,16 +276,16 @@ public class SolrGraphIndexer implements XWikiGraphIndexer
         }
     }
 
-    public void index(Edge<DocumentReference> edge) throws GraphException
+    public void index(Hyperedge<DocumentReference> edge) throws GraphException
     {
         index(edge, true);
     }
 
     /**
      * Adds the value of "has-relation" directly as a property. Example: EdgeClass object with has-relation =
-     * XWiki.Graph.IsA and has-destination = wiki.Book will become, in Solr index: property.graph.XWiki.Graph.IsA:[wiki.Book].
+     * XWiki.Hypergraph.IsA and has-destination = wiki.Book will become, in Solr index: property.graph.XWiki.Hypergraph.IsA:[wiki.Book].
      */
-    public void index(Edge<DocumentReference> edge, boolean transitively) throws GraphException
+    public void index(Hyperedge<DocumentReference> edge, boolean transitively) throws GraphException
     {
         // Index edge only if the relation is not empty.
         if (edge != null && edge.hasRelation()) {
@@ -293,7 +293,7 @@ public class SolrGraphIndexer implements XWikiGraphIndexer
                 logger.debug("Add edge: {}", edge);
                 // TODO: cross-wikis graphs
                 // TODO: see also the Solr reference serializers
-                // TODO: add a default relation Graph:getDefaultRelation
+                // TODO: add a default relation Hypergraph:getDefaultRelation
                 String fieldName = getFieldName(edge.getRelation());
                 if (edge.hasObject()) {
                     // Add index directly to the document so that the documents can be queried by their edges.
@@ -424,9 +424,9 @@ public class SolrGraphIndexer implements XWikiGraphIndexer
     }
 
     /**
-     * @see #index(Edge)
+     * @see #index(Hyperedge)
      */
-    public void unindex(Edge<DocumentReference> edge) throws GraphException
+    public void unindex(Hyperedge<DocumentReference> edge) throws GraphException
     {
         logger.debug("Remove edge from index: {}", edge);
         // If the edge has no relation, it has no custom index (see #index), so there is no need to remove any
@@ -465,7 +465,7 @@ public class SolrGraphIndexer implements XWikiGraphIndexer
         // All the predecessors of the destination cannot be retrieved via HQL because in the case of
         // transitive relations for instance, the transitive edges are not stored in the SQL database,
         // only in the Solr index.
-        // TODO: check what happens with the predecessors which have a real Edge object stored that points
+        // TODO: check what happens with the predecessors which have a real Hyperedge object stored that points
         // to the destination
         // Retrieve all vertices having an edge to destination using the IS_CONNECTED_TO relation which is supposed
         // to be present in all cases.

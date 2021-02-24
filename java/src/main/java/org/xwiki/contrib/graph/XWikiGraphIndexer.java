@@ -19,19 +19,19 @@
 package org.xwiki.contrib.graph;
 
 import org.xwiki.component.annotation.Role;
-import org.xwiki.hypergraph.Edge;
+import org.xwiki.hypergraph.three.Hyperedge;
 import org.xwiki.hypergraph.GraphException;
-import org.xwiki.hypergraph.GraphIndexer;
+import org.xwiki.hypergraph.three.HypergraphIndexer;
 import org.xwiki.model.reference.DocumentReference;
 
 @Role
-public interface XWikiGraphIndexer extends GraphIndexer<DocumentReference>
+public interface XWikiGraphIndexer extends HypergraphIndexer<DocumentReference>
 {
 
-    void index(Edge<DocumentReference> edge) throws GraphException;
+    void index(Hyperedge<DocumentReference> edge) throws GraphException;
 
     /**
      * Remove edge from index
      */
-    void unindex(Edge<DocumentReference> edge) throws GraphException;
+    void unindex(Hyperedge<DocumentReference> edge) throws GraphException;
 }

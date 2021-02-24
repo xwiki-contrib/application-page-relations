@@ -21,7 +21,7 @@ package org.xwiki.contrib.graph;
 import java.util.List;
 
 import org.xwiki.component.annotation.Role;
-import org.xwiki.hypergraph.Graph;
+import org.xwiki.hypergraph.three.Hypergraph;
 import org.xwiki.hypergraph.GraphException;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.ObjectReference;
@@ -31,17 +31,17 @@ import com.xpn.xwiki.doc.XWikiDocument;
 
 /*
   TODO:
-    - Check access rights, and protection of resources such as Edge:object, and dangerous Graph methods
+    - Check access rights, and protection of resources such as Hyperedge:object, and dangerous Hypergraph methods
     - Add events GraphEvent EdgeAddedEvent, VertexAddedEvent, EdgeRemovedEvent, VertexRemovedEvent, ...
       VertexUpdatedEvent, EdgeUpdatedEvent, ...
     - Check and translate the labels cf xar-handler / ApplicationResources
     - Check with multilingual documents
     - Add a cache of relations
-    - The setters of Relation, Edge should be protected to specific users because it allows direct change, and
+    - The setters of Relation, Hyperedge should be protected to specific users because it allows direct change, and
       such objects are availble from the script service
     - Make it easy to delete Solr index of all pages with an edge and recreate it (simple HQL query)
     - When deleting document from Solr index from the XWiki administration via HQL query, it seems the index
-      refererring to translated documents are not remove, eg "kuava:XWiki.Graph.Type_en" remains present in the index
+      refererring to translated documents are not remove, eg "kuava:XWiki.Hypergraph.Type_en" remains present in the index
       until we request a deletion from all
     - In the Solr admin console, add ability to enter specify the documents to be removed via a query or a list of
       Solr identifiers
@@ -59,7 +59,7 @@ import com.xpn.xwiki.doc.XWikiDocument;
       can be resolved properly (i.e. from which an EntityReference can be built). If an EntityReference cannot
       get created (which can happen if the index was wrongly created), the wrong index entry will remain.
     - Issue when restoring a deleted vertex: the index is not correctly restored.
-    - the property "property.XWiki.Graph.IsConnectedTo:[PageA]" should remain present in the index until
+    - the property "property.XWiki.Hypergraph.IsConnectedTo:[PageA]" should remain present in the index until
        there is no edge any more invovling PageA.
     - Imagine how a full implementation based on a graph database will work: Neo4jGraph, DgraphGraph, etc.
     - Create document, delete it, the Solr index still contains an entry about it
@@ -75,13 +75,13 @@ import com.xpn.xwiki.doc.XWikiDocument;
     - Handle other types for edge values: Long, Double, etc.
     - User interface to enter / edit scalar values
 */
-// * Security aspects: Edge encapsulate a BaseObject which require programming rights. The general idea is to make sure
+// * Security aspects: Hyperedge encapsulate a BaseObject which require programming rights. The general idea is to make sure
 //         * that 1) the access to these restricted objects is restricted by programming right check, 2) the operations offered by
-//         * Edge on these encapsulated objects either are not dangerous or they check the programming rights.
+//         * Hyperedge on these encapsulated objects either are not dangerous or they check the programming rights.
 
 @Role
 @Unstable
-public interface XWikiGraph extends Graph<DocumentReference>
+public interface XWikiGraph extends Hypergraph<DocumentReference>
 {
     void addEdge(DocumentReference subject, DocumentReference relation, Object object) throws GraphException;
 

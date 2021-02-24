@@ -33,7 +33,7 @@ import com.xpn.xwiki.objects.BaseObject;
 import com.xpn.xwiki.objects.BaseObjectReference;
 
 /**
- * Edge implementation.
+ * Hyperedge implementation.
  *
  * @version $Id$
  */
@@ -45,7 +45,7 @@ public class DefaultXWikiEdge extends DefaultXWikiVertex implements XWikiEdge
     public static final String EDGE_VERTEX_ID = Names.GRAPH_CODE_NAMESPACE + ".EdgeClass";
 
     /**
-     * Edge object identifier. TODO: check if this is the canonical way TODO: check if there's a way to
+     * Hyperedge object identifier. TODO: check if this is the canonical way TODO: check if there's a way to
      * register object events only for a given class name See also CommentEventGeneratorListener
      */
     public static final RegexEntityReference EDGE_OBJECT_REFERENCE = BaseObjectReference.any(EDGE_VERTEX_ID);

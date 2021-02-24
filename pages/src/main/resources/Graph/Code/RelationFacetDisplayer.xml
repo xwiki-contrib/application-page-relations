@@ -36,12 +36,8 @@
   <hidden>true</hidden>
   <content>{{velocity}}
 #macro (displaySearchFacetValue_page $pageId)
-  #set ($reference = $services.model.resolveDocument($pageId, 'current'))
-    #set ($treference = $services.model.createDocumentReference($reference, $xcontext.locale))
-  #if ($xwiki.exists($treference))
-    #set ($reference= $treference)
-  #end
-  #set ($title = $xwiki.getDocument($reference).displayTitle)
+  #set ($pageReference = $services.model.resolveDocument($pageId, 'current'))
+  #set ($title = $xwiki.getDocument($pageReference).displayTitle)
   &lt;span&gt;&amp;nbsp;$escapetool.xml($stringtool.capitalize($title))&lt;/span&gt;
 #end
 {{html clean="false"}}#displaySearchFacetValues($facetValues {} 'displaySearchFacetValue_page'){{/html}}

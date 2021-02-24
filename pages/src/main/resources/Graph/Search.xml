@@ -36,7 +36,7 @@
   <hidden>false</hidden>
   <content>{{include reference="Main.SolrSearchConfig"/}}
 
-{{include reference="Graph.Code.Macros"/}}
+{{include reference=".Code.GraphMacros"/}}
 
 {{velocity}}
 #addRelationsToSolrConfiguration($solrConfig)
