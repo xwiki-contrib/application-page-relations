@@ -33,14 +33,14 @@ import com.xpn.xwiki.objects.BaseObject;
 @Role
 public interface XWikiTermFactory extends TermFactory<DocumentReference>
 {
-    XWikiTerm createTerm(DocumentReference identifier);
+    XWikiTerm createVertex(DocumentReference identifier);
 
-    XWikiRing createRing(BaseObject object) throws RingException;
+    XWikiRing createEdge(BaseObject object) throws RingException;
 
     XWikiRing createRing(DocumentReference referent, DocumentReference relation, Object relatum)
             throws RingException;
 
-    XWikiRing createRing(XWikiDocument document, Object destinationOrValue) throws RingException;
+    XWikiRing createEdge(XWikiDocument document, Object destinationOrValue) throws RingException;
 
     XWikiRelation createRelation(DocumentReference identifier, String domain, String image, boolean transitive);
 
@@ -48,7 +48,7 @@ public interface XWikiTermFactory extends TermFactory<DocumentReference>
 
     XWikiDocument getDocument(DocumentReference vertex, boolean clone) throws RingException;
 
-    List<Triple<EntityReference, Class, Class>> getRingClasses();
+    List<Triple<EntityReference, Class, Class>> getEdgeClasses();
 
     void saveDocument(XWikiDocument page, String message, String... parameters) throws RingException;
 }

@@ -25,6 +25,7 @@ import javax.inject.Singleton;
 import org.apache.solr.common.SolrInputDocument;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.ring.XWikiRing;
+import org.xwiki.contrib.ring.XWikiRingSet;
 import org.xwiki.contrib.ring.XWikiRingIndexer;
 import org.xwiki.contrib.ring.XWikiTermFactory;
 import org.xwiki.contrib.ring.internal.model.BaseXWikiRing;
@@ -49,6 +50,9 @@ import com.xpn.xwiki.objects.BaseObjectReference;
 public class XWikiRingSolrMetadataExtractor extends ObjectSolrMetadataExtractor
 {
     @Inject
+    private XWikiRingSet graph;
+
+    @Inject
     @Named("solr")
     private XWikiRingIndexer indexer;
 
@@ -56,7 +60,7 @@ public class XWikiRingSolrMetadataExtractor extends ObjectSolrMetadataExtractor
     private XWikiTermFactory factory;
 
     /**
-     * Overrides in order to index Ring objects in a specific manner, and to compute the identifier via the ringSet
+     * Overrides in order to index Ring objects in a specific manner, and to compute the identifier via the ring
      * service, in order to make sure it contains a locale and to call a customized version of {@link
      * #setDocumentFields(DocumentReference, SolrInputDocument)} so that the fields get set even if the document does
      * not exist yet. See {@link SolrRingIndexer#getSolrIdentifier(EntityReference)}
@@ -85,9 +89,9 @@ public class XWikiRingSolrMetadataExtractor extends ObjectSolrMetadataExtractor
         setLocaleAndContentFields(documentReference, solrDocument, object);
 
         EntityReference relativeXClassReference = object.getRelativeXClassReference();
-        if (relativeXClassReference.equals(BaseXWikiRing.RING_XCLASS_REFERENCE)) {
-            XWikiRing ring = factory.createRing(object);
-            indexer.index(ring);
+        if (relativeXClassReference.equals(BaseXWikiRing.EDGE_XCLASS_REFERENCE)) {
+            XWikiRing edge = factory.createEdge(object);
+            indexer.index(edge);
         }
 
         return true;

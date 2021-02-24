@@ -150,7 +150,7 @@ public class NobelPrizeLaureatesImporter implements WikidataImporter
             // Don't create vertex if it exists already
             if (!xwiki.exists(reference, context)) {
                 if (entry.getKey().startsWith("has")) {
-                    graph.addTerm(reference, title, factory.getIdentifier(Names.RELATION_TERM_NAME));
+                    graph.addVertex(reference, title, factory.getIdentifier(Names.RELATION_TERM_NAME));
                     if (entry.getValue().size() > 1) {
                         // An "accept" constraint is then expected, related to the accepted type
                         String image = entry.getValue().get(1);
@@ -163,7 +163,7 @@ public class NobelPrizeLaureatesImporter implements WikidataImporter
                         graph.addRingOnce(reference, factory.getIdentifier(Names.HAS_IMAGE_RELATION_NAME), image);
                     }
                 } else {
-                    graph.addTerm(reference, title, factory.getIdentifier(Names.TYPE_TERM_NAME));
+                    graph.addVertex(reference, title, factory.getIdentifier(Names.TYPE_TERM_NAME));
                 }
             }
         }
@@ -187,14 +187,14 @@ public class NobelPrizeLaureatesImporter implements WikidataImporter
                     vertexMetadata = verticesMetadataByKey.get(
                             WikidataNames.ORGANIZATION_TYPE_NAME);
                 }
-                graph.addTerm(vertex, label, resolver.resolve(vertexMetadata.get(0)));
+                graph.addVertex(vertex, label, resolver.resolve(vertexMetadata.get(0)));
             }
 
             XWikiDocument page = xwiki.getDocument(vertex, context).clone();
             page.setAuthorReference(context.getUserReference());
             page.setTitle(label);
             page.setContent(entity.getEntityDescription());
-            // Make sure to save the page before creating rings originating from it
+            // Make sure to save the page before creating edges originating from it
             xwiki.saveDocument(page, "", false, context);
             graph.addRingOnce(vertex, resolver.resolve(verticesMetadataByKey.get(
                     WikidataNames.HAS_WIKIDATA_ID).get(0)),
@@ -218,7 +218,7 @@ public class NobelPrizeLaureatesImporter implements WikidataImporter
             DocumentReference country = toDocumentReference(laureate.getCountryLabel(), spaceReference);
             if (country != null) {
                 if (!xwiki.exists(country, context)) {
-                    graph.addTerm(country, laureate.getCountryLabel(),
+                    graph.addVertex(country, laureate.getCountryLabel(),
                             resolver.resolve(verticesMetadataByKey.get(
                                     WikidataNames.COUNTRY_TYPE_NAME).get(0)));
                 }
@@ -229,7 +229,7 @@ public class NobelPrizeLaureatesImporter implements WikidataImporter
             DocumentReference nobelPrize = toDocumentReference(laureate.getPrizeLabel(), spaceReference);
             if (nobelPrize != null) {
                 if (!xwiki.exists(nobelPrize, context)) {
-                    graph.addTerm(nobelPrize, laureate.getPrizeLabel(),
+                    graph.addVertex(nobelPrize, laureate.getPrizeLabel(),
                             resolver.resolve(verticesMetadataByKey.get(
                                     WikidataNames.AWARD_TYPE_NAME).get(0)));
                 }

@@ -29,7 +29,7 @@ import org.xwiki.observation.event.Event;
 import org.xwiki.refactoring.event.DocumentRenamingEvent;
 
 /**
- * Listener updating the inverse vertices of an ringSet destination when the destination gets updated, or rings when a
+ * Listener updating the inverse vertices of an edge destination when the destination gets updated, or edges when a
  * relation page gets updated.
  *
  * @version $Id$
@@ -42,7 +42,7 @@ public class DocumentRenamingEventListener extends XWikiRingSetEventListener
     /**
      * Listener's name.
      */
-    public static final String NAME = "ringSet.page.rename";
+    public static final String NAME = "ring.page.rename";
 
     /**
      * Default constructor.
@@ -57,11 +57,11 @@ public class DocumentRenamingEventListener extends XWikiRingSetEventListener
         DocumentReference originalReference = ((DocumentRenamingEvent) event).getSourceReference();
         DocumentReference newReference = ((DocumentRenamingEvent) event).getTargetReference();
         try {
-            // Update all rings using the reference as a destination
-            ringSet.updateRingsTo(originalReference, newReference);
-            // Update all rings using the reference as a relation, if any
-            ringSet.updateRingsWith(originalReference, newReference);
-            // No need to update rings origin since it's not stored as such at the moment since all rings
+            // Update all edges using the reference as a destination
+            ring.updateRingsTo(originalReference, newReference);
+            // Update all edges using the reference as a relation, if any
+            ring.updateEdgesWith(originalReference, newReference);
+            // No need to update edges origin since it's not stored as such at the moment since all edges
             // are stored as objects attached to their origin vertex document.
         } catch (RingException e) {
             // FIXME: error handling

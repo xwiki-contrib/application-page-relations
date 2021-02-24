@@ -29,17 +29,17 @@ import org.xwiki.stability.Unstable;
 public interface RingIndexer<I>
 {
     /**
-     * Adds the given ringSet to the index.
+     * Adds the given ring to the index.
      *
-     * @param ring the ringSet identifier to index
+     * @param ring the ring identifier to index
      * @throws RingException in case an error occurs
      */
     void index(Ring<I> ring) throws RingException;
 
     /**
-     * Removes the given ringSet from the index.
+     * Removes the given ring from the index.
      *
-     * @param ring the ringSet identifier to be removed
+     * @param ring the ring identifier to be removed
      * @throws RingException in case an error occurs
      */
     void unindex(Ring<I> ring) throws RingException;

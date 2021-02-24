@@ -36,7 +36,7 @@ import org.xwiki.search.solr.internal.metadata.LengthSolrInputDocument;
  * Overrides DocumentSolrMetadataExtractor in order create SolrInputDocuments not from scratch but from the index, so
  * that if there is any existing indexed data that should not be replaced by the extractor, it should be left as is.
  * Typically, the XWikiRingSolrMetadataExtractor adds some values to the index of a document (e.g. the destination of an
- * ringSet), that should remain present when the document metadata extraction occurs: this extraction should remove all
+ * edge), that should remain present when the document metadata extraction occurs: this extraction should remove all
  * keys that do not relate to RingSet keys, but keep the RingSet key/value pairs.
  *
  * A higher priority is set in components.txt so that this component gets loaded instead of
@@ -60,9 +60,9 @@ public class XWikiTermSolrMetadataExtractor extends DocumentSolrMetadataExtracto
             LengthSolrInputDocument solrDocument =
                     ((SolrRingIndexer) indexer).getSolrInputDocument(entityReference, false);
 
-            // TODO: remove all fields that do not relate to ringSet relations, if needed
+            // TODO: remove all fields that do not relate to ring relations, if needed
 
-            // No need to set document fields since it's already performed in ringSet.getSolrInputDocument
+            // No need to set document fields since it's already performed in ring.getSolrInputDocument
 //            if (!setDocumentFields(new DocumentReference(entityReference.extractReference(EntityType.DOCUMENT)),
 //                    solrDocument))
 //            {
@@ -95,65 +95,65 @@ public class XWikiTermSolrMetadataExtractor extends DocumentSolrMetadataExtracto
         /*
 
         Add Ring
-        String field = "property." + ringSet.serialize(ringSet.getRelation());
+        String field = "property." + ring.serialize(edge.getRelation());
         List<DocumentReference> destinations = new ArrayList<>();
         String typeVertexIdentifierAsString =
-                ringSet.serialize(ringSet.getIdentifier((BaseXWikiRingSet.TYPE_TERM_NAME)));
-        if (ringSet.hasRelatum()) {
+                ring.serialize(ring.getIdentifier((BaseXWikiRingSet.TYPE_TERM_NAME)));
+        if (edge.hasRelatum()) {
             addFieldValueOnce(solrDocument, FieldUtils.getFieldName(field, TypedValue.STRING, locale),
-                    ringSet.serialize(ringSet.getRelatum()));
+                    ring.serialize(edge.getRelatum()));
 
             // Currently needed for displaying all neighbours of a vertex with a single query
             field =
-                    "property." + ringSet.serialize(ringSet.getIdentifier(BaseXWikiRingSet.IS_CONNECTED_TO_RELATION_NAME));
+                    "property." + ring.serialize(ring.getIdentifier(BaseXWikiRingSet.IS_CONNECTED_TO_RELATION_NAME));
             addFieldValueOnce(solrDocument, FieldUtils.getFieldName(field, TypedValue.STRING, locale),
-                    ringSet.serialize(ringSet.getRelatum()));
+                    ring.serialize(edge.getRelatum()));
 
 
-            //destinations.index(ringSet.getRelatum());
+            //destinations.index(edge.getRelatum());
 
-            // Index rings that exist by transitivity, except Type, which is special, because we don't
+            // Index edges that exist by transitivity, except Type, which is special, because we don't
             // want that "A is a Type" when "A is a B" and "B is a Type". We want "A is a Type" only if
             // explicitely set. Otherwise we need to introduce a specific relation "is instance of" which
             // differs from "is a".
-                XWikiRelation xrelation = ringSet.getRelation(ringSet.getRelation());
+                XWikiRelation xrelation = ring.getRelation(edge.getRelation());
                 if (xrelation.isTransitive()) {
-                    List<XWikiRing> ringsByTransitivity =
-                            ringSet.getRingsFrom(ringSet.getRelatum(), ringSet.getRelation());
-                    for (XWikiRing ringByTransitivity : ringsByTransitivity) {
+                    List<XWikiRing> edgesByTransitivity =
+                            ring.getRingsFrom(edge.getRelatum(), edge.getRelation());
+                    for (XWikiRing edgeByTransitivity : edgesByTransitivity) {
                         // We need to compare local serialized references because the full references may differ
                         // due to different wiki context (this extractor is executed in the context of the main wiki)
                         String localDestinationIdentifierAsString =
-                                ringSet.serialize(ringByTransitivity.getRelatum());
+                                ring.serialize(edgeByTransitivity.getRelatum());
                         if (!localDestinationIdentifierAsString.equals(typeVertexIdentifierAsString)) {
                             addFieldValueOnce(solrDocument, FieldUtils.getFieldName(field, TypedValue.STRING, locale),
-                                    ringSet.serialize(ringByTransitivity.getRelatum()));
-                            destinations.index(ringByTransitivity.getRelatum());
+                                    ring.serialize(edgeByTransitivity.getRelatum()));
+                            destinations.index(edgeByTransitivity.getRelatum());
                         }
                     }
                 }
 
-            //field = "property." + ringSet.serialize(BaseXWikiRingSet.ring_VERTEX_REFERENCE) + "."
+            //field = "property." + ring.serialize(BaseXWikiRingSet.EDGE_VERTEX_REFERENCE) + "."
             //       + BaseXWikiRingSet.HAS_ORIGIN_ID;
             //for (DocumentReference destination : destinations) {
 //            addFieldValueOnce(solrDocument, FieldUtils.getFieldName(field, TypedValue.STRING, locale),
-//                    ringSet.serialize(ringSet.getReferent()));
+//                    ring.serialize(edge.getReferent()));
             //}
 
-        } else if (ringSet.hasValue()) {
+        } else if (edge.hasValue()) {
             // TODO: handle cases where the value is not a string
-            solrDocument.addField(FieldUtils.getFieldName(field, TypedValue.STRING, locale), ringSet.getValue());
+            solrDocument.addField(FieldUtils.getFieldName(field, TypedValue.STRING, locale), edge.getValue());
         }
         */
 
     /**
-     * The method computes all the documents that have the current document as a ringSet destination, and it adds them to
+     * The method computes all the documents that have the current document as a edge destination, and it adds them to
      * the indexed fields. TODO: see if we need to check that the relation is not empty. When a document is modified, we
      * need to reindex all the documents that have this document as destination. TODO: optimize this to the minimum set
      * of operations.
      */
     /*
-    protected void addInverserings(SolrInputDocument solrDocument, DocumentReference vertex,
+    protected void addInverseEdges(SolrInputDocument solrDocument, DocumentReference vertex,
             Locale locale) throws RingException
     {
 
@@ -161,27 +161,27 @@ public class XWikiTermSolrMetadataExtractor extends DocumentSolrMetadataExtracto
         // - ? Trigger a reindex of the subject's statements objects (this should not be fired from here but
         // from an XObjectAdded / Deleted / PropertyUpdated event
 
-        logger.debug("Add inverse rings of {}", vertex);
-        List<DocumentReference> directPredecessors = ringSet.getDirectPredecessorsViaHql(vertex);
+        logger.debug("Add inverse edges of {}", vertex);
+        List<DocumentReference> directPredecessors = ring.getDirectPredecessorsViaHql(vertex);
         logger.debug("Direct predecessors of {}: {}", vertex, directPredecessors);
         for (DocumentReference directPredecessor : directPredecessors) {
-            // If the predecessor is the vertex itself, don't index an inverse ringSet since the ringSet links the vertex to
+            // If the predecessor is the vertex itself, don't index an inverse edge since the edge links the vertex to
             // itself.
             if (!directPredecessor.equals(vertex)) {
                 String field =
-                        "property." + ringSet.serialize(ringSet.getIdentifier(BaseXWikiRingSet.IS_CONNECTED_TO_RELATION_NAME));
+                        "property." + ring.serialize(ring.getIdentifier(BaseXWikiRingSet.IS_CONNECTED_TO_RELATION_NAME));
                 addFieldValueOnce(solrDocument, FieldUtils.getFieldName(field, TypedValue.STRING, locale),
-                        ringSet.serialize(directPredecessor));
+                        ring.serialize(directPredecessor));
 
                 // If the predecessor has some direct predecessors (via HQL as well) with transitive relations,
-                // then index these rings destinations as well.
+                // then index these edges destinations as well.
 //                List<DocumentReference> directPredecessorPredecessors =
-//                        ringSet.getDirectPredecessorsViaHql(directPredecessor,
-//                                ringSet.getIdentifier(BaseXWikiRingSet.IS_A_RELATION_NAME));
+//                        ring.getDirectPredecessorsViaHql(directPredecessor,
+//                                ring.getIdentifier(BaseXWikiRingSet.IS_A_RELATION_NAME));
 //                for (DocumentReference directPredecessorPredecessor : directPredecessorPredecessors) {
 //                    if (!directPredecessorPredecessor.equals(directPredecessor)) {
 //                        addFieldValueOnce(solrDocument, FieldUtils.getFieldName(field, TypedValue.STRING, locale),
-//                                ringSet.serialize(directPredecessorPredecessor));
+//                                ring.serialize(directPredecessorPredecessor));
 //                    }
 //                }
             }

@@ -34,7 +34,7 @@ import com.xpn.xwiki.internal.event.XObjectEvent;
 import com.xpn.xwiki.internal.event.XObjectUpdatedEvent;
 
 /**
- * Listener updating inward page rings when a page gets renamed.
+ * Listener updating inward page edges when a page gets renamed.
  *
  * @version $Id$
  */
@@ -43,13 +43,13 @@ import com.xpn.xwiki.internal.event.XObjectUpdatedEvent;
 @Named(XWikiRingEventListener.NAME)
 public class XWikiRingEventListener extends XWikiRingSetEventListener
 {
-    public static final String NAME = "ringSet.ringSet";
+    public static final String NAME = "ring.ring";
 
     public XWikiRingEventListener()
     {
-        super(NAME, new XObjectAddedEvent(BaseXWikiRing.RING_OBJECT_REFERENCE),
-                new XObjectUpdatedEvent(BaseXWikiRing.RING_OBJECT_REFERENCE),
-                new XObjectDeletedEvent(BaseXWikiRing.RING_OBJECT_REFERENCE));
+        super(NAME, new XObjectAddedEvent(BaseXWikiRing.EDGE_OBJECT_REFERENCE),
+                new XObjectUpdatedEvent(BaseXWikiRing.EDGE_OBJECT_REFERENCE),
+                new XObjectDeletedEvent(BaseXWikiRing.EDGE_OBJECT_REFERENCE));
     }
 
     public void onEvent(Event event, Object source, Object data)
@@ -62,22 +62,22 @@ public class XWikiRingEventListener extends XWikiRingSetEventListener
         if (source != null) {
             XWikiDocument document = (XWikiDocument) source;
             XWikiDocument originalDocument = ((XWikiDocument) source).getOriginalDocument();
-            ObjectReference ringReference = (ObjectReference) ((XObjectEvent) event).getReference();
+            ObjectReference edgeReference = (ObjectReference) ((XObjectEvent) event).getReference();
             try {
                 if (event instanceof XObjectAddedEvent) {
-                    XWikiRing ring = ringSet.getRing(document, ringReference);
-                    logger.debug("Ring was added: {}", ring);
-                    indexer.index(ring);
+                    XWikiRing edge = ring.getRing(document, edgeReference);
+                    logger.debug("Ring was added: {}", edge);
+                    indexer.index(edge);
                 } else if (event instanceof XObjectUpdatedEvent) {
-                    XWikiRing ring = ringSet.getRing(document, ringReference);
-                    XWikiRing originalEdge = ringSet.getRing(originalDocument, ringReference);
-                    logger.debug("Ring was updated: {}", ring);
+                    XWikiRing edge = ring.getRing(document, edgeReference);
+                    XWikiRing originalEdge = ring.getRing(originalDocument, edgeReference);
+                    logger.debug("Ring was updated: {}", edge);
                     indexer.unindex(originalEdge);
-                    indexer.index(ring);
+                    indexer.index(edge);
                 } else if (event instanceof XObjectDeletedEvent) {
-                    XWikiRing originalRing = ringSet.getRing(originalDocument, ringReference);
-                    logger.debug("Ring was deleted: {}", originalRing);
-                    indexer.unindex(originalRing);
+                    XWikiRing originalEdge = ring.getRing(originalDocument, edgeReference);
+                    logger.debug("Ring was deleted: {}", originalEdge);
+                    indexer.unindex(originalEdge);
                 }
             } catch (Exception e) {
                 logger.error("onEvent", e);

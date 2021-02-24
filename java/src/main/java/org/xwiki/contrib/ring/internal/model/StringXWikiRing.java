@@ -28,7 +28,7 @@ import com.xpn.xwiki.objects.BaseObject;
 public class StringXWikiRing extends BaseXWikiRing
 {
     public final static EntityReference XCLASS_REFERENCE =
-            new EntityReference("StringRingClass", EntityType.DOCUMENT, Names.RING_CODE_SPACE_REFERENCE);
+            new EntityReference("StringEdgeClass", EntityType.DOCUMENT, Names.RING_CODE_SPACE_REFERENCE);
 
     public StringXWikiRing(BaseObject object, EntityReferenceSerializer<String> serializer,
             DocumentReferenceResolver<String> resolver)

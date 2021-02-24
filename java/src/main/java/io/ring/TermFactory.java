@@ -29,9 +29,9 @@ public interface TermFactory<I>
      * Creates a Ring with the given referent, relation and relatum. The relatum can either be a term identifier or a
      * scalar value.
      *
-     * @param referent ringSet referent
-     * @param relation ringSet relation
-     * @param relatum ringSet relatum (identifier or scalar)
+     * @param referent ring referent
+     * @param relation ring relation
+     * @param relatum ring relatum (identifier or scalar)
      * @return the created Ring
      */
     Ring<I> createRing(I referent, I relation, Object relatum) throws RingException;

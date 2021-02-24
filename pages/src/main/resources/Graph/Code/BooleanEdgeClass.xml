@@ -1,0 +1,91 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+<xwikidoc version="1.3" reference="Graph.Code.BooleanEdgeClass" locale="">
+  <web>Graph.Code</web>
+  <name>BooleanEdgeClass</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>BooleanEdgeClass</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content/>
+  <class>
+    <name>Graph.Code.BooleanEdgeClass</name>
+    <customClass/>
+    <customMapping/>
+    <defaultViewSheet/>
+    <defaultEditSheet/>
+    <defaultWeb/>
+    <nameField/>
+    <validationScript/>
+    <has-relation>
+      <cache>0</cache>
+      <classname/>
+      <customDisplay/>
+      <defaultValue/>
+      <disabled>0</disabled>
+      <displayType>select</displayType>
+      <freeText/>
+      <hint/>
+      <idField/>
+      <largeStorage>0</largeStorage>
+      <multiSelect>0</multiSelect>
+      <name>has-relation</name>
+      <number>1</number>
+      <picker>1</picker>
+      <prettyName>Has relation</prettyName>
+      <relationalStorage>1</relationalStorage>
+      <separator> </separator>
+      <separators/>
+      <size>1</size>
+      <sort/>
+      <sql>select doc.fullName, doc.title from XWikiDocument as doc, BaseObject as ring, StringProperty as hasRelation, StringProperty as hasDestination where ring.name = doc.fullName and ring.className = 'Graph.Code.EdgeClass' and hasRelation.id.id = ring.id and hasRelation.id.name = 'has-relation' and hasRelation.value = 'Graph.IsA' and hasDestination.id.id = ring.id and hasDestination.id.name = 'has-destination' and hasDestination.value = 'Graph.Relation' order by doc.fullName</sql>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <valueField/>
+      <classType>com.xpn.xwiki.objects.classes.DBListClass</classType>
+    </has-relation>
+    <has-value>
+      <customDisplay/>
+      <defaultValue/>
+      <disabled>0</disabled>
+      <displayFormType>radio</displayFormType>
+      <displayType/>
+      <hint/>
+      <name>has-value</name>
+      <number>2</number>
+      <prettyName>Has value</prettyName>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+    </has-value>
+  </class>
+</xwikidoc>

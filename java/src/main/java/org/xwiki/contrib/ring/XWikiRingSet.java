@@ -34,14 +34,14 @@ import com.xpn.xwiki.doc.XWikiDocument;
   TODO:
     - Rename identifier into reference, denotation?
     - Check access rights, and protection of resources such as Ring:object, and dangerous RingSet methods
-    - Add events GraphEvent ringAddedEvent, VertexAddedEvent, ringRemovedEvent, VertexRemovedEvent, ...
-      VertexUpdatedEvent, ringUpdatedEvent, ...
+    - Add events GraphEvent EdgeAddedEvent, VertexAddedEvent, EdgeRemovedEvent, VertexRemovedEvent, ...
+      VertexUpdatedEvent, EdgeUpdatedEvent, ...
     - Check and translate the labels cf xar-handler / ApplicationResources
     - Check with multilingual documents
     - Add a cache of relations
     - The setters of Relation, Ring should be protected to specific users because it allows direct change, and
       such objects are availble from the script service
-    - Make it easy to delete Solr index of all pages with an ringSet and recreate it (simple HQL query)
+    - Make it easy to delete Solr index of all pages with an edge and recreate it (simple HQL query)
     - When deleting document from Solr index from the XWiki administration via HQL query, it seems the index
       refererring to translated documents are not remove, eg "kuava:XWiki.RingSet.Type_en" remains present in the index
       until we request a deletion from all
@@ -62,19 +62,19 @@ import com.xpn.xwiki.doc.XWikiDocument;
       get created (which can happen if the index was wrongly created), the wrong index entry will remain.
     - Issue when restoring a deleted vertex: the index is not correctly restored.
     - the property "property.XWiki.RingSet.IsConnectedTo:[PageA]" should remain present in the index until
-       there is no ringSet any more invovling PageA.
-    - Imagine how a full implementation based on a ringSet database will work: Neo4jGraph, DgraphGraph, etc.
+       there is no edge any more invovling PageA.
+    - Imagine how a full implementation based on a ring database will work: Neo4jGraph, DgraphGraph, etc.
     - Create document, delete it, the Solr index still contains an entry about it
     - Move the SolrConsole to the admin tools?
     - See also
         giraph.apache.org.
-            Packages org.apache.giraph.ringSet and org.apache.giraph.ringSet
+            Packages org.apache.giraph.ring and org.apache.giraph.edge
         jgrapht
     - See org.xwiki.index.tree.internal.nestedpages.ObjectTreeNode / instantion per lookup and inject context etc. However
-        we should check that the obtained Term and rings are equal whatever the context is? We don't want one set of
-        Vertices, rings, Relations per context.
-    - Make sure that the image / domain relations are checked when adding and saving an ringSet
-    - Handle other types for ringSet values: Long, Double, etc.
+        we should check that the obtained Term and Edges are equal whatever the context is? We don't want one set of
+        Vertices, Edges, Relations per context.
+    - Make sure that the image / domain relations are checked when adding and saving an edge
+    - Handle other types for edge values: Long, Double, etc.
     - User interface to enter / edit scalar values
 */
 // * Security aspects: Ring encapsulate a BaseObject which require programming rights. The general idea is to make sure
@@ -95,7 +95,7 @@ public interface XWikiRingSet extends RingSet<DocumentReference>
 
     void addTerm(DocumentReference identifier, String label) throws RingException;
 
-    void addTerm(DocumentReference identifier, String label, DocumentReference type) throws RingException;
+    void addVertex(DocumentReference identifier, String label, DocumentReference type) throws RingException;
 
     XWikiRing getRing(DocumentReference identifier) throws RingException;
 
@@ -112,14 +112,14 @@ public interface XWikiRingSet extends RingSet<DocumentReference>
 
     /**
      * This method uses the Solr index to retrieve all documents having the deleted one as destination because in case
-     * of transitive relations, the rings can be present only at the Solr level, not in the SQL database.
+     * of transitive relations, the edges can be present only at the Solr level, not in the SQL database.
      */
     void removeRing(DocumentReference referent, DocumentReference relation, Object relatum) throws RingException;
 
     /**
-     * Remove all rings between origin and destination or destination and origin, whatever the relation is.
+     * Remove all edges between origin and destination or destination and origin, whatever the relation is.
      */
-    void removeRings(DocumentReference term1, DocumentReference term2) throws RingException;
+    void removeRings(DocumentReference termOne, DocumentReference termTwo) throws RingException;
 
     void removeRingsFrom(DocumentReference referent) throws RingException;
 
@@ -129,10 +129,10 @@ public interface XWikiRingSet extends RingSet<DocumentReference>
 
     void removeTerm(DocumentReference identifier) throws RingException;
 
-    void updateRing(DocumentReference referent, int objectIndex, DocumentReference originalReference,
-            DocumentReference newReference, String ringProperty) throws RingException;
+    void updateEdge(DocumentReference origin, int objectIndex, DocumentReference originalReference,
+            DocumentReference newReference, String edgeProperty) throws RingException;
 
     void updateRingsTo(DocumentReference originalRelatum, DocumentReference otherRelatum) throws RingException;
 
-    void updateRingsWith(DocumentReference originalRelation, DocumentReference otherRelation) throws RingException;
+    void updateEdgesWith(DocumentReference originalRelation, DocumentReference otherRelation) throws RingException;
 }

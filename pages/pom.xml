@@ -23,22 +23,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.xwiki.contrib</groupId>
-        <artifactId>xwiki-ring</artifactId>
+        <artifactId>application-graph</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>xwiki-ring-pages</artifactId>
-    <name>Knowledge Ring Application</name>
+    <artifactId>application-graph-pages</artifactId>
+    <name>Graph Application</name>
     <packaging>xar</packaging>
-    <description>Create and display a network of pages connected by relations.</description>
+    <description>Create and display a graph of pages connected by relations.</description>
     <properties>
-        <xwiki.extension.name>Knowledge Ring Application</xwiki.extension.name>
+        <xwiki.extension.name>Graph Application</xwiki.extension.name>
         <xwiki.extension.category>application</xwiki.extension.category>
         <xwiki.extension.features>application-page-relations-ui</xwiki.extension.features>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.xwiki.contrib</groupId>
-            <artifactId>xwiki-ring-lib</artifactId>
+            <artifactId>application-graph-lib</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>

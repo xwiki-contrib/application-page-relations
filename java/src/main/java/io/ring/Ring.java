@@ -25,7 +25,7 @@ import org.xwiki.stability.Unstable;
  * the second one a relation and the third one the relatum. An Ring is a also a Term so that it is possible to
  * involve a Ring in other Rings.
  *
- * @param <I> ringSet and term identifier class
+ * @param <I> ring and term identifier class
  */
 @Unstable
 public interface Ring<I> extends Term<I>

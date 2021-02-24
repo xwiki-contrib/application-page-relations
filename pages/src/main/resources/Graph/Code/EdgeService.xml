@@ -1,0 +1,154 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+<xwikidoc version="1.3" reference="Graph.Code.EdgeService" locale="">
+  <web>Graph.Code</web>
+  <name>EdgeService</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>Edge Service</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>{{velocity output="false"}}
+#set ($action = "$!{request.action}")
+## 'x' is added to each variable name to distinguish the URL parameter values from the ones used in the macros below.
+#set ($xorigin = "$!request.origin")
+#set ($xrelation = "$!request.relation")
+#set ($xdestination = "$!request.destination")
+## Default action is 'get-edges'
+#if ($action == '')
+  #set ($action = 'get-edges')
+#end
+{{/velocity}}
+
+{{include reference="Macros"/}}
+
+{{include reference="SolrConfiguration"/}}
+
+{{velocity output="false"}}
+#macro (displayEdgeForm $origin)
+  {{html clean="false"}}
+  &lt;form class="add-ring" action=""&gt;
+    &lt;div class="row"&gt;
+    &lt;div class="col-md-3 col-xs-12"&gt;
+    #getRelations($origin)
+    &lt;select name="relation" style="width:100%"&gt;
+    #foreach ($relation in $relations)
+      #set ($page = $xwiki.getDocument($relation))
+      &lt;option value="$services.model.serialize($relation)"&gt;$page.displayTitle&lt;/option&gt;
+    #end
+    &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div class="col-md-6 col-xs-12"&gt;
+    #picker_import()
+    #set ($parameters = {'name': 'object', 'class': 'suggest-pages', 'placeholder': 'Select a page'})
+    #suggestInput($parameters)
+    &lt;/div&gt;
+    &lt;div class="col-md-3 col-xs-12" style="text-align: center"&gt;
+    &lt;input class="btn btn-primary" type="submit" value="$services.localization.render('Add')"/&gt;
+    &lt;input type="button" class="btn btn-default add-ring-cancel" value="$services.localization.render('Cancel')"/&gt;
+    &lt;input type="hidden" name="origin" value="$origin"/&gt;
+    &lt;input type="hidden" name="csrf" value="$!{services.csrf.token}"/&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+  {{/html}}
+#end
+#macro (addEdge $origin $relation $destination)
+  ## TODO: check CSRF
+  $services.graph.addEdge($services.model.resolveDocument($origin), $services.model.resolveDocument($relation), $services.model.resolveDocument($destination))
+  #*
+  #elseif ($result == 'NO_EFFECT')
+    $response.setStatus(409)
+    #set($error = $services.localization.render('pageRelations.add.error.alreadySet', [$object]))
+  #elseif ($result == 'NOT_ALLOWED')
+    $response.setStatus(403)
+    #set($error = $services.localization.render('pageRelations.add.error.notAllowed', [$object]))
+  #elseif ($result == 'FAILED')
+    $response.setStatus(500)
+    #set($error = $services.localization.render('pageRelations.add.error.failed', [$object]))
+  #end
+  $error
+  *#
+#end
+#macro(removeEdge $origin $relation $destination)
+  ## At this stage, all edges between origin and destination are removed
+  $services.graph.removeEdges($services.model.resolveDocument($origin), $services.model.resolveDocument($destination))
+  ## TODO: handle case where ring was not found or an error occurred
+  #*
+  #elseif ($result == 'NO_EFFECT')
+    $response.setStatus(409)
+    #set ($responseMessage = $services.localization.render('pageRelations.remove.error.notFound', [$object]))
+  #elseif ($result == 'NOT_ALLOWED')
+    $response.setStatus(403)
+    #set ($responseMessage = $services.localization.render('pageRelations.remove.error.notAllowed', [$object]))
+  #elseif ($result == 'FAILED')
+    $response.setStatus(500)
+    #set ($responseMessage = $services.localization.render('pageRelations.remove.error.failed', [$object]))
+  #end
+  *#
+#end
+#macro (suggest $relation)
+  #set ($input = "$!request.text")
+  #set ($relationObject = $services.graph.getRelation($services.model.resolveDocument($relation)))
+  #set ($references = $services.graph.search($input, $relationObject))
+  #set($json = [])
+  #foreach($reference in $references)
+    #set($page = $xwiki.getDocument($reference))
+    ## if we don't have a $page is because current user doesn't have the right to see it
+    #if ($page != $NULL)
+      ##set($docHint = "#hierarchy($rDoc.documentReference, {'limit': 5, 'plain': true, 'local': true, 'displayTitle': true})")
+      #set($discard = $json.add({'value' : $services.model.serialize($reference, 'local'), 'info' : $page.displayTitle, 'id' : $velocityCount, 'hint' : ''}))
+    #end
+  #end
+  #set($discard = $response.setContentType('application/json'))
+  $jsontool.serialize($json)
+#end
+{{/velocity}}
+
+{{velocity output="true"}}
+## TODO: add try catch in case of GraphException
+#if ($action == 'get-edges')
+  #set ($facetEnabled = true)
+  #displaySearchEdgesUI($xorigin)
+#elseif ($action == 'get-add-ring-form')
+  #displayEdgeForm($xorigin)
+#end
+{{/velocity}}
+
+{{velocity output="true" wiki="false"}}
+## We don't want to intepret wiki syntax, except for get-edges, which returns content partly in wiki syntax
+#if ($action == 'add-ring')
+  #addEdge($xorigin, $xrelation, $xdestination)
+#elseif ($action == 'remove-ring')
+  #removeEdge($xorigin, $xrelation, $xdestination)
+#elseif ($action == 'get-suggestions')
+  #suggest($xrelation)
+#end
+{{/velocity}}</content>
+</xwikidoc>

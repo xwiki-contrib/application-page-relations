@@ -95,7 +95,7 @@ public class BaseXWikiRingSet implements XWikiRingSet
     public void addRing(DocumentReference origin, DocumentReference relation, Object destinationOrValue,
             EdgeTargeter targeter) throws RingException
     {
-        //  TODO: should we allow the creation of an ringSet that involves inexistent origin, relation or destination or throw an exception?
+        //  TODO: should we allow the creation of an edge that involves inexistent origin, relation or destination or throw an exception?
         if (origin == null || relation == null || destinationOrValue == null) {
             throw new IllegalArgumentException(
                     "addRing: " + origin + " - " + relation + " - " + destinationOrValue);
@@ -106,13 +106,13 @@ public class BaseXWikiRingSet implements XWikiRingSet
             // The authorizer will throw an exception in case edit is not allowed
             authorizer.checkAccess(Right.EDIT, context.getUserReference(), origin);
             XWikiDocument clone = factory.getDocument(origin, true);
-            // NB: warning: don't remove the ringSet operations below, because they set some properties
+            // NB: warning: don't remove the edge operations below, because they set some properties
             // in the underlying BaseObject, which are meant to be saved when the page is saved
-            XWikiRing ring = factory.createRing(clone, destinationOrValue);
-            ring.setRelation(relation);
-            targeter.setTarget(ring, destinationOrValue);
-            logger.debug("Add ringSet: {}", ring);
-            factory.saveDocument(clone, "ringSet.ringSet.history.index" + destinationOrValue);
+            XWikiRing edge = factory.createEdge(clone, destinationOrValue);
+            edge.setRelation(relation);
+            targeter.setTarget(edge, destinationOrValue);
+            logger.debug("Add edge: {}", edge);
+            factory.saveDocument(clone, "ring.edge.history.index" + destinationOrValue);
         } catch (AccessDeniedException e) {
             logger.error("addRing", e);
             throw new RingException(e);
@@ -124,10 +124,10 @@ public class BaseXWikiRingSet implements XWikiRingSet
     {
         if (relatum instanceof DocumentReference) {
             DocumentReference destination = (DocumentReference) relatum;
-            addRing(referent, relation, destination, (XWikiRing ring, Object target) -> ring
+            addRing(referent, relation, destination, (XWikiRing edge, Object target) -> edge
                     .setRelatum((DocumentReference) target));
         } else {
-            addRing(referent, relation, relatum, (XWikiRing ring, Object target) -> ring
+            addRing(referent, relation, relatum, (XWikiRing edge, Object target) -> edge
                     .setValue(target));
         }
     }
@@ -140,16 +140,16 @@ public class BaseXWikiRingSet implements XWikiRingSet
     public void addRingOnce(DocumentReference referent, DocumentReference relation, Object relatum)
             throws RingException
     {
-        // TODO: add synchronization mechanism to make sure that there is no equivalent ringSet
+        // TODO: add synchronization mechanism to make sure that there is no equivalent edge
         //  being created while the check if getting performed.
-        List<XWikiRing> rings = traverser.getRingsFrom(referent, relation);
-        for (XWikiRing ring : rings) {
+        List<XWikiRing> edges = traverser.getRingsFrom(referent, relation);
+        for (XWikiRing edge : edges) {
             if (relatum instanceof DocumentReference) {
-                if (ring.hasRelatum() && ring.getRelatum().equals(relatum)) {
+                if (edge.hasRelatum() && edge.getRelatum().equals(relatum)) {
                     return;
                 }
             } else {
-                if (ring.hasValue() && ring.getValue().equals(relatum)) {
+                if (edge.hasValue() && edge.getValue().equals(relatum)) {
                     return;
                 }
             }
@@ -165,11 +165,11 @@ public class BaseXWikiRingSet implements XWikiRingSet
             XWiki xwiki = context.getWiki();
             if (!xwiki.exists(identifier, context)) {
                 authorizer.checkAccess(Right.EDIT, context.getUserReference(), identifier);
-                addTerm(identifier, name, factory.getIdentifier(Names.RELATION_TERM_NAME));
+                addVertex(identifier, name, factory.getIdentifier(Names.RELATION_TERM_NAME));
                 addRing(identifier, factory.getIdentifier(Names.HAS_DOMAIN_RELATION_NAME), domain);
                 addRing(identifier, factory.getIdentifier(Names.HAS_IMAGE_RELATION_NAME), image);
             } else {
-                throw new RingException("A vertex with reference " + identifier + " already exists in the ringSet.");
+                throw new RingException("A vertex with reference " + identifier + " already exists in the ring.");
             }
         } catch (AccessDeniedException e) {
             logger.error("Exception while adding relation", e);
@@ -184,10 +184,10 @@ public class BaseXWikiRingSet implements XWikiRingSet
 
     public void addTerm(DocumentReference identifier, String name) throws RingException
     {
-        addTerm(identifier, name, null);
+        addVertex(identifier, name, null);
     }
 
-    public void addTerm(DocumentReference identifier, String name, DocumentReference type)
+    public void addVertex(DocumentReference identifier, String name, DocumentReference type)
             throws RingException
     {
         logger.debug("Add vertex: {}", identifier);
@@ -201,13 +201,13 @@ public class BaseXWikiRingSet implements XWikiRingSet
                     page.setTitle(name);
                 }
                 // Save document as is, in case no type is passed
-                xwiki.saveDocument(page, "ringSet.index-vertex", true, context);
+                xwiki.saveDocument(page, "ring.index-vertex", true, context);
                 if (type != null) {
                     // In case a type is passed, add an Ring pointing at that type (the document will get saved again)
                     addRing(identifier, factory.getIdentifier(Names.IS_A_RELATION_NAME), type);
                 }
             } else {
-                throw new RingException("A vertex with reference " + identifier + " already exists in the ringSet.");
+                throw new RingException("A vertex with reference " + identifier + " already exists in the ring.");
             }
         } catch (XWikiException | AccessDeniedException e) {
             logger.error("Exception while adding vertex", e);
@@ -216,7 +216,7 @@ public class BaseXWikiRingSet implements XWikiRingSet
     }
 
     /**
-     * Not implemented: this corresponds to rings stored in their own document.
+     * Not implemented: this corresponds to edges stored in their own document.
      */
     public XWikiRing getRing(DocumentReference identifier)
     {
@@ -226,24 +226,24 @@ public class BaseXWikiRingSet implements XWikiRingSet
     protected XWikiRing getRing(XWikiDocument origin, int objectIndex) throws RingException
     {
         BaseObjectReference objectReference =
-                origin.getXObject(BaseXWikiRing.RING_XCLASS_REFERENCE, objectIndex).getReference();
+                origin.getXObject(BaseXWikiRing.EDGE_XCLASS_REFERENCE, objectIndex).getReference();
         return getRing(origin, objectReference);
     }
 
     public XWikiRing getRing(XWikiDocument origin, ObjectReference reference) throws RingException
     {
         BaseObject object = origin.getXObject(reference);
-        return factory.createRing(object);
+        return factory.createEdge(object);
     }
 
     public XWikiRing getRing(DocumentReference subject, DocumentReference relation, DocumentReference object)
             throws RingException
     {
         // Not optimized implementation but it avoids duplicating code for now
-        List<XWikiRing> rings = traverser.getRings(subject, object);
-        for (XWikiRing ring : rings) {
-            if (relation.equals(ring.getRelation())) {
-                return ring;
+        List<XWikiRing> edges = traverser.getRings(subject, object);
+        for (XWikiRing edge : edges) {
+            if (relation.equals(edge.getRelation())) {
+                return edge;
             }
         }
         return null;
@@ -256,7 +256,7 @@ public class BaseXWikiRingSet implements XWikiRingSet
         XWikiRing domain =
                 traverser.getFirstRingFrom(identifier, factory.getIdentifier(Names.HAS_DOMAIN_RELATION_NAME)),
                 image = traverser.getFirstRingFrom(identifier, factory.getIdentifier(Names.HAS_IMAGE_RELATION_NAME)),
-                isTransitiveRing =
+                isTransitiveEdge =
                         traverser.getFirstRingFrom(identifier, factory.getIdentifier(Names.IS_TRANSTIVE_RELATION_NAME));
         String domainAsString = null, imageAsString = null;
         boolean transitive = false;
@@ -267,7 +267,7 @@ public class BaseXWikiRingSet implements XWikiRingSet
         if (image != null && image.getValue() != null) {
             imageAsString = image.getValue().toString();
         }
-        if (isTransitiveRing != null && ((BooleanXWikiRing) isTransitiveRing).getValue()) {
+        if (isTransitiveEdge != null && ((BooleanXWikiRing) isTransitiveEdge).getValue()) {
             transitive = true;
         }
         return factory.createRelation(identifier, domainAsString, imageAsString, transitive);
@@ -289,7 +289,7 @@ public class BaseXWikiRingSet implements XWikiRingSet
     {
         // TODO: throw a RingException when a "system" Term is requested but not found, for example:
         //  the relation "HasImage", the vertex "Type", etc.
-        return factory.createTerm(identifier);
+        return factory.createVertex(identifier);
     }
 
     public void removeRing(DocumentReference referent, DocumentReference relatum) throws RingException
@@ -301,19 +301,19 @@ public class BaseXWikiRingSet implements XWikiRingSet
             throws RingException
     {
         XWikiContext context = contextualizer.get();
-        // TODO: below we consider that rings are necessarily stored directly on the origin, but later on
-        //  rings could also have their own page with own access rights.
+        // TODO: below we consider that edges are necessarily stored directly on the origin, but later on
+        //  edges could also have their own page with own access rights.
 
         if (relatum instanceof DocumentReference) {
-            XWikiRing ring = getRing(referent, relation, (DocumentReference) relatum);
-            if (ring != null) {
+            XWikiRing edge = getRing(referent, relation, (DocumentReference) relatum);
+            if (edge != null) {
                 try {
                     authorizer.checkAccess(Right.EDIT, context.getUserReference(), referent);
                     XWikiDocument clone = factory.getDocument(referent, true);
-                    clone.removeXObject(ring.getBaseObject());
-                    context.getWiki().saveDocument(clone, "ringSet.ringSet.history.remove", true, context);
+                    clone.removeXObject(edge.getBaseObject());
+                    context.getWiki().saveDocument(clone, "ring.edge.history.remove", true, context);
                 } catch (XWikiException | AccessDeniedException e) {
-                    logger.error("Exception while removing ringSet", e);
+                    logger.error("Exception while removing edge", e);
                     throw new RingException(e);
                 }
             }
@@ -327,32 +327,32 @@ public class BaseXWikiRingSet implements XWikiRingSet
         removeRingsTo(vertex);
     }
 
-    public void removeRings(DocumentReference term1, DocumentReference term2) throws RingException
+    public void removeRings(DocumentReference termOne, DocumentReference termTwo) throws RingException
     {
         XWikiContext context = contextualizer.get();
-        List<XWikiRing> rings = traverser.getRings(term1, term2);
+        List<XWikiRing> edges = traverser.getRings(termOne, termTwo);
         try {
-            if (rings.size() > 0) {
-                authorizer.checkAccess(Right.EDIT, context.getUserReference(), term1);
-                XWikiDocument clone = factory.getDocument(term1, true);
-                for (XWikiRing ring : rings) {
-                    clone.removeXObject(ring.getBaseObject());
+            if (edges.size() > 0) {
+                authorizer.checkAccess(Right.EDIT, context.getUserReference(), termOne);
+                XWikiDocument clone = factory.getDocument(termOne, true);
+                for (XWikiRing edge : edges) {
+                    clone.removeXObject(edge.getBaseObject());
                 }
-                context.getWiki().saveDocument(clone, "ringSet.ringSet.history.remove", true, context);
+                context.getWiki().saveDocument(clone, "ring.edge.history.remove", true, context);
             }
 
-            // Remove rings from destination to origin, if any
+            // Remove edges from destination to origin, if any
             // TODO: factorize code with above
             // TODO: check it's ok to retrieve BaseObjects from an XWikiDocument, then to remove them from a clone
             //  of the XWikiDocument
-            rings = traverser.getRings(term2, term1);
-            if (rings.size() > 0) {
-                authorizer.checkAccess(Right.EDIT, context.getUserReference(), term2);
-                XWikiDocument clone = factory.getDocument(term2, true);
-                for (XWikiRing ring : rings) {
-                    clone.removeXObject(ring.getBaseObject());
+            edges = traverser.getRings(termTwo, termOne);
+            if (edges.size() > 0) {
+                authorizer.checkAccess(Right.EDIT, context.getUserReference(), termTwo);
+                XWikiDocument clone = factory.getDocument(termTwo, true);
+                for (XWikiRing edge : edges) {
+                    clone.removeXObject(edge.getBaseObject());
                 }
-                context.getWiki().saveDocument(clone, "ringSet.edge.history.remove", true, context);
+                context.getWiki().saveDocument(clone, "ring.edge.history.remove", true, context);
             }
         } catch (XWikiException | AccessDeniedException e) {
             logger.error("Exception while removing edge", e);
@@ -362,7 +362,7 @@ public class BaseXWikiRingSet implements XWikiRingSet
         //if (edge == null) {
         // If Ring was not found from origin, look for the ones which start from destination
         //clone = getDocument(destination, true);
-        //edge = clone.getXObject(EDGE_VERTEX_REFERENCE, HAS_RELATUM, serialize(destination), false);
+        //edge = clone.getXObject(EDGE_VERTEX_REFERENCE, HAS_DESTINATION, serialize(destination), false);
         //}
 
     }
@@ -395,7 +395,7 @@ public class BaseXWikiRingSet implements XWikiRingSet
                 predecessorDocument.removeXObject(baseObject);
             }
             try {
-                wiki.saveDocument(predecessorDocument, "ringSet.history.remove-edge " + object, true, context);
+                wiki.saveDocument(predecessorDocument, "ring.history.remove-edge " + object, true, context);
             } catch (XWikiException e) {
                 logger.error("removeRingsTo {} from {}", object, predecessor, e);
                 throw new RingException(e);
@@ -426,7 +426,7 @@ public class BaseXWikiRingSet implements XWikiRingSet
                 predecessorDocument.removeXObject(baseObject);
             }
             try {
-                wiki.saveDocument(predecessorDocument, "ringSet.history.remove-edge " + relation, true, context);
+                wiki.saveDocument(predecessorDocument, "ring.history.remove-edge " + relation, true, context);
             } catch (XWikiException e) {
                 logger.error("removeRingsTo {} from {}", relation, predecessor, e);
                 throw new RingException(e);
@@ -451,28 +451,28 @@ public class BaseXWikiRingSet implements XWikiRingSet
         }
     }
 
-    public void updateRing(DocumentReference referent, int objectIndex, DocumentReference originalReference,
-            DocumentReference newReference, String ringProperty) throws RingException
+    public void updateEdge(DocumentReference originVertex, int objectIndex, DocumentReference originalReference,
+            DocumentReference newReference, String edgeProperty) throws RingException
     {
         try {
             XWikiContext context = contextualizer.get();
-            authorizer.checkAccess(Right.EDIT, context.getUserReference(), referent);
+            authorizer.checkAccess(Right.EDIT, context.getUserReference(), originVertex);
             // Clone the document first because its objects will get updated
-            XWikiDocument page = context.getWiki().getDocument(referent, context).clone();
-            logger.debug("Update edge property {} of {} from {} to {}", ringProperty, referent,
+            XWikiDocument page = context.getWiki().getDocument(originVertex, context).clone();
+            logger.debug("Update edge property {} of {} from {} to {}", edgeProperty, originVertex,
                     originalReference, newReference);
             XWikiRing edge = getRing(page, objectIndex);
-            if (ringProperty.equals(Names.HAS_RELATUM)) {
+            if (edgeProperty.equals(Names.HAS_DESTINATION)) {
                 edge.setRelatum(newReference);
-            } else if (ringProperty.equals(Names.HAS_RELATION)) {
+            } else if (edgeProperty.equals(Names.HAS_RELATION)) {
                 edge.setRelation(newReference);
             } else {
-                throw new IllegalArgumentException("Illegal edge property name: " + ringProperty);
+                throw new IllegalArgumentException("Illegal edge property name: " + edgeProperty);
             }
-            context.getWiki().saveDocument(page, "ringSet.edge.history.index" + newReference, true,
+            context.getWiki().saveDocument(page, "ring.edge.history.index" + newReference, true,
                     context);
         } catch (AccessDeniedException | XWikiException e) {
-            logger.error("updateRing {} {} {}", referent, originalReference, newReference, e);
+            logger.error("updateEdge {} {} {}", originVertex, originalReference, newReference, e);
             throw new RingException(e);
         }
     }
@@ -486,7 +486,7 @@ public class BaseXWikiRingSet implements XWikiRingSet
             throws RingException
     {
         // We could get the BaseObjects directly, so that we don't iterate twice to get the target Edges,
-        // just like in #updateRingsWith
+        // just like in #updateEdgesWith
         try {
             String wikiId = originalReference.getWikiReference().getName();
             List<Object[]> entries =
@@ -496,7 +496,7 @@ public class BaseXWikiRingSet implements XWikiRingSet
                 int objectIndex = (int) entry[1];
                 // TODO: below we consider that edges are stored directly in the vertex document, but actually they could be
                 //  stored in their own page with own access rights
-                updateRing(originVertex, objectIndex, originalReference, newReference, edgeProperty);
+                updateEdge(originVertex, objectIndex, originalReference, newReference, edgeProperty);
             }
         } catch (QueryException e) {
             logger.error("updateRingsTo", e);
@@ -507,10 +507,10 @@ public class BaseXWikiRingSet implements XWikiRingSet
     public void updateRingsTo(DocumentReference originalRelatum, DocumentReference otherRelatum)
             throws RingException
     {
-        updateEdges(originalRelatum, otherRelatum, Names.HAS_RELATUM);
+        updateEdges(originalRelatum, otherRelatum, Names.HAS_DESTINATION);
     }
 
-    public void updateRingsWith(DocumentReference originalRelation, DocumentReference otherRelation)
+    public void updateEdgesWith(DocumentReference originalRelation, DocumentReference otherRelation)
             throws RingException
     {
         updateEdges(originalRelation, otherRelation, Names.HAS_RELATION);
