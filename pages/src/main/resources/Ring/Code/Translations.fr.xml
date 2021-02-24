@@ -38,51 +38,22 @@
   <hidden>true</hidden>
   <content>### Missing: ring.title=Knowledge Ring Application
 ### Missing: ring.about=The Knowledge Ring Application allows to draw relations between wiki pages. For instance, the relation //has author// can be created to state that page //The Jungle Book// has relation //has author// with page //Rudyard Kipling//. Relations are stored in the wiki as any other page, with the only specificity that they have relation //is a// with the //Relation// page. The connections of each wiki page can be browsed using a widget showing up under each page title, allowing also to add new connections.
-ring.quick-links=Documentation et liens rapides
-ring.documentation=Documentation
-ring.demo=Démo
-ring.search=Recherche
-ring.administration=Administration
-ring.import=Import
-ring.types=Types
-ring.relations=Relations
-ring.filter=Filtre
+### Missing: ring.quick-links=Documentation and quick links
+### Missing: ring.documentation=Documentation
+### Missing: ring.demo=Demo
+### Missing: ring.search=Search
+### Missing: ring.administration=Administration
+### Missing: ring.types=Types
+### Missing: ring.relations=Relations
+### Missing: ring.filter=Filter
 
-# RingClass
-### Missing: Ring.Code.RingClass_has-referent=Has referent
-### Missing: Ring.Code.RingClass_has-relation=Has relation
-Ring.Code.RingClass_has-relation_hint=Relation entre cette page et d'autres pages
-### Missing: Ring.Code.RingClass_has-relatum=Has relatum
-### Missing: Ring.Code.RingClass_has-relatum_hint=The relatum is the second part of the relation
-### Missing: Ring.Code.RingClass_has-properties=Has properties
-### Missing: Ring.Code.RingClass_has-properties_hint=Properties describing this ring
-
-# StringRingClass
-### Missing: Ring.Code.StringRingClass_has-referent=Has referent
-### Missing: Ring.Code.StringRingClass_has-relation=Has relation
-### Missing: Ring.Code.StringRingClass_has-relation_hint=Relation between this page and a value
-### Missing: Ring.Code.StringRingClass_has-value=Has value
-### Missing: Ring.Code.StringRingClass_has-value_value=Value taken
-### Missing: Ring.Code.StringRingClass_has-properties=Has properties
-### Missing: Ring.Code.StringRingClass_has-properties_hint=Properties describing this ring
-
-# BooleanRingClass
-### Missing: Ring.Code.BooleanRingClass_has-referent=Has referent
-### Missing: Ring.Code.BooleanRingClass_has-relation=Has relation
-### Missing: Ring.Code.BooleanRingClass_has-relation_hint=Relation between this page and a value
-### Missing: Ring.Code.BooleanRingClass_has-value=Has value
-### Missing: Ring.Code.BooleanRingClass_has-value_value=Value taken
-### Missing: Ring.Code.BooleanRingClass_has-properties=Has properties
-### Missing: Ring.Code.BooleanRingClass_has-properties_hint=Properties describing this ring
-
-# ConfigurationClass
-ring.settings.title=Paramètres
-Ring.Code.ConfigurationClass_spacesIn=Espaces inclus
-Ring.Code.ConfigurationClass_spacesIn.hint=Liste des espaces où l'application sera activée (séparateur : virgule), par exemple : Main, XWiki
-Ring.Code.ConfigurationClass_spacesOut=Espaces exclus
-Ring.Code.ConfigurationClass_spacesOut.hint=Liste des espaces où l'application ne sera pas activée (séparateur : virgule)
-Ring.Code.ConfigurationClass_pagesOut=Pages exclues
-Ring.Code.ConfigurationClass_pagesOut.hint=Liste des pages où l'application ne sera pas activée (séparateur : virgule), par exemple : Main.WebHome, XWiki.WebHome
+### Missing: ring.settings.title=Settings
+### Missing: Ring.Code.ConfigurationClass_spacesIn=Included spaces
+### Missing: Ring.Code.ConfigurationClass_spacesIn.hint=List of spaces where the application will be activated (separator: comma), e.g.: Main, XWiki
+### Missing: Ring.Code.ConfigurationClass_spacesOut=Excluded spaces
+### Missing: Ring.Code.ConfigurationClass_spacesOut.hint=List of spaces where the application will not be activated (separator: comma)
+### Missing: Ring.Code.ConfigurationClass_pagesOut=Excluded pages
+### Missing: Ring.Code.ConfigurationClass_pagesOut.hint=List of pages where the application will not be activated (separator: comma), e.g.: Main.WebHome, XWiki.WebHome
 ### Missing: Ring.Code.ConfigurationClass_termSheet=Term sheet
 ### Missing: Ring.Code.ConfigurationClass_termSheet.hint=Sheet to be used to display the pages containing at least one ring</content>
 </xwikidoc>

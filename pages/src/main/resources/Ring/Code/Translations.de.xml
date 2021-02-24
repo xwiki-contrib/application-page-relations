@@ -36,53 +36,24 @@
   <minorEdit>false</minorEdit>
   <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
-  <content>ring.title=Wissensring-Anwendung
-ring.about=Die Wissensring-Anwendung ermöglicht es, Beziehungen zwischen Wiki-Seiten herzustellen. Zum Beispiel kann die Relation //has author// erstellt werden, um anzugeben, dass die Seite //The Jungle Book// Relation //has author// mit der Seite //Rudyard Kipling// hat. Beziehungen werden im Wiki wie jede andere Seite gespeichert, mit der einzigen Besonderheit, dass sie eine Beziehung haben //ist a/// mit der //Relation// Seite. Die Verbindungen jeder Wiki-Seite können mit Hilfe eines Widgets durchsucht werden, das unter jedem Seitentitel angezeigt wird und es ermöglicht, auch neue Verbindungen hinzuzufügen.
-ring.quick-links=Dokumentation und Schnell-Links
-ring.documentation=Dokumentation
-ring.demo=Demo
-ring.search=Suche
-ring.administration=Administration
-ring.import=Import
-ring.types=Typen
-ring.relations=Beziehungen
-ring.filter=Filter
+  <content>### Missing: ring.title=Knowledge Ring Application
+### Missing: ring.about=The Knowledge Ring Application allows to draw relations between wiki pages. For instance, the relation //has author// can be created to state that page //The Jungle Book// has relation //has author// with page //Rudyard Kipling//. Relations are stored in the wiki as any other page, with the only specificity that they have relation //is a// with the //Relation// page. The connections of each wiki page can be browsed using a widget showing up under each page title, allowing also to add new connections.
+### Missing: ring.quick-links=Documentation and quick links
+### Missing: ring.documentation=Documentation
+### Missing: ring.demo=Demo
+### Missing: ring.search=Search
+### Missing: ring.administration=Administration
+### Missing: ring.types=Types
+### Missing: ring.relations=Relations
+### Missing: ring.filter=Filter
 
-# RingClass
-Ring.Code.RingClass_has-referent=Hat einen Verweis
-Ring.Code.RingClass_has-relation=Hat Beziehung
-Ring.Code.RingClass_has-relation_hint=Beziehung zwischen dieser Seite und einer anderen Seite
-Ring.Code.RingClass_has-relatum=Hat Verwandtschaft
-Ring.Code.RingClass_has-relatum_hint=Der Verwandtschaftsgrad ist der zweite Teil der Beziehung
-Ring.Code.RingClass_has-properties=Hat Eigenschaften
-Ring.Code.RingClass_has-properties_hint=Eigenschaften, die diesen Ring beschreiben
-
-# StringRingClass
-Ring.Code.StringRingClass_has-referent=Hat einen Verweis
-Ring.Code.StringRingClass_has-relation=Hat Beziehung
-Ring.Code.StringRingClass_has-relation_hint=Beziehung zwischen dieser Seite und einem Wert
-Ring.Code.StringRingClass_has-value=Hat einen Wert
-### Missing: Ring.Code.StringRingClass_has-value_value=Value taken
-Ring.Code.StringRingClass_has-properties=Hat Eigenschaften
-Ring.Code.StringRingClass_has-properties_hint=Eigenschaften, die diesen Ring beschreiben
-
-# BooleanRingClass
-Ring.Code.BooleanRingClass_has-referent=Hat einen Verweis
-Ring.Code.BooleanRingClass_has-relation=Hat Beziehung
-Ring.Code.BooleanRingClass_has-relation_hint=Beziehung zwischen dieser Seite und einem Wert
-Ring.Code.BooleanRingClass_has-value=Hat einen Wert
-### Missing: Ring.Code.BooleanRingClass_has-value_value=Value taken
-Ring.Code.BooleanRingClass_has-properties=Hat Eigenschaften
-Ring.Code.BooleanRingClass_has-properties_hint=Eigenschaften, die diesen Ring beschreiben
-
-# ConfigurationClass
-ring.settings.title=Einstellungen
-Ring.Code.ConfigurationClass_spacesIn=Enthaltene Bereiche
-Ring.Code.ConfigurationClass_spacesIn.hint=Liste der Bereiche, in denen die Anwendung aktiviert werden soll (Trennzeichen: Komma), z.B: Hauptseite, XWiki
-Ring.Code.ConfigurationClass_spacesOut=Ausgeschlossene Bereiche
-Ring.Code.ConfigurationClass_spacesOut.hint=Liste der Bereiche, in denen die Anwendung nicht aktiviert wird (Trennzeichen: Komma)
-Ring.Code.ConfigurationClass_pagesOut=Ausgeschlossene Seiten
-Ring.Code.ConfigurationClass_pagesOut.hint=Liste der Seiten, auf denen die Anwendung nicht aktiviert wird (Trennzeichen: Komma), z. B: Hauptseite.WebHome, XWiki.WebHome
-Ring.Code.ConfigurationClass_termSheet=Terminplaner
-Ring.Code.ConfigurationClass_termSheet.hint=Blatt zum Anzeigen der Seiten, die mindestens einen Ring enthalten</content>
+### Missing: ring.settings.title=Settings
+### Missing: Ring.Code.ConfigurationClass_spacesIn=Included spaces
+### Missing: Ring.Code.ConfigurationClass_spacesIn.hint=List of spaces where the application will be activated (separator: comma), e.g.: Main, XWiki
+### Missing: Ring.Code.ConfigurationClass_spacesOut=Excluded spaces
+### Missing: Ring.Code.ConfigurationClass_spacesOut.hint=List of spaces where the application will not be activated (separator: comma)
+### Missing: Ring.Code.ConfigurationClass_pagesOut=Excluded pages
+### Missing: Ring.Code.ConfigurationClass_pagesOut.hint=List of pages where the application will not be activated (separator: comma), e.g.: Main.WebHome, XWiki.WebHome
+### Missing: Ring.Code.ConfigurationClass_termSheet=Term sheet
+### Missing: Ring.Code.ConfigurationClass_termSheet.hint=Sheet to be used to display the pages containing at least one ring</content>
 </xwikidoc>
