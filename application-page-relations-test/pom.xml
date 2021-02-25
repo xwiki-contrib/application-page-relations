@@ -26,7 +26,7 @@
 	<parent>
 		<groupId>org.xwiki.contrib</groupId>
 		<artifactId>application-page-relations</artifactId>
-		<version>3.0-RC2-SNAPSHOT</version>
+		<version>3.0-RC1</version>
 	</parent>
 	<artifactId>application-page-relations-test</artifactId>
 	<name>Page Relations Application Test</name>
