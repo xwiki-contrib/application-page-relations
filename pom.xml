@@ -28,7 +28,7 @@
     <version>11.1</version>
   </parent>
   <artifactId>application-page-relations</artifactId>
-  <version>3.0-SNAPSHOT</version>
+  <version>3.0-RC1-SNAPSHOT</version>
   <name>Page Relations Application - Parent POM</name>
   <packaging>pom</packaging>
   <description>Makes it possible to create and display relations between pages as XWiki objects.</description>
@@ -49,7 +49,7 @@
     </developer>
     <developer>
       <id>slauriere</id>
-      <name>Stéphane Laurière</name>
+      <name>slauriere</name>
     </developer>
   </developers>
   <properties>
@@ -64,4 +64,12 @@
     <module>application-page-relations-api</module>
     <module>application-page-relations-ui</module>
   </modules>
+  <profiles>
+    <profile>
+      <id>application-page-relations-test</id>
+      <modules>
+        <module>application-page-relations-test</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>

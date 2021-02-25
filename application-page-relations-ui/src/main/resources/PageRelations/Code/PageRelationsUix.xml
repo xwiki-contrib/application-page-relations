@@ -168,13 +168,13 @@ $object.content
 (% class="page-relations-uix-container panel panel-default" %)(((
   (% class="panel-heading" %)((($services.localization.render('pageRelations.title'))))
   (% class="panel-body" %)(((
-    {{pageRelations showFacets="true" showBorder="true"/}}
+    {{pageRelations/}}
   )))
 )))
 {{/velocity}}</content>
     </property>
     <property>
-      <extensionPointId>org.xwiki.platform.template.content.header.afterxxx</extensionPointId>
+      <extensionPointId>org.xwiki.platform.template.content.header.after</extensionPointId>
     </property>
     <property>
       <name>xwiki:XWiki.PageRelations</name>

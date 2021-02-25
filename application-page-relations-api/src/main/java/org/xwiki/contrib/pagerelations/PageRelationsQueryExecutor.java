@@ -34,7 +34,7 @@ import java.util.List;
  * @version $Id$
  */
 @Role
-public interface PageRelationsService
+public interface PageRelationsQueryExecutor
 {
 
     /**

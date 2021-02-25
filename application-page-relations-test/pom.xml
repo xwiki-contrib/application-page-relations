@@ -28,20 +28,16 @@
 		<artifactId>application-page-relations</artifactId>
 		<version>3.0-RC1-SNAPSHOT</version>
 	</parent>
-	<artifactId>application-page-relations-ui</artifactId>
-	<name>Page Relations Application</name>
+	<artifactId>application-page-relations-test</artifactId>
+	<name>Page Relations Application Test</name>
 	<packaging>xar</packaging>
-	<description>Create and display relations between pages as XWiki objects</description>
-	<properties>
-		<xwiki.extension.name>Page Relations Application</xwiki.extension.name>
-		<xwiki.extension.category>application</xwiki.extension.category>
-	</properties>
+	<description>Test and debug pages for the Page Relations application</description>
 	<dependencies>
 		<dependency>
 			<groupId>org.xwiki.contrib</groupId>
-			<artifactId>application-page-relations-api</artifactId>
+			<artifactId>application-page-relations-ui</artifactId>
 			<version>${project.version}</version>
-			<scope>runtime</scope>
+			<type>xar</type>
 		</dependency>
 	</dependencies>
 </project>

@@ -30,7 +30,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.pagerelations.PageRelationsService;
+import org.xwiki.contrib.pagerelations.PageRelationsQueryExecutor;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
 import org.xwiki.model.reference.EntityReferenceSerializer;
@@ -45,7 +45,7 @@ import org.xwiki.query.QueryManager;
  */
 @Component
 @Singleton
-public class DefaultPageRelationsService implements PageRelationsService
+public class DefaultPageRelationsQueryExecutor implements PageRelationsQueryExecutor
 {
     @Inject
     @Named("compactwiki")

@@ -26,7 +26,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.pagerelations.PageRelationsService;
+import org.xwiki.contrib.pagerelations.PageRelationsQueryExecutor;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.query.QueryException;
 import org.xwiki.script.service.ScriptService;
@@ -42,7 +42,7 @@ import org.xwiki.script.service.ScriptService;
 public class PageRelationsScriptService implements ScriptService
 {
     @Inject
-    protected PageRelationsService service;
+    protected PageRelationsQueryExecutor service;
 
     /**
      * Gets incoming relations pointing at a given page from any wiki in the farm.

@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.3" reference="PageRelations.Code.Translations" locale="">
+<xwikidoc version="1.4" reference="PageRelations.Code.Translations" locale="">
   <web>PageRelations.Code</web>
   <name>Translations</name>
   <language/>
@@ -62,7 +62,7 @@ pageRelations.livetable.page=Page
 
 # PageRelationsMacro
 pageRelations.entry.name=Relations
-pageRelations.title=Relations:
+pageRelations.title=Relations
 pageRelations.facets=Facets:
 pageRelations.add.relatedPage=Related page:
 pageRelations.add.hint=Add a relation
@@ -100,6 +100,8 @@ pageRelations.dataSpace.title=Data</content>
         <cache>0</cache>
         <disabled>0</disabled>
         <displayType>select</displayType>
+        <freeText>forbidden</freeText>
+        <largeStorage>0</largeStorage>
         <multiSelect>0</multiSelect>
         <name>scope</name>
         <number>1</number>
