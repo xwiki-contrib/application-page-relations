@@ -83,9 +83,9 @@
   </object>
   <object>
     <name>PageRelations.Data.Harold Lloyd.WebHome</name>
-    <number>1</number>
+    <number>3</number>
     <className>PageRelations.Code.PageRelationClass</className>
-    <guid>760c1f28-c9c1-41e9-8480-af0083bf1578</guid>
+    <guid>042f0b71-8dfe-41f5-9d09-a384cfd695a6</guid>
     <class>
       <name>PageRelations.Code.PageRelationClass</name>
       <customClass/>
@@ -122,7 +122,7 @@
       </page>
     </class>
     <property>
-      <page>PageRelations.Data.Charlie Chaplin.WebHome</page>
+      <page>PageRelations.Data.Modern Times.WebHome</page>
     </property>
   </object>
 </xwikidoc>

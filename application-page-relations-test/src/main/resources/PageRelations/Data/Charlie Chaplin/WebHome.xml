@@ -171,9 +171,9 @@
   </object>
   <object>
     <name>PageRelations.Data.Charlie Chaplin.WebHome</name>
-    <number>22</number>
+    <number>23</number>
     <className>PageRelations.Code.PageRelationClass</className>
-    <guid>3b669d9e-8ea3-4cf9-8909-e659f0f803f4</guid>
+    <guid>52af1bc4-4a9d-438e-bcf5-f7f5133c4ecb</guid>
     <class>
       <name>PageRelations.Code.PageRelationClass</name>
       <customClass/>
@@ -211,6 +211,89 @@
     </class>
     <property>
       <page>PageRelations.Data.Modern Times.WebHome</page>
+    </property>
+  </object>
+  <object>
+    <name>PageRelations.Data.Charlie Chaplin.WebHome</name>
+    <number>24</number>
+    <className>PageRelations.Code.PageRelationClass</className>
+    <guid>510b0455-74fd-42c5-9ea6-4bb0fc8ff117</guid>
+    <class>
+      <name>PageRelations.Code.PageRelationClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <page>
+        <cache>0</cache>
+        <classname/>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <hint/>
+        <idField/>
+        <multiSelect>0</multiSelect>
+        <name>page</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Page</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>1</size>
+        <sort>none</sort>
+        <sql/>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <valueField/>
+        <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
+      </page>
+    </class>
+    <property>
+      <page>PageRelations.Data.Countries.France.WebHome</page>
+    </property>
+  </object>
+  <object>
+    <name>PageRelations.Data.Charlie Chaplin.WebHome</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>b6de5583-17ed-473f-8e7c-dd8cc096edd4</guid>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <freeText>forbidden</freeText>
+        <largeStorage>0</largeStorage>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <property>
+      <tags>
+        <value>aaa</value>
+      </tags>
     </property>
   </object>
 </xwikidoc>

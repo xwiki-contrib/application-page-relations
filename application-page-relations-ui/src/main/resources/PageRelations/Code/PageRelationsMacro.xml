@@ -124,242 +124,106 @@
       <cache>long</cache>
     </property>
     <property>
-      <code>
-var XWiki = (function (XWiki) {
+      <code>require(['jquery'], function($) {
 
-  function init() {
-    require.config({
-      paths: {'xwiki-selectize': "$xwiki.getSkinFile('uicomponents/suggest/xwiki.selectize.js', true)"}
+  var loadRelations = function() {
+    var subject = XWiki.Model.serialize(XWiki.currentDocument.getDocumentReference());
+    $('.page-relations-list').html("&lt;img src='$xwiki.getSkinFile('icons/xwiki/spinner.gif')'/&gt;");
+    sendRequest("get-relations", subject, null, 'plain').done(function(data) {
+      $('.page-relations-list').html(data);
+      registerActionListeners();
     });
-
-    //#set ($pageIcon = "$services.icon.getMetaData('page_white')")
-    //console.log("$pageIcon");
-    var pageIcon =  {
-      cssClass: "fa fa-file-o",
-      iconSetName: "Font Awesome",
-      iconSetType: "FONT"};
-
-    require(['jquery', 'xwiki-selectize'], function($, xwikiSelectize) {
-      var getSelectizeOptions = function(select) {
-        return {
-          create: true,
-          // The document where the selected values are saved. Stored document references will be relative to this document.
-          documentReference: select.data('documentReference'),
-          // Where to look for pages. The following is supported:
-          // * "wiki:wikiName" look for pages in the specified wiki
-          // * "space:spaceReference" look for pages in the specified space
-          searchScope: select.data('searchScope'),
-          // We overwrite the list of search fields because we don't want to match the technical "WebHome" nested page name
-          // that appears in the value.
-          searchField: ['query', 'label', 'hint'],
-          sortField: 'score',
-          load: function(text, callback) {
-            loadPages(text, this.settings).done(callback).fail(callback);
-          },
-          loadSelected: function(text, callback) {
-            loadPage(text, this.settings).done(callback).fail(callback);
-          }
-        }
-      };
-
-      var processOptions = function(options) {
-        // Resolve the document reference relative to the current document reference.
-        if (!options.documentReference || typeof options.documentReference === 'string') {
-          options.documentReference = XWiki.Model.resolve(options.documentReference, XWiki.EntityType.DOCUMENT,
-            XWiki.currentDocument.documentReference);
-        }
-        // Resolve the search scope.
-        options.searchScope = resolveEntityReference(options.searchScope || 'wiki:' + XWiki.currentWiki);
-        return options;
-      };
-
-      /**
-       * Resolves an entity reference from a string representation of the form "entityType:entityReference".
-       */
-      var resolveEntityReference = function(typeAndReference) {
-        if (typeof typeAndReference === 'string') {
-          try {
-            return XWiki.Model.resolve(typeAndReference, null, XWiki.currentDocument.documentReference);
-          } catch (e) {
-            return null;
-          }
-        }
-        return typeAndReference;
-      };
-
-      var loadPages = function(text, options) {
-        // We store the searched text into a variable because we will need it as a workaround for Selectize
-        // to not filter out the results returned by the Solr endpoint whose neither the title nor the hint 
-        // matches the searched text.
-        // References:
-        // - Selectize uses the Sifter library to perform a sort and a filtering on the received results
-        //   Sifter: https://github.com/brianreavis/sifter.js/
-        // - Selectize issues:
-        //   - [Disable sifter functionality?](https://github.com/selectize/selectize.js/issues/196)
-        //   - [Disable automatic sort](https://github.com/selectize/selectize.js/issues/218)
-        // - It seems there is no good workaround for not filtering out entries sent by the server,
-        //   so we use this hack.
-        options.query = text;
-        // Clear Selectize cache on each request otherwise Selectize performs wrong filtering in the following scenario:
-        // 1) Search for "times" -&gt; "Modern Times" is returned
-        // 2) Search for "goddard" -&gt; "Modern Times" is filtered out since its cached title, hint, and query (the previous one) do not match this new query.
-        // Reference: [How to disable caching?](https://github.com/selectize/selectize.js/issues/1136)
-        var selectized = $('.suggest-pages');
-        selectized[0].selectize.clear();
-        selectized[0].selectize.clearOptions();
-        return $.getJSON(getRestSearchURL(options.searchScope), $.param({
-          q: text,
-          number: 10
-        }, true)).then($.proxy(processPages, null, options));
-      };
-
-      var getRestSearchURL = function(searchScope) {
-        return "${request.contextPath}/rest/wikis/query";
-      };
-
-      /**
-       * Adapt the JSON returned by the REST call to the format expected by the Selectize widget.
-       */
-      var processPages = function(options, response) {
-        if ($.isArray(response.searchResults)) {
-          return response.searchResults.map($.proxy(processPage, null, options));
-        } else {
-          return [];
-        }
-      };
-
-      var processPage = function(options, page) {
-        console.log('processPage:options', options);
-        // Value (relative to the current wiki, where it is saved)
-        var documentReference = XWiki.Model.resolve(page.id, XWiki.EntityType.DOCUMENT);
-        //var relativeReference = documentReference.relativeTo(options.documentReference.getRoot());
-        // We need to store a full reference
-        var value = XWiki.Model.serialize(documentReference);
-        var label = page.title;
-        var chain = documentReference.getReversedReferenceChain();
-        var hint = chain.map(function(item) {
-          return item.name;
-        }).join(' / ');
-        return {
-          value: value,
-          query: options.query,
-          label: label,
-          hint: hint,
-          icon: pageIcon,
-          url: new XWiki.Document(documentReference).getURL()
-        };
-      };
-
-      $.fn.suggestPagesSolr = function(options) {
-        return this.each(function() {
-          var actualOptions = $.extend(getSelectizeOptions($(this)), options);
-          $(this).xwikiSelectize(processOptions(actualOptions));
-        });
-      };
-
-      var loadRelations = function() {
-        var subject = XWiki.Model.serialize(XWiki.currentDocument.getDocumentReference());
-        $('.page-relations-list').html("&lt;img src='$xwiki.getSkinFile('icons/xwiki/spinner.gif')'/&gt;");
-        sendRequest("get-relations", subject, null, 'plain').done(function(data) {
-          $('.page-relations-list').html(data);
-          registerActionListeners();
-        });
-      }
-
-      var createAddRelationForm = function(formHtmlString) {
-        var addRelationFormContainer = $('.page-relations-add-form-container');
-        var addRelationButton = $('.page-relations-add-action');
-        addRelationButton.hide();
-        addRelationFormContainer.html(formHtmlString);
-        var form = addRelationFormContainer.find("form");
-        form.submit(function(event) {
-          event.preventDefault();
-          // TODO: ignore cascade clicks by disabling the form
-          var input = form.find(".xwiki-selectize-option");
-          var subject = form.find("input[name='subject']").val();
-          var complement = input.data('value');
-          var subjectReference = XWiki.Model.resolve(subject, XWiki.EntityType.DOCUMENT);
-          var complementReference = XWiki.Model.resolve(complement, XWiki.EntityType.DOCUMENT);
-          // NB: obtaining the subject's wiki could rather be done via xwiki-meta instead
-          var subjectWiki = subjectReference.extractReference(XWiki.EntityType.WIKI);
-          var complementWiki = complementReference.extractReference(XWiki.EntityType.WIKI);
-          console.log('references', subjectReference, complementReference);
-          if (complementWiki.name === subjectWiki.name) {
-            var index = complement.indexOf(':');
-            complement = complement.substring(index + 1);
-          }
-          var notification = new XWiki.widgets.Notification("$services.localization.render('pagerelations.adding-relation')", "inprogress");
-          sendRequest("add-relation", subject, complement, 'plain').done(function (data) {
-            form.remove();
-            addRelationButton.show();
-            notification.hide();
-            loadRelations();
-          });
-        });
-        var cancelButton = form.find(".add-relation-cancel");
-        cancelButton.click(function() {
-          form.remove();
-          addRelationButton.show();
-        });
-        $('.suggest-pages').suggestPagesSolr();
-        var selectized = $('.suggest-pages');
-        selectized[0].selectize.focus();
-      }
-
-      $('a.page-relations-add-action').on('click', function(event) {
-        event.preventDefault();
-        var subject = $(this).data('subject');
-        var notification = new XWiki.widgets.Notification("$services.localization.render('pagerelations.preparing-relation-addition')", "inprogress");
-        sendRequest('get-add-relation-form', subject, 'html').done(function (data) {
-          notification.hide();
-          createAddRelationForm(data);
-        });
-      });
-
-      var registerActionListeners = function() {
-        $('.page-relations-term-action-remove').on('click', function(event) {
-          event.preventDefault();
-          var relationListItem = $(this).parent();
-          var subject = $(this).find('a').data('subject');
-          var complement = $(this).find('a').data('complement');
-          var notification = new XWiki.widgets.Notification("$services.localization.render('pagerelations.removing-relation')", "inprogress");
-          sendRequest('remove-relation', subject, complement, 'plain').done(function (data) {
-            notification.hide();
-            new XWiki.widgets.Notification("$services.localization.render('pagerelations.relation-removed')", "done");
-            relationListItem.remove();
-          }).fail(function(data) {
-            notification.hide();
-            new XWiki.widgets.Notification("$services.localization.render('pagerelations.relation-not-found')", "warning");
-          });
-        });
-      }
-
-      var sendRequest = function(action, subject, complement, outputSyntax) {
-        var reference = XWiki.Model.resolve('PageRelations.Code.PageRelationsService', XWiki.EntityType.DOCUMENT);
-        var relationService = new XWiki.Document(reference);
-
-        return $.ajax({
-          type: 'post',
-          url: relationService.getURL('view'),
-          data: {
-            action: action,
-            subject: subject,
-            complement: complement,
-            xpage: "plain",
-            outputSyntax: outputSyntax
-          },
-          cache: false,
-        });
-      }
-
-      loadRelations();
-    });
-
   }
 
-  (XWiki.domIsLoaded &amp;&amp; init()) || document.observe('xwiki:dom:loaded', init);
-  return XWiki;
-}(XWiki || {}));</code>
+  var createAddRelationForm = function(formHtmlString) {
+    var addRelationFormContainer = $('.page-relations-add-form-container');
+    var addRelationButton = $('.page-relations-add-action');
+    addRelationButton.hide();
+    addRelationFormContainer.html(formHtmlString);
+    var form = addRelationFormContainer.find("form");
+    form.submit(function(event) {
+      event.preventDefault();
+      // TODO: ignore cascade clicks by disabling the form
+      var input = form.find(".xwiki-selectize-option");
+      var subject = form.find("input[name='subject']").val();
+      var complement = input.data('value');
+      var subjectReference = XWiki.Model.resolve(subject, XWiki.EntityType.DOCUMENT);
+      var complementReference = XWiki.Model.resolve(complement, XWiki.EntityType.DOCUMENT);
+      // NB: obtaining the subject's wiki could rather be done via xwiki-meta instead
+      var subjectWiki = subjectReference.extractReference(XWiki.EntityType.WIKI);
+      var complementWiki = complementReference.extractReference(XWiki.EntityType.WIKI);
+      if (complementWiki.name === subjectWiki.name) {
+        var index = complement.indexOf(':');
+        complement = complement.substring(index + 1);
+      }
+      var notification = new XWiki.widgets.Notification("$services.localization.render('pageRelations.add.processing')", "inprogress");
+      sendRequest("add-relation", subject, complement, 'plain').done(function (data) {
+        form.remove();
+        addRelationButton.show();
+        notification.hide();
+        loadRelations();
+      });
+    });
+    var cancelButton = form.find(".add-relation-cancel");
+    cancelButton.click(function() {
+      form.remove();
+      addRelationButton.show();
+    });
+    $('.suggest-pages').suggestPagesSolr();
+    var selectized = $('.suggest-pages');
+    selectized[0].selectize.focus();
+  }
+
+  $('a.page-relations-add-action').on('click', function(event) {
+    event.preventDefault();
+    var subject = $(this).data('subject');
+    var notification = new XWiki.widgets.Notification("$services.localization.render('pageRelations.add.gettingForm')", "inprogress");
+    sendRequest('get-add-relation-form', subject, 'html').done(function (data) {
+      notification.hide();
+      createAddRelationForm(data);
+    });
+  });
+
+  var registerActionListeners = function() {
+    $('.page-relations-term-action-remove').on('click', function(event) {
+      event.preventDefault();
+      var relationListItem = $(this).parent();
+      var subject = $(this).find('a').data('subject');
+      var complement = $(this).find('a').data('complement');
+      var notification = new XWiki.widgets.Notification("$services.localization.render('pageRelations.remove.processing')", "inprogress");
+      sendRequest('remove-relation', subject, complement, 'plain').done(function (data) {
+        notification.hide();
+        new XWiki.widgets.Notification("$services.localization.render('pageRelations.remove.done')", "done");
+        relationListItem.remove();
+      }).fail(function(data) {
+        notification.hide();
+        new XWiki.widgets.Notification("$services.localization.render('pageRelations.remove.error.notFound')", "warning");
+      });
+    });
+  }
+
+  var sendRequest = function(action, subject, complement, outputSyntax) {
+    var reference = XWiki.Model.resolve('PageRelations.Code.PageRelationsService', XWiki.EntityType.DOCUMENT);
+    var relationService = new XWiki.Document(reference);
+
+    return $.ajax({
+      type: 'post',
+      url: relationService.getURL('view'),
+      data: {
+        action: action,
+        subject: subject,
+        complement: complement,
+        xpage: "plain",
+        outputSyntax: outputSyntax,
+        csrf: "$services.csrf.getToken()"
+      },
+      cache: false,
+    });
+  }
+  loadRelations();
+});
+
+</code>
     </property>
     <property>
       <name/>
@@ -476,10 +340,12 @@ var XWiki = (function (XWiki) {
       <cache>long</cache>
     </property>
     <property>
-      <code>form.page-relation-add {
+      <code>#template('colorThemeInit.vm')
+
+form.page-relation-add {
   display: block;
   margin-top: 0.5em;
-  background: #f1f1f1;
+  background: $theme.panelBackgroundColor;
   padding: 0.7em;
   z-index: 3;
   border: 1px solid #ddd;
@@ -492,25 +358,28 @@ var XWiki = (function (XWiki) {
   }
 }
 
-.page-relations-term-container {
+.page-relations-term-li {
   display: inline-block;
-  line-height: 3.5rem;
-  .page-relations-term {
-    background: #d0dfee;
-    padding: 0.5rem 0.8rem 0.5rem 1.2rem;
-    border-radius: 0.3rem 0 0 0.3rem;
-  }
-  .page-relations-term-action-remove {
-    background: whitesmoke;
-    padding: 0.5rem 0.8rem;
-    border-radius: 0 0.3rem 0.3rem 0;
-    &amp;:hover {
-      background: #e8e8e8;
+  border: 1px solid $theme.borderColor;
+  border-radius: 0.3rem;
+  background: white;
+  margin-bottom: 0.5rem;
+  .page-relations-term-container {
+    padding: 0.7rem 1rem;
+    .page-relations-term {
     }
-    cursor: pointer;
-    a {
-      text-decoration: none;
-      color: #757763;
+    .page-relations-term-action-remove {
+      background: $theme.buttonSecondaryBackgroundColor;
+      padding: .3rem .7rem;
+      border-radius: 50%;
+      &amp;:hover {
+        background: darken($theme.buttonSecondaryBackgroundColor, 5%);
+      }
+      cursor: pointer;
+      a {
+        text-decoration: none;
+        color: $theme.buttonSecondaryTextColor;
+      }
     }
   }
 }
@@ -535,7 +404,7 @@ var XWiki = (function (XWiki) {
       <name/>
     </property>
     <property>
-      <parse>0</parse>
+      <parse>1</parse>
     </property>
     <property>
       <use>onDemand</use>
@@ -735,14 +604,18 @@ var XWiki = (function (XWiki) {
     </property>
     <property>
       <code>{{velocity}}
-#set ($discard = $xwiki.ssx.use('PageRelations.Code.PageRelationsMacro'))
-#set ($discard = $xwiki.jsx.use('PageRelations.Code.PageRelationsMacro'))
+#set ($macro.pageId = 'PageRelations.Code.PageRelationsMacro')
+#set ($discard = $xwiki.ssx.use($macro.pageId))
+#set ($discard = $xwiki.jsx.use($macro.pageId))
+#set ($discard = $xwiki.jsx.use('PageRelations.Code.SolrSuggestPages'))
 {{html clean="false"}}
 &lt;div class="page-relations-container"&gt;
   &lt;div class="page-relations-list"&gt;&lt;/div&gt;
    #if ($services.security.authorization.hasAccess('edit', $doc.documentReference))
     &lt;div class="page-relations-add-section"&gt;
-      &lt;a class="btn btn-primary page-relations-add-action" title="Add relation from this page to another one" data-subject="$doc.documentReference" href="#"&gt;+&lt;/a&gt;
+      &lt;a class="btn btn-primary page-relations-add-action" title="Add relation from this page to another one" data-subject="$doc.documentReference" href="#"&gt;
+        $services.localization.render('pageRelations.add.label')
+      &lt;/a&gt;
       &lt;div class="page-relations-add-form-container"&gt;&lt;/div&gt;
     &lt;/div&gt;
   #end
@@ -761,7 +634,7 @@ var XWiki = (function (XWiki) {
       <contentType>No content</contentType>
     </property>
     <property>
-      <defaultCategory>Content</defaultCategory>
+      <defaultCategory>Development</defaultCategory>
     </property>
     <property>
       <description/>
@@ -776,7 +649,7 @@ var XWiki = (function (XWiki) {
       <supportsInlineMode>0</supportsInlineMode>
     </property>
     <property>
-      <visibility/>
+      <visibility>Current Wiki</visibility>
     </property>
   </object>
 </xwikidoc>

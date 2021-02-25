@@ -41,17 +41,16 @@
 
 #macro (displayAddRelationForm $referent)
   {{html clean="false"}}
-  &lt;form class="page-relation-add" action=""&gt;
+  &lt;form class="xformInline page-relation-add" action=""&gt;
     &lt;div class="row"&gt;
       &lt;div class="page-relation-add-suggest col-xs-12"&gt;
         #set ($parameters = {'name': 'complement', 'class': 'suggest-pages', 'placeholder': 'Select a page'})
         #suggestInput($parameters)
       &lt;/div&gt;
-      &lt;div class="page-relation-add-actions col-xs-12" style="text-align: center"&gt;
-        &lt;input class="btn btn-primary" type="submit" value="$services.localization.render('Add')"/&gt;
-        &lt;input type="button" class="btn btn-default add-relation-cancel" value="$services.localization.render('Cancel')"/&gt;
+      &lt;div class="buttonwrapper page-relation-add-actions col-xs-12"&gt;
+        &lt;input class="btn btn-primary" type="submit" value="$services.localization.render('pageRelations.add.submit')"/&gt;
+        &lt;input type="button" class="btn btn-default add-relation-cancel" value="$services.localization.render('pageRelations.add.cancel')"/&gt;
         &lt;input type="hidden" name="subject" value="$subject"/&gt;
-        &lt;input type="hidden" name="csrf" value="$!{services.csrf.token}"/&gt;
       &lt;/div&gt;
     &lt;/div&gt;
   &lt;/form&gt;
@@ -59,7 +58,7 @@
 #end
 
 #macro(addRelation $subject $complement)
-  #if ($services.security.authorization.hasAccess('edit', $subject))
+  #if ($services.csrf.isTokenValid($request.csrf) &amp;&amp; $services.security.authorization.hasAccess('edit', $subject))
     #set ($macro.page = $xwiki.getDocument($subject))
     #set ($macro.index = $macro.page.createNewObject($PAGE_RELATION_CLASS))
     #set ($macro.object = $macro.page.getObject($PAGE_RELATION_CLASS, $macro.index))
@@ -74,19 +73,13 @@
 
 #macro(removeRelation $subject $complement)
   #set ($subjectReference = $services.model.resolveDocument($subject))
-  #if ($services.security.authorization.hasAccess('edit', $subjectReference))
+  #if ($services.csrf.isTokenValid($request.csrf) &amp;&amp; $services.security.authorization.hasAccess('edit', $subjectReference))
     #try()
       #set ($macro.page = $xwiki.getDocument($subjectReference))
       #set ($complementReference = $services.model.resolveDocument($complement))
-      #set ($subjectWiki = $subjectReference.extractReference('WIKI'))
-      #set ($complementWiki = $complementReference.extractReference('WIKI'))
-      #set ($subjectWikiName = $subjectWiki.name)
-      #set ($complementWikiName = $complementWiki.name)
-      #if ("$!subjectWikiName" == $complementWikiName)
-        #set ($complement = $services.model.serialize($complementReference, 'compactwiki'))
-      #end
+      #set ($complement = $services.model.serialize($complementReference, $subjectReference))
       #set ($macro.object = $macro.page.getObject($PAGE_RELATION_CLASS, 'page', $complement))
-      ## In some cases, the complement can be stored with an absolute reference in the relation even if it is in 
+      ## In some cases, the complement can be stored with an absolute reference in the relation even if it is in
       ## the same wiki as the subject: this can happen when exporting and importing relations between wikis.
       ## Hence if the local reference is not found, try with the absolute one.
       #if ($macro.object == $NULL)
@@ -99,11 +92,11 @@
           #set ($discard = $macro.page.save())
         #else
          $response.setStatus(404)
-         $services.localization.render('pagerelations.error.relation-not-found')
+         $services.localization.render('pageRelations.remove.error.notFound')
         #end
       #else
         $response.setStatus(404)
-        $services.localization.render('pagerelations.error.relation-not-found')
+        $services.localization.render('pageRelations.remove.error.notFound')
       #end
     #end
     #if ("$!exception" != '')
@@ -112,7 +105,7 @@
     #end
   #else
    $response.setStatus(403)
-   $services.localization.render('pagerelations.error.forbidden')
+   $services.localization.render('pageRelations.remove.error.notAllowed')
   #end
 #end
 
@@ -152,13 +145,15 @@
       #set ($macro.complement = $macro.reference)
     #end
     #set ($macro.isRemovable = $services.security.authorization.hasAccess('edit', $macro.subject))
-    &lt;li class="page-relations-term-container"&gt;
-      &lt;span class="page-relations-term wikilink"&gt;
-        &lt;a href="$xwiki.getURL($item.id)"&gt;$item.title&lt;/a&gt;
-      &lt;/span&gt;
-      #if ($macro.isRemovable)
-      &lt;span class="page-relations-term-action-remove"&gt;&lt;a href="#" data-subject="$escapetool.xml($macro.subject)" data-complement="$escapetool.xml($macro.complement)"&gt;x&lt;/a&gt;&lt;/span&gt;
-      #end
+    &lt;li class="page-relations-term-li"&gt;
+      &lt;div class="page-relations-term-container"&gt;
+        &lt;span class="page-relations-term wikilink"&gt;
+          &lt;a href="$xwiki.getURL($item.id)"&gt;$item.title&lt;/a&gt;
+        &lt;/span&gt;
+        #if ($macro.isRemovable)
+        &lt;span class="page-relations-term-action-remove"&gt;&lt;a href="#" data-subject="$escapetool.xml($macro.subject)" data-complement="$escapetool.xml($macro.complement)"&gt;x&lt;/a&gt;&lt;/span&gt;
+        #end
+      &lt;/div&gt;
     &lt;/li&gt;
   #end
   &lt;/ul&gt;

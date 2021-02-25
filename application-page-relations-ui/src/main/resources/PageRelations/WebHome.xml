@@ -36,6 +36,11 @@
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.0</syntaxId>
   <hidden>false</hidden>
-  <content>
-{{documents location="PageRelations"/}}</content>
+  <content>{{velocity}}
+(% class="panel" %)(((
+  (% class="panel-body" style="background: whitesmoke; padding: 2.5rem 2.5rem 1rem 2.5rem;" %)(((
+    $services.localization.render('pageRelations.description')
+  )))
+)))
+{{/velocity}}</content>
 </xwikidoc>

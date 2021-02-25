@@ -36,7 +36,10 @@
   <minorEdit>false</minorEdit>
   <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
-  <content># Class fields
+  <content># PageRelations Application
+pageRelations.description=The [[Page Relations extension&gt;&gt;https://extensions.xwiki.org/xwiki/bin/view/Extension/Page%20Relations%20Application/]] allows to relate pages to one another either within the same wiki or across distinct wikis.
+
+# Class fields
 PageRelations.Code.PageRelationClass_page=Page
 
 # Live table generic keys
@@ -65,13 +68,19 @@ pageRelations.entry.name=Relations
 pageRelations.title=Relations
 pageRelations.facets=Facets:
 pageRelations.add.relatedPage=Related page:
+pageRelations.add.label=Add relation
 pageRelations.add.hint=Add a relation
+pageRelations.add.selectPage=Select a page
 pageRelations.add.submit=Add
 pageRelations.add.cancel=Cancel
+pageRelations.add.gettingForm=Preparing relation addition form...
+pageRelations.add.processing=Creating the relation...
 pageRelations.add.error.alreadySet=This relations was already set.
 pageRelations.add.error.notAllowed=You are not authorized to perform this action.
 pageRelations.add.error.failed=An error occurred.
 pageRelations.add.history.message=Addition of a relation to "{0}"
+pageRelations.remove.processing=Removing relation...
+pageRelations.remove.done=Relation removed
 pageRelations.remove.hint=Remove relation
 pageRelations.remove.error.notFound=The target page was not found.
 pageRelations.remove.error.notAllowed=You are not authorized to perform this action.
