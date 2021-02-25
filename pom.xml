@@ -28,7 +28,7 @@
     <version>11.1</version>
   </parent>
   <artifactId>application-page-relations</artifactId>
-  <version>3.0-RC1</version>
+  <version>3.0-RC2-SNAPSHOT</version>
   <name>Page Relations Application - Parent POM</name>
   <packaging>pom</packaging>
   <description>Makes it possible to create and display relations between pages as XWiki objects.</description>
