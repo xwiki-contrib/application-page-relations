@@ -135,6 +135,8 @@
   #end
   ## Sort relations by title
   #set ($macro.allRelations = $collectiontool.sort($macro.allRelations, 'title'))
+
+  {{html clean="false"}}
   &lt;ul&gt;
   #foreach ($item in $macro.allRelations)
     #if ($item.direct == true)
@@ -157,6 +159,8 @@
     &lt;/li&gt;
   #end
   &lt;/ul&gt;
+  {{/html}}
+
 #end
 
 {{/velocity}}

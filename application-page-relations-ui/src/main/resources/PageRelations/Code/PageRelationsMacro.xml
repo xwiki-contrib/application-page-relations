@@ -129,7 +129,7 @@
   var loadRelations = function() {
     var subject = XWiki.Model.serialize(XWiki.currentDocument.getDocumentReference());
     $('.page-relations-list').html("&lt;img src='$xwiki.getSkinFile('icons/xwiki/spinner.gif')'/&gt;");
-    sendRequest("get-relations", subject, null, 'plain').done(function(data) {
+    sendRequest("get-relations", subject, null, 'html').done(function(data) {
       $('.page-relations-list').html(data);
       registerActionListeners();
     });
