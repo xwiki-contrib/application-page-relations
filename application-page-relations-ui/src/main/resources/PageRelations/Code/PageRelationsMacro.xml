@@ -36,7 +36,7 @@
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
-  <content>{{pageRelations /}}</content>
+  <content/>
   <object>
     <name>PageRelations.Code.PageRelationsMacro</name>
     <number>0</number>
@@ -340,12 +340,10 @@
       <cache>long</cache>
     </property>
     <property>
-      <code>#template('colorThemeInit.vm')
-
-form.page-relation-add {
+      <code>form.page-relation-add {
   display: block;
   margin-top: 0.5em;
-  background: $theme.panelBackgroundColor;
+  background: @panel-bg;
   padding: 0.7em;
   z-index: 3;
   border: 1px solid #ddd;
@@ -360,7 +358,7 @@ form.page-relation-add {
 
 .page-relations-term-li {
   display: inline-block;
-  border: 1px solid $theme.borderColor;
+  border: 1px solid @xwiki-border-color;
   border-radius: 0.3rem;
   background: white;
   margin-bottom: 0.5rem;
@@ -369,16 +367,16 @@ form.page-relation-add {
     .page-relations-term {
     }
     .page-relations-term-action-remove {
-      background: $theme.buttonSecondaryBackgroundColor;
+      background: @btn-default-bg;
       padding: .3rem .7rem;
       border-radius: 50%;
       &amp;:hover {
-        background: darken($theme.buttonSecondaryBackgroundColor, 5%);
+        background: darken(@btn-default-bg, 5%);
       }
       cursor: pointer;
       a {
         text-decoration: none;
-        color: $theme.buttonSecondaryTextColor;
+        color: 	@btn-default-color;
       }
     }
   }
@@ -404,7 +402,7 @@ form.page-relation-add {
       <name/>
     </property>
     <property>
-      <parse>1</parse>
+      <parse>0</parse>
     </property>
     <property>
       <use>onDemand</use>
