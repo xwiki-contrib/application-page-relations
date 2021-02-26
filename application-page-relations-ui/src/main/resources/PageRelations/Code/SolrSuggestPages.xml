@@ -144,6 +144,8 @@ require(['jquery', 'xwiki-selectize'], function($, xwikiSelectize) {
       create: false,
       // The document where the selected values are saved. Stored document references will be relative to this document.
       documentReference: select.data('documentReference'),
+      dropdownParent: $('.page-relations-container'),
+      // dropdownAlignment: 'right',
       placeholder: "$services.localization.render('pageRelations.add.selectPage')",
       // Where to look for pages. The following is supported:
       // * "wiki:wikiName" look for pages in the specified wiki
