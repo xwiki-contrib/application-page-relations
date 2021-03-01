@@ -340,16 +340,41 @@
       <cache>long</cache>
     </property>
     <property>
-      <code>form.page-relation-add {
-  display: block;
-  margin-top: 0.5em;
-  background: @panel-bg;
-  padding: 0.7em;
-  z-index: 3;
-  border: 1px solid #ddd;
-  max-width: 700px;
-  .page-relation-add-actions {
-    white-space: nowrap;
+      <code>.page-relations-container {
+  form.page-relation-add {
+    display: block;
+    margin-top: 0.5em;
+    background: @panel-bg;
+    padding: 0.7em;
+    z-index: 3;
+    border: 1px solid #ddd;
+    max-width: 700px;
+    .page-relation-add-actions {
+      white-space: nowrap;
+    }
+    .selectize-dropdown {
+      max-width: 40em;
+    }
+  }
+  .page-relations-term-li {
+    display: inline-block;
+    border: 1px solid @xwiki-border-color;
+    border-radius: 0.3rem;
+    background: white;
+    margin-bottom: 0.5rem;
+    .page-relations-term-container {
+      padding: 0.7rem 1rem;
+      .page-relations-term {
+      }
+      .page-relations-term-action-remove {
+        padding: .3rem;
+        cursor: pointer;
+        a {
+          text-decoration: none;
+          color: 	@btn-default-color;
+        }
+      }
+    }
   }
 }
 
@@ -359,47 +384,27 @@
   }
 }
 
-.page-relations-term-li {
-  display: inline-block;
-  border: 1px solid @xwiki-border-color;
-  border-radius: 0.3rem;
-  background: white;
-  margin-bottom: 0.5rem;
-  .page-relations-term-container {
-    padding: 0.7rem 1rem;
-    .page-relations-term {
-    }
-    .page-relations-term-action-remove {
-      background: @btn-default-bg;
-      padding: .3rem .7rem;
-      border-radius: 50%;
-      &amp;:hover {
-        background: darken(@btn-default-bg, 5%);
-      }
-      cursor: pointer;
-      a {
-        text-decoration: none;
-        color: 	@btn-default-color;
-      }
-    }
-  }
-}
-
 #rightPanels {
-  .selectize-dropdown {
-    right: 30px !important;
-    margin-top: -50px !important;
+  .page-relations-container {
+    form.page-relation-add {
+      .selectize-dropdown {
+        right: 40px !important;
+        margin-top: -40px !important;
+      }
+    }
   }
 }
 
 @media screen and (min-width: 768px) {
   .page-relations-uix-container {
-    form.page-relation-add {
-      .page-relation-add-suggest {
-        width: 70%;
-      }
-      .page-relation-add-actions {
-        width: 30%;
+    .page-relations-container {
+      form.page-relation-add {
+        .page-relation-add-suggest {
+          width: 70%;
+        }
+        .page-relation-add-actions {
+          width: 30%;
+        }
       }
     }
   }
