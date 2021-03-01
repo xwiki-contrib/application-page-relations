@@ -126,12 +126,13 @@
   ## Get inverse relations, querying pages which contain the current subject as a relation either with its full identifier (including
   ## the wiki name), or with an identifier that does not contain the wiki name (because the complement is in the same wiki as the subject).
   #set ($relativeSubjectId = $services.model.serialize($macro.reference, 'compactwiki'))
-  #set ($query = $services.query.createQuery("type:DOCUMENT AND ((property.PageRelations.Code.PageRelationClass.page:(""$relativeSubjectId"") AND wiki:${xcontext.wiki}) OR (property.PageRelations.Code.PageRelationClass.page:""$subject""))", 'solr'))
+  #set ($macro.solrStatement = "type:DOCUMENT AND ((property.PageRelations.Code.PageRelationClass.page:(""$relativeSubjectId"") AND wiki:${xcontext.wiki}) OR (property.PageRelations.Code.PageRelationClass.page:""$subject""))")
+  #set ($query = $services.query.createQuery($macro.solrStatement, 'solr'))
   #set ($searchResponse = $query.execute()[0])
   ## NB: no need to perform a view access check on the results returned by Solr since the SolrQueryExecutor
   ## already performs a check on the current user.
   #foreach ($searchResult in $searchResponse.results)
-    #set ($discard = $macro.allRelations.add({'id': "${searchResult.wiki}:${searchResult.fullname}", 'title': $searchResult.title_, 'direct': false}))
+    #set ($discard = $macro.allRelations.add({'id': "${searchResult.wiki}:${searchResult.fullname}", 'title': "$!searchResult.title_", 'direct': false}))
   #end
   ## Sort relations by title
   #set ($macro.allRelations = $collectiontool.sort($macro.allRelations, 'title'))
@@ -153,7 +154,7 @@
           &lt;a href="$xwiki.getURL($item.id)"&gt;$item.title&lt;/a&gt;
         &lt;/span&gt;
         #if ($macro.isRemovable)
-        &lt;span class="page-relations-term-action-remove"&gt;&lt;a href="#" data-subject="$escapetool.xml($macro.subject)" data-complement="$escapetool.xml($macro.complement)"&gt;x&lt;/a&gt;&lt;/span&gt;
+        &lt;span class="page-relations-term-action-remove"&gt;&lt;a href="#" data-subject="$escapetool.xml($macro.subject)" data-complement="$escapetool.xml($macro.complement)"&gt;$services.icon.renderHTML('remove')&lt;/a&gt;&lt;/span&gt;
         #end
       &lt;/div&gt;
     &lt;/li&gt;
