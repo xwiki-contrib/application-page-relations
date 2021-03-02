@@ -28,7 +28,7 @@
     <version>11.1</version>
   </parent>
   <artifactId>application-page-relations</artifactId>
-  <version>3.0-RC3-SNAPSHOT</version>
+  <version>3.0-rc-3-SNAPSHOT</version>
   <name>Page Relations Application - Parent POM</name>
   <packaging>pom</packaging>
   <description>Makes it possible to create and display relations between pages as XWiki objects.</description>
@@ -53,7 +53,7 @@
     </developer>
   </developers>
   <properties>
-    <xwiki.extension.name>Page Relations Application</xwiki.extension.name>
+    <xwiki.extension.name>Relations Application</xwiki.extension.name>
     <xwiki.extension.category>application</xwiki.extension.category>
     <xwiki.release.jira.skip>true</xwiki.release.jira.skip>
     <xwiki.issueManagement.system>jira</xwiki.issueManagement.system>

@@ -1,0 +1,85 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.4" reference="XWiki.Relations.Code.Translations" locale="de">
+  <web>XWiki.Relations.Code</web>
+  <name>Translations</name>
+  <language>de</language>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>1</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>XWiki.Relations.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>Translations</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>plain/1.0</syntaxId>
+  <hidden>true</hidden>
+  <content># Class fields
+XWiki.Relations.IsRelatedToClass_page=Seite
+
+# Live table generic keys
+relations.livetable.doc.title=Seitentitel
+relations.livetable.doc.name=Seitenname
+relations.livetable.doc.space=Bereich
+relations.livetable.doc.fullname=Vollständiger Seitenname
+relations.livetable.doc.location=Speicherort
+relations.livetable.doc.author=Letzter Autor
+relations.livetable.doc.creator=Ersteller
+relations.livetable.doc.date=Datum
+relations.livetable.doc.creationDate=Erstellungsdatum
+relations.livetable._avatar=Profilbild
+relations.livetable._images=Bilder
+relations.livetable._attachments=Anhänge
+relations.livetable._actions=Aktionen
+relations.livetable._actions.edit=Bearbeiten
+relations.livetable._actions.delete=Löschen
+relations.livetable.emptyvalue=-
+
+# Live table specific keys
+relations.livetable.page=Seite
+
+# PageRelationsMacro
+relations.entry.name=Beziehungen
+relations.title=Beziehungen:
+relations.facets=Aspekte:
+relations.add.relatedPage=Verwandte Seite:
+relations.add.hint=Beziehung hinzufügen
+relations.add.submit=Hinzufügen
+relations.add.cancel=Abbrechen
+relations.add.error.alreadySet=Diese Beziehung war bereits festgelegt.
+relations.add.error.notAllowed=Sie sind nicht berechtigt, diese Aktion auszuführen.
+relations.add.error.failed=Es ist ein Fehler aufgetreten.
+relations.add.history.message=Hinzufügen einer Beziehung zu "{0}"
+relations.remove.hint=Beziehung entfernen
+relations.remove.error.notFound=Die Ziel-Seite wurde nicht gefunden.
+relations.remove.error.notAllowed=Sie sind nicht berechtigt, diese Aktion auszuführen.
+relations.remove.error.failed=Es ist ein Fehler aufgetreten.
+relations.remove.history.message=Entfernen einer Beziehung zu "{0}"
+relations.update.page=Aktualisiere Beziehung zu "{0}"
+relations.panel.title=Beziehungen
+
+# Deprecated keys
+relations.dataSpace.title=Daten</content>
+</xwikidoc>

@@ -1,0 +1,131 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.4" reference="XWiki.Relations.Code.Translations" locale="">
+  <web>XWiki.Relations.Code</web>
+  <name>Translations</name>
+  <language/>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>XWiki.Relations.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>Translations</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>plain/1.0</syntaxId>
+  <hidden>true</hidden>
+  <content># PageRelations Application
+relations.description=The [[Relations extension&gt;&gt;https://extensions.xwiki.org/xwiki/bin/view/Extension/Page%20Relations%20Application/]] allows to relate pages to one another either within the same wiki or across distinct wikis.
+
+# Class fields
+XWiki.Relations.IsRelatedToClass_page=Page
+
+# Live table generic keys
+relations.livetable.doc.title=Page Title
+relations.livetable.doc.name=Page Name
+relations.livetable.doc.space=Space
+relations.livetable.doc.fullname=Page full name
+relations.livetable.doc.location=Location
+relations.livetable.doc.author=Last Author
+relations.livetable.doc.creator=Creator
+relations.livetable.doc.date=Date
+relations.livetable.doc.creationDate=Creation Date
+relations.livetable._avatar=Avatar
+relations.livetable._images=Images
+relations.livetable._attachments=Attachments
+relations.livetable._actions=Actions
+relations.livetable._actions.edit=Edit
+relations.livetable._actions.delete=Delete
+relations.livetable.emptyvalue=-
+
+# Live table specific keys
+relations.livetable.page=Page
+
+# PageRelationsMacro
+relations.entry.name=Relations
+relations.title=Relations
+relations.facets=Facets:
+relations.add.relatedPage=Related page:
+relations.add.label=Add relation
+relations.add.hint=Add a relation
+relations.add.selectPage=Select a page
+relations.add.submit=Add
+relations.add.cancel=Cancel
+relations.add.gettingForm=Preparing relation addition form...
+relations.add.processing=Creating the relation...
+relations.add.error.alreadySet=This relations was already set.
+relations.add.error.notAllowed=You are not authorized to perform this action.
+relations.add.error.failed=An error occurred.
+relations.add.history.message=Addition of a relation to "{0}"
+relations.remove.processing=Removing relation...
+relations.remove.done=Relation removed
+relations.remove.hint=Remove relation
+relations.remove.error.notFound=The target page was not found.
+relations.remove.error.notAllowed=You are not authorized to perform this action.
+relations.remove.error.failed=An error occurred.
+relations.remove.history.message=Removal of a relation with "{0}"
+relations.update.page=Update relation to "{0}"
+relations.panel.title=Relations
+
+# Deprecated keys
+relations.dataSpace.title=Data</content>
+  <object>
+    <name>XWiki.Relations.Code.Translations</name>
+    <number>0</number>
+    <className>XWiki.TranslationDocumentClass</className>
+    <guid>70574f40-09b6-468e-a5e3-ef1efd080204</guid>
+    <class>
+      <name>XWiki.TranslationDocumentClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <scope>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <freeText>forbidden</freeText>
+        <largeStorage>0</largeStorage>
+        <multiSelect>0</multiSelect>
+        <name>scope</name>
+        <number>1</number>
+        <prettyName>Scope</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>GLOBAL|WIKI|USER|ON_DEMAND</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </scope>
+    </class>
+    <property>
+      <scope>WIKI</scope>
+    </property>
+  </object>
+</xwikidoc>

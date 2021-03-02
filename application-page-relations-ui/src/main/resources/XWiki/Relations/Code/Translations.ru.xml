@@ -1,0 +1,85 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.4" reference="XWiki.Relations.Code.Translations" locale="ru">
+  <web>XWiki.Relations.Code</web>
+  <name>Translations</name>
+  <language>ru</language>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>1</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>XWiki.Relations.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>Translations</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>plain/1.0</syntaxId>
+  <hidden>true</hidden>
+  <content># Class fields
+XWiki.Relations.IsRelatedToClass_page=Страница
+
+# Live table generic keys
+relations.livetable.doc.title=Заголовок страницы
+relations.livetable.doc.name=Имя страницы
+relations.livetable.doc.space=Пространство
+relations.livetable.doc.fullname=Полное имя страницы
+relations.livetable.doc.location=Расположение
+relations.livetable.doc.author=Последний автор
+relations.livetable.doc.creator=Создатель
+relations.livetable.doc.date=Дата
+relations.livetable.doc.creationDate=Дата создания
+relations.livetable._avatar=Аватар
+relations.livetable._images=Изображения
+relations.livetable._attachments=Вложения
+relations.livetable._actions=Действия
+relations.livetable._actions.edit=Правка
+relations.livetable._actions.delete=Удалить
+relations.livetable.emptyvalue=-
+
+# Live table specific keys
+relations.livetable.page=Страница
+
+# PageRelationsMacro
+relations.entry.name=Связи
+relations.title=Связи:
+relations.facets=Аспекты:
+relations.add.relatedPage=Связанная страница:
+relations.add.hint=Добавить связь
+relations.add.submit=Добавить
+relations.add.cancel=Отмена
+relations.add.error.alreadySet=Эти связи уже были установлены.
+relations.add.error.notAllowed=Вам не разрешено выполнять данное действие.
+relations.add.error.failed=Произошла ошибка.
+relations.add.history.message=Добавление связи к "{0}"
+relations.remove.hint=Удалить связь
+relations.remove.error.notFound=Целевая страница не найдена.
+relations.remove.error.notAllowed=Вам не разрешено выполнять данное действие.
+relations.remove.error.failed=Произошла ошибка.
+relations.remove.history.message=Удаление связи с "{0}"
+relations.update.page=Обновление связи "{0}"
+relations.panel.title=Связи
+
+# Deprecated keys
+relations.dataSpace.title=Дата</content>
+</xwikidoc>

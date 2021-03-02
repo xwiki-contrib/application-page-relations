@@ -1,0 +1,94 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.4" reference="XWiki.Relations.Code.Translations" locale="fr">
+  <web>XWiki.Relations.Code</web>
+  <name>Translations</name>
+  <language>fr</language>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>1</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>XWiki.Relations.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>Translations</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>plain/1.0</syntaxId>
+  <hidden>true</hidden>
+  <content># PageRelations Application
+relations.description=L'extension [[Relations&gt;&gt;https://extensions.xwiki.org/xwiki/bin/view/Extension/Page%20Relations%20Application/]] permet de créer des relations entre les pages d'un même wiki ou de plusieurs wikis.
+
+# Class fields
+XWiki.Relations.IsRelatedToClass_page=Page
+
+# Live table generic keys
+relations.livetable.doc.title=Titre de la page
+relations.livetable.doc.name=Nom de la page
+relations.livetable.doc.space=Espace
+relations.livetable.doc.fullname=Nom complet de la page
+relations.livetable.doc.location=Position
+relations.livetable.doc.author=Dernier auteur
+relations.livetable.doc.creator=Créateur
+relations.livetable.doc.date=Date
+relations.livetable.doc.creationDate=Date de création
+relations.livetable._avatar=Avatar
+relations.livetable._images=Images
+relations.livetable._attachments=Pièces jointes
+relations.livetable._actions=Actions
+relations.livetable._actions.edit=Éditer
+relations.livetable._actions.delete=Supprimer
+relations.livetable.emptyvalue=-
+
+# Live table specific keys
+relations.livetable.page=Page
+
+# PageRelationsMacro
+relations.entry.name=Relations
+relations.title=Relations
+### Missing: relations.facets=Facets:
+relations.add.relatedPage=Pages liées :
+relations.add.label=Ajouter une relation
+relations.add.hint=Ajouter une relation
+relations.add.selectPage=Sélectionner une page
+relations.add.submit=Ajouter
+relations.add.cancel=Annuler
+relations.add.gettingForm=Préparation du formulaire d'ajout...
+relations.add.processing=Création de la relation...
+relations.add.error.alreadySet=Cette relation a déjà été créée.
+relations.add.error.notAllowed=Vous n'êtes pas autorisé à effectuer cette action.
+relations.add.error.failed=Une erreur est survenue.
+relations.add.history.message=Ajout d''une relation à « {0} »
+relations.remove.processing=Suppression de la relation...
+relations.remove.done=Relation supprimée
+relations.remove.hint=Supprimer la relation
+relations.remove.error.notFound=La page cible n'a pas été trouvée.
+relations.remove.error.notAllowed=Vous n'êtes pas autorisé à effectuer cette action.
+relations.remove.error.failed=Une erreur est survenue.
+relations.remove.history.message=Suppression de la relation avec « {0} »
+relations.update.page=Mise à jour de la relation à « {0} »
+relations.panel.title=Relations
+
+# Deprecated keys
+relations.dataSpace.title=Données</content>
+</xwikidoc>

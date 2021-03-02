@@ -25,11 +25,11 @@
   <parent>
     <groupId>org.xwiki.contrib</groupId>
     <artifactId>application-page-relations</artifactId>
-    <version>3.0-RC3-SNAPSHOT</version>
+    <version>3.0-rc-3-SNAPSHOT</version>
   </parent>
   <artifactId>application-page-relations-api</artifactId>
-  <name>Page Relations API</name>
-  <description>API for dealing with Page Relations</description>
+  <name>Relations API</name>
+  <description>API for dealing with relations between pages</description>
   <packaging>jar</packaging>
   <properties>
     <xwiki.extension.name>Page Relations API</xwiki.extension.name>

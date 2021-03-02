@@ -26,14 +26,14 @@
 	<parent>
 		<groupId>org.xwiki.contrib</groupId>
 		<artifactId>application-page-relations</artifactId>
-		<version>3.0-RC3-SNAPSHOT</version>
+		<version>3.0-rc-3-SNAPSHOT</version>
 	</parent>
 	<artifactId>application-page-relations-ui</artifactId>
-	<name>Page Relations Application</name>
+	<name>Relations Application</name>
 	<packaging>xar</packaging>
-	<description>Create and display relations between pages as XWiki objects</description>
+	<description>Create and display relations between pages</description>
 	<properties>
-		<xwiki.extension.name>Page Relations Application</xwiki.extension.name>
+		<xwiki.extension.name>Relations Application</xwiki.extension.name>
 		<xwiki.extension.category>application</xwiki.extension.category>
 	</properties>
 	<dependencies>

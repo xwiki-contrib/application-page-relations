@@ -1,0 +1,132 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.4" reference="XWiki.Relations.Data.Max Linder.WebHome" locale="">
+  <web>XWiki.Relations.Data.Max Linder</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>XWiki.Relations.Data.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>Max Linder</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>https://en.wikipedia.org/wiki/Max_Linder
+
+&gt;Gabriel Leuvielle (16 December 1883 – 1 November 1925), known professionally as Max Linder, was a French actor, director, screenwriter, producer and comedian of the silent film era. His onscreen persona "Max" was one of the first recognizable recurring characters in film. He has also been cited as the "first international movie star" and "the first film star anywhere".
+
+</content>
+  <object>
+    <name>XWiki.Relations.Data.Max Linder.WebHome</name>
+    <number>1</number>
+    <className>XWiki.Relations.IsRelatedToClass</className>
+    <guid>58913b72-a547-4c01-b003-dbd3b5bb12d8</guid>
+    <class>
+      <name>XWiki.Relations.IsRelatedToClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <page>
+        <cache>0</cache>
+        <classname/>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <hint/>
+        <idField/>
+        <multiSelect>0</multiSelect>
+        <name>page</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Page</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>1</size>
+        <sort>none</sort>
+        <sql/>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <valueField/>
+        <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
+      </page>
+    </class>
+    <property>
+      <page>XWiki.Relations.Data.Person.WebHome</page>
+    </property>
+  </object>
+  <object>
+    <name>XWiki.Relations.Data.Max Linder.WebHome</name>
+    <number>2</number>
+    <className>XWiki.Relations.IsRelatedToClass</className>
+    <guid>5846c60a-7086-4791-9841-a6d2592bdf57</guid>
+    <class>
+      <name>XWiki.Relations.IsRelatedToClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <page>
+        <cache>0</cache>
+        <classname/>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <hint/>
+        <idField/>
+        <multiSelect>0</multiSelect>
+        <name>page</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Page</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>1</size>
+        <sort>none</sort>
+        <sql/>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <valueField/>
+        <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
+      </page>
+    </class>
+    <property>
+      <page>XWiki.Relations.Data.Charlie Chaplin.WebHome</page>
+    </property>
+  </object>
+</xwikidoc>

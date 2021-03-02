@@ -1,0 +1,216 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.4" reference="XWiki.Relations.Data.Charlie Chaplin.WebHome" locale="">
+  <web>XWiki.Relations.Data.Charlie Chaplin</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>XWiki.Relations.Data.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>Charlie Chaplin</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content/>
+  <object>
+    <name>XWiki.Relations.Data.Charlie Chaplin.WebHome</name>
+    <number>0</number>
+    <className>XWiki.Relations.IsRelatedToClass</className>
+    <guid>80e8c12e-a7cd-4447-a992-23d591c00310</guid>
+    <class>
+      <name>XWiki.Relations.IsRelatedToClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <page>
+        <cache>0</cache>
+        <classname/>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <hint/>
+        <idField/>
+        <multiSelect>0</multiSelect>
+        <name>page</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Page</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>1</size>
+        <sort>none</sort>
+        <sql/>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <valueField/>
+        <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
+      </page>
+    </class>
+    <property>
+      <page>XWiki.Relations.Data.Person.WebHome</page>
+    </property>
+  </object>
+  <object>
+    <name>XWiki.Relations.Data.Charlie Chaplin.WebHome</name>
+    <number>2</number>
+    <className>XWiki.Relations.IsRelatedToClass</className>
+    <guid>0b7b8232-aa29-4e5a-be0e-678da44685c9</guid>
+    <class>
+      <name>XWiki.Relations.IsRelatedToClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <page>
+        <cache>0</cache>
+        <classname/>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <hint/>
+        <idField/>
+        <multiSelect>0</multiSelect>
+        <name>page</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Page</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>1</size>
+        <sort>none</sort>
+        <sql/>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <valueField/>
+        <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
+      </page>
+    </class>
+    <property>
+      <page>XWiki.Relations.Data.The Gold Rush.WebHome</page>
+    </property>
+  </object>
+  <object>
+    <name>XWiki.Relations.Data.Charlie Chaplin.WebHome</name>
+    <number>3</number>
+    <className>XWiki.Relations.IsRelatedToClass</className>
+    <guid>a5ac66b5-3d90-4140-8298-e3c9245703ee</guid>
+    <class>
+      <name>XWiki.Relations.IsRelatedToClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <page>
+        <cache>0</cache>
+        <classname/>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <hint/>
+        <idField/>
+        <multiSelect>0</multiSelect>
+        <name>page</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Page</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>1</size>
+        <sort>none</sort>
+        <sql/>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <valueField/>
+        <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
+      </page>
+    </class>
+    <property>
+      <page>XWiki.Relations.Data.City Lights.WebHome</page>
+    </property>
+  </object>
+  <object>
+    <name>XWiki.Relations.Data.Charlie Chaplin.WebHome</name>
+    <number>4</number>
+    <className>XWiki.Relations.IsRelatedToClass</className>
+    <guid>4e1cf89b-ea3d-4224-a08b-64bedfac69d8</guid>
+    <class>
+      <name>XWiki.Relations.IsRelatedToClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <page>
+        <cache>0</cache>
+        <classname/>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <hint/>
+        <idField/>
+        <multiSelect>0</multiSelect>
+        <name>page</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Page</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>1</size>
+        <sort>none</sort>
+        <sql/>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <valueField/>
+        <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
+      </page>
+    </class>
+    <property>
+      <page>XWiki.Relations.Data.Modern Times.WebHome</page>
+    </property>
+  </object>
+</xwikidoc>
