@@ -52,15 +52,6 @@
       <name>slauriere</name>
     </developer>
   </developers>
-  <properties>
-    <xwiki.extension.name>Relations Application</xwiki.extension.name>
-    <xwiki.extension.category>application</xwiki.extension.category>
-    <xwiki.release.jira.skip>true</xwiki.release.jira.skip>
-    <xwiki.issueManagement.system>jira</xwiki.issueManagement.system>
-    <xwiki.issueManagement.url>https://jira.xwiki.org/projects/PAGEREL/</xwiki.issueManagement.url>
-    <xwiki.extension.features>application-page-relations-ui</xwiki.extension.features>
-    <platform.version>11.1</platform.version>
-  </properties>
   <modules>
     <module>application-relations-api</module>
     <module>application-relations-ui</module>
