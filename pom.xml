@@ -27,7 +27,7 @@
     <artifactId>parent-platform</artifactId>
     <version>11.1</version>
   </parent>
-  <artifactId>application-page-relations</artifactId>
+  <artifactId>application-relations</artifactId>
   <version>3.0-rc-3-SNAPSHOT</version>
   <name>Page Relations Application - Parent POM</name>
   <packaging>pom</packaging>
@@ -58,17 +58,18 @@
     <xwiki.release.jira.skip>true</xwiki.release.jira.skip>
     <xwiki.issueManagement.system>jira</xwiki.issueManagement.system>
     <xwiki.issueManagement.url>https://jira.xwiki.org/projects/PAGEREL/</xwiki.issueManagement.url>
+    <xwiki.extension.features>application-page-relations-ui</xwiki.extension.features>
     <platform.version>11.1</platform.version>
   </properties>
   <modules>
-    <module>application-page-relations-api</module>
-    <module>application-page-relations-ui</module>
+    <module>application-relations-api</module>
+    <module>application-relations-ui</module>
   </modules>
   <profiles>
     <profile>
-      <id>application-page-relations-test</id>
+      <id>application-relations-test</id>
       <modules>
-        <module>application-page-relations-test</module>
+        <module>application-relations-test</module>
       </modules>
     </profile>
   </profiles>

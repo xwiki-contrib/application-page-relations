@@ -1,0 +1,3 @@
+org.xwiki.contrib.relations.internal.DefaultRelationQueryExecutor
+org.xwiki.contrib.relations.script.RelationScriptService
+org.xwiki.contrib.relations.internal.RelationEventListener
