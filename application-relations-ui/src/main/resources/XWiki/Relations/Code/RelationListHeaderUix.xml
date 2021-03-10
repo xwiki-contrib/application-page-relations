@@ -174,7 +174,7 @@ $object.content
 {{/velocity}}</content>
     </property>
     <property>
-      <extensionPointId>org.xwiki.platform.template.content.header.after.disabled</extensionPointId>
+      <extensionPointId>org.xwiki.platform.template.content.header.after</extensionPointId>
     </property>
     <property>
       <name>xwiki:XWiki.PageRelations</name>
