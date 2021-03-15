@@ -154,12 +154,33 @@
           &lt;a href="$xwiki.getURL($item.id)"&gt;$item.title&lt;/a&gt;
         &lt;/span&gt;
         #if ($macro.isRemovable)
-        &lt;span class="xwiki-relations-term-action-remove"&gt;&lt;a href="#" data-subject="$escapetool.xml($macro.subject)" data-complement="$escapetool.xml($macro.complement)"&gt;$services.icon.renderHTML('remove')&lt;/a&gt;&lt;/span&gt;
+        &lt;span class="xwiki-relations-term-action-remove"&gt;&lt;a href="#xwiki-relations-statement-removal-modal" data-subject="$escapetool.xml($macro.subject)" data-complement="$escapetool.xml($macro.complement)" data-toggle="modal" role="button" rel="nofollow"&gt;$services.icon.renderHTML('remove')&lt;/a&gt;&lt;/span&gt;
         #end
       &lt;/div&gt;
     &lt;/li&gt;
   #end
   &lt;/ul&gt;
+
+  &lt;div class="modal fade" id="xwiki-relations-statement-removal-modal" tabindex="-1" role="dialog"&gt;
+    &lt;div class="modal-dialog" role="document"&gt;
+      &lt;div class="modal-content"&gt;
+        &lt;div class="modal-header"&gt;
+          &lt;button type="button" class="close" data-dismiss="modal"&gt;
+            &lt;span aria-hidden="true"&gt;&amp;times;&lt;/span&gt;
+          &lt;/button&gt;
+          &lt;div class="modal-title"&gt;$services.localization.render('relations.remove.confirmation.title')&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="modal-body"&gt;
+          $services.localization.render('relations.remove.confirmation.message')
+        &lt;/div&gt;
+        &lt;div class="modal-footer"&gt;
+          &lt;button type="button" class="btn btn-danger confirm-button"&gt;$services.localization.render('relations.remove.confirmation.confirm')&lt;/button&gt;
+          &lt;button type="button" class="btn btn-default close-button" data-dismiss="modal"&gt;$services.localization.render('cancel')&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
   {{/html}}
 
 #end

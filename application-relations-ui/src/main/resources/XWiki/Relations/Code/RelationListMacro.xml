@@ -131,7 +131,7 @@
     $('.xwiki-relations-list').html("&lt;img src='$xwiki.getSkinFile('icons/xwiki/spinner.gif')'/&gt;");
     sendRequest("get-relations", subject, null, 'html').done(function(data) {
       $('.xwiki-relations-list').html(data);
-      registerActionListeners();
+      registerListeners();
     });
   }
 
@@ -184,21 +184,38 @@
     });
   });
 
-  var registerActionListeners = function() {
-    $('.xwiki-relations-term-action-remove').on('click', function(event) {
-      event.preventDefault();
-      var relationListItem = $(this).parent();
-      var subject = $(this).find('a').data('subject');
-      var complement = $(this).find('a').data('complement');
-      var notification = new XWiki.widgets.Notification("$services.localization.render('relations.remove.processing')", "inprogress");
-      sendRequest('remove-relation', subject, complement, 'plain').done(function (data) {
-        notification.hide();
-        new XWiki.widgets.Notification("$services.localization.render('relations.remove.done')", "done");
-        relationListItem.remove();
-      }).fail(function(data) {
-        notification.hide();
-        new XWiki.widgets.Notification("$services.localization.render('relations.remove.error.notFound')", "warning");
-      });
+  const registerListeners = function() {
+    const confirmationModal = $('#xwiki-relations-statement-removal-modal');
+    confirmationModal.on('shown.bs.modal', function(event) {
+      const $target = $(event.relatedTarget);
+      const subject = $target.data('subject');
+      const complement = $target.data('complement');
+      const $element = $target.parents('.xwiki-relations-term-li');
+      confirmationModal.data('statement', {subject: subject, complement: complement, element: $element})
+    });
+    confirmationModal.on('click', '.modal-footer .confirm-button', function(event) {
+      const statement = confirmationModal.data('statement');
+      confirmationModal.modal('hide');
+      removeStatement(statement);
+    });
+  }
+
+  const removeStatement = function(statement) {
+    if (statement === undefined || statement.subject === undefined || statement.complement === undefined || statement.element === undefined) {
+      new XWiki.widgets.Notification("$services.localization.render('relations.remove.error.notFound')", "warning");
+      return;
+    }
+    const subject = statement.subject;
+    const complement = statement.complement;
+    const element = statement.element;
+    var notification = new XWiki.widgets.Notification("$services.localization.render('relations.remove.processing')", "inprogress");
+    sendRequest('remove-relation', subject, complement, 'plain').done(function (data) {
+      notification.hide();
+      new XWiki.widgets.Notification("$services.localization.render('relations.remove.done')", "done");
+      element.remove();
+    }).fail(function(data) {
+      notification.hide();
+      new XWiki.widgets.Notification("$services.localization.render('relations.remove.error.notFound')", "warning");
     });
   }
 

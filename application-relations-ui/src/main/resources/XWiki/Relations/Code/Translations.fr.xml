@@ -63,7 +63,7 @@ relations.livetable.emptyvalue=-
 # Live table specific keys
 relations.livetable.page=Page
 
-# PageRelationsMacro
+# RelationListMacro
 relations.entry.name=Relations
 relations.title=Relations
 ### Missing: relations.facets=Facets:
@@ -88,6 +88,9 @@ relations.remove.error.failed=Une erreur est survenue.
 relations.remove.history.message=Suppression de la relation avec « {0} »
 relations.update.page=Mise à jour de la relation à « {0} »
 relations.panel.title=Relations
+relations.remove.confirmation.title=Suppression
+relations.remove.confirmation.message=Supprimer cette relation ?
+relations.remove.confirmation.confirm=Supprimer
 
 # Deprecated keys
 relations.dataSpace.title=Données</content>
