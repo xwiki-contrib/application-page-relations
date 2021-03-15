@@ -63,9 +63,11 @@ relations.livetable.emptyvalue=-
 # Live table specific keys
 relations.livetable.page=Page
 
-# RelationListMacro
+# RelationList Macro
 relations.entry.name=Relations
 relations.title=Relations
+relations.error=Une erreur s'est produite :
+relations.notAllowed=Vous n'êtes pas autorisé(e) à effectuer cette action.
 ### Missing: relations.facets=Facets:
 relations.add.relatedPage=Pages liées :
 relations.add.label=Ajouter une relation
@@ -76,14 +78,12 @@ relations.add.cancel=Annuler
 relations.add.gettingForm=Préparation du formulaire d'ajout...
 relations.add.processing=Création de la relation...
 relations.add.error.alreadySet=Cette relation a déjà été créée.
-relations.add.error.notAllowed=Vous n'êtes pas autorisé à effectuer cette action.
 relations.add.error.failed=Une erreur est survenue.
 relations.add.history.message=Ajout d''une relation à « {0} »
 relations.remove.processing=Suppression de la relation...
 relations.remove.done=Relation supprimée
 relations.remove.hint=Supprimer la relation
 relations.remove.error.notFound=La page cible n'a pas été trouvée.
-relations.remove.error.notAllowed=Vous n'êtes pas autorisé à effectuer cette action.
 relations.remove.error.failed=Une erreur est survenue.
 relations.remove.history.message=Suppression de la relation avec « {0} »
 relations.update.page=Mise à jour de la relation à « {0} »

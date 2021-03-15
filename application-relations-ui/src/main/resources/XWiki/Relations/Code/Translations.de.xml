@@ -60,21 +60,20 @@ relations.livetable.emptyvalue=-
 # Live table specific keys
 relations.livetable.page=Seite
 
-# PageRelationsMacro
+# RelationListMacro
 relations.entry.name=Beziehungen
 relations.title=Beziehungen:
+relations.notAllowed=Sie sind nicht berechtigt, diese Aktion auszuführen.
 relations.facets=Aspekte:
 relations.add.relatedPage=Verwandte Seite:
 relations.add.hint=Beziehung hinzufügen
 relations.add.submit=Hinzufügen
 relations.add.cancel=Abbrechen
 relations.add.error.alreadySet=Diese Beziehung war bereits festgelegt.
-relations.add.error.notAllowed=Sie sind nicht berechtigt, diese Aktion auszuführen.
 relations.add.error.failed=Es ist ein Fehler aufgetreten.
 relations.add.history.message=Hinzufügen einer Beziehung zu "{0}"
 relations.remove.hint=Beziehung entfernen
 relations.remove.error.notFound=Die Ziel-Seite wurde nicht gefunden.
-relations.remove.error.notAllowed=Sie sind nicht berechtigt, diese Aktion auszuführen.
 relations.remove.error.failed=Es ist ein Fehler aufgetreten.
 relations.remove.history.message=Entfernen einer Beziehung zu "{0}"
 relations.update.page=Aktualisiere Beziehung zu "{0}"

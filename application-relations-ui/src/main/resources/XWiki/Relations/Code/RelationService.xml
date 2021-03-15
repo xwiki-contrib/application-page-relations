@@ -59,15 +59,20 @@
 
 #macro(addRelation $subject $complement)
   #if ($services.csrf.isTokenValid($request.csrf) &amp;&amp; $services.security.authorization.hasAccess('edit', $subject))
-    #set ($macro.page = $xwiki.getDocument($subject))
-    #set ($macro.index = $macro.page.createNewObject($IS_RELATED_TO_CLASS))
-    #set ($macro.object = $macro.page.getObject($IS_RELATED_TO_CLASS, $macro.index))
-    #set ($macro.discard = $macro.object.set('page', $complement))
-    #set ($discard = $macro.page.save())
-    RELATION ADDED
+    #try()
+      #set ($macro.page = $xwiki.getDocument($subject))
+      #set ($macro.index = $macro.page.createNewObject($IS_RELATED_TO_CLASS))
+      #set ($macro.object = $macro.page.getObject($IS_RELATED_TO_CLASS, $macro.index))
+      #set ($macro.discard = $macro.object.set('page', $complement))
+      #set ($discard = $macro.page.save())
+    #end
+    #if ("$!exception" != '')
+      $response.setStatus(500)
+      $!exceptiontool.getMessage($exception)
+    #end
   #else
    $response.setStatus(403)
-   FORBIDDEN
+   $services.localization.render('relations.notAllowed')
   #end
 #end
 
@@ -101,11 +106,11 @@
     #end
     #if ("$!exception" != '')
       $response.setStatus(500)
-      $!exceptiontool.getStackTrace($exception)
+      $!exceptiontool.getMessage($exception)
     #end
   #else
    $response.setStatus(403)
-   $services.localization.render('relations.remove.error.notAllowed')
+   $services.localization.render('relations.notAllowed')
   #end
 #end
 

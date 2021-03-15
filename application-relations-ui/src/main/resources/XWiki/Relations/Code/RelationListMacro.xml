@@ -162,6 +162,10 @@
         addRelationButton.show();
         notification.hide();
         loadRelations();
+      }).fail(function(data) {
+        notification.hide();
+        const errorMessage = data !== undefined ? data.responseText : '';
+        new XWiki.widgets.Notification("$services.localization.render('relations.error')" + errorMessage + '.', "warning");
       });
     });
     var cancelButton = form.find(".xwiki-relations-add-cancel");
@@ -181,6 +185,10 @@
     sendRequest('get-add-relation-form', subject, 'html').done(function (data) {
       notification.hide();
       createAddRelationForm(data);
+    }).fail(function(data) {
+      notification.hide();
+      const errorMessage = data !== undefined ? data.responseText : '';
+      new XWiki.widgets.Notification("$services.localization.render('relations.error')" + errorMessage + '.', "warning");
     });
   });
 
