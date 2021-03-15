@@ -364,7 +364,7 @@
     background: @panel-bg;
     padding: 0.7em;
     z-index: 3;
-    border: 1px solid #ddd;
+    border: 1px solid @xwiki-border-color;
     max-width: 700px;
     .xwiki-relations-add-actions {
       white-space: nowrap;
