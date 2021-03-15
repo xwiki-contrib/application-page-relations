@@ -388,8 +388,6 @@
     margin-bottom: 0.5rem;
     .xwiki-relations-term-container {
       padding: 0.7rem 1rem;
-      .xwiki-relations-term {
-      }
       .xwiki-relations-term-action-remove {
         padding: .3rem;
       }
