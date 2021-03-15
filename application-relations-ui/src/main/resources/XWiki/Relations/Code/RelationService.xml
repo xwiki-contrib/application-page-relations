@@ -154,7 +154,7 @@
           &lt;a href="$xwiki.getURL($item.id)"&gt;$item.title&lt;/a&gt;
         &lt;/span&gt;
         #if ($macro.isRemovable)
-        &lt;span class="xwiki-relations-term-action-remove"&gt;&lt;a href="#xwiki-relations-statement-removal-modal" data-subject="$escapetool.xml($macro.subject)" data-complement="$escapetool.xml($macro.complement)" data-toggle="modal" role="button" rel="nofollow"&gt;$services.icon.renderHTML('remove')&lt;/a&gt;&lt;/span&gt;
+        &lt;span class="xwiki-relations-term-action-remove"&gt;&lt;a href="#xwiki-relations-statement-removal-modal" class="btn btn-default btn-xs" data-subject="$escapetool.xml($macro.subject)" data-complement="$escapetool.xml($macro.complement)" data-toggle="modal" role="button" rel="nofollow"&gt;$services.icon.renderHTML('cross')&lt;/a&gt;&lt;/span&gt;
         #end
       &lt;/div&gt;
     &lt;/li&gt;

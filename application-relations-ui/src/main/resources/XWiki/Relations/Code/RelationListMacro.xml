@@ -377,7 +377,6 @@
     display: inline-block;
     border: 1px solid @xwiki-border-color;
     border-radius: 0.3rem;
-    background: white;
     margin-bottom: 0.5rem;
     .xwiki-relations-term-container {
       padding: 0.7rem 1rem;
@@ -385,11 +384,6 @@
       }
       .xwiki-relations-term-action-remove {
         padding: .3rem;
-        cursor: pointer;
-        a {
-          text-decoration: none;
-          color: 	@btn-default-color;
-        }
       }
     }
   }
