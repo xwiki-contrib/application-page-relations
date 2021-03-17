@@ -173,9 +173,11 @@
     </property>
     <property>
       <content>{{velocity}}
-#panelheader($services.localization.render('relations.panel.title'))
-{{relations/}}
-#panelfooter()
+#if ($services.security.authorization.hasAccess('view', $doc.documentReference))
+  #panelheader($services.localization.render('relations.panel.title'))
+  {{relations/}}
+  #panelfooter()
+#end
 {{/velocity}}</content>
     </property>
     <property>

@@ -635,23 +635,25 @@
     </property>
     <property>
       <code>{{velocity}}
-#set ($macro.idx = 'XWiki.Relations.Code.RelationListMacro')
-#set ($discard = $xwiki.ssx.use($macro.idx))
-#set ($discard = $xwiki.jsx.use($macro.idx))
-#set ($discard = $xwiki.jsx.use('XWiki.Relations.Code.SolrSuggestPages'))
-{{html clean="false"}}
-&lt;div class="xwiki-relations-container"&gt;
-  &lt;div class="xwiki-relations-list"&gt;&lt;/div&gt;
-   #if ($services.security.authorization.hasAccess('edit', $doc.documentReference))
-    &lt;div class="xwiki-relations-add-section"&gt;
-      &lt;a class="btn btn-primary xwiki-relations-add-action" title="Add relation from this page to another one" data-subject="$doc.documentReference" href="#"&gt;
-        $services.localization.render('relations.add.label')
-      &lt;/a&gt;
-      &lt;div class="xwiki-relations-add-form-container"&gt;&lt;/div&gt;
-    &lt;/div&gt;
-  #end
-&lt;/div&gt;
-{{/html}}
+#if ($services.security.authorization.hasAccess('view', $doc.documentReference))
+  #set ($macro.idx = 'XWiki.Relations.Code.RelationListMacro')
+  #set ($discard = $xwiki.ssx.use($macro.idx))
+  #set ($discard = $xwiki.jsx.use($macro.idx))
+  #set ($discard = $xwiki.jsx.use('XWiki.Relations.Code.SolrSuggestPages'))
+  {{html clean="false"}}
+  &lt;div class="xwiki-relations-container"&gt;
+    &lt;div class="xwiki-relations-list"&gt;&lt;/div&gt;
+     #if ($services.security.authorization.hasAccess('edit', $doc.documentReference))
+      &lt;div class="xwiki-relations-add-section"&gt;
+        &lt;a class="btn btn-primary xwiki-relations-add-action" title="Add relation from this page to another one" data-subject="$doc.documentReference" href="#"&gt;
+          $services.localization.render('relations.add.label')
+        &lt;/a&gt;
+        &lt;div class="xwiki-relations-add-form-container"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    #end
+  &lt;/div&gt;
+  {{/html}}
+#end
 {{/velocity}}
 </code>
     </property>
