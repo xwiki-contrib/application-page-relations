@@ -198,7 +198,7 @@
       const $target = $(event.relatedTarget);
       const subject = $target.data('subject');
       const complement = $target.data('complement');
-      const $element = $target.parents('.xwiki-relations-term-li');
+      const $element = $target.parents('.xwiki-relations-statement-li');
       confirmationModal.data('statement', {subject: subject, complement: complement, element: $element})
     });
     confirmationModal.on('click', '.modal-footer .confirm-button', function(event) {
@@ -381,15 +381,16 @@
       max-width: 40em;
     }
   }
-  .xwiki-relations-term-li {
+  .xwiki-relations-statement-li {
     display: inline-block;
     border: 1px solid @xwiki-border-color;
     border-radius: 0.3rem;
     margin-bottom: 0.5rem;
-    .xwiki-relations-term-container {
+    .xwiki-relations-statement-container {
       padding: 0.7rem 1rem;
-      .xwiki-relations-term-action-remove {
+      .xwiki-relations-statement-action-remove {
         padding: .3rem;
+        color: @brand-danger;
       }
     }
   }
