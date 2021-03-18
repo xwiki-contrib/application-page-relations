@@ -59,16 +59,16 @@
 
 #macro(addRelation $subject $complement)
   #if ($services.csrf.isTokenValid($request.csrf) &amp;&amp; $services.security.authorization.hasAccess('edit', $subject))
-    #try()
+    #try('relationException')
       #set ($macro.page = $xwiki.getDocument($subject))
       #set ($macro.index = $macro.page.createNewObject($IS_RELATED_TO_CLASS))
       #set ($macro.object = $macro.page.getObject($IS_RELATED_TO_CLASS, $macro.index))
       #set ($macro.discard = $macro.object.set('page', $complement))
       #set ($discard = $macro.page.save())
     #end
-    #if ("$!exception" != '')
+    #if ("$!relationException" != '')
       $response.setStatus(500)
-      $!exceptiontool.getMessage($exception)
+      $!exceptiontool.getMessage($relationException)
     #end
   #else
    $response.setStatus(403)
@@ -79,7 +79,7 @@
 #macro(removeRelation $subject $complement)
   #set ($subjectReference = $services.model.resolveDocument($subject))
   #if ($services.csrf.isTokenValid($request.csrf) &amp;&amp; $services.security.authorization.hasAccess('edit', $subjectReference))
-    #try()
+    #try('relationException')
       #set ($macro.page = $xwiki.getDocument($subjectReference))
       #set ($complementReference = $services.model.resolveDocument($complement))
       #set ($complement = $services.model.serialize($complementReference, $subjectReference))
@@ -104,9 +104,9 @@
         $services.localization.render('relations.remove.error.notFound')
       #end
     #end
-    #if ("$!exception" != '')
+    #if ("$!relationException" != '')
       $response.setStatus(500)
-      $!exceptiontool.getMessage($exception)
+      $!exceptiontool.getMessage($relationException)
     #end
   #else
    $response.setStatus(403)
