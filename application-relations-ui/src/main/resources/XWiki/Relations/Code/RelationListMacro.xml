@@ -390,7 +390,10 @@
       padding: 0.7rem 1rem;
       .xwiki-relations-statement-action-remove {
         padding: .3rem;
-        color: @brand-danger;
+        color: @text-color;
+        &amp;:hover {
+          color: @brand-danger;
+        }
       }
     }
   }
