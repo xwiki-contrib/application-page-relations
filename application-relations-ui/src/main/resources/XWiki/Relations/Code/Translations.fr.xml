@@ -66,9 +66,9 @@ relations.livetable.page=Page
 # RelationList Macro
 relations.entry.name=Relations
 relations.title=Relations
-relations.error=Une erreur s'est produite :
+relations.error=Une erreur s'est produite : 
 relations.notAllowed=Vous n'êtes pas autorisé(e) à effectuer cette action.
-### Missing: relations.facets=Facets:
+relations.facets=Facets :
 relations.add.relatedPage=Pages liées :
 relations.add.label=Ajouter une relation
 relations.add.hint=Ajouter une relation
@@ -78,7 +78,6 @@ relations.add.cancel=Annuler
 relations.add.gettingForm=Préparation du formulaire d'ajout...
 relations.add.processing=Création de la relation...
 relations.add.error.alreadySet=Cette relation a déjà été créée.
-relations.add.error.failed=Une erreur est survenue.
 relations.add.history.message=Ajout d''une relation à « {0} »
 relations.remove.processing=Suppression de la relation...
 relations.remove.done=Relation supprimée
@@ -93,5 +92,6 @@ relations.remove.confirmation.message=Supprimer cette relation ?
 relations.remove.confirmation.confirm=Supprimer
 
 # Deprecated keys
-relations.dataSpace.title=Données</content>
+relations.dataSpace.title=Données
+</content>
 </xwikidoc>
