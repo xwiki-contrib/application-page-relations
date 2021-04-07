@@ -648,7 +648,7 @@
     &lt;div class="xwiki-relations-list"&gt;&lt;/div&gt;
      #if ($services.security.authorization.hasAccess('edit', $doc.documentReference))
       &lt;div class="xwiki-relations-add-section"&gt;
-        &lt;a class="btn btn-primary xwiki-relations-add-action" title="Add relation from this page to another one" data-subject="$doc.documentReference" href="#"&gt;
+        &lt;a class="btn btn-primary xwiki-relations-add-action" title="$services.localization.render('relations.add.hint')" data-subject="$doc.documentReference" href="#"&gt;
           $services.localization.render('relations.add.label')
         &lt;/a&gt;
         &lt;div class="xwiki-relations-add-form-container"&gt;&lt;/div&gt;
