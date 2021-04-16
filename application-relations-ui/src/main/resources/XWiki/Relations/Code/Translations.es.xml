@@ -71,27 +71,27 @@ relations.notAllowed=No tiene permitido efectuar esta acción.
 relations.facets=Facetas:
 relations.add.relatedPage=Página relacionada:
 relations.add.label=Añadir relación
-### Missing: relations.add.hint=Add relation from this page to another one
-### Missing: relations.add.selectPage=Select a page
-### Missing: relations.add.submit=Add
-### Missing: relations.add.cancel=Cancel
+relations.add.hint=Añadir relación entre esta página y otra
+relations.add.selectPage=Seleccione una página
+relations.add.submit=Añadir
+relations.add.cancel=Cancelar
 ### Missing: relations.add.gettingForm=Preparing relation addition form...
-### Missing: relations.add.processing=Creating the relation...
-### Missing: relations.add.error.alreadySet=This relations was already set.
-### Missing: relations.add.history.message=Addition of a relation to "{0}"
-### Missing: relations.remove.processing=Removing relation...
+relations.add.processing=Creando la relación…
+relations.add.error.alreadySet=Esta relación ya se había definido.
+relations.add.history.message=Adición de una relación con «{0}»
+relations.remove.processing=Quitando relación…
 ### Missing: relations.remove.done=Relation removed
-### Missing: relations.remove.hint=Remove relation
-### Missing: relations.remove.error.notFound=The target page was not found.
-### Missing: relations.remove.error.failed=An error occurred.
+relations.remove.hint=Quitar relación
+relations.remove.error.notFound=No se encontró la página de destino.
+relations.remove.error.failed=Se produjo un error.
 ### Missing: relations.remove.history.message=Removal of a relation with "{0}"
-### Missing: relations.update.page=Update relation to "{0}"
-### Missing: relations.panel.title=Relations
-### Missing: relations.remove.confirmation.title=Delete
-### Missing: relations.remove.confirmation.message=Are you sure you want to delete this relation?
-### Missing: relations.remove.confirmation.confirm=Delete
+relations.update.page=Actualizar relación con «{0}»
+relations.panel.title=Relaciones
+relations.remove.confirmation.title=Eliminar
+relations.remove.confirmation.message=¿Confirma que quiere eliminar esta relación?
+relations.remove.confirmation.confirm=Eliminar
 
 # Deprecated keys
-### Missing: relations.dataSpace.title=Data
+relations.dataSpace.title=Fecha
 </content>
   </xwikidoc>
