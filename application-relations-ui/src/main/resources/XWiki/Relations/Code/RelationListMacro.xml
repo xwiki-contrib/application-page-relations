@@ -381,6 +381,11 @@
       max-width: 40em;
     }
   }
+  /* Reset some list standard styles to make it compatible with an inline display */
+  ul {
+    padding-left: 0;
+    margin-bottom: 0;
+  }
   .xwiki-relations-statement-li {
     display: inline-block;
     border: 1px solid @xwiki-border-color;
