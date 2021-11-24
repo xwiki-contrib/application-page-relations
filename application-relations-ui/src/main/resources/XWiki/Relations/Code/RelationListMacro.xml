@@ -628,10 +628,11 @@
     <property>
       <code>{{velocity}}
 #if ($services.security.authorization.hasAccess('view', $doc.documentReference))
-  #set ($macro.idx = 'XWiki.Relations.Code.RelationListMacro')
-  #set ($discard = $xwiki.ssx.use($macro.idx))
-  #set ($discard = $xwiki.jsx.use($macro.idx))
-  #set ($discard = $xwiki.jsx.use('XWiki.Relations.Code.SolrSuggestPages'))
+  #set ($discard = $xwiki.ssx.use($wikimacro.doc.prefixedFullName))
+  #set ($discard = $xwiki.jsx.use($wikimacro.doc.prefixedFullName))
+  ## make this reference absolute here also, just for the sake of all of them being absolute,
+  ## in case someone wants to use the relations macro on a wiki which doesn't have the app installed, although I doubt it would work
+  #set ($discard = $xwiki.jsx.use("${wikimacro.doc.documentReference.wikiReference.name}:XWiki.Relations.Code.SolrSuggestPages"))
   {{html clean="false"}}
   &lt;div class="xwiki-relations-container"&gt;
     &lt;div class="xwiki-relations-list"&gt;&lt;/div&gt;
