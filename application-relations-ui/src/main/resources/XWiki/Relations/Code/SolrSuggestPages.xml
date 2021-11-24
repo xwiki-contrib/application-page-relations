@@ -144,7 +144,8 @@ require(['jquery', 'xwiki-selectize'], function($, xwikiSelectize) {
       create: false,
       // The document where the selected values are saved. Stored document references will be relative to this document.
       documentReference: select.data('documentReference'),
-      dropdownParent: $('.xwiki-relations-container form.xwiki-relations-add-form'),
+      // Make sure the parent is the form control dedicated to the suggest, as the dropdown's position will be determined by its parent
+      dropdownParent: select.closest('.xwiki-relations-add-suggest'),
       // dropdownAlignment: 'right',
       placeholder: "$services.localization.render('relations.add.selectPage')",
       // Where to look for pages. The following is supported:

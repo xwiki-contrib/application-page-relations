@@ -365,14 +365,22 @@
       <cache>long</cache>
     </property>
     <property>
-      <code>.xwiki-relations-container {
+      <code>/*
+ * Common styles for all displays of the relations list
+ */
+.xwiki-relations-container {
+  /* Common decoration for the add form and the relation items in the list */
+  .xwiki-relations-statement-li, form.xwiki-relations-add-form {
+    border: 1px solid @xwiki-border-color;
+    border-radius: 0.3rem;
+    padding: 0.7rem 1rem;
+  }
+  /* Add relation form decoration */
   form.xwiki-relations-add-form {
     display: block;
-    margin-top: 0.5em;
     background: @panel-bg;
-    padding: 0.7em;
+    /* TODO: some text color should be set here, corresponding to the panel-bg, to ensure contrast. */
     z-index: 3;
-    border: 1px solid @xwiki-border-color;
     max-width: 700px;
     .xwiki-relations-add-actions {
       white-space: nowrap;
@@ -381,18 +389,17 @@
       max-width: 40em;
     }
   }
-  /* Reset some list standard styles to make it compatible with an inline display */
-  ul {
-    padding-left: 0;
-    margin-bottom: 0;
-  }
-  .xwiki-relations-statement-li {
-    display: inline-block;
-    border: 1px solid @xwiki-border-color;
-    border-radius: 0.3rem;
-    margin-bottom: 0.5rem;
-    .xwiki-relations-statement-container {
-      padding: 0.7rem 1rem;
+  /* Relations list decoration */
+  .xwiki-relations-list {
+    /* Reset some list standard styles to make it compatible with an inline display */
+    ul {
+      padding-left: 0;
+      margin-bottom: 0;
+    }
+    /* Relation statement list items decoration: display inline and with bottom margin */
+    li.xwiki-relations-statement-li {
+      display: inline-block;
+      margin-bottom: 0.5rem;
       .xwiki-relations-statement-action-remove {
         padding: .3rem;
         color: @text-color;
@@ -404,35 +411,12 @@
   }
 }
 
+/*
+ * Styles for display of the relations list in the (header) UIX, as a panel
+ */
 .xwiki-relations-uix-container {
   .panel-heading p {
     margin: 0;
-  }
-}
-
-#rightPanels {
-  .xwiki-relations-container {
-    form.xwiki-relations-add-form {
-      .selectize-dropdown {
-        right: 40px !important;
-        margin-top: -40px !important;
-      }
-    }
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .xwiki-relations-uix-container {
-    .xwiki-relations-container {
-      form.xwiki-relations-add-form {
-        .xwiki-relations-add-suggest {
-          width: 70%;
-        }
-        .xwiki-relations-add-actions {
-          width: 30%;
-        }
-      }
-    }
   }
 }</code>
     </property>

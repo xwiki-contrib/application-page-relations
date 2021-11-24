@@ -42,17 +42,15 @@
 #macro(displayAddRelationForm $referent)
   {{html clean="false"}}
   &lt;form class="xformInline xwiki-relations-add-form" action=""&gt;
-    &lt;div class="row"&gt;
-      &lt;div class="xwiki-relations-add-suggest col-xs-12"&gt;
+      &lt;div class="xwiki-relations-add-suggest"&gt;
         #set ($parameters = {'name': 'complement', 'class': 'suggest-pages', 'placeholder': 'Select a page'})
         #suggestInput($parameters)
       &lt;/div&gt;
-      &lt;div class="buttonwrapper xwiki-relations-add-actions col-xs-12"&gt;
+      &lt;div class="buttonwrapper xwiki-relations-add-actions"&gt;
         &lt;input class="btn btn-primary" type="submit" value="$services.localization.render('relations.add.submit')"/&gt;
         &lt;input type="button" class="btn btn-default xwiki-relations-add-cancel" value="$services.localization.render('relations.add.cancel')"/&gt;
         &lt;input type="hidden" name="subject" value="$subject"/&gt;
       &lt;/div&gt;
-    &lt;/div&gt;
   &lt;/form&gt;
   {{/html}}
 #end
@@ -154,14 +152,12 @@
     #end
     #set ($macro.isRemovable = $services.security.authorization.hasAccess('edit', $macro.subject))
     &lt;li class="xwiki-relations-statement-li"&gt;
-      &lt;div class="xwiki-relations-statement-container"&gt;
-        &lt;span class="xwiki-relations-term wikilink"&gt;
-          &lt;a href="$xwiki.getURL($item.id)"&gt;$item.title&lt;/a&gt;
-        &lt;/span&gt;
-        #if ($macro.isRemovable)
+      &lt;span class="xwiki-relations-term wikilink"&gt;
+        &lt;a href="$xwiki.getURL($item.id)"&gt;$item.title&lt;/a&gt;
+      &lt;/span&gt;
+      #if ($macro.isRemovable)
         &lt;a href="#xwiki-relations-statement-removal-modal" class="xwiki-relations-statement-action-remove" data-subject="$escapetool.xml($macro.subject)" data-complement="$escapetool.xml($macro.complement)" data-toggle="modal" role="button" rel="nofollow"&gt;$services.icon.renderHTML('cross')&lt;/a&gt;
-        #end
-      &lt;/div&gt;
+      #end
     &lt;/li&gt;
   #end
   &lt;/ul&gt;
