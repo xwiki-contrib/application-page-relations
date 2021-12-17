@@ -36,7 +36,9 @@
   <minorEdit>false</minorEdit>
   <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
-  <content># Class fields
+  <content># PageRelations Application
+relations.description=[[Расширение отношений &gt;&gt; https://extensions.xwiki.org/xwiki/bin/view/Extension/Page%20Relations%20Application/]] позволяет связывать страницы друг с другом либо в одной вики, либо в разных вики.
+# Class fields
 XWiki.Relations.IsRelatedToClass_page=Страница
 
 # Live table generic keys
@@ -62,23 +64,33 @@ relations.livetable.page=Страница
 
 # PageRelationsMacro
 relations.entry.name=Связи
-relations.title=Связи:
+relations.title=Связи
+relations.error=Произошла ошибка: 
 relations.notAllowed=Вам не разрешено выполнять данное действие.
 relations.facets=Аспекты:
 relations.add.relatedPage=Связанная страница:
-relations.add.hint=Добавить связь
+relations.add.label=Добавить отношение
+relations.add.hint=Добавить связь этой страницы с другой
+relations.add.selectPage=Выберите страницу
 relations.add.submit=Добавить
 relations.add.cancel=Отмена
+relations.add.gettingForm=Подготовка формы добавления отношения...
+relations.add.processing=Создание связи...
 relations.add.error.alreadySet=Эти связи уже были установлены.
-relations.add.error.failed=Произошла ошибка.
 relations.add.history.message=Добавление связи к "{0}"
+relations.remove.processing=Удаление связи...
+relations.remove.done=Связь удалена
 relations.remove.hint=Удалить связь
 relations.remove.error.notFound=Целевая страница не найдена.
 relations.remove.error.failed=Произошла ошибка.
 relations.remove.history.message=Удаление связи с "{0}"
 relations.update.page=Обновление связи "{0}"
 relations.panel.title=Связи
+relations.remove.confirmation.title=Удалить
+relations.remove.confirmation.message=Вы уверены, что хотите удалить данную связь?
+relations.remove.confirmation.confirm=Удалить
 
 # Deprecated keys
-relations.dataSpace.title=Дата</content>
+relations.dataSpace.title=Дата
+</content>
 </xwikidoc>
