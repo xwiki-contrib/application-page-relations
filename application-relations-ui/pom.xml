@@ -33,13 +33,8 @@
 	<packaging>xar</packaging>
 	<description>Create and display relations between pages</description>
 	<properties>
-		<xwiki.extension.name>Relations Application</xwiki.extension.name>
 		<xwiki.extension.category>application</xwiki.extension.category>
-		<xwiki.release.jira.skip>true</xwiki.release.jira.skip>
-		<xwiki.issueManagement.system>jira</xwiki.issueManagement.system>
-		<xwiki.issueManagement.url>https://jira.xwiki.org/projects/PAGEREL/</xwiki.issueManagement.url>
 		<xwiki.extension.features>org.xwiki.contrib:application-page-relations-ui</xwiki.extension.features>
-		<platform.version>11.1</platform.version>
 	</properties>
 	<dependencies>
 		<dependency>

@@ -38,6 +38,10 @@
     <url>https://github.com/xwiki-contrib/application-page-relations/tree/master</url>
     <tag>HEAD</tag>
   </scm>
+  <properties>
+    <xwiki.release.jira.skip>false</xwiki.release.jira.skip>
+    <xwiki.issueManagement.jira.id>PAGEREL</xwiki.issueManagement.jira.id>
+  </properties>
   <developers>
     <developer>
       <id>lucaa</id>

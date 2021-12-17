@@ -32,9 +32,7 @@
   <description>API for dealing with relations between pages</description>
   <packaging>jar</packaging>
   <properties>
-    <xwiki.extension.name>Relations API</xwiki.extension.name>
     <xwiki.extension.category>api</xwiki.extension.category>
-    <xwiki.revapi.skip>true</xwiki.revapi.skip>
   </properties>
   <dependencies>
     <dependency>
