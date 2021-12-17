@@ -26,7 +26,7 @@
 	<parent>
 		<groupId>org.xwiki.contrib</groupId>
 		<artifactId>application-relations</artifactId>
-		<version>3.2-SNAPSHOT</version>
+		<version>3.1.1</version>
 	</parent>
 	<artifactId>application-relations-test</artifactId>
 	<name>Relations Application Test</name>
