@@ -12,3 +12,10 @@ This application makes it possible to create and display relations between pages
 * Translations: to be specified
 * Sonar Dashboard: N/A
 * Continuous Integration Status: [![Build Status](http://ci.xwiki.org/job/XWiki%20Contrib/job/application-page-relations/job/master/badge/icon)](http://ci.xwiki.org/job/XWiki%20Contrib/job/application-page-relations/job/master/)
+
+# Release
+
+```
+mvn release:prepare -Papplication-relations-test
+mvn release:perform -Papplication-relations-test
+```
