@@ -36,7 +36,9 @@
   <minorEdit>false</minorEdit>
   <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
-  <content># Class fields
+  <content># PageRelations Application
+relations.description=Die [[Relations-Erweiterung&gt;&gt;https://extensions.xwiki.org/xwiki/bin/view/Extension/Page%20Relations%20Application/]] ermöglicht es, Seiten entweder innerhalb desselben Wikis oder über verschiedene Wikis hinweg miteinander in Beziehung zu setzen.
+# Class fields
 XWiki.Relations.IsRelatedToClass_page=Seite
 
 # Live table generic keys
@@ -62,23 +64,33 @@ relations.livetable.page=Seite
 
 # RelationListMacro
 relations.entry.name=Beziehungen
-relations.title=Beziehungen:
+relations.title=Beziehungen
+relations.error=Ein Fehler ist aufgetreten: 
 relations.notAllowed=Sie sind nicht berechtigt, diese Aktion auszuführen.
 relations.facets=Aspekte:
 relations.add.relatedPage=Verwandte Seite:
-relations.add.hint=Beziehung hinzufügen
+relations.add.label=Beziehung hinzufügen
+relations.add.hint=Beziehung von dieser Seite zu einer anderen hinzufügen
+relations.add.selectPage=Wählen Sie eine Seite aus
 relations.add.submit=Hinzufügen
 relations.add.cancel=Abbrechen
+relations.add.gettingForm=Bereite das Formular zum Hinzufügen von Beziehungen vor...
+relations.add.processing=Erstelle Beziehung...
 relations.add.error.alreadySet=Diese Beziehung war bereits festgelegt.
-relations.add.error.failed=Es ist ein Fehler aufgetreten.
 relations.add.history.message=Hinzufügen einer Beziehung zu "{0}"
+relations.remove.processing=Entferne Beziehung...
+relations.remove.done=Beziehung entfernt
 relations.remove.hint=Beziehung entfernen
 relations.remove.error.notFound=Die Ziel-Seite wurde nicht gefunden.
 relations.remove.error.failed=Es ist ein Fehler aufgetreten.
 relations.remove.history.message=Entfernen einer Beziehung zu "{0}"
 relations.update.page=Aktualisiere Beziehung zu "{0}"
 relations.panel.title=Beziehungen
+relations.remove.confirmation.title=Löschen
+relations.remove.confirmation.message=Sind Sie sicher, dass sie diese Beziehung löschen wollen?
+relations.remove.confirmation.confirm=Löschen
 
 # Deprecated keys
-relations.dataSpace.title=Daten</content>
+relations.dataSpace.title=Daten
+</content>
 </xwikidoc>
