@@ -1,1 +1,97 @@
+<?xml version="1.1" encoding="UTF-8"?>
 
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.4" reference="XWiki.Relations.Code.Translations" locale="pt-BR">
+  <web>XWiki.Relations.Code</web>
+  <name>Translations</name>
+  <language>pt-BR</language>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>1</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>XWiki.Relations.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>Translations</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>plain/1.0</syntaxId>
+  <hidden>true</hidden>
+  <content># PageRelations Application
+relations.description=A [[extensão Relations&gt;&gt;https://extensions.xwiki.org/xwiki/bin/view/Extension/Page%20Relations%20Application/]] permite relacionar páginas entre si dentro do mesmo wiki ou em wikis distintos.
+
+# Class fields
+XWiki.Relations.IsRelatedToClass_page=Página
+
+# Live table generic keys
+relations.livetable.doc.title=Título da página
+relations.livetable.doc.name=Nome da página
+relations.livetable.doc.space=Espaço
+relations.livetable.doc.fullname=Nome completo da página
+relations.livetable.doc.location=Localização
+relations.livetable.doc.author=Último autor
+relations.livetable.doc.creator=Criador
+relations.livetable.doc.date=Data
+relations.livetable.doc.creationDate=Data de criação
+relations.livetable._avatar=Avatar
+relations.livetable._images=Imagens
+relations.livetable._attachments=Anexos
+relations.livetable._actions=Ações
+relations.livetable._actions.edit=Editar
+relations.livetable._actions.delete=Excluir
+relations.livetable.emptyvalue=-
+
+# Live table specific keys
+relations.livetable.page=Página
+
+# RelationListMacro
+relations.entry.name=Relações
+relations.title=Relações
+relations.error=Um erro ocorreu: 
+relations.notAllowed=Você não tem permissão para realizar esta ação.
+relations.facets=Facetas:
+relations.add.relatedPage=Página relacionada:
+relations.add.label=Adicionar relação
+relations.add.hint=Adicionar relação desta página a outra
+relations.add.selectPage=Selecione uma página
+relations.add.submit=Adicionar
+relations.add.cancel=Cancelar
+relations.add.gettingForm=Preparando formulário de adição de relação...
+relations.add.processing=Criando a relação...
+relations.add.error.alreadySet=Essa relação já estava estabelecida.
+relations.add.history.message=Adição de uma relação a "{0}"
+relations.remove.processing=Removendo relação...
+relations.remove.done=Relação removida
+relations.remove.hint=Remover relação
+relations.remove.error.notFound=A página de destino não foi encontrada.
+relations.remove.error.failed=Um erro ocorreu.
+relations.remove.history.message=Remoção de uma relação com "{0}"
+relations.update.page=Atualizar relação para "{0}"
+relations.panel.title=Relações
+relations.remove.confirmation.title=Excluir
+relations.remove.confirmation.message=Tem certeza de que deseja excluir esta relação?
+relations.remove.confirmation.confirm=Excluir
+
+# Deprecated keys
+relations.dataSpace.title=Data
+</content>
+  </xwikidoc>
