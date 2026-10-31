@@ -1,0 +1,97 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.4" reference="XWiki.Relations.Code.Translations" locale="da">
+  <web>XWiki.Relations.Code</web>
+  <name>Translations</name>
+  <language>da</language>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>1</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>XWiki.Relations.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>Translations</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>plain/1.0</syntaxId>
+  <hidden>true</hidden>
+  <content># PageRelations Application
+### Missing: relations.description=
+
+# Class fields
+### Missing: XWiki.Relations.IsRelatedToClass_page=
+
+# Live table generic keys
+### Missing: relations.livetable.doc.title=
+### Missing: relations.livetable.doc.name=
+### Missing: relations.livetable.doc.space=
+### Missing: relations.livetable.doc.fullname=
+### Missing: relations.livetable.doc.location=
+### Missing: relations.livetable.doc.author=
+### Missing: relations.livetable.doc.creator=
+### Missing: relations.livetable.doc.date=
+### Missing: relations.livetable.doc.creationDate=
+### Missing: relations.livetable._avatar=
+### Missing: relations.livetable._images=
+### Missing: relations.livetable._attachments=
+### Missing: relations.livetable._actions=
+### Missing: relations.livetable._actions.edit=
+### Missing: relations.livetable._actions.delete=
+### Missing: relations.livetable.emptyvalue=
+
+# Live table specific keys
+### Missing: relations.livetable.page=
+
+# RelationListMacro
+### Missing: relations.entry.name=
+### Missing: relations.title=
+### Missing: relations.error=
+### Missing: relations.notAllowed=
+### Missing: relations.facets=
+### Missing: relations.add.relatedPage=
+### Missing: relations.add.label=
+### Missing: relations.add.hint=
+### Missing: relations.add.selectPage=
+### Missing: relations.add.submit=
+### Missing: relations.add.cancel=
+### Missing: relations.add.gettingForm=
+### Missing: relations.add.processing=
+### Missing: relations.add.error.alreadySet=
+### Missing: relations.add.history.message=
+### Missing: relations.remove.processing=
+### Missing: relations.remove.done=
+### Missing: relations.remove.hint=
+### Missing: relations.remove.error.notFound=
+### Missing: relations.remove.error.failed=
+### Missing: relations.remove.history.message=
+### Missing: relations.update.page=
+### Missing: relations.panel.title=
+### Missing: relations.remove.confirmation.title=
+### Missing: relations.remove.confirmation.message=
+### Missing: relations.remove.confirmation.confirm=
+
+# Deprecated keys
+### Missing: relations.dataSpace.title=
+</content>
+</xwikidoc>
