@@ -37,61 +37,61 @@
   <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
   <content># PageRelations Application
-### Missing: relations.description=
+relations.description=Med [[udvidelsen Relations&gt;&gt;https://extensions.xwiki.org/xwiki/bin/view/Extension/Page%20Relations%20Application/]] kan du knytte sider til hinanden, enten i samme wiki eller på tværs af wikier.
 
 # Class fields
-### Missing: XWiki.Relations.IsRelatedToClass_page=
+XWiki.Relations.IsRelatedToClass_page=Side
 
 # Live table generic keys
-### Missing: relations.livetable.doc.title=
-### Missing: relations.livetable.doc.name=
-### Missing: relations.livetable.doc.space=
-### Missing: relations.livetable.doc.fullname=
-### Missing: relations.livetable.doc.location=
-### Missing: relations.livetable.doc.author=
-### Missing: relations.livetable.doc.creator=
-### Missing: relations.livetable.doc.date=
-### Missing: relations.livetable.doc.creationDate=
-### Missing: relations.livetable._avatar=
-### Missing: relations.livetable._images=
-### Missing: relations.livetable._attachments=
-### Missing: relations.livetable._actions=
-### Missing: relations.livetable._actions.edit=
-### Missing: relations.livetable._actions.delete=
-### Missing: relations.livetable.emptyvalue=
+relations.livetable.doc.title=Sidetitel
+relations.livetable.doc.name=Sidenavn
+relations.livetable.doc.space=Område
+relations.livetable.doc.fullname=Sidens fulde navn
+relations.livetable.doc.location=Placering
+relations.livetable.doc.author=Seneste forfatter
+relations.livetable.doc.creator=Opretter
+relations.livetable.doc.date=Dato
+relations.livetable.doc.creationDate=Oprettelsesdato
+relations.livetable._avatar=Avatar
+relations.livetable._images=Billeder
+relations.livetable._attachments=Bilag
+relations.livetable._actions=Handlinger
+relations.livetable._actions.edit=Rediger
+relations.livetable._actions.delete=Slet
+relations.livetable.emptyvalue=-
 
 # Live table specific keys
-### Missing: relations.livetable.page=
+relations.livetable.page=Side
 
 # RelationListMacro
-### Missing: relations.entry.name=
-### Missing: relations.title=
-### Missing: relations.error=
-### Missing: relations.notAllowed=
-### Missing: relations.facets=
-### Missing: relations.add.relatedPage=
-### Missing: relations.add.label=
-### Missing: relations.add.hint=
-### Missing: relations.add.selectPage=
-### Missing: relations.add.submit=
-### Missing: relations.add.cancel=
-### Missing: relations.add.gettingForm=
-### Missing: relations.add.processing=
-### Missing: relations.add.error.alreadySet=
-### Missing: relations.add.history.message=
-### Missing: relations.remove.processing=
-### Missing: relations.remove.done=
-### Missing: relations.remove.hint=
-### Missing: relations.remove.error.notFound=
-### Missing: relations.remove.error.failed=
-### Missing: relations.remove.history.message=
-### Missing: relations.update.page=
-### Missing: relations.panel.title=
-### Missing: relations.remove.confirmation.title=
-### Missing: relations.remove.confirmation.message=
-### Missing: relations.remove.confirmation.confirm=
+relations.entry.name=Relationer
+relations.title=Relationer
+relations.error=Der opstod en fejl: 
+relations.notAllowed=Du har ikke tilladelse til at udføre denne handling.
+relations.facets=Facetter:
+relations.add.relatedPage=Relateret side:
+relations.add.label=Tilføj relation
+relations.add.hint=Tilføj en relation fra denne side til en anden
+relations.add.selectPage=Vælg en side
+relations.add.submit=Tilføj
+relations.add.cancel=Annuller
+relations.add.gettingForm=Forbereder formularen til tilføjelse af relation...
+relations.add.processing=Opretter relationen...
+relations.add.error.alreadySet=Relationen er allerede angivet.
+relations.add.history.message=Tilføjelse af en relation til "{0}"
+relations.remove.processing=Fjerner relation...
+relations.remove.done=Relationen er fjernet
+relations.remove.hint=Fjern relation
+relations.remove.error.notFound=Målsiden blev ikke fundet.
+relations.remove.error.failed=Der opstod en fejl.
+relations.remove.history.message=Fjernelse af en relation til "{0}"
+relations.update.page=Opdater relation til "{0}"
+relations.panel.title=Relationer
+relations.remove.confirmation.title=Slet
+relations.remove.confirmation.message=Er du sikker på, at du vil slette denne relation?
+relations.remove.confirmation.confirm=Slet
 
 # Deprecated keys
-### Missing: relations.dataSpace.title=
+relations.dataSpace.title=Data
 </content>
 </xwikidoc>
