@@ -1,0 +1,97 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.4" reference="XWiki.Relations.Code.Translations" locale="da">
+  <web>XWiki.Relations.Code</web>
+  <name>Translations</name>
+  <language>da</language>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>1</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>XWiki.Relations.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>Translations</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>plain/1.0</syntaxId>
+  <hidden>true</hidden>
+  <content># PageRelations Application
+relations.description=Med [[udvidelsen Relations&gt;&gt;https://extensions.xwiki.org/xwiki/bin/view/Extension/Page%20Relations%20Application/]] kan du knytte sider til hinanden, enten i samme wiki eller på tværs af wikier.
+
+# Class fields
+XWiki.Relations.IsRelatedToClass_page=Side
+
+# Live table generic keys
+relations.livetable.doc.title=Sidetitel
+relations.livetable.doc.name=Sidenavn
+relations.livetable.doc.space=Område
+relations.livetable.doc.fullname=Sidens fulde navn
+relations.livetable.doc.location=Placering
+relations.livetable.doc.author=Seneste forfatter
+relations.livetable.doc.creator=Opretter
+relations.livetable.doc.date=Dato
+relations.livetable.doc.creationDate=Oprettelsesdato
+relations.livetable._avatar=Avatar
+relations.livetable._images=Billeder
+relations.livetable._attachments=Bilag
+relations.livetable._actions=Handlinger
+relations.livetable._actions.edit=Rediger
+relations.livetable._actions.delete=Slet
+relations.livetable.emptyvalue=-
+
+# Live table specific keys
+relations.livetable.page=Side
+
+# RelationListMacro
+relations.entry.name=Relationer
+relations.title=Relationer
+relations.error=Der opstod en fejl: 
+relations.notAllowed=Du har ikke tilladelse til at udføre denne handling.
+relations.facets=Facetter:
+relations.add.relatedPage=Relateret side:
+relations.add.label=Tilføj relation
+relations.add.hint=Tilføj en relation fra denne side til en anden
+relations.add.selectPage=Vælg en side
+relations.add.submit=Tilføj
+relations.add.cancel=Annuller
+relations.add.gettingForm=Forbereder formularen til tilføjelse af relation...
+relations.add.processing=Opretter relationen...
+relations.add.error.alreadySet=Relationen er allerede angivet.
+relations.add.history.message=Tilføjelse af en relation til "{0}"
+relations.remove.processing=Fjerner relation...
+relations.remove.done=Relationen er fjernet
+relations.remove.hint=Fjern relation
+relations.remove.error.notFound=Målsiden blev ikke fundet.
+relations.remove.error.failed=Der opstod en fejl.
+relations.remove.history.message=Fjernelse af en relation til "{0}"
+relations.update.page=Opdater relation til "{0}"
+relations.panel.title=Relationer
+relations.remove.confirmation.title=Slet
+relations.remove.confirmation.message=Er du sikker på, at du vil slette denne relation?
+relations.remove.confirmation.confirm=Slet
+
+# Deprecated keys
+relations.dataSpace.title=Data
+</content>
+</xwikidoc>
